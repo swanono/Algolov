@@ -1,0 +1,19 @@
+image: node
+
+stages:
+  - lint
+  - unitTest
+
+lint:
+  stage: lint
+  script:
+    - npm install eslint
+    - npm install stylelint --save-dev
+    - node_modules/eslint/bin/eslint.js
+    - stylelint "**/*.css"
+
+jest:
+  stage: unitTest
+  script:
+    - npm install jest --save-dev
+    - node test/unitTest.js
