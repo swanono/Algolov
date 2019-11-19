@@ -18,7 +18,8 @@
   "scripts": {
     "servInst": "npm install --production",
     "lintjs": "./node_modules/.bin/eslint ./",
-    "lintcss": "./node_modules/.bin/stylelint **/*.css"
+    "lintcss": "./node_modules/.bin/stylelint **/*.css",
+    "unitTests": "node test/unitTest.js"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
