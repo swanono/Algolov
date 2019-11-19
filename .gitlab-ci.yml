@@ -1,19 +1,37 @@
+# variables d'environnement
+# variables:
+#   NOM: VALUE
+
 image: node
 
 stages:
   - lint
   - unitTest
 
-lint:
+eslint:
   stage: lint
+  before_script:
+    - npm install eslint --save-dev
+    - npm install eslint-config-standard --save-dev
+    - npm install eslint-plugin-import --save-dev
+    - npm install eslint-plugin-node --save-dev
+    - npm install eslint-plugin-promise --save-dev
+    - npm install eslint-plugin-standard --save-dev
   script:
-    - npm install eslint
+    - ./node_modules/.bin/eslint ./
+
+csslint:
+  stage: lint
+  before_script:
     - npm install stylelint --save-dev
-    - node_modules/eslint/bin/eslint.js
-    - stylelint "**/*.css"
+    - npm install stylelint-config-recommended --save-dev
+  script:
+    - ./node_modules/.bin/stylelint **/*.css
+  allow_failure: true
 
 jest:
   stage: unitTest
-  script:
+  before_script:
     - npm install jest --save-dev
+  script:
     - node test/unitTest.js
