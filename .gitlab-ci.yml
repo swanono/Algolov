@@ -32,6 +32,6 @@ csslint:
 jest:
   stage: unitTest
   before_script:
-    - npm install jest --save-dev
+    - npm i
   script:
     - node test/unitTest.js
