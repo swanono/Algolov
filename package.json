@@ -17,6 +17,7 @@
     "passport-local": "^1.0.0"
   },
   "scripts": {
+    "start": "nodemon server.js",
     "servInst": "npm install --production",
     "lintjs": "./node_modules/.bin/eslint ./",
     "lintcss": "./node_modules/.bin/stylelint **/*.css",

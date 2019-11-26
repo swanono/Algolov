@@ -25,6 +25,11 @@ npm run lintcss
 npm run unitTests
 ```
 
+### Lancement du serveur
+```bash
+npm run start
+```
+
 ## Licence
 
 ### A mettre à chaque début de fichier de code
