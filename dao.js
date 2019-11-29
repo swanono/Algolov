@@ -16,4 +16,4 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
 This module is used as an interface with the database
 */
-'use strict'
+'use strict';
