@@ -16,4 +16,4 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
 This module is used to handle client requests and redirect them to the right analysing methods
 */
-'use strict'
+'use strict';
