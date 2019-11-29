@@ -16,4 +16,4 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
 This module is used to launch the server
 */
-'use strict'
+'use strict';
