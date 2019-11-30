@@ -30,6 +30,7 @@ const passport = auth(app);
 const connexionPath = config.directoryPrefix + '/public/admin-login.html';
 const envPort = config.port;
 
+// Routes accèdant à l'api (pas les fichiers du serveur)
 app.use('/api',
     function (req, res, next) {
         if (!req.user /* TODO : Rajouter toutes les routes admin d'api */) {
@@ -48,7 +49,7 @@ app.use('/public', express.static('public'));
 // Vérification de la connexion en tant qu'admin pour l'accès à l'espace admin
 app.use('/admin',
     require('connect-ensure-login').ensureLoggedIn(connexionPath),
-    adminCheck(), // TODO : check si il faut mettre les parenthèses
+    adminCheck, // TODO : check si il faut mettre les parenthèses
     express.static('admin')
 );
 
@@ -69,8 +70,19 @@ function adminCheck (req, res, next) {
     }
 }
 
-const server = app.listen(envPort, function () {
-    const port = server.address().port;
-    const addr = server.address().address === '::' ? 'localhost' : server.address().address;
-    console.log('Listening on http://%s:%s', addr, port);
-});
+function main () {
+    const server = app.listen(envPort, function () {
+        const port = server.address().port;
+        const addr = server.address().address === '::' ? 'localhost' : server.address().address;
+        console.log('Listening on http://%s:%s', addr, port);
+    });
+    return server;
+}
+
+module.exports = {
+    main: main,
+    app: app,
+    testFunc: {
+        isAdmin: adminCheck
+    }
+};

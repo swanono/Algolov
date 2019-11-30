@@ -1,7 +1,7 @@
 /*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
-Copyright © <Année> <Nom de l’auteur>
+Copyright © 2019 Ulysse GUYON
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -14,20 +14,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
 
-This module is used to handle client requests and redirect them to the right analysing methods
+This module is used to launch the server
 */
 'use strict';
 
-// const config = require('./config.js');
-const express = require('express');
-
-module.exports = (passport) => {
-    const app = express();
-
-    app.get('/survey/config', function (req, res) {
-        const surveyConfig = require('./config.json');
-        res.json(surveyConfig);
-    });
-
-    return app;
-};
+require('./server.js').main();

@@ -38,7 +38,7 @@ jest:
   before_script:
     - npm i
   script:
-    - node test/unitTest.js
+    - jest
 
 # server:
 #   stage: exec
