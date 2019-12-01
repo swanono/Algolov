@@ -24,10 +24,5 @@ const express = require('express');
 module.exports = (passport) => {
     const app = express();
 
-    app.get('/survey/config', function (req, res) {
-        const surveyConfig = require('./config.json');
-        res.json(surveyConfig);
-    });
-
     return app;
 };
