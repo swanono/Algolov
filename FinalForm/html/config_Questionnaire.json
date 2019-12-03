@@ -59,6 +59,51 @@
           " 1 fois par semaine",
           "Rarement"
         ]
+      },
+      {
+        "id": "relationActuelle",
+        "text": "Avez-vous eu dans le passé ou avez-vous actuellement une relation à long terme (petit.e ami.e, conjoint.e) ou à court terme (rencontre sexuelle) ?",
+        "parameters": [
+          {
+            "name": "isRequired",
+            "value": true
+          }
+        ],
+        "type": "radio",
+        "values": [
+          "Oui, j'ai eu des expériences dans le passé et je suis actuellement dans une relation (d'un type quelconque) ",
+          " Je suis actuellement dans ma première expérience ou relation (d'un type quelconque)",
+          " Non, je n'ai aucune expérience dans les relations"
+        ]
+      },
+      {
+        "id": "contact",
+        "text": "Pourrions-nous vous contacter plus tard pour participer à un entretien d'environ 45min afin d'approfondir l'étude quantitative à laquelle vous participez maintenant ?",
+        "parameters": [
+          {
+            "name": "isRequired",
+            "value": true
+          }
+        ],
+        "type": "radio",
+        "values": [
+          "Si oui, donnez-nous votre adresse mail ou votre numéro de téléphone."
+        ]
+      }
+
+      {
+        "id": "age",
+        "text": "Quel est votre âge ?",
+        "parameters": [
+          {
+            "name": "isRequired",
+            "value": true
+          }
+        ],
+        "type": "inputBox",
+        "values": [
+          ""
+        ]
       }
     ]
   }
