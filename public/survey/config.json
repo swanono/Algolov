@@ -1,0 +1,384 @@
+{
+    "surveyConfiguration": {
+        "nbDescriptions": 2,
+        "descNames": ["soi", "autre"],
+        "nbBlocPreDesc": 4,
+        "nbFeaturePerBloc": 10,
+        "blocThemes": [
+            {
+                "name": "bloc 1",
+                "question": "question 1",
+                "likertSize": 7,
+                "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
+            },
+            {
+                "name": "bloc 2",
+                "question": "question 2",
+                "likertSize": 7,
+                "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
+            },
+            {
+                "name": "bloc 3",
+                "question": "question 3",
+                "likertSize": 7,
+                "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
+            },
+            {
+                "name": "bloc 4",
+                "question": "question 4",
+                "likertSize": 7,
+                "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
+            }
+        ]
+    },
+    "features": [
+        {
+            "id": 1,
+            "type": "text",
+            "data": "feature 1",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 2,
+            "type": "text",
+            "data": "feature 2",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 3,
+            "type": "text",
+            "data": "feature 3",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 4,
+            "type": "text",
+            "data": "feature 4",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 5,
+            "type": "text",
+            "data": "feature 5",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 6,
+            "type": "text",
+            "data": "feature 6",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 7,
+            "type": "text",
+            "data": "feature 7",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 8,
+            "type": "text",
+            "data": "feature 8",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 9,
+            "type": "text",
+            "data": "feature 9 (male feature)",
+            "combin": {
+                "isM": true,
+                "isF": false,
+                "wantM": true,
+                "wantF": false
+            }
+        },
+        {
+            "id": 10,
+            "type": "text",
+            "data": "feature 10 (female feature)",
+            "combin": {
+                "isM": false,
+                "isF": true,
+                "wantM": false,
+                "wantF": true
+            }
+        },
+        {
+            "id": 11,
+            "type": "text",
+            "data": "feature 11 (male searching female feature)",
+            "combin": {
+                "isM": true,
+                "isF": false,
+                "wantM": false,
+                "wantF": true
+            }
+        },
+        {
+            "id": 10,
+            "type": "text",
+            "data": "feature 10 (female searching male feature)",
+            "combin": {
+                "isM": false,
+                "isF": true,
+                "wantM": true,
+                "wantF": false
+            }
+        }
+    ],
+    "RGPDText": "displayed RGPD Text",
+    "surveyExplain": "explaining how to fill the survey correctly",
+    "QCM": {
+        "begin": [
+            {
+                "question": "quel est votre sexe ?",
+                "type": "radio",
+                "choices": ["Femme", "Homme"]
+            },
+            {
+                "question": "quel est le sexe par lequel vous êtes attiré ?",
+                "type": "radio",
+                "choices": ["Femme", "Homme"]
+            }
+        ],
+        "end": [
+            {
+                "id": 1,
+                "question": "avez-vous utilisé une application de rencontres dans le passé ou utilisez-vous actuellement une application de rencontres ?",
+                "type": "radio",
+                "choices": [
+                    {
+                        "choiceId": 1,
+                        "text": "oui, j'en ai utilisé par le passé mais je n'en utilise plus"
+                    },
+                    {
+                        "choiceId": 2,
+                        "text": "oui, j'utilise actuellement des applications de rencontres"
+                    },
+                    {
+                        "choiceId": 3,
+                        "text": "non, je n'ai jamais utilisé d'applications de rencontres"
+                    }
+                ],
+                "relatedQuestion": {
+                    "triggerChoices": [1, 2],
+                    "questionIds": [2, 3, 4]
+                }
+            },
+            {
+                "id": 2,
+                "question": "quelles applications de rencontres avez-vous déjà utilisé ou utilisez-vous actuellement ?",
+                "type": "checkbox",
+                "choices": [
+                    {
+                        "choiceId": 1,
+                        "text": "Adopteunmec"
+                    },
+                    {
+                        "choiceId": 2,
+                        "text": "Meetic"
+                    },
+                    {
+                        "choiceId": 3,
+                        "text": "Meetic affinity (affiny)"
+                    },
+                    {
+                        "choiceId": 4,
+                        "text": "Planetromeo"
+                    },
+                    {
+                        "choiceId": 5,
+                        "text": "Badoo"
+                    },
+                    {
+                        "choiceId": 6,
+                        "text": "Bumble"
+                    },
+                    {
+                        "choiceId": 7,
+                        "text": "Happn"
+                    },
+                    {
+                        "choiceId": 8,
+                        "text": "Hinge"
+                    },
+                    {
+                        "choiceId": 9,
+                        "text": "Once"
+                    },
+                    {
+                        "choiceId": 10,
+                        "text": "Tinder"
+                    },
+                    {
+                        "choiceId": 11,
+                        "text": "PURE"
+                    },
+                    {
+                        "choiceId": 12,
+                        "text": "Grindr"
+                    },
+                    {
+                        "choiceId": 13,
+                        "text": "Her"
+                    },
+                    {
+                        "choiceId": 14,
+                        "text": "Passions - Meet over 50"
+                    },
+                    {
+                        "choiceId": 15,
+                        "text": "AdultFriendFinder AFF"
+                    },
+                    {
+                        "choiceId": 16,
+                        "text": "Tomorrow"
+                    },
+                    {
+                        "choiceId": 17,
+                        "text": "Lovoo"
+                    },
+                    {
+                        "choiceId": 18,
+                        "text": "Parship"
+                    },
+                    {
+                        "choiceId": 19,
+                        "text": "Casuallounge"
+                    },
+                    {
+                        "choiceId": 20,
+                        "text": "Scruff"
+                    },
+                    {
+                        "choiceId": 21,
+                        "text": "Unitedmen"
+                    }
+                ],
+                "other": true
+            },
+            {
+                "id": 3,
+                "question": "quand était votre première inscription à un application de rencontres ? (format MM/AAAA)",
+                "type": "text",
+                "format": "^[0-9]{2}/[0-9]{4}$"
+            },
+            {
+                "id": 4,
+                "question": "avec quelle frequence utilisiez ou utilisez-vous des applications de rencontres ?",
+                "type": "radio",
+                "choices": [
+                    {
+                        "choiceId": 1,
+                        "text": "plusieurs fois par jour"
+                    },
+                    {
+                        "choiceId": 2,
+                        "text": "une fois par jour"
+                    },
+                    {
+                        "choiceId": 3,
+                        "text": "deux ou trois fois par semaine"
+                    },
+                    {
+                        "choiceId": 4,
+                        "text": "une fois par semaine"
+                    },
+                    {
+                        "choiceId": 5,
+                        "text": "rarement"
+                    }
+                ]
+            },
+            {
+                "id": 5,
+                "question": "avez-vous eu dans le passé ou avez-vous actuellement une relation à long terme (petit.e ami.e, conjoint.e) ou à court terme (rencontre sexuelle) ?",
+                "type": "radio",
+                "choices": [
+                    {
+                        "choiceId": 1,
+                        "text": "oui, j'ai eu des expériences dans le passé et je suis actuellement dans une relation"
+                    },
+                    {
+                        "choiceId": 2,
+                        "text": "je suis actuellement dans ma première relation"
+                    },
+                    {
+                        "choiceId": 3,
+                        "text": "non, je n'ai aucune experience dans les relations (amoureuse ou sexuelle)"
+                    }
+                ]
+            },
+            {
+                "id": 6,
+                "question": "pourrions-nous vous contacter plus tard pour participer à un entretien d'environ 45min afin d'approfondir l'étude quantitative à laquelle vous participez actuellement ?",
+                "type": "radio",
+                "choices": [
+                    {
+                        "choiceId": 1,
+                        "text": "oui"
+                    },
+                    {
+                        "choiceId": 2,
+                        "text": "non"
+                    }
+                ],
+                "relatedQuestion": {
+                    "triggerChoices": [1],
+                    "questionIds": [7]
+                }
+            },
+            {
+                "id": 7,
+                "question": "quelle est votre adresse mail ou votre numéro de téléphone ?",
+                "type": "text",
+                "format": "^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3})$"
+            },
+            {
+                "id": 8,
+                "question": "quel est votre age ?",
+                "type": "text",
+                "format": "^([0-9]{2,3})$"
+            }
+        ]
+    }
+}

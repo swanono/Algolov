@@ -1,7 +1,7 @@
 /*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
-Copyright © <Année> <Nom de l’auteur>
+Copyright © 2019 Ulysse GUYON
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -14,15 +14,40 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
 
-This module is used to handle client requests and redirect them to the right analysing methods
+This module is used to launch unit tests with jest
 */
 'use strict';
 
-// const config = require('./config.js');
-const express = require('express');
+// Test de lancement de serveur avant les autres tests
+describe('Testing server launching', () => {
+    let serv;
 
-module.exports = (passport) => {
-    const app = express();
+    test('Server launched', done => {
+        const server = require('../server.js');
+        serv = server.app.listen(require('../config.js').port, () => {
+            expect(serv.listening).toBe(true);
+            done();
+        });
+    });
 
-    return app;
-};
+    afterAll(() => {
+        serv.close();
+    });
+});
+
+// Tests sur les fonctions du serveur
+describe('Testing server related functions', () => {
+    let server;
+    let serv;
+
+    beforeAll(() => {
+        server = require('../server.js');
+        serv = server.main();
+    });
+
+    afterAll(() => {
+        serv.close();
+    });
+});
+
+// TODO : unit test on server.testFunc.isAdmin

@@ -22,7 +22,7 @@ eslint:
     - npm install eslint-plugin-promise --save-dev
     - npm install eslint-plugin-standard --save-dev
   script:
-    - ./node_modules/.bin/eslint ./
+    - npm run lintjs
 
 csslint:
   stage: lint
@@ -30,7 +30,7 @@ csslint:
     - npm install stylelint --save-dev
     - npm install stylelint-config-recommended --save-dev
   script:
-    - ./node_modules/.bin/stylelint **/*.css
+    - npm run lintcss
   allow_failure: true
 
 jest:
@@ -38,7 +38,7 @@ jest:
   before_script:
     - npm i
   script:
-    - node test/unitTest.js
+    - npm run unitTest
 
 # server:
 #   stage: exec

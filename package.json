@@ -1,4 +1,12 @@
 {
+  "name": "algolov",
+  "main": "server.js",
+  "authors": [
+    "Ulysse GUYON",
+    "Sacha WANONO",
+    "Elea THUILIER"
+  ],
+  "license": "GPLv3",
   "dependencies": {
     "@shopify/draggable": "^v1.0.0-beta.8",
     "bcrypt": "3.0.6",
@@ -18,16 +26,17 @@
     "passport-local": "^1.0.0"
   },
   "scripts": {
-    "start": "nodemon server.js",
+    "start": "nodemon index.js",
     "servInst": "npm install --production",
     "lintjs": "./node_modules/.bin/eslint ./",
     "lintcss": "./node_modules/.bin/stylelint **/*.css",
-    "unitTests": "node test/unitTest.js"
+    "unitTest": "jest"
   },
   "devDependencies": {
     "eslint": "^6.6.0",
     "eslint-config-standard": "^14.1.0",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jest": "^23.1.0",
     "eslint-plugin-node": "^10.0.0",
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-standard": "^4.0.1",
