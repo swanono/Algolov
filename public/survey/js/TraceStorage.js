@@ -1,4 +1,5 @@
-<!--
+/* eslint-disable no-unused-vars */
+/*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
 Copyright © 2019 Ulysse GUYON Sacha WANONO Eléa THUILIER
@@ -13,23 +14,12 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
--->
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AlgoLov</title>
+This module is used to declare the class handling the information storage
+*/
 
-    </script type="text/javascript" src="../js/Globals.js" defer>
-    </script type="text/javascript" src="../js/TraceStorage.js" defer>
-    </script type="text/javascript" src="../js/DOMGenerator.js" defer>
+'use strict';
 
-    </link rel="stylesheet" href="../css/index.css">
-</head>
-    <body onload="start()">
-        <div id="main"></div>
-    </body>
-</html>
+class TraceStorage {
+
+}
