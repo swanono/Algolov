@@ -2,29 +2,29 @@
     "surveyConfiguration": {
         "nbDescriptions": 2,
         "descNames": ["soi", "autre"],
-        "nbBlocPreDesc": 4,
+        "nbBlocPerDesc": 4,
         "nbFeaturePerBloc": 10,
         "blocThemes": [
             {
-                "name": "bloc 1",
+                "blocId": 1,
                 "question": "question 1",
                 "likertSize": 7,
                 "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
-                "name": "bloc 2",
+                "blocId": 2,
                 "question": "question 2",
                 "likertSize": 7,
                 "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
-                "name": "bloc 3",
+                "blocId": 3,
                 "question": "question 3",
                 "likertSize": 7,
                 "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
-                "name": "bloc 4",
+                "blocId": 4,
                 "question": "question 4",
                 "likertSize": 7,
                 "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
@@ -154,9 +154,9 @@
             }
         },
         {
-            "id": 10,
+            "id": 12,
             "type": "text",
-            "data": "feature 10 (female searching male feature)",
+            "data": "feature 12 (female searching male feature)",
             "combin": {
                 "isM": false,
                 "isF": true,

@@ -24,7 +24,12 @@ window.state = 0;
 window.config = {}; // TODO : charger config.json dans cet objet
 
 function changeState () {
+    window.state++;
 
+    if (window.state >= 3 && window.state <= window.config.nbDescriptions * window.config.nbBlocPreDesc) {
+        // eslint-disable-next-line no-undef
+        DOMGenerator.loadBloc();
+    }
 }
 
 function start () {

@@ -18,11 +18,20 @@ This module is used to handle client requests and redirect them to the right ana
 */
 'use strict';
 
-// const config = require('./config.js');
+const config = require('./config.js');
 const express = require('express');
 
 module.exports = (passport) => {
     const app = express();
+
+    app.post(config.pathPostSurveyApi, function (req, res) {
+        console.log(req.body);
+
+        // TODO : Valider le fichier JSON reçu
+        // TODO : enregistrer les données JSON dans la BDD
+
+        res.redirect(config.pathGetThanksAbs);
+    });
 
     return app;
 };

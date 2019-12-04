@@ -21,5 +21,33 @@ This module is used to declare the class handling the DOM changes during the sur
 'use strict';
 
 class DOMGenerator {
+    static loadBloc () {
+        const blocState = window.state - 2;
+        const surveyConfig = window.config.surveyConfiguration;
+        if (blocState >= surveyConfig.nbBlocPerDesc * surveyConfig.nbDescriptions) {
+            console.error(`Called DOMGenerator.loadBloc() with wrong state : ${window.state}`);
+            return;
+        }
 
+        // cleaning of previous page
+        // with jokers we keep the wanted tags from being cleaned
+        const jokers = [];
+
+        // TODO : mettre dans jokers les id des balises à garder
+
+        DOMGenerator.cleanMain(jokers);
+
+        const blocIndex = (blocState - 1) % surveyConfig.nbBlocPerDesc;
+        const newBlocConfig = surveyConfig.blocThemes[blocIndex];
+
+        // Voir static GenerateQStates(joker)
+        // TODO : créer un div avec l'id du bloc dans le main + mettre la question du bloc
+
+        DOMGenerator.loadScale(newBlocConfig.likertSize, newBlocConfig.scaleEnds);
+        DOMGenerator.loadContainer();
+
+        const usedFeatures = [];
+        // TODO : récup les features à initialiser dans les cartes depuis le config.json
+        DOMGenerator.loadCards();
+    }
 }
