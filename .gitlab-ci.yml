@@ -31,7 +31,13 @@ csslint:
     - npm install stylelint-config-recommended --save-dev
   script:
     - npm run lintcss
-  allow_failure: true
+
+htmllint:
+  stage: lint
+  before_script:
+    - npm install html-linter --save-dev
+  script:
+    - npm run linthtml
 
 jest:
   stage: unitTest

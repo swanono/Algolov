@@ -1,0 +1,15 @@
+{
+    "files": [
+      "public/**/*.html",
+      "admin/**/*.html"
+    ],
+    "indentation": {
+      "char": "space",
+      "number": 4
+    },
+    "attributes": {
+      "quotes": "double",
+      "whitespace": 0,
+      "vertical-align": true
+    }
+  }
