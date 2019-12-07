@@ -21,5 +21,26 @@ This module is used to declare the class handling the information storage
 'use strict';
 
 class TraceStorage {
+    static CleanStorage (name) {
+        sessionStorage.removeItem(name);
+    }
 
+    static CleanStorageFormTraces () {
+        TraceStorage.CleanStorage('steps');
+        TraceStorage.CleanStorage('interview');
+        TraceStorage.CleanStorage('exogen');
+        TraceStorage.CleanStorage('focus');
+        TraceStorage.CleanStorage('change');
+        TraceStorage.CleanStorage('range');
+        TraceStorage.CleanStorage('keypress');
+        TraceStorage.CleanStorage('mousemove');
+        TraceStorage.CleanStorage('mouseclick');
+        TraceStorage.CleanStorage('scrolling');
+        TraceStorage.CleanStorage('zooming');
+        TraceStorage.CleanStorage('media');
+        TraceStorage.CleanStorage('drag');
+        TraceStorage.CleanStorage('drop');
+        TraceStorage.CleanStorage('errors');
+        TraceStorage.CleanStorage('draggablecontainer');
+    }
 }
