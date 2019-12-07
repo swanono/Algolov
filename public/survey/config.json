@@ -34,7 +34,8 @@
     "features": [
         {
             "id": 1,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 1",
             "combin": {
                 "isM": true,
@@ -45,7 +46,8 @@
         },
         {
             "id": 2,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 2",
             "combin": {
                 "isM": true,
@@ -56,7 +58,8 @@
         },
         {
             "id": 3,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 3",
             "combin": {
                 "isM": true,
@@ -67,7 +70,8 @@
         },
         {
             "id": 4,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 4",
             "combin": {
                 "isM": true,
@@ -78,7 +82,8 @@
         },
         {
             "id": 5,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 5",
             "combin": {
                 "isM": true,
@@ -89,7 +94,8 @@
         },
         {
             "id": 6,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 6",
             "combin": {
                 "isM": true,
@@ -100,7 +106,8 @@
         },
         {
             "id": 7,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 7",
             "combin": {
                 "isM": true,
@@ -111,7 +118,8 @@
         },
         {
             "id": 8,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 8",
             "combin": {
                 "isM": true,
@@ -122,7 +130,8 @@
         },
         {
             "id": 9,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 9 (male feature)",
             "combin": {
                 "isM": true,
@@ -133,7 +142,8 @@
         },
         {
             "id": 10,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 10 (female feature)",
             "combin": {
                 "isM": false,
@@ -144,7 +154,8 @@
         },
         {
             "id": 11,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 11 (male searching female feature)",
             "combin": {
                 "isM": true,
@@ -155,13 +166,134 @@
         },
         {
             "id": 12,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 12 (female searching male feature)",
             "combin": {
                 "isM": false,
                 "isF": true,
                 "wantM": true,
                 "wantF": false
+            }
+        },
+        {
+            "id": 13,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 13",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 14,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 14",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 15,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 15",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 16,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 16",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 17,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 17",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 18,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 18",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 19,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 19",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 20,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 20",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 21,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 21",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
+            }
+        },
+        {
+            "id": 22,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 22",
+            "combin": {
+                "isM": true,
+                "isF": true,
+                "wantM": true,
+                "wantF": true
             }
         }
     ],
