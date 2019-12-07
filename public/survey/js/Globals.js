@@ -18,76 +18,75 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 This module is used to declare global variables and functions
 */
 
+/* global TraceStorage */
+/* global DOMGenerator */
+
 'use strict';
 
 window.state = 0;
 window.config = {}; // Contains the config.json file
 window.features = null; // Contains all the features
 
-
 function start () {
     // Start the questionnaire, to use at the first
 
     // Get the config.json file
-    fetch('../config.json',{method: "GET"}) 
-    .then(res => res.json()) 
-	.then( function (data) {
-        window.config = data; 
-        loadFeatures();
-        changeState();
-    })
-    .catch(e => console.log(e))
+    fetch('../config.json', { method: 'GET' }
+        .then(res => res.json())
+        .then(function (data) {
+            window.config = data;
+            loadFeatures();
+            changeState();
+        })
+        .catch(e => console.log(e)));
 }
 
-
-function loadFeatures() 
-{
+function loadFeatures () {
     TraceStorage.CleanStorageFormTraces();
-    
-	if(window.config.features)
-	{
-		window.features = window.config.features;
-	}
-	else
-		alert(configuration.wrongstatementformatmessage);
+
+    if (window.config.features) {
+        window.features = window.config.features;
+    } else {
+        alert(window.config.wrongstatementformatmessage);
+    }
 }
 
-function changeState() {
-    window.state++; // Update the state 
+function changeState () {
+    window.state++; // Update the state
 
     switch (window.state) {
-        case 1 :
-            DOMGenerator.GenerateStepPage(window.config.RGPDText, "Démarrer", () => changeState());
+    case 1 :
+        DOMGenerator.GenerateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
 
-            
-            var div = document.getElementById("main").firstChild;
-            var startButton = document.getElementById("button");
+        var div = document.getElementById('main').firstChild;
+        var startButton = document.getElementById('button');
 
-            let paragraph = document.createElement("div");
-            let acceptButton = document.createElement("INPUT");
-            acceptButton.setAttribute("type", "checkbox");
-            
-            paragraph.innerHTML = "<br/> test";
-            paragraph.appendChild(acceptButton);
+        var paragraph = document.createElement('div');
+        var acceptButton = document.createElement('INPUT');
+        acceptButton.setAttribute('type', 'checkbox');
 
-            div.appendChild(paragraph);
+        paragraph.innerHTML = '<br/> test';
+        paragraph.appendChild(acceptButton);
 
-            startButton.style.display = "none";
-            acceptButton.addEventListener('change', function() {
-                var _displayButton = this.checked ? 'inline-block' : 'none';
-                startButton.style.display = _displayButton;
-            });
+        div.appendChild(paragraph);
 
+        startButton.style.display = 'none';
+        acceptButton.addEventListener('change', function () {
+            var _displayButton = this.checked ? 'inline-block' : 'none';
+            startButton.style.display = _displayButton;
+        });
+        break;
 
-            break;
-        case 2 :
-            DOMGenerator.GenerateStepPage(  window.config.surveyExplain,
-                    "Continuez", 
-                    () => changeState());
-            break;
-        default :
-            console.log(window.state);
-            console.log('This state doesn\'t exist');
-            break;
+    case 2 :
+        DOMGenerator.GenerateStepPage(window.config.surveyExplain,
+            'Continuez',
+            () => changeState());
+
+        break;
+
+    default :
+        console.log(window.state);
+        console.log('This state doesn\'t exist');
+        break;
     }
 }
