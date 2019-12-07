@@ -22,4 +22,71 @@ This module is used to declare the class handling the DOM changes during the sur
 
 class DOMGenerator {
 
+    static GenerateStepPage(contentpage,buttontext,functor,jokers)
+	{
+
+		DOMGenerator.CleanMain(jokers);
+		let div=document.createElement("div");
+		div.className="presdiv";
+		let text=document.createElement("div");
+		text.className="prestext noselect";
+        text.innerHTML=contentpage;
+        
+		div.appendChild(text);
+		let button=document.createElement("button");
+		button.id="button";
+		text=button.appendChild(document.createTextNode(buttontext));
+		button.className="noselect";
+		button.addEventListener('click', () => functor());
+		div.appendChild(button);
+		DOMGenerator.GetMain().appendChild(div);
+    }
+    
+    static CleanMain(jokers) 
+	{
+		let main=DOMGenerator.GetMain();
+		if(jokers)
+		{
+			let found=false;
+			for(let iterator=0; iterator<main.childNodes.length;iterator++)
+			{
+				found=false;
+				for(let iterator2=0; iterator2<jokers.length; iterator2++)
+				{
+					if(jokers[iterator2]===main.childNodes[iterator].id)
+					{
+						found=true;
+						break;
+					}
+				}
+				if(!found)
+				{
+					main.removeChild(main.childNodes[iterator]);
+					iterator--;
+				}
+				else
+					main.childNodes[iterator].style.display="none";
+			}
+		}
+		else
+		{
+			while(main.firstChild)
+				main.removeChild(main.firstChild);
+		}
+    }
+    
+    static GetMain() 
+	{
+		let main=document.getElementById("main");
+		if(main!=null)
+			return main;
+		main=document.createElement("div");
+		main.id="main";
+		document.body.appendChild(main);
+		return main;
+	}
+
+
+
+
 }

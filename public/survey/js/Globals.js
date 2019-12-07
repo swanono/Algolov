@@ -21,12 +21,73 @@ This module is used to declare global variables and functions
 'use strict';
 
 window.state = 0;
-window.config = {}; // TODO : charger config.json dans cet objet
+window.config = {}; // Contains the config.json file
+window.features = null; // Contains all the features
 
-function changeState () {
-
-}
 
 function start () {
+    // Start the questionnaire, to use at the first
 
+    // Get the config.json file
+    fetch('../config.json',{method: "GET"}) 
+    .then(res => res.json()) 
+	.then( function (data) {
+        window.config = data; 
+        loadFeatures();
+        changeState();
+    })
+    .catch(e => console.log(e))
+}
+
+
+function loadFeatures() 
+{
+    TraceStorage.CleanStorageFormTraces();
+    
+	if(window.config.features)
+	{
+		window.features = window.config.features;
+	}
+	else
+		alert(configuration.wrongstatementformatmessage);
+}
+
+function changeState() {
+    window.state++; // Update the state 
+
+    switch (window.state) {
+        case 1 :
+            DOMGenerator.GenerateStepPage(window.config.RGPDText, "Démarrer", () => changeState());
+
+            
+            var div = document.getElementById("main").firstChild;
+            var startButton = document.getElementById("button");
+
+            let paragraph = document.createElement("div");
+            let acceptButton = document.createElement("INPUT");
+            acceptButton.setAttribute("type", "checkbox");
+            
+            paragraph.innerHTML = "<br/> test";
+            paragraph.appendChild(acceptButton);
+
+            div.appendChild(paragraph);
+
+            startButton.style.display = "none";
+            acceptButton.addEventListener('change', function() {
+                var _displayButton = this.checked ? 'inline-block' : 'none';
+                startButton.style.display = _displayButton;
+            });
+
+
+            break;
+        case 2 :
+            DOMGenerator.GenerateStepPage(  window.config.surveyExplain,
+                    "Continuez", 
+                    () => changeState());
+            break;
+        default :
+            console.log(window.state);
+            console.log('This state doesn\'t exist');
+            break;
+    }
 }
