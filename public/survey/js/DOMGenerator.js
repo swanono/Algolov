@@ -75,4 +75,24 @@ class DOMGenerator {
         document.body.appendChild(main);
         return main;
     }
+
+    static addCheckBoxToSee (idItemTohide, checkboxText) {
+        var div = document.getElementById('main').firstChild;
+        var startButton = document.getElementById(idItemTohide);
+
+        var paragraph = document.createElement('div');
+        var acceptButton = document.createElement('INPUT');
+        acceptButton.setAttribute('type', 'checkbox');
+
+        paragraph.innerHTML = '<br/>' + checkboxText;
+        paragraph.appendChild(acceptButton);
+
+        div.appendChild(paragraph);
+
+        startButton.style.display = 'none';
+        acceptButton.addEventListener('change', function () {
+            var _displayButton = this.checked ? 'inline-block' : 'none';
+            startButton.style.display = _displayButton;
+        });
+    }
 }

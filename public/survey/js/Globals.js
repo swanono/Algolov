@@ -31,14 +31,14 @@ function start () {
     // Start the questionnaire, to use at the first
 
     // Get the config.json file
-    fetch('../config.json', { method: 'GET' }
+    fetch('../config.json', { method: 'GET' })
         .then(res => res.json())
         .then(function (data) {
             window.config = data;
             loadFeatures();
             changeState();
         })
-        .catch(e => console.log(e)));
+        .catch(e => console.log(e));
 }
 
 function loadFeatures () {
@@ -53,28 +53,10 @@ function loadFeatures () {
 
 function changeState () {
     window.state++; // Update the state
-
     switch (window.state) {
     case 1 :
         DOMGenerator.GenerateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
-
-        var div = document.getElementById('main').firstChild;
-        var startButton = document.getElementById('button');
-
-        var paragraph = document.createElement('div');
-        var acceptButton = document.createElement('INPUT');
-        acceptButton.setAttribute('type', 'checkbox');
-
-        paragraph.innerHTML = '<br/> test';
-        paragraph.appendChild(acceptButton);
-
-        div.appendChild(paragraph);
-
-        startButton.style.display = 'none';
-        acceptButton.addEventListener('change', function () {
-            var _displayButton = this.checked ? 'inline-block' : 'none';
-            startButton.style.display = _displayButton;
-        });
+        DOMGenerator.addCheckBoxToSee('button', 'Acceptez-vous les conditions ci-dessus ? ');
         break;
 
     case 2 :
