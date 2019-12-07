@@ -7,24 +7,28 @@
         "blocThemes": [
             {
                 "blocId": 1,
+                "type": "physique",
                 "question": "question 1",
                 "likertSize": 7,
                 "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
                 "blocId": 2,
+                "type": "attitude",
                 "question": "question 2",
                 "likertSize": 7,
                 "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
                 "blocId": 3,
+                "type": "physique",
                 "question": "question 3",
                 "likertSize": 7,
                 "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
                 "blocId": 4,
+                "type": "attitude",
                 "question": "question 4",
                 "likertSize": 7,
                 "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]

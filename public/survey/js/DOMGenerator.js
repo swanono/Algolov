@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable no-unused-vars */
 /*
 -------------------------------------------------------------------------------------------------
@@ -41,13 +42,72 @@ class DOMGenerator {
         const newBlocConfig = surveyConfig.blocThemes[blocIndex];
 
         // Voir static GenerateQStates(joker)
-        // TODO : créer un div avec l'id du bloc dans le main + mettre la question du bloc
+        const bloc = document.createElement('div');
+        bloc.setAttribute('id', 'bloc_' + newBlocConfig.blocId);
+        bloc.setAttribute('blocType', newBlocConfig.type);
+        bloc.setAttribute('class', 'bloc');
 
-        DOMGenerator.loadScale(newBlocConfig.likertSize, newBlocConfig.scaleEnds);
-        DOMGenerator.loadContainer();
+        DOMGenerator.getMain().appendChild(bloc);
+
+        DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.scaleEnds);
+        DOMGenerator.loadContainer(bloc);
 
         const usedFeatures = [];
+        window.config.features.forEach((feature) => {
+            if (newBlocConfig.type === feature.type)
+                usedFeatures.push(feature);
+        });
         // TODO : récup les features à initialiser dans les cartes depuis le config.json
-        DOMGenerator.loadCards();
+        DOMGenerator.loadCards(usedFeatures);
+    }
+	
+    static loadScale (question, likertSize, scaleEnds) {
+        const bloc = document.querySelector('.bloc');
+        
+        // creation of the table and its rows for organising the page
+        const scale = document.createElement('table');
+        scale.setAttribute('id', 'scale_tab');
+        const headerRow = scale.insertRow(0);
+        const scaleTextRow = scale.insertRow(1);
+        const ranksRow = scale.insertRow(2);
+        const containerRow = scale.insertRow(3);
+
+        // insertion of the main text of the bloc in the header row
+        const headerCell = headerRow.insertCell();
+        headerCell.appendChild(document.createTextNode(question));
+        
+        // insertion of the scale indications in the following row
+        scaleEnds.forEach((scaleText) => {
+            const newCell = scaleTextRow.insertCell();
+            newCell.appendChild(document.createTextNode(scaleText));
+            // TODO : changer le style des cellules headers
+        });
+
+        // insersion of the rank containers in the following row (from -3 to 3 for example)
+        const indexOffset = Math.floor(likertSize / 2);
+        for (let i = -indexOffset; i < likertSize - indexOffset; i++) {
+            const cellRank = ranksRow.insertCell();
+            DOMGenerator.loadContainer(cellRank, 'rank_container_' + i);
+        }
+
+        const initalContainerCell = containerRow.insertCell();
+        DOMGenerator.loadContainer(initalContainerCell, 'initial_container');
+
+        bloc.appendChild(scale);
+    }
+	
+    static loadContainer (parentNode, containerId) {
+        // class nestable => is a container
+        const container = document.createElement('div');
+        container.setAttribute('class', 'nestable');
+        container.setAttribute('id', containerId);
+
+        // TODO : arranger le style du container pour width et height
+
+        parentNode.appendChild(container);
+    }
+	
+    static loadCards (features) {
+        // nested-item
     }
 }
