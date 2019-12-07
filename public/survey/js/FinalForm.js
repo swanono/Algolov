@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
@@ -17,47 +16,15 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
 This module is used to declare the class handling the information storage
 */
-
-'use strict';
-
-class TraceStorage {
-
-    
-    
-    static GenerateJSON() 
-    {
-        let json='{ "userid":'+userid
-            +', "window": { "x":'
-            + window.innerWidth 
-            +', "y":'+window.innerHeight 
-            + '}, "statements":[';
+function showQuestionnaire(jsonObj) {
+    var quest = jsonObj['QCM'];
         
-        for(let key in randoms) 
-		{
-			json+=randoms[key];
-			if(key<randoms.length-1)
-				json+=',';
-		}
-		json+='], ';
-		//...
-		/*if(state>3&&configuration.threestate)
-			json+=QTraceStorage.GenerateThreeState()+',';*/
-		if(state>5)
-			json+=QTraceStorage.GenerateQSortState()+',';
-		if(state>6)
-		{
-			json+='"postdata": [';
-			json+=QTraceStorage.GetJSONFromStore("interview");
-			if(state>10)
-				json+=","+QTraceStorage.GetJSONFromStore("exogen");
-			json+='], '
-		}
-		//ajout des trace
-		json+=QTraceStorage.GenerateTrace();
-		json+='}';
-        //console.log(json);
-        return json;
+    for (var i = 0; i < quest.length; i++) {
+      var section = document.createElement('section');
+
+  
+      section.appendChild();
+     
+      section.appendChild(myArticle);
     }
-
-
-}
+  }
