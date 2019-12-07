@@ -18,20 +18,51 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 This module is used to declare global variables and functions
 */
 
+/* global TraceStorage */
+/* global DOMGenerator */
+
 'use strict';
 
 window.state = 0;
-window.config = {}; // TODO : charger config.json dans cet objet
-
-function changeState () {
-    window.state++;
-
-    if (window.state >= 3 && window.state <= window.config.nbDescriptions * window.config.nbBlocPreDesc) {
-        // eslint-disable-next-line no-undef
-        DOMGenerator.loadBloc();
-    }
-}
+window.config = {}; // Contains the config.json file
+window.features = null; // Contains all the features
 
 function start () {
+    // Start the questionnaire, to use at the first
 
+    // Get the config.json file
+    fetch('../config.json', { method: 'GET' })
+        .then(res => res.json())
+        .then(function (data) {
+            window.config = data;
+            loadFeatures();
+            changeState();
+        })
+        .catch(e => console.log(e));
+}
+
+function loadFeatures () {
+    TraceStorage.CleanStorageFormTraces();
+
+    if (window.config.features)
+        window.features = window.config.features;
+    else
+        alert(window.config.wrongstatementformatmessage);
+}
+
+function changeState () {
+    window.state++; // Update the state
+
+    if (window.state === 1) {
+        DOMGenerator.GenerateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
+        DOMGenerator.addCheckBoxToSee('button', 'Acceptez-vous les conditions ci-dessus ? ');
+    } else if (window.state === 2)
+        DOMGenerator.GenerateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
+    else if (window.state >= 3 && window.state <= window.config.nbDescriptions * window.config.nbBlocPreDesc) {
+        // eslint-disable-next-line no-undef
+        DOMGenerator.loadBloc();
+    } else {
+        console.log('This state doesn\'t exist');
+        console.log(window.state);
+    }
 }
