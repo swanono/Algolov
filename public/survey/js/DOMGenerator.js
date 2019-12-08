@@ -23,7 +23,7 @@ This module is used to declare the class handling the DOM changes during the sur
 
 class DOMGenerator {
     static loadBloc () {
-        const blocState = window.state - 2;
+        const blocState = window.state - 3;
         const surveyConfig = window.config.surveyConfiguration;
         if (blocState >= surveyConfig.nbBlocPerDesc * surveyConfig.nbDescriptions) {
             console.error(`Called DOMGenerator.loadBloc() with wrong state : ${window.state}`);
@@ -41,7 +41,7 @@ class DOMGenerator {
         const blocIndex = (blocState - 1) % surveyConfig.nbBlocPerDesc;
         const newBlocConfig = surveyConfig.blocThemes[blocIndex];
 
-        // Voir static GenerateQStates(joker)
+        // creation of the div containing all this bloc
         const bloc = document.createElement('div');
         bloc.setAttribute('id', 'bloc_' + newBlocConfig.blocId);
         bloc.setAttribute('blocType', newBlocConfig.type);
@@ -49,15 +49,21 @@ class DOMGenerator {
 
         DOMGenerator.getMain().appendChild(bloc);
 
+        // creation of the scale table and the containers inside of the div of this bloc
         DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.scaleEnds);
-        DOMGenerator.loadContainer(bloc);
 
+        // getting all the features used for this bloc to initialize after
         const usedFeatures = [];
         window.config.features.forEach((feature) => {
-            if (newBlocConfig.type === feature.type)
-                usedFeatures.push(feature);
+            if (newBlocConfig.type === feature.type) {
+                if (usedFeatures.length >= window.config.surveyConfiguration.nbFeaturePerBloc)
+                    console.error('The config.json file specifies a wrong number of features for the type : ' + newBlocConfig.type);
+                else
+                    usedFeatures.push(feature);
+                    // TODO : ajouter la combinatoire
+            }
         });
-        // TODO : récup les features à initialiser dans les cartes depuis le config.json
+
         DOMGenerator.loadCards(usedFeatures);
     }
 	
@@ -67,14 +73,19 @@ class DOMGenerator {
         // creation of the table and its rows for organising the page
         const scale = document.createElement('table');
         scale.setAttribute('id', 'scale_tab');
+        scale.setAttribute('class', 'noselect');
         const headerRow = scale.insertRow(0);
         const scaleTextRow = scale.insertRow(1);
         const ranksRow = scale.insertRow(2);
         const containerRow = scale.insertRow(3);
 
+        headerRow.setAttribute('class', 'heading');
+        scaleTextRow.setAttribute('class', 'heading');
+
         // insertion of the main text of the bloc in the header row
         const headerCell = headerRow.insertCell();
         headerCell.appendChild(document.createTextNode(question));
+        headerCell.setAttribute('colspan', `${likertSize}`);
         
         // insertion of the scale indications in the following row
         scaleEnds.forEach((scaleText) => {
@@ -83,23 +94,26 @@ class DOMGenerator {
             // TODO : changer le style des cellules headers
         });
 
-        // insersion of the rank containers in the following row (from -3 to 3 for example)
+        // insertion of the rank containers in the following row (from -3 to 3 for example)
         const indexOffset = Math.floor(likertSize / 2);
         for (let i = -indexOffset; i < likertSize - indexOffset; i++) {
             const cellRank = ranksRow.insertCell();
             DOMGenerator.loadContainer(cellRank, 'rank_container_' + i);
         }
 
+        // insertion of the initial container for the features
         const initalContainerCell = containerRow.insertCell();
         DOMGenerator.loadContainer(initalContainerCell, 'initial_container');
+        initalContainerCell.setAttribute('colspan', `${likertSize}`);
 
         bloc.appendChild(scale);
+        DOMGenerator.getMain().appendChild(bloc);
     }
 	
     static loadContainer (parentNode, containerId) {
         // class nestable => is a container
         const container = document.createElement('div');
-        container.setAttribute('class', 'nestable');
+        container.setAttribute('class', 'nestable container');
         container.setAttribute('id', containerId);
 
         // TODO : arranger le style du container pour width et height
@@ -108,11 +122,36 @@ class DOMGenerator {
     }
 	
     static loadCards (features) {
-        // nested-item
+        // class nested-item => is a card inside a container
+        // eslint-disable-next-line no-undef
+        features = shuffleArray(features);
+
+        const initCont = document.getElementById('initial_container');
+
+        for (const feat of features) {
+            const newCard = document.createElement('div');
+            newCard.setAttribute('id', 'feature_' + feat.id);
+            newCard.setAttribute('class', 'nested-item');
+            newCard.setAttribute('location', initCont.getAttribute('id'));
+
+            if (feat.content === 'text')
+                newCard.appendChild(document.createTextNode(feat.data));
+
+            initCont.appendChild(newCard);
+        }
+    }
+
+    // TODO : appeler la fonction là où on test si il n'y a plus de carte dans le conteneur initial
+    static loadContinueButton (text, functor) {
+        const button = document.createElement('button');
+        button.setAttribute('id', 'button');
+        button.appendChild(document.createTextNode(text));
+        button.addEventListener('click', () => functor());
+        DOMGenerator.getMain().appendChild(button);
     }
     
-    static GenerateStepPage (contentpage, buttontext, functor, jokers) {
-        DOMGenerator.CleanMain(jokers);
+    static generateStepPage (contentpage, buttontext, functor, jokers) {
+        DOMGenerator.cleanMain(jokers);
         var div = document.createElement('div');
         div.className = 'presdiv';
         var text = document.createElement('div');
@@ -120,17 +159,13 @@ class DOMGenerator {
         text.innerHTML = contentpage;
 
         div.appendChild(text);
-        var button = document.createElement('button');
-        button.id = 'button';
-        text = button.appendChild(document.createTextNode(buttontext));
-        button.className = 'noselect';
-        button.addEventListener('click', () => functor());
-        div.appendChild(button);
-        DOMGenerator.GetMain().appendChild(div);
+        DOMGenerator.getMain().appendChild(div);
+
+        DOMGenerator.loadContinueButton(buttontext, functor);
     }
 
-    static CleanMain (jokers) {
-        var main = DOMGenerator.GetMain();
+    static cleanMain (jokers) {
+        var main = DOMGenerator.getMain();
         if (jokers) {
             let found = false;
             for (let iterator = 0; iterator < main.childNodes.length; iterator++) {
@@ -153,7 +188,7 @@ class DOMGenerator {
         }
     }
 
-    static GetMain () {
+    static getMain () {
         var main = document.getElementById('main');
         if (main != null) 
             return main;
@@ -165,11 +200,11 @@ class DOMGenerator {
     }
 
     static addCheckBoxToSee (idItemTohide, checkboxText) {
-        var div = document.getElementById('main').firstChild;
-        var startButton = document.getElementById(idItemTohide);
+        const div = DOMGenerator.getMain().firstChild;
+        const startButton = document.getElementById(idItemTohide);
 
-        var paragraph = document.createElement('div');
-        var acceptButton = document.createElement('INPUT');
+        const paragraph = document.createElement('div');
+        const acceptButton = document.createElement('INPUT');
         acceptButton.setAttribute('type', 'checkbox');
 
         paragraph.innerHTML = '<br/>' + checkboxText;
@@ -179,7 +214,7 @@ class DOMGenerator {
 
         startButton.style.display = 'none';
         acceptButton.addEventListener('change', function () {
-            var _displayButton = this.checked ? 'inline-block' : 'none';
+            const _displayButton = this.checked ? 'inline-block' : 'none';
             startButton.style.display = _displayButton;
         });
     }

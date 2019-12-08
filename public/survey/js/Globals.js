@@ -54,15 +54,24 @@ function changeState () {
     window.state++; // Update the state
 
     if (window.state === 1) {
-        DOMGenerator.GenerateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
+        DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
         DOMGenerator.addCheckBoxToSee('button', 'Acceptez-vous les conditions ci-dessus ? ');
     } else if (window.state === 2)
-        DOMGenerator.GenerateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
-    else if (window.state >= 3 && window.state <= window.config.nbDescriptions * window.config.nbBlocPreDesc) {
+        DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
+    else if (window.state >= 4 && window.state <= window.config.surveyConfiguration.nbDescriptions * window.config.surveyConfiguration.nbBlocPerDesc) {
         // eslint-disable-next-line no-undef
         DOMGenerator.loadBloc();
-    } else {
-        console.log('This state doesn\'t exist');
-        console.log(window.state);
+    } else
+        console.log('This state doesn\'t exist : ' + window.state);
+}
+
+// Fisher-Yates Algorithm
+function shuffleArray (list) {
+    for (let i = 0; i < list.length - 1; i++) {
+        const j = Math.floor(Math.random() * (list.length - i) + i);
+        const temp = list[i];
+        list[i] = list[j];
+        list[j] = temp;
     }
+    return list;
 }
