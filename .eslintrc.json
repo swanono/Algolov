@@ -19,6 +19,7 @@
     "rules": {
         "semi": [2, "always"],
         "indent": ["error", 4, { "VariableDeclarator": "first" }],
-        "no-tabs": "off"
+        "no-tabs": "off",
+        "curly": ["error", "multi-or-nest"]
     }
 }
