@@ -47,7 +47,7 @@ function loadFeatures () {
     if (window.config.features)
         window.features = window.config.features;
     else
-        alert(window.config.wrongstatementformatmessage);
+        alert(window.config.wrongStatementFormatMessage);
 }
 
 function changeState () {

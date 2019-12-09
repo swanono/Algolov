@@ -33,11 +33,10 @@ const envPort = config.port;
 // Routes accèdant à l'api (pas les fichiers du serveur)
 app.use('/api',
     function (req, res, next) {
-        if (!req.user /* TODO : Rajouter toutes les routes admin d'api */) {
+        if (!req.user /* TODO : Rajouter toutes les routes admin d'api */)
             res.redirect(connexionPath);
-        } else {
+        else
             adminCheck(req, res, next);
-        }
     },
     api(passport)
 );
@@ -63,9 +62,9 @@ app.use('/admin',
  */
 function adminCheck (req, res, next) {
     console.log('[Server] Requesting admin access : ' + JSON.stringify(req.user));
-    if (!req.user) {
+    if (!req.user)
         res.redirect(connexionPath);
-    } else {
+    else {
         // TODO : checker dans la BDD si l'admin existe, utiliser next() si c'est bon
     }
 }

@@ -303,6 +303,7 @@
     ],
     "RGPDText": "displayed RGPD Text",
     "surveyExplain": "explaining how to fill the survey correctly",
+    "wrongStatementFormatMessage": "mauvais fichier config.json récupéré",
     "QCM": {
         "begin": [
             {
