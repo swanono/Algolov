@@ -22,8 +22,13 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+const _nodeEnv = process.env.NODE_ENV;
+const _directoryPrefix = (_nodeEnv === 'dev' ? '' : '');
+
 module.exports = {
-    nodeEnv: process.env.NODE_ENV,
+    nodeEnv: _nodeEnv,
     port: process.env.PORT,
-    directoryPrefix: (this.nodeEnv === 'dev' ? '' : '')
+    directoryPrefix: _directoryPrefix,
+    pathPostSurveyApi: '/survey',
+    pathGetThanksAbs: _directoryPrefix + '/public/html/thanks.html'
 };

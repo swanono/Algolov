@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable no-unused-vars */
 /*
 -------------------------------------------------------------------------------------------------
@@ -21,8 +22,156 @@ This module is used to declare the class handling the DOM changes during the sur
 'use strict';
 
 class DOMGenerator {
-    static GenerateStepPage (contentpage, buttontext, functor, jokers) {
-        DOMGenerator.CleanMain(jokers);
+    static loadDescription () {
+        const statesBeforeBloc = window.config.surveyConfiguration.nbStatesBeforeBloc;
+        const blocState = window.state - statesBeforeBloc;
+        const surveyConfig = window.config.surveyConfiguration;
+        const descConfig = surveyConfig.descNames[Math.floor(blocState / surveyConfig.nbBlocPerDesc)];
+        DOMGenerator.generateStepPage(descConfig.presentation, 'Commencer', () => DOMGenerator.loadBloc());
+    }
+
+    static loadBloc () {
+        const statesBeforeBloc = window.config.surveyConfiguration.nbStatesBeforeBloc;
+        const blocState = window.state - statesBeforeBloc;
+        const surveyConfig = window.config.surveyConfiguration;
+        if (blocState >= surveyConfig.nbBlocPerDesc * surveyConfig.descNames.length) {
+            console.error(`Called DOMGenerator.loadBloc() with wrong state : ${window.state}`);
+            return;
+        }
+
+        // cleaning of previous page
+        // with jokers we keep the wanted tags from being cleaned
+        const jokers = [];
+
+        // TODO : mettre dans jokers les id des balises à garder
+
+        DOMGenerator.cleanMain(jokers);
+
+        const blocIndex = (blocState - 1) % surveyConfig.nbBlocPerDesc;
+        const newBlocConfig = surveyConfig.blocThemes[blocIndex];
+
+        // creation of the div containing all this bloc
+        const bloc = document.createElement('div');
+        bloc.setAttribute('id', 'bloc_' + newBlocConfig.blocId);
+        bloc.setAttribute('blocType', newBlocConfig.type);
+        bloc.setAttribute('class', 'bloc');
+
+        DOMGenerator.getMain().appendChild(bloc);
+
+        // creation of the scale table and the containers inside of the div of this bloc
+        DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.scaleEnds);
+
+        // getting the combinatory table to know wich feature to keep
+        const combin = JSON.parse(sessionStorage.getItem('combinatoire'));
+
+        // getting all the features used for this bloc to initialize after
+        const usedFeatures = [];
+        window.config.features.forEach((feature) => {
+            // we search in the combinatory object if the current feature is compatible
+            let isInCombin = false;
+            combin.forEach((comb) => {
+                const desc = feature.find(f => comb.descName === f.descName);
+                if (desc[comb.choice])
+                    isInCombin = true;
+            });
+
+            // if the feature is of the same type of the current bloc and is compatible with the combinatory choices, we add it
+            if (newBlocConfig.type === feature.type && isInCombin) {
+                if (usedFeatures.length >= surveyConfig.nbFeaturePerBloc)
+                    console.error('The config.json file specifies a wrong number of features for the type : ' + newBlocConfig.type);
+                else
+                    usedFeatures.push(feature);
+            }
+        });
+
+        DOMGenerator.loadCards(usedFeatures);
+    }
+	
+    static loadScale (question, likertSize, scaleEnds) {
+        const bloc = document.querySelector('.bloc');
+        
+        // creation of the table and its rows for organising the page
+        const scale = document.createElement('table');
+        scale.setAttribute('id', 'scale_tab');
+        scale.setAttribute('class', 'noselect');
+        const headerRow = scale.insertRow(0);
+        const scaleTextRow = scale.insertRow(1);
+        const ranksRow = scale.insertRow(2);
+        const containerRow = scale.insertRow(3);
+
+        headerRow.setAttribute('class', 'heading');
+        scaleTextRow.setAttribute('class', 'heading');
+
+        // insertion of the main text of the bloc in the header row
+        const headerCell = headerRow.insertCell();
+        headerCell.appendChild(document.createTextNode(question));
+        headerCell.setAttribute('colspan', `${likertSize}`);
+        
+        // insertion of the scale indications in the following row
+        scaleEnds.forEach((scaleText) => {
+            const newCell = scaleTextRow.insertCell();
+            newCell.appendChild(document.createTextNode(scaleText));
+            // TODO : changer le style des cellules headers
+        });
+
+        // insertion of the rank containers in the following row (from -3 to 3 for example)
+        const indexOffset = Math.floor(likertSize / 2);
+        for (let i = -indexOffset; i < likertSize - indexOffset; i++) {
+            const cellRank = ranksRow.insertCell();
+            DOMGenerator.loadContainer(cellRank, 'rank_container_' + i);
+        }
+
+        // insertion of the initial container for the features
+        const initalContainerCell = containerRow.insertCell();
+        DOMGenerator.loadContainer(initalContainerCell, 'initial_container');
+        initalContainerCell.setAttribute('colspan', `${likertSize}`);
+
+        bloc.appendChild(scale);
+        DOMGenerator.getMain().appendChild(bloc);
+    }
+	
+    static loadContainer (parentNode, containerId) {
+        // class nestable => is a container
+        const container = document.createElement('div');
+        container.setAttribute('class', 'nestable container');
+        container.setAttribute('id', containerId);
+
+        // TODO : arranger le style du container pour width et height
+
+        parentNode.appendChild(container);
+    }
+	
+    static loadCards (features) {
+        // class nested-item => is a card inside a container
+        // eslint-disable-next-line no-undef
+        features = shuffleArray(features);
+
+        const initCont = document.getElementById('initial_container');
+
+        for (const feat of features) {
+            const newCard = document.createElement('div');
+            newCard.setAttribute('id', 'feature_' + feat.id);
+            newCard.setAttribute('class', 'nested-item');
+            newCard.setAttribute('location', initCont.getAttribute('id'));
+
+            if (feat.content === 'text')
+                newCard.appendChild(document.createTextNode(feat.data));
+
+            initCont.appendChild(newCard);
+        }
+    }
+
+    // TODO : appeler la fonction là où on test si il n'y a plus de carte dans le conteneur initial
+    static loadContinueButton (text, functor) {
+        const button = document.createElement('button');
+        button.setAttribute('id', 'continuebutton');
+        button.appendChild(document.createTextNode(text));
+        button.addEventListener('click', () => functor());
+        DOMGenerator.getMain().appendChild(button);
+    }
+    
+    static generateStepPage (contentpage, buttontext, functor, jokers) {
+        DOMGenerator.cleanMain(jokers);
         var div = document.createElement('div');
         div.className = 'presdiv';
         var text = document.createElement('div');
@@ -30,17 +179,13 @@ class DOMGenerator {
         text.innerHTML = contentpage;
 
         div.appendChild(text);
-        var button = document.createElement('button');
-        button.id = 'button';
-        text = button.appendChild(document.createTextNode(buttontext));
-        button.className = 'noselect';
-        button.addEventListener('click', () => functor());
-        div.appendChild(button);
-        DOMGenerator.GetMain().appendChild(div);
+        DOMGenerator.getMain().appendChild(div);
+
+        DOMGenerator.loadContinueButton(buttontext, functor);
     }
 
-    static CleanMain (jokers) {
-        var main = DOMGenerator.GetMain();
+    static cleanMain (jokers) {
+        var main = DOMGenerator.getMain();
         if (jokers) {
             let found = false;
             for (let iterator = 0; iterator < main.childNodes.length; iterator++) {
@@ -54,22 +199,20 @@ class DOMGenerator {
                 if (!found) {
                     main.removeChild(main.childNodes[iterator]);
                     iterator--;
-                } else {
+                } else 
                     main.childNodes[iterator].style.display = 'none';
-                }
             }
         } else {
-            while (main.firstChild) {
+            while (main.firstChild) 
                 main.removeChild(main.firstChild);
-            }
         }
     }
 
-    static GetMain () {
+    static getMain () {
         var main = document.getElementById('main');
-        if (main != null) {
+        if (main != null) 
             return main;
-        }
+        
         main = document.createElement('div');
         main.id = 'main';
         document.body.appendChild(main);
@@ -77,11 +220,11 @@ class DOMGenerator {
     }
 
     static addCheckBoxToSee (idItemTohide, checkboxText) {
-        var div = document.getElementById('main').firstChild;
-        var startButton = document.getElementById(idItemTohide);
+        const div = DOMGenerator.getMain().firstChild;
+        const startButton = document.getElementById(idItemTohide);
 
-        var paragraph = document.createElement('div');
-        var acceptButton = document.createElement('INPUT');
+        const paragraph = document.createElement('div');
+        const acceptButton = document.createElement('INPUT');
         acceptButton.setAttribute('type', 'checkbox');
 
         paragraph.innerHTML = '<br/>' + checkboxText;
@@ -91,7 +234,7 @@ class DOMGenerator {
 
         startButton.style.display = 'none';
         acceptButton.addEventListener('change', function () {
-            var _displayButton = this.checked ? 'inline-block' : 'none';
+            const _displayButton = this.checked ? 'inline-block' : 'none';
             startButton.style.display = _displayButton;
         });
     }

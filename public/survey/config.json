@@ -1,30 +1,43 @@
 {
     "surveyConfiguration": {
-        "nbDescriptions": 2,
-        "descNames": ["soi", "autre"],
-        "nbBlocPreDesc": 4,
+        "descNames": [
+            {
+                "name": "soi",
+                "presentation": "presentation de la description de soi"
+            },
+            {
+                "name": "autre",
+                "presentation": "presentation de la description de autre"
+            }
+        ],
+        "nbStatesBeforeBloc": 3,
+        "nbBlocPerDesc": 4,
         "nbFeaturePerBloc": 10,
         "blocThemes": [
             {
-                "name": "bloc 1",
+                "blocId": 1,
+                "type": "physique",
                 "question": "question 1",
                 "likertSize": 7,
                 "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
-                "name": "bloc 2",
+                "blocId": 2,
+                "type": "attitude",
                 "question": "question 2",
                 "likertSize": 7,
                 "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
-                "name": "bloc 3",
+                "blocId": 3,
+                "type": "physique",
                 "question": "question 3",
                 "likertSize": 7,
                 "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
-                "name": "bloc 4",
+                "blocId": 4,
+                "type": "attitude",
                 "question": "question 4",
                 "likertSize": 7,
                 "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
@@ -34,139 +47,404 @@
     "features": [
         {
             "id": 1,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 1",
-            "combin": {
-                "isM": true,
-                "isF": true,
-                "wantM": true,
-                "wantF": true
-            }
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
         },
         {
             "id": 2,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 2",
-            "combin": {
-                "isM": true,
-                "isF": true,
-                "wantM": true,
-                "wantF": true
-            }
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
         },
         {
             "id": 3,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 3",
-            "combin": {
-                "isM": true,
-                "isF": true,
-                "wantM": true,
-                "wantF": true
-            }
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
         },
         {
             "id": 4,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 4",
-            "combin": {
-                "isM": true,
-                "isF": true,
-                "wantM": true,
-                "wantF": true
-            }
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
         },
         {
             "id": 5,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 5",
-            "combin": {
-                "isM": true,
-                "isF": true,
-                "wantM": true,
-                "wantF": true
-            }
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
         },
         {
             "id": 6,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 6",
-            "combin": {
-                "isM": true,
-                "isF": true,
-                "wantM": true,
-                "wantF": true
-            }
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
         },
         {
             "id": 7,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 7",
-            "combin": {
-                "isM": true,
-                "isF": true,
-                "wantM": true,
-                "wantF": true
-            }
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
         },
         {
             "id": 8,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 8",
-            "combin": {
-                "isM": true,
-                "isF": true,
-                "wantM": true,
-                "wantF": true
-            }
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
         },
         {
             "id": 9,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 9 (male feature)",
-            "combin": {
-                "isM": true,
-                "isF": false,
-                "wantM": true,
-                "wantF": false
-            }
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": false,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": false,
+                    "M": true
+                }
+            ]
         },
         {
             "id": 10,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 10 (female feature)",
-            "combin": {
-                "isM": false,
-                "isF": true,
-                "wantM": false,
-                "wantF": true
-            }
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": false
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": false
+                }
+            ]
         },
         {
             "id": 11,
-            "type": "text",
+            "content": "text",
+            "type": "physique",
             "data": "feature 11 (male searching female feature)",
-            "combin": {
-                "isM": true,
-                "isF": false,
-                "wantM": false,
-                "wantF": true
-            }
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": false,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": false
+                }
+            ]
         },
         {
-            "id": 10,
-            "type": "text",
-            "data": "feature 10 (female searching male feature)",
-            "combin": {
-                "isM": false,
-                "isF": true,
-                "wantM": true,
-                "wantF": false
-            }
+            "id": 12,
+            "content": "text",
+            "type": "physique",
+            "data": "feature 12 (female searching male feature)",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": false
+                },
+                {
+                    "descName": "autre",
+                    "F": false,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 13",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 14",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 15",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 16,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 16",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 17",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 18",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 19",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 20",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 21,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 21",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 22,
+            "content": "text",
+            "type": "attitude",
+            "data": "feature 22",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
         }
     ],
     "RGPDText": "displayed RGPD Text",
     "surveyExplain": "explaining how to fill the survey correctly",
+    "wrongStatementFormatMessage": "mauvais fichier config.json récupéré",
     "QCM": {
         "begin": [
             {

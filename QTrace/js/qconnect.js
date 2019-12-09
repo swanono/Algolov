@@ -1824,7 +1824,25 @@ function generateStartPage()
 	//DOMGenerator.GenerateFinnishState();
 	//DOMGenerator.GenerateExoQuizz();//(configuration.introtext,configuration.startbutton,function(){ResetReferenceTime();DOMGenerator.GenerateCards();DOMGenerator.GenerateZoomSlider();QTraceStorage.StoreNextStepEvent(state);});
 	//DOMGenerator.GenerateStepPage(configuration.acceptancetext,configuration.startbutton,function(){ResetReferenceTime();QTraceStorage.ClearStorage();state++;DOMGenerator.GenerateCards();DOMGenerator.ChangeCardsScale(1.0);DOMGenerator.GenerateZoomSlider();QTraceStorage.StoreNextStepEvent(state);});
-	DOMGenerator.GenerateStepPage(configuration.acceptancetext,configuration.startbutton,function(){DOMGenerator.GenerateStepPage(configuration.introtext,configuration.startbutton,function(){ResetReferenceTime();QTraceStorage.ClearStorage();state++;DOMGenerator.GenerateCards();DOMGenerator.ChangeCardsScale(1.0);DOMGenerator.GenerateZoomSlider();QTraceStorage.StoreNextStepEvent(state);});});
+	DOMGenerator.GenerateStepPage(
+		configuration.acceptancetext,
+		configuration.startbutton,
+		function(){
+			DOMGenerator.GenerateStepPage(
+				configuration.introtext,
+				configuration.startbutton,
+				function(){
+					ResetReferenceTime();
+					QTraceStorage.ClearStorage();
+					state++;
+					DOMGenerator.GenerateCards();
+					DOMGenerator.ChangeCardsScale(1.0);
+					DOMGenerator.GenerateZoomSlider();
+					QTraceStorage.StoreNextStepEvent(state);
+				}
+			);
+		}
+	);
 
 }
 
