@@ -92,3 +92,7 @@ th, td {
     margin: 1px;
     vertical-align: middle;
 }
+
+#continuebutton {
+    float: right;
+}

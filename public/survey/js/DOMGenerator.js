@@ -22,10 +22,19 @@ This module is used to declare the class handling the DOM changes during the sur
 'use strict';
 
 class DOMGenerator {
-    static loadBloc () {
-        const blocState = window.state - 3;
+    static loadDescription () {
+        const statesBeforeBloc = window.config.surveyConfiguration.nbStatesBeforeBloc;
+        const blocState = window.state - statesBeforeBloc;
         const surveyConfig = window.config.surveyConfiguration;
-        if (blocState >= surveyConfig.nbBlocPerDesc * surveyConfig.nbDescriptions) {
+        const descConfig = surveyConfig.descNames[Math.floor(blocState / surveyConfig.nbBlocPerDesc)];
+        DOMGenerator.generateStepPage(descConfig.presentation, 'Commencer', () => DOMGenerator.loadBloc());
+    }
+
+    static loadBloc () {
+        const statesBeforeBloc = window.config.surveyConfiguration.nbStatesBeforeBloc;
+        const blocState = window.state - statesBeforeBloc;
+        const surveyConfig = window.config.surveyConfiguration;
+        if (blocState >= surveyConfig.nbBlocPerDesc * surveyConfig.descNames.length) {
             console.error(`Called DOMGenerator.loadBloc() with wrong state : ${window.state}`);
             return;
         }
@@ -52,15 +61,26 @@ class DOMGenerator {
         // creation of the scale table and the containers inside of the div of this bloc
         DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.scaleEnds);
 
+        // getting the combinatory table to know wich feature to keep
+        const combin = JSON.parse(sessionStorage.getItem('combinatoire'));
+
         // getting all the features used for this bloc to initialize after
         const usedFeatures = [];
         window.config.features.forEach((feature) => {
-            if (newBlocConfig.type === feature.type) {
-                if (usedFeatures.length >= window.config.surveyConfiguration.nbFeaturePerBloc)
+            // we search in the combinatory object if the current feature is compatible
+            let isInCombin = false;
+            combin.forEach((comb) => {
+                const desc = feature.find(f => comb.descName === f.descName);
+                if (desc[comb.choice])
+                    isInCombin = true;
+            });
+
+            // if the feature is of the same type of the current bloc and is compatible with the combinatory choices, we add it
+            if (newBlocConfig.type === feature.type && isInCombin) {
+                if (usedFeatures.length >= surveyConfig.nbFeaturePerBloc)
                     console.error('The config.json file specifies a wrong number of features for the type : ' + newBlocConfig.type);
                 else
                     usedFeatures.push(feature);
-                    // TODO : ajouter la combinatoire
             }
         });
 
@@ -144,7 +164,7 @@ class DOMGenerator {
     // TODO : appeler la fonction là où on test si il n'y a plus de carte dans le conteneur initial
     static loadContinueButton (text, functor) {
         const button = document.createElement('button');
-        button.setAttribute('id', 'button');
+        button.setAttribute('id', 'continuebutton');
         button.appendChild(document.createTextNode(text));
         button.addEventListener('click', () => functor());
         DOMGenerator.getMain().appendChild(button);

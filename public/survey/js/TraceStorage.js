@@ -21,6 +21,14 @@ This module is used to declare the class handling the information storage
 'use strict';
 
 class TraceStorage {
+    static appendToStorage (name, data) {
+        const old = sessionStorage.getItem(name);
+        if (old === null || old === '')
+            sessionStorage.setItem(name, data);
+        else
+            sessionStorage.setItem(name, old + ',' + data);
+    }
+
     static CleanStorage (name) {
         sessionStorage.removeItem(name);
     }

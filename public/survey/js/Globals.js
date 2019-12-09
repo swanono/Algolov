@@ -53,14 +53,18 @@ function loadFeatures () {
 function changeState () {
     window.state++; // Update the state
 
+    const statesBeforeBloc = window.config.surveyConfiguration.nbStatesBeforeBloc;
+
     if (window.state === 1) {
         DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
         DOMGenerator.addCheckBoxToSee('button', 'Acceptez-vous les conditions ci-dessus ? ');
     } else if (window.state === 2)
         DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
-    else if (window.state >= 4 && window.state <= window.config.surveyConfiguration.nbDescriptions * window.config.surveyConfiguration.nbBlocPerDesc) {
-        // eslint-disable-next-line no-undef
-        DOMGenerator.loadBloc();
+    else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc) {
+        if ((window.state - statesBeforeBloc - 1) % window.config.surveyConfiguration.nbBlocPerDesc === 0)
+            DOMGenerator.loadDescription();
+        else
+            DOMGenerator.loadBloc();
     } else
         console.log('This state doesn\'t exist : ' + window.state);
 }
