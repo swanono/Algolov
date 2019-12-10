@@ -33,11 +33,10 @@ const envPort = config.port;
 // Routes accèdant à l'api (pas les fichiers du serveur)
 app.use('/api',
     function (req, res, next) {
-        if (!req.user /* TODO : Rajouter toutes les routes admin d'api */) {
+        if (!req.user /* TODO : Rajouter toutes les routes admin d'api */)
             res.redirect(connexionPath);
-        } else {
+        else
             adminCheck(req, res, next);
-        }
     },
     api(passport)
 );
@@ -54,18 +53,17 @@ app.use('/admin',
 );
 
 /*
- * Fonction a appeler dans le middleware express permettant de s'assurer
- * que le client possède bien les droits admin
+ * Function to call in the express middleware to ensure that the client has admin rights
  * ---
- * req : l'objet requette http
- * res : l'objet réponse http
- * next : la fonction suivante dans la pile des callbacks de cette route
+ * req : http request object
+ * res : http response object
+ * next : the following callback function of this route
  */
 function adminCheck (req, res, next) {
     console.log('[Server] Requesting admin access : ' + JSON.stringify(req.user));
-    if (!req.user) {
+    if (!req.user)
         res.redirect(connexionPath);
-    } else {
+    else {
         // TODO : checker dans la BDD si l'admin existe, utiliser next() si c'est bon
     }
 }

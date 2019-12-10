@@ -44,31 +44,38 @@ function start () {
 function loadFeatures () {
     TraceStorage.CleanStorageFormTraces();
 
-    if (window.config.features) {
+    if (window.config.features)
         window.features = window.config.features;
-    } else {
-        alert(window.config.wrongstatementformatmessage);
-    }
+    else
+        alert(window.config.wrongStatementFormatMessage);
 }
 
 function changeState () {
     window.state++; // Update the state
-    switch (window.state) {
-    case 1 :
-        DOMGenerator.GenerateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
+
+    const statesBeforeBloc = window.config.surveyConfiguration.nbStatesBeforeBloc;
+
+    if (window.state === 1) {
+        DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
         DOMGenerator.addCheckBoxToSee('button', 'Acceptez-vous les conditions ci-dessus ? ');
-        break;
+    } else if (window.state === 2)
+        DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
+    else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc) {
+        if ((window.state - statesBeforeBloc - 1) % window.config.surveyConfiguration.nbBlocPerDesc === 0)
+            DOMGenerator.loadDescription();
+        else
+            DOMGenerator.loadBloc();
+    } else
+        console.log('This state doesn\'t exist : ' + window.state);
+}
 
-    case 2 :
-        DOMGenerator.GenerateStepPage(window.config.surveyExplain,
-            'Continuez',
-            () => changeState());
-
-        break;
-
-    default :
-        console.log(window.state);
-        console.log('This state doesn\'t exist');
-        break;
+// Fisher-Yates Algorithm
+function shuffleArray (list) {
+    for (let i = 0; i < list.length - 1; i++) {
+        const j = Math.floor(Math.random() * (list.length - i) + i);
+        const temp = list[i];
+        list[i] = list[j];
+        list[j] = temp;
     }
+    return list;
 }

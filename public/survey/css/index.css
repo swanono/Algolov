@@ -14,3 +14,85 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
 */
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+      -webkit-user-select: none; /* Safari */
+       -khtml-user-select: none; /* Konqueror HTML */
+         -moz-user-select: none; /* Firefox */
+          -ms-user-select: none; /* Internet Explorer/Edge */
+              user-select: none; /* Non-prefixed version, currently
+                                    supported by Chrome and Opera */
+}
+
+body {
+    max-width: 1920px;
+}
+
+.presdiv {
+    padding-top: 150px;
+    text-align: center;
+}
+
+.prestext {
+    text-align: center;
+    font-size: 1.3em;
+    padding-left: 25%;
+    padding-right: 25%;
+    padding-bottom: 50px;
+}
+
+table {
+    margin-bottom: 40px;
+}
+
+th, td {
+    padding: 2px 2px !important;
+    vertical-align: top;
+    text-align: center;
+}
+
+.heading {
+	font-weight: bold;
+    font-size: 1.4em;
+    border-radius: 10px;
+    border: 1px solid;
+    background-color: lightgray;
+}
+
+.container {
+    text-align: center;
+    font-size: 1.2em;
+    background-color: gray;
+    max-height: 100%;
+    max-width: 100%;
+}
+
+.nested-item {
+    border: 1px solid;
+    width: 15vw;
+    height: 100px;
+    padding: 10px;
+    font-size: 1.2em;
+    box-shadow: 4px 4px 2px #888888;
+    border-radius: 25px;
+    background-color: white;
+    z-index: 1;
+    overflow: hidden; /* required for text-overflow */
+    display: inline-block;
+}
+
+.nestable {
+    border: 1px solid;
+    text-align: center;
+    min-width: 130px;
+    min-height: 90px;
+    height: 100%;
+    border-radius: 15px;
+    margin: 1px;
+    vertical-align: middle;
+}
+
+#continuebutton {
+    float: right;
+}
