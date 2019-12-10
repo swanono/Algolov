@@ -19,6 +19,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 This module is used to declare the class handling the DOM changes during the survey
 */
 
+/* globals Globals */
+
 'use strict';
 
 class DOMGenerator {
@@ -59,7 +61,7 @@ class DOMGenerator {
         DOMGenerator.getMain().appendChild(bloc);
 
         // creation of the scale table and the containers inside of the div of this bloc
-        DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.scaleEnds);
+        DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.legends);
 
         // getting the combinatory table to know wich feature to keep
         const combin = JSON.parse(sessionStorage.getItem('combinatoire'));
@@ -87,7 +89,7 @@ class DOMGenerator {
         DOMGenerator.loadCards(usedFeatures);
     }
 	
-    static loadScale (question, likertSize, scaleEnds) {
+    static loadScale (question, likertSize, legends) {
         const bloc = document.querySelector('.bloc');
         
         // creation of the table and its rows for organising the page
@@ -108,9 +110,13 @@ class DOMGenerator {
         headerCell.setAttribute('colspan', `${likertSize}`);
         
         // insertion of the scale indications in the following row
-        scaleEnds.forEach((scaleText) => {
+        legends.forEach((scaleText, i) => {
             const newCell = scaleTextRow.insertCell();
             newCell.appendChild(document.createTextNode(scaleText));
+            newCell.setAttribute('colspan', DOMGenerator._getColSpan(legends.length, i, likertSize));
+
+            if (((legends.length % 2 === 0 && likertSize % 2 === 1) || legends.length === 2) && i + 1 === legends.length / 2)
+                scaleTextRow.insertCell();
             // TODO : changer le style des cellules headers
         });
 
@@ -143,8 +149,7 @@ class DOMGenerator {
 	
     static loadCards (features) {
         // class nested-item => is a card inside a container
-        // eslint-disable-next-line no-undef
-        features = shuffleArray(features);
+        features = Globals.shuffleArray(features);
 
         const initCont = document.getElementById('initial_container');
 
@@ -237,5 +242,39 @@ class DOMGenerator {
             const _displayButton = this.checked ? 'inline-block' : 'none';
             startButton.style.display = _displayButton;
         });
+    }
+
+    static _getColSpan (nbCells, indexCell, scaleSize) {
+        console.log(nbCells + ' ' + indexCell + ' ' + scaleSize);
+        const specialCase = (nbCells % 2 === 0 && scaleSize % 2 === 1);
+        if (nbCells > scaleSize)
+            return undefined;
+        if (nbCells === 2 || nbCells === 3) {
+            if (indexCell === 0 || indexCell === 2)
+                return 1;
+            else if (indexCell >= 3)
+                return undefined;
+            else
+                return scaleSize - 2;
+        } 
+        if (indexCell >= nbCells + (specialCase ? 1 : 0))
+            return undefined;
+        if (nbCells === scaleSize)
+            return 1;
+        if (nbCells === 1)
+            return scaleSize;
+        if (indexCell === 0)
+            return 1;
+        if (specialCase && (indexCell === Math.floor(nbCells / 2) || indexCell === nbCells))
+            return 1;
+        if (!specialCase && indexCell === nbCells - 1)
+            return 1;
+
+        const remainingRanks = scaleSize - 2 - (specialCase ? 1 : 0);
+        const remainingCells = nbCells - 2;
+        const adaptedIndex = indexCell - (indexCell > nbCells / 2 && specialCase ? 1 : 0);
+
+        return Math.round((remainingRanks / remainingCells) * adaptedIndex) -
+            Math.round((remainingRanks / remainingCells) * (adaptedIndex - 1));
     }
 }

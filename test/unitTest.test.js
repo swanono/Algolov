@@ -18,6 +18,8 @@ This module is used to launch unit tests with jest
 */
 'use strict';
 
+// const DOMGenerator = require('../public/survey/js/DOMGenerator');
+
 // Test de lancement de serveur avant les autres tests
 describe('Testing server launching', () => {
     let serv;
@@ -50,4 +52,75 @@ describe('Testing server related functions', () => {
     });
 });
 
+/* test('Colspan attributed correctly', () => {
+    const inouts = [
+        {
+            nbCells: 1,
+            indexCell: 0,
+            scaleSize: 2,
+            out: 2
+        },
+        {
+            nbCells: 1,
+            indexCell: 3,
+            scaleSize: 8,
+            out: undefined
+        },
+        {
+            nbCells: 2,
+            indexCell: 2,
+            scaleSize: 6,
+            out: 1
+        },
+        {
+            nbCells: 2,
+            indexCell: 1,
+            scaleSize: 6,
+            out: 4
+        },
+        {
+            nbCells: 3,
+            indexCell: 1,
+            scaleSize: 7,
+            out: 5
+        },
+        {
+            nbCells: 4,
+            indexCell: 2,
+            scaleSize: 4,
+            out: 1
+        },
+        {
+            nbCells: 4,
+            indexCell: 2,
+            scaleSize: 9,
+            out: 1
+        },
+        {
+            nbCells: 4,
+            indexCell: 3,
+            scaleSize: 9,
+            out: 3
+        },
+        {
+            nbCells: 5,
+            indexCell: 3,
+            scaleSize: 10,
+            out: 3
+        },
+        {
+            nbCells: 6,
+            indexCell: 2,
+            scaleSize: 8,
+            out: 1
+        }
+    ];
+
+    inouts.forEach((inout) => {
+        expect(DOMGenerator._getColSpan(inout.nbCells, inout.indexCell, inout.scaleSize)).toBe(inout.out);
+    });
+});
+*/
+
 // TODO : unit test on server.testFunc.isAdmin
+// TODO : unit test on DOMGenerator._getColSpan

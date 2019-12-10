@@ -18,8 +18,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 This module is used to declare global variables and functions
 */
 
-/* global TraceStorage */
-/* global DOMGenerator */
+/* globals DOMGenerator */
+/* globals TraceStorage */
 
 'use strict';
 
@@ -57,7 +57,7 @@ function changeState () {
 
     if (window.state === 1) {
         DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
-        DOMGenerator.addCheckBoxToSee('button', 'Acceptez-vous les conditions ci-dessus ? ');
+        DOMGenerator.addCheckBoxToSee('continuebutton', 'Acceptez-vous les conditions ci-dessus ? ');
     } else if (window.state === 2)
         DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
     else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc) {
