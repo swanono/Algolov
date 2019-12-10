@@ -19,6 +19,7 @@ This module is used to launch unit tests with jest
 'use strict';
 
 // const DOMGenerator = require('../public/survey/js/DOMGenerator');
+// import DOMGenerator from '../public/survey/js/DOMGenerator';
 
 // Test de lancement de serveur avant les autres tests
 describe('Testing server launching', () => {
@@ -52,7 +53,8 @@ describe('Testing server related functions', () => {
     });
 });
 
-/* test('Colspan attributed correctly', () => {
+/*
+test('Colspan attributed correctly', () => {
     const inouts = [
         {
             nbCells: 1,
@@ -117,6 +119,7 @@ describe('Testing server related functions', () => {
     ];
 
     inouts.forEach((inout) => {
+        // eslint-disable-next-line no-undef
         expect(DOMGenerator._getColSpan(inout.nbCells, inout.indexCell, inout.scaleSize)).toBe(inout.out);
     });
 });

@@ -72,7 +72,7 @@ class DOMGenerator {
             // we search in the combinatory object if the current feature is compatible
             let isInCombin = false;
             combin.forEach((comb) => {
-                const desc = feature.find(f => comb.descName === f.descName);
+                const desc = feature.combin.find(f => comb.descName === f.descName);
                 if (desc[comb.choice])
                     isInCombin = true;
             });
@@ -278,3 +278,5 @@ class DOMGenerator {
             Math.round((remainingRanks / remainingCells) * (adaptedIndex - 1));
     }
 }
+
+export default DOMGenerator;
