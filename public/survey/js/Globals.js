@@ -66,10 +66,11 @@ function changeState () {
         else
             DOMGenerator.loadBloc();
     }else if (window.state = window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc+statesBeforeBloc){
-        //TODO : trouver comment recuperer tout le tableau des questions dans quest
-        const quest;
+       
+        const quest = window.config.QCM.end;
         DOMGenerator.generateStepQCMPage('','Valider', ()=> changeState(),quest);
         DOMGenerator.setDisabled(quest);
+        return SendJSON();
         
 
     }else
@@ -90,15 +91,11 @@ function shuffleArray (list) {
 
 function SendJSON(){
     const json = TraceStorage.GenerateJSON();
-    fetch('/api/survey', {
+    const html = await fetch('/api/survey', {
         method: 'POST' ,
         body: json
-    })  
-    .then(res => res.json())
-    .then(function (data) {
-        window.config = data;
-        
-    })
-    .catch(e => console.log(e));
+    });
+
+    return html.text();
 
 }

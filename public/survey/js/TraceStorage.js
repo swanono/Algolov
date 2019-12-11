@@ -75,7 +75,7 @@ class TraceStorage {
 				json+=","+QTraceStorage.GetJSONFromStore("exogen");
 			json+='], '
 		}
-		//ajout des trace
+		//ajout des traces
 		json+=QTraceStorage.GenerateTrace();
 		json+='}';
         //console.log(json);

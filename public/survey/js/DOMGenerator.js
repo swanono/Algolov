@@ -240,6 +240,16 @@ class DOMGenerator {
     }
 
     static setDisabled(questionnaire){
-        
+        questionnaire.forEach((question)=> {
+            if(question.relatedQuestion !== undefined){
+               question.relatedQuestion.triggerChoices.forEach((choiceId)=> {
+                   const balise = document.getElementById('idAns_' + choiceId);
+                   balise.addEventListener('change', function(event){
+                        
+                   } )
+
+               });
+            }
+        })
     }
 }
