@@ -29,7 +29,7 @@ class TraceStorage {
             sessionStorage.setItem(name, old + ',' + data);
     }
 
-    static CleanStorage (name) {
+    static cleanStorage (name) {
         sessionStorage.removeItem(name);
     }
 
@@ -37,52 +37,38 @@ class TraceStorage {
         const formData = new FormData(form);
     }
 
-    static CleanStorageFormTraces () {
-        TraceStorage.CleanStorage('steps');
-        TraceStorage.CleanStorage('interview');
-        TraceStorage.CleanStorage('exogen');
-        TraceStorage.CleanStorage('focus');
-        TraceStorage.CleanStorage('change');
-        TraceStorage.CleanStorage('range');
-        TraceStorage.CleanStorage('keypress');
-        TraceStorage.CleanStorage('mousemove');
-        TraceStorage.CleanStorage('mouseclick');
-        TraceStorage.CleanStorage('scrolling');
-        TraceStorage.CleanStorage('zooming');
-        TraceStorage.CleanStorage('media');
-        TraceStorage.CleanStorage('drag');
-        TraceStorage.CleanStorage('drop');
-        TraceStorage.CleanStorage('errors');
-        TraceStorage.CleanStorage('draggablecontainer');
+    static cleanStorageFormTraces () {
+        window.consts.TRACE_NAMES.forEach((name) => {
+            TraceStorage.cleanStorage(name);
+        });
     }
 
-    static GenerateJSON() 
-    {
-        let json='{ "userid":'+userid+', "window": { "x":'+ window.innerWidth+', "y":'+window.innerHeight+'}, "statements":[';
-		for(let key in randoms) 
-		{
-			json+=randoms[key];
-			if(key<randoms.length-1)
-				json+=',';
-		}
-		json+='], ';
-		// a revoir
-		/*if(state>3&&configuration.threestate)
-			json+=QTraceStorage.GenerateThreeState()+',';*/
-		if(state>5)
-			json+=QTraceStorage.GenerateQSortState()+',';
-		if(state>6)
-		{
-			json+='"postdata": [';
-			json+=QTraceStorage.GetJSONFromStore("interview");
-			if(state>10)
-				json+=","+QTraceStorage.GetJSONFromStore("exogen");
-			json+='], '
-		}
-		//ajout des traces
-		json+=QTraceStorage.GenerateTrace();
-		json+='}';
-        //console.log(json);
+    static GenerateJSON () {
+        let json = '{ "window": { "x": ' +
+            window.innerWidth + ', "y": ' +
+            window.innerHeight +
+            '}, "features": [';
+        window.features.forEach((feature, index) => {
+            json += '{ "id": ' + feature.id + ', "text": "' + feature.text + '" }';
+            if (index < window.features.length - 1)
+                json += ', ';
+        });
+        json += '], ';
+
+        json += '"beginQuestions": ';
+        // TODO : enregistrer dans le json les réponses aux questions de départ
+
+        json += '"rankingResult": ';
+        // TODO : enregistrer dans le json les réponses à chaque bloc
+
+        json += '"endQuestions": ';
+        // TODO : enregistrer dans le json les réponses au questionnaire de fin
+
+        json += '"traces": ';
+        // TODO : enregistrer dans le json les traces
+
+        json += ' }';
+
         return json;
     }
 }

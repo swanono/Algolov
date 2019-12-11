@@ -23,16 +23,35 @@ This module is used to declare global variables and functions
 
 'use strict';
 
-window.state = 0;
+window.state = 10;
 window.config = {}; // Contains the config.json file
 window.features = null; // Contains all the features
+window.ranking = []; // Contains all the blocs with the ranking of the features by the user
 window.consts = {
     INPUT_CLASS: 'classInput_',
     INPUT_ID: 'idInput_',
     QUESTION_ID: 'idQuest_',
     CONTINUE_BUTTON_ID: 'continueButton_',
     RANK_CONTAINER_ID: 'rankContainer_',
-    BLOC_ID: 'bloc_'
+    BLOC_ID: 'bloc_',
+    TRACE_NAMES: [
+        'steps',
+        'interview',
+        'exogen',
+        'focus',
+        'change',
+        'range',
+        'keypress',
+        'mousemove',
+        'mouseclick',
+        'scrolling',
+        'zooming',
+        'media',
+        'drag',
+        'drop',
+        'errors',
+        'draggablecontainer'
+    ]
 };
 
 function start () {
@@ -50,7 +69,7 @@ function start () {
 }
 
 function loadFeatures () {
-    TraceStorage.CleanStorageFormTraces();
+    TraceStorage.cleanStorageFormTraces();
 
     if (window.config.features)
         window.features = window.config.features;
@@ -73,23 +92,8 @@ function changeState () {
         DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
     else if (window.state === 3) {
         // TODO : ajouter les vraies questions
-        var qcmArray = [
-            {
-                id: window.confi,
-                question: 'hey',
-                answers: [
-                    {
-                        id: 'lol',
-                        text: 'coucou mdr'
-                    },
-                    {
-                        id: 'lol2',
-                        text: 'coucou mdr2'
-                    }
-                ]
-
-            }
-        ];
+        const qcmArray = window.config.QCM.begin;
+        DOMGenerator.generateStepQCMPage('', 'Continuer', () => changeState(), qcmArray);
     } else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc) {
         // The blocs steps where the user can classify features
 
@@ -101,8 +105,7 @@ function changeState () {
         // The last state for some questions and sending the datas to the server
 
         const quest = window.config.QCM.end;
-        DOMGenerator.generateStepQCMPage('', 'Valider', () => changeState(), quest);
-        return sendJSON();
+        DOMGenerator.generateStepQCMPage('', 'Valider', () => sendJSON(), quest);
     } else
         console.error("This state doesn't exist : " + window.state);
 }

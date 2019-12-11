@@ -220,7 +220,7 @@ class DOMGenerator {
         div.appendChild(text);
 
         const questionForm = document.createElement('form');
-        questionForm.onsubmit = event.preventDefault();
+        questionForm.addEventListener('submit', (event) => event.preventDefault());
 
         // Adding all the questions and answers to the main
         for (let indexQuest = 0; indexQuest < qcmArray.length; indexQuest++) {
@@ -234,17 +234,17 @@ class DOMGenerator {
 
             questionForm.appendChild(questionParagraph);
 
-            for (let indexAns = 0; indexAns < qcmArray[indexQuest].answers.length; indexAns++) {
+            for (let indexAns = 0; indexAns < qcmArray[indexQuest].choices.length; indexAns++) {
                 const ansRadio = document.createElement('input');
                 ansRadio.type = 'radio';
-                ansRadio.id = window.consts.INPUT_ID + qcmArray[indexQuest].answers[indexAns].id;
-                ansRadio.innerHTML = qcmArray[indexQuest].answers[indexAns].text;
+                ansRadio.id = window.consts.INPUT_ID + qcmArray[indexQuest].choices[indexAns].id;
+                ansRadio.innerHTML = qcmArray[indexQuest].choices[indexAns].text;
                 ansRadio.class = window.consts.INPUT_CLASS + qcmArray[indexQuest].id;
 
                 // indicate the descName value for question about description
                 if (qcmArray[indexQuest].descName) {
                     ansRadio.descName = qcmArray[indexQuest].descName;
-                    ansRadio.desValue = qcmArray[indexQuest].answers[indexAns].desValue;
+                    ansRadio.desValue = qcmArray[indexQuest].choices[indexAns].desValue;
                 }
 
                 questionForm.appendChild(ansRadio);
