@@ -245,7 +245,10 @@ class DOMGenerator {
                question.relatedQuestion.triggerChoices.forEach((choiceId)=> {
                    const balise = document.getElementById('idAns_' + choiceId);
                    balise.addEventListener('change', function(event){
-                        
+                    var currentCheckedRadio = event.target;
+                    var name = currentCheckedRadio.name;
+                    name.find(currentCheckedRadio,relatedQuestion.triggerChoices);
+            
                    } )
 
                });
