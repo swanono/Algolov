@@ -1,4 +1,3 @@
-/* eslint-disable no-trailing-spaces */
 /* eslint-disable no-unused-vars */
 /*
 -------------------------------------------------------------------------------------------------
@@ -86,10 +85,10 @@ class DOMGenerator {
 
         DOMGenerator.loadCards(usedFeatures);
     }
-	
+
     static loadScale (question, likertSize, scaleEnds) {
         const bloc = document.querySelector('.bloc');
-        
+
         // creation of the table and its rows for organising the page
         const scale = document.createElement('table');
         scale.setAttribute('id', 'scale_tab');
@@ -106,7 +105,7 @@ class DOMGenerator {
         const headerCell = headerRow.insertCell();
         headerCell.appendChild(document.createTextNode(question));
         headerCell.setAttribute('colspan', `${likertSize}`);
-        
+
         // insertion of the scale indications in the following row
         scaleEnds.forEach((scaleText) => {
             const newCell = scaleTextRow.insertCell();
@@ -129,7 +128,7 @@ class DOMGenerator {
         bloc.appendChild(scale);
         DOMGenerator.getMain().appendChild(bloc);
     }
-	
+
     static loadContainer (parentNode, containerId) {
         // class nestable => is a container
         const container = document.createElement('div');
@@ -140,7 +139,7 @@ class DOMGenerator {
 
         parentNode.appendChild(container);
     }
-	
+
     static loadCards (features) {
         // class nested-item => is a card inside a container
         // eslint-disable-next-line no-undef
@@ -169,7 +168,7 @@ class DOMGenerator {
         button.addEventListener('click', () => functor());
         DOMGenerator.getMain().appendChild(button);
     }
-    
+
     static generateStepPage (contentpage, buttontext, functor, jokers) {
         DOMGenerator.cleanMain(jokers);
         var div = document.createElement('div');
@@ -199,20 +198,20 @@ class DOMGenerator {
                 if (!found) {
                     main.removeChild(main.childNodes[iterator]);
                     iterator--;
-                } else 
+                } else
                     main.childNodes[iterator].style.display = 'none';
             }
         } else {
-            while (main.firstChild) 
+            while (main.firstChild)
                 main.removeChild(main.firstChild);
         }
     }
 
     static getMain () {
         var main = document.getElementById('main');
-        if (main != null) 
+        if (main != null)
             return main;
-        
+
         main = document.createElement('div');
         main.id = 'main';
         document.body.appendChild(main);
@@ -239,30 +238,29 @@ class DOMGenerator {
         });
     }
 
-    //TODO : verifier fonctionnement à partir de function(event)
-    static setDisabled(questionnaire){
-        questionnaire.forEach((question)=> {
-            if(question.relatedQuestion !== undefined){
-               question.relatedQuestion.triggerChoices.forEach((choiceId)=> {
-                   const balise = document.getElementById('idAns_' + choiceId);
-                   balise.addEventListener('change', function(event){
-                        var currentCheckedRadio = event.target;
-                        var name = currentCheckedRadio.name;
-                        name.find((currentCheckedRadio, triggerChoices)=>{
-                            question.relatedQuestion.questionIds.forEach((questionIds)=>{
-                                const q = question.choix.choiceId;
-                                if (questionIds === q){
-                                    q.setAttribute("display","disabled");
-                                }
+    // TODO : verifier fonctionnement à partir de function(event)
+    static setDisabled (questionnaire) {
+        questionnaire.forEach((question) => {
+            if (question.relatedQuestion) {
+                question.relatedQuestion.triggerChoices.forEach((choiceId) => {
+                    const balise = document.getElementById('idAns_' + choiceId);
 
-                            })
+                    balise.addEventListener('change', (event) => {
+                        const currentRadio = event.target;
 
+                        question.relatedQuestion.questionIds.forEach((questionId) => {
+                            const responses = document.getElementsByClassName('classQuest_' + questionId);
+
+                            responses.forEach((resp) => {
+                                if (currentRadio.checked)
+                                    resp.setAttribute('disabled', 'true');
+                                else
+                                    resp.removeAttribute('disabled');
+                            });
                         });
-                
-                    } )
-
-               });
+                    });
+                });
             }
-        })
+        });
     }
 }
