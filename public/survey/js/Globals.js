@@ -26,6 +26,14 @@ This module is used to declare global variables and functions
 window.state = 0;
 window.config = {}; // Contains the config.json file
 window.features = null; // Contains all the features
+window.consts = {
+    INPUT_CLASS: 'classInput_',
+    INPUT_ID: 'idInput_',
+    QUESTION_ID: 'idQuest_',
+    CONTINUE_BUTTON_ID: 'continueButton_',
+    RANK_CONTAINER_ID: 'rankContainer_',
+    BLOC_ID: 'bloc_'
+};
 
 function start () {
     // Start the questionnaire, to use at the first
@@ -59,7 +67,7 @@ function changeState () {
         // The first step of the survey : show RGPD requirements
 
         DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
-        DOMGenerator.addCheckBoxToSee('button', 'Acceptez-vous les conditions ci-dessus ? ');
+        DOMGenerator.addCheckBoxToSee(window.consts.CONTINUE_BUTTON_ID, 'Acceptez-vous les conditions ci-dessus ? ');
     } else if (window.state === 2)
         // The second step of the survey : Explaining how the survey works
         DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
@@ -94,7 +102,6 @@ function changeState () {
 
         const quest = window.config.QCM.end;
         DOMGenerator.generateStepQCMPage('', 'Valider', () => changeState(), quest);
-        DOMGenerator.setDisabled(quest);
         return sendJSON();
     } else
         console.error("This state doesn't exist : " + window.state);

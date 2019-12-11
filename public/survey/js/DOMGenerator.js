@@ -51,7 +51,7 @@ class DOMGenerator {
 
         // creation of the div containing all this bloc
         const bloc = document.createElement('div');
-        bloc.setAttribute('id', 'bloc_' + newBlocConfig.blocId);
+        bloc.setAttribute('id', window.consts.BLOC_ID + newBlocConfig.blocId);
         bloc.setAttribute('blocType', newBlocConfig.type);
         bloc.setAttribute('class', 'bloc');
 
@@ -117,7 +117,7 @@ class DOMGenerator {
         const indexOffset = Math.floor(likertSize / 2);
         for (let i = -indexOffset; i < likertSize - indexOffset; i++) {
             const cellRank = ranksRow.insertCell();
-            DOMGenerator.loadContainer(cellRank, 'rank_container_' + i);
+            DOMGenerator.loadContainer(cellRank, window.consts.RANK_CONTAINER_ID + i);
         }
 
         // insertion of the initial container for the features
@@ -163,7 +163,7 @@ class DOMGenerator {
     // TODO : appeler la fonction là où on test si il n'y a plus de carte dans le conteneur initial
     static loadContinueButton (text, functor) {
         const button = document.createElement('button');
-        button.setAttribute('id', 'continuebutton');
+        button.setAttribute('id', window.consts.CONTINUE_BUTTON_ID);
         button.appendChild(document.createTextNode(text));
         button.addEventListener('click', () => functor());
         DOMGenerator.getMain().appendChild(button);
@@ -230,16 +230,16 @@ class DOMGenerator {
 
             const questionParagraph = document.createElement('p');
             questionParagraph.innerHTML = qcmArray[indexQuest].question;
-            questionParagraph.id = 'parQuest_' + qcmArray[indexQuest].id;
+            questionParagraph.id = window.consts.QUESTION_ID + qcmArray[indexQuest].id;
 
             questionForm.appendChild(questionParagraph);
 
             for (let indexAns = 0; indexAns < qcmArray[indexQuest].answers.length; indexAns++) {
                 const ansRadio = document.createElement('input');
                 ansRadio.type = 'radio';
-                ansRadio.id = 'idAns_' + qcmArray[indexQuest].answers[indexAns].id;
+                ansRadio.id = window.consts.INPUT_ID + qcmArray[indexQuest].answers[indexAns].id;
                 ansRadio.innerHTML = qcmArray[indexQuest].answers[indexAns].text;
-                ansRadio.class = 'questClass_' + qcmArray[indexQuest].id;
+                ansRadio.class = window.consts.INPUT_CLASS + qcmArray[indexQuest].id;
 
                 // indicate the descName value for question about description
                 if (qcmArray[indexQuest].descName) {
@@ -255,6 +255,8 @@ class DOMGenerator {
         DOMGenerator.getMain().appendChild(div);
 
         DOMGenerator.loadContinueButton(buttontext, () => functor(this.form));
+
+        DOMGenerator._setDisabled(qcmArray);
     }
 
     static cleanMain (jokers) {
@@ -297,7 +299,7 @@ class DOMGenerator {
         const startButton = document.getElementById(idItemTohide);
 
         const paragraph = document.createElement('div');
-        const acceptButton = document.createElement('INPUT');
+        const acceptButton = document.createElement('input');
         acceptButton.setAttribute('type', 'checkbox');
 
         paragraph.innerHTML = '<br/>' + checkboxText;
@@ -313,17 +315,17 @@ class DOMGenerator {
     }
 
     // TODO : verifier fonctionnement à partir de function(event)
-    static setDisabled (questionnaire) {
+    static _setDisabled (questionnaire) {
         questionnaire.forEach((question) => {
             if (question.relatedQuestion) {
                 question.relatedQuestion.triggerChoices.forEach((choiceId) => {
-                    const balise = document.getElementById('idAns_' + choiceId);
+                    const input = document.getElementById(window.consts.INPUT_ID + choiceId);
 
-                    balise.addEventListener('change', (event) => {
+                    input.addEventListener('change', (event) => {
                         const currentRadio = event.target;
 
                         question.relatedQuestion.questionIds.forEach((questionId) => {
-                            const responses = document.getElementsByClassName('classQuest_' + questionId);
+                            const responses = document.getElementsByClassName(window.consts.INPUT_CLASS + questionId);
 
                             responses.forEach((resp) => {
                                 if (currentRadio.checked)
