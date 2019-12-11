@@ -247,7 +247,19 @@ class DOMGenerator {
                    balise.addEventListener('change', function(event){
                     var currentCheckedRadio = event.target;
                     var name = currentCheckedRadio.name;
-                    name.find(currentCheckedRadio,relatedQuestion.triggerChoices);
+                    name.find((currentCheckedRadio, triggerChoices)=>{
+                        question.relatedQuestion.questionIds.forEach((questionIds)=>{
+                            const q = question.choix.choiceId;
+                            if (questionIds === q){
+                                q.setAttribute("display","disabled");
+                            }
+
+                        })
+                        
+
+
+
+                    });
             
                    } )
 
