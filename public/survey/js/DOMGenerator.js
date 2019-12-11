@@ -239,29 +239,27 @@ class DOMGenerator {
         });
     }
 
+    //TODO : verifier fonctionnement à partir de function(event)
     static setDisabled(questionnaire){
         questionnaire.forEach((question)=> {
             if(question.relatedQuestion !== undefined){
                question.relatedQuestion.triggerChoices.forEach((choiceId)=> {
                    const balise = document.getElementById('idAns_' + choiceId);
                    balise.addEventListener('change', function(event){
-                    var currentCheckedRadio = event.target;
-                    var name = currentCheckedRadio.name;
-                    name.find((currentCheckedRadio, triggerChoices)=>{
-                        question.relatedQuestion.questionIds.forEach((questionIds)=>{
-                            const q = question.choix.choiceId;
-                            if (questionIds === q){
-                                q.setAttribute("display","disabled");
-                            }
+                        var currentCheckedRadio = event.target;
+                        var name = currentCheckedRadio.name;
+                        name.find((currentCheckedRadio, triggerChoices)=>{
+                            question.relatedQuestion.questionIds.forEach((questionIds)=>{
+                                const q = question.choix.choiceId;
+                                if (questionIds === q){
+                                    q.setAttribute("display","disabled");
+                                }
 
-                        })
-                        
+                            })
 
-
-
-                    });
-            
-                   } )
+                        });
+                
+                    } )
 
                });
             }
