@@ -33,6 +33,11 @@ class TraceStorage {
         sessionStorage.removeItem(name);
     }
 
+    static saveForm (form) {
+        const formData = new FormData(form);
+
+    }
+
     static CleanStorageFormTraces () {
         TraceStorage.CleanStorage('steps');
         TraceStorage.CleanStorage('interview');

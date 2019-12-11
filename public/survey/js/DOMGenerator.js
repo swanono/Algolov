@@ -172,9 +172,9 @@ class DOMGenerator {
     
     static generateStepPage (contentpage, buttontext, functor, jokers) {
         DOMGenerator.cleanMain(jokers);
-        var div = document.createElement('div');
+        const div = document.createElement('div');
         div.className = 'presdiv';
-        var text = document.createElement('div');
+        const text = document.createElement('div');
         text.className = 'prestext noselect';
         text.innerHTML = contentpage;
 
@@ -183,6 +183,77 @@ class DOMGenerator {
 
         DOMGenerator.loadContinueButton(buttontext, functor);
     }
+
+    static generateStepQCMPage (contentpage, buttontext, functor, qcmArray, jokers) {
+        // qcmArray = [question2, [[id1, answer1], [id2, answer2}}, question2, {{id1, answer1}, {id2, answer2}} }
+        /* qcmArray = [
+                {
+                    id : '',
+                    question: 'hey',
+                    answers: [
+                        {
+                            id: 'lol',
+                            text: 'coucou mdr'
+                        },
+                        {
+                            id: 'lol2',
+                            text: 'coucou mdr2'
+                        }
+                    ]
+
+                }
+            ] *//*
+        qcmArray[indiceQuestion].question -> 'hey'
+        qcmArray[indiceQuestion].answers[indiceAnswer].id -> 'lol' ou 'lol2'
+        qcmArray[indiceQuestion].answers[indiceAnswer].text -> 'coucou mdr' ou 'coucou mdr2'
+         */
+        DOMGenerator.cleanMain(jokers);
+        const div = document.createElement('div');
+        div.className = 'presdiv';
+        const text = document.createElement('div');
+        text.className = 'prestext noselect';
+        text.innerHTML = contentpage;
+
+        div.appendChild(text);
+
+        // Adding all the questions and answers to the main 
+        for (let indexQuest = 0; indexQuest < qcmArray.length; indexQuest++) {
+            //  Scanning all the question and add them to a div
+
+            const questionForm = document.createElement('form');
+            questionForm.onsubmit = event.preventDefault();
+            questionForm.id = 'divQuest_' + qcmArray[indexQuest].id; // Necessary to know what to hide or not
+
+            const questionParagraph = document.createElement('p');
+            questionParagraph.innerHTML = qcmArray[indexQuest].question;
+            questionParagraph.id = 'parQuest_' + qcmArray[indexQuest].id;
+
+            questionForm.appendChild(questionParagraph);
+
+            for (let indexAns = 0; indexAns < qcmArray[indexQuest].answers.length; indexAns++) {
+                const ansRadio = document.createElement('input');
+                ansRadio.type = 'radio';
+                ansRadio.id = 'idAns_' + qcmArray[indexQuest].answers[indexAns].id;
+                ansRadio.innerHTML = qcmArray[indexQuest].answers[indexAns].text;
+                ansRadio.class = 'questClass_' + qcmArray[indexQuest].id;
+
+                // indicate the descName value for question about description
+                if (qcmArray[indexQuest].descName) {
+                    ansRadio.descName = qcmArray[indexQuest].descName;
+                    ansRadio.desValue = qcmArray[indexQuest].answers[indexAns].desValue;
+                }
+
+                questionForm.appendChild(ansRadio);
+            }
+
+            div.appendChild(questionForm);
+        }
+
+        DOMGenerator.getMain().appendChild(div);
+
+        DOMGenerator.loadContinueButton(buttontext, () => functor(this.form));
+    }
+
 
     static cleanMain (jokers) {
         var main = DOMGenerator.getMain();
