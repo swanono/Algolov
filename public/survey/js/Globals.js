@@ -66,7 +66,12 @@ function changeState () {
         else
             DOMGenerator.loadBloc();
     }else if (window.state = window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc+statesBeforeBloc){
-        DOMGenerator.loadQuestionnaire() 
+        //TODO : trouver comment recuperer tout le tableau des questions dans quest
+        const quest;
+        DOMGenerator.generateStepQCMPage('','Valider', ()=> changeState(),quest);
+        DOMGenerator.setDisabled(quest);
+        
+
     }else
         console.log('This state doesn\'t exist : ' + window.state);
 }
@@ -80,4 +85,20 @@ function shuffleArray (list) {
         list[j] = temp;
     }
     return list;
+}
+
+
+function SendJSON(){
+    const json = TraceStorage.GenerateJSON();
+    fetch('/api/survey', {
+        method: 'POST' ,
+        body: json
+    })  
+    .then(res => res.json())
+    .then(function (data) {
+        window.config = data;
+        
+    })
+    .catch(e => console.log(e));
+
 }

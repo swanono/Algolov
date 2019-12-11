@@ -51,4 +51,34 @@ class TraceStorage {
         TraceStorage.CleanStorage('errors');
         TraceStorage.CleanStorage('draggablecontainer');
     }
+
+    static GenerateJSON() 
+    {
+        let json='{ "userid":'+userid+', "window": { "x":'+ window.innerWidth+', "y":'+window.innerHeight+'}, "statements":[';
+		for(let key in randoms) 
+		{
+			json+=randoms[key];
+			if(key<randoms.length-1)
+				json+=',';
+		}
+		json+='], ';
+		// a revoir
+		/*if(state>3&&configuration.threestate)
+			json+=QTraceStorage.GenerateThreeState()+',';*/
+		if(state>5)
+			json+=QTraceStorage.GenerateQSortState()+',';
+		if(state>6)
+		{
+			json+='"postdata": [';
+			json+=QTraceStorage.GetJSONFromStore("interview");
+			if(state>10)
+				json+=","+QTraceStorage.GetJSONFromStore("exogen");
+			json+='], '
+		}
+		//ajout des trace
+		json+=QTraceStorage.GenerateTrace();
+		json+='}';
+        //console.log(json);
+        return json;
+    }
 }

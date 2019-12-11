@@ -238,4 +238,8 @@ class DOMGenerator {
             startButton.style.display = _displayButton;
         });
     }
+
+    static setDisabled(questionnaire){
+        
+    }
 }
