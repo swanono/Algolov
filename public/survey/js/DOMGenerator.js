@@ -192,10 +192,14 @@ class DOMGenerator {
                     question: 'hey',
                     answers: [
                         {
+                            descName: 'fgr' // if necessary
+                            descValue: 'ffrjgr' // if necessary
                             id: 'lol',
                             text: 'coucou mdr'
                         },
                         {
+                            descName: 'fgr' // if necessary
+                            descValue: 'ffrjgr' // if necessary
                             id: 'lol2',
                             text: 'coucou mdr2'
                         }
@@ -215,14 +219,15 @@ class DOMGenerator {
         text.innerHTML = contentpage;
 
         div.appendChild(text);
+        
+        const questionForm = document.createElement('form');
+        questionForm.onsubmit = event.preventDefault();
 
         // Adding all the questions and answers to the main 
         for (let indexQuest = 0; indexQuest < qcmArray.length; indexQuest++) {
             //  Scanning all the question and add them to a div
-
-            const questionForm = document.createElement('form');
-            questionForm.onsubmit = event.preventDefault();
-            questionForm.id = 'divQuest_' + qcmArray[indexQuest].id; // Necessary to know what to hide or not
+            // TODO: Verifier mon questionnement sur les div/form et autre blabla
+            // questionForm.id = 'divQuest_' + qcmArray[indexQuest].id; // Necessary to know what to hide or not
 
             const questionParagraph = document.createElement('p');
             questionParagraph.innerHTML = qcmArray[indexQuest].question;
@@ -245,16 +250,14 @@ class DOMGenerator {
 
                 questionForm.appendChild(ansRadio);
             }
-
-            div.appendChild(questionForm);
         }
 
+        div.appendChild(questionForm);
         DOMGenerator.getMain().appendChild(div);
 
         DOMGenerator.loadContinueButton(buttontext, () => functor(this.form));
     }
-
-
+    
     static cleanMain (jokers) {
         var main = DOMGenerator.getMain();
         if (jokers) {

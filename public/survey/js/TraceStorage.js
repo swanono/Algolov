@@ -35,7 +35,6 @@ class TraceStorage {
 
     static saveForm (form) {
         const formData = new FormData(form);
-
     }
 
     static CleanStorageFormTraces () {
