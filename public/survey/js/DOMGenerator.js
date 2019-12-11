@@ -169,7 +169,7 @@ class DOMGenerator {
     // TODO : appeler la fonction là où on test si il n'y a plus de carte dans le conteneur initial
     static loadContinueButton (text, functor) {
         const button = document.createElement('button');
-        button.setAttribute('id', 'continuebutton');
+        button.setAttribute('id', window.continueButtonId);
         button.appendChild(document.createTextNode(text));
         button.addEventListener('click', () => functor());
         DOMGenerator.getMain().appendChild(button);

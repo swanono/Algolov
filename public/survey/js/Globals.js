@@ -27,6 +27,8 @@ window.state = 0;
 window.config = {}; // Contains the config.json file
 window.features = null; // Contains all the features
 
+window.continueButtonId = 'continuebutton';
+
 function start () {
     // Start the questionnaire, to use at the first
 
@@ -38,7 +40,7 @@ function start () {
             loadFeatures();
             changeState();
         })
-        .catch(e => console.log(e));
+        .catch(e => console.error(e));
 }
 
 function loadFeatures () {
@@ -57,7 +59,7 @@ function changeState () {
 
     if (window.state === 1) {
         DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
-        DOMGenerator.addCheckBoxToSee('continuebutton', 'Acceptez-vous les conditions ci-dessus ? ');
+        DOMGenerator.addCheckBoxToSee(window.continueButtonId, 'Acceptez-vous les conditions ci-dessus ? ');
     } else if (window.state === 2)
         DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
     else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc) {
