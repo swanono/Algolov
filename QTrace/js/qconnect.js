@@ -528,6 +528,7 @@ class QTraceStorage
 		return json;
 	}
 
+	//creation du json a la fin !
     static GenerateJSON() 
     {
         let json='{ "userid":'+userid+', "window": { "x":'+ window.innerWidth+', "y":'+window.innerHeight+'}, "statements":[';
@@ -538,6 +539,7 @@ class QTraceStorage
 				json+=',';
 		}
 		json+='], ';
+		// a revoir
 		if(state>3&&configuration.threestate)
 			json+=QTraceStorage.GenerateThreeState()+',';
 		if(state>5)
@@ -550,6 +552,7 @@ class QTraceStorage
 				json+=","+QTraceStorage.GetJSONFromStore("exogen");
 			json+='], '
 		}
+		//ajout des trace
 		json+=QTraceStorage.GenerateTrace();
 		json+='}';
         //console.log(json);

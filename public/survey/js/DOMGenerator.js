@@ -54,7 +54,7 @@ class DOMGenerator {
 
         // creation of the div containing all this bloc
         const bloc = document.createElement('div');
-        bloc.setAttribute('id', 'bloc_' + newBlocConfig.blocId);
+        bloc.setAttribute('id', window.consts.BLOC_ID + newBlocConfig.blocId);
         bloc.setAttribute('blocType', newBlocConfig.type);
         bloc.setAttribute('class', 'bloc');
 
@@ -124,7 +124,7 @@ class DOMGenerator {
         const indexOffset = Math.floor(likertSize / 2);
         for (let i = -indexOffset; i < likertSize - indexOffset; i++) {
             const cellRank = ranksRow.insertCell();
-            DOMGenerator.loadContainer(cellRank, 'rank_container_' + i);
+            DOMGenerator.loadContainer(cellRank, window.consts.RANK_CONTAINER_ID + i);
         }
 
         // insertion of the initial container for the features
@@ -135,7 +135,7 @@ class DOMGenerator {
         bloc.appendChild(scale);
         DOMGenerator.getMain().appendChild(bloc);
     }
-	
+
     static loadContainer (parentNode, containerId) {
         // class nestable => is a container
         const container = document.createElement('div');
@@ -146,10 +146,11 @@ class DOMGenerator {
 
         parentNode.appendChild(container);
     }
-	
+
     static loadCards (features) {
         // class nested-item => is a card inside a container
-        features = Globals.shuffleArray(features);
+        // eslint-disable-next-line no-undef
+        features = shuffleArray(features);
 
         const initCont = document.getElementById('initial_container');
 
@@ -169,17 +170,17 @@ class DOMGenerator {
     // TODO : appeler la fonction là où on test si il n'y a plus de carte dans le conteneur initial
     static loadContinueButton (text, functor) {
         const button = document.createElement('button');
-        button.setAttribute('id', window.continueButtonId);
+        button.setAttribute('id', window.consts.CONTINUE_BUTTON_ID);
         button.appendChild(document.createTextNode(text));
         button.addEventListener('click', () => functor());
         DOMGenerator.getMain().appendChild(button);
     }
-    
+
     static generateStepPage (contentpage, buttontext, functor, jokers) {
         DOMGenerator.cleanMain(jokers);
-        var div = document.createElement('div');
+        const div = document.createElement('div');
         div.className = 'presdiv';
-        var text = document.createElement('div');
+        const text = document.createElement('div');
         text.className = 'prestext noselect';
         text.innerHTML = contentpage;
 
@@ -187,6 +188,82 @@ class DOMGenerator {
         DOMGenerator.getMain().appendChild(div);
 
         DOMGenerator.loadContinueButton(buttontext, functor);
+    }
+
+    static generateStepQCMPage (contentpage, buttontext, functor, qcmArray, jokers) {
+        // qcmArray = [question2, [[id1, answer1], [id2, answer2}}, question2, {{id1, answer1}, {id2, answer2}} }
+        /* qcmArray = [
+                {
+                    id : '',
+                    question: 'hey',
+                    answers: [
+                        {
+                            descName: 'fgr' // if necessary
+                            descValue: 'ffrjgr' // if necessary
+                            id: 'lol',
+                            text: 'coucou mdr'
+                        },
+                        {
+                            descName: 'fgr' // if necessary
+                            descValue: 'ffrjgr' // if necessary
+                            id: 'lol2',
+                            text: 'coucou mdr2'
+                        }
+                    ]
+
+                }
+            ] *//*
+        qcmArray[indiceQuestion].question -> 'hey'
+        qcmArray[indiceQuestion].answers[indiceAnswer].id -> 'lol' ou 'lol2'
+        qcmArray[indiceQuestion].answers[indiceAnswer].text -> 'coucou mdr' ou 'coucou mdr2'
+         */
+        DOMGenerator.cleanMain(jokers);
+        const div = document.createElement('div');
+        div.className = 'presdiv';
+        const text = document.createElement('div');
+        text.className = 'prestext noselect';
+        text.innerHTML = contentpage;
+
+        div.appendChild(text);
+
+        const questionForm = document.createElement('form');
+        questionForm.addEventListener('submit', (event) => event.preventDefault());
+
+        // Adding all the questions and answers to the main
+        for (let indexQuest = 0; indexQuest < qcmArray.length; indexQuest++) {
+            //  Scanning all the question and add them to a div
+            // TODO: Verifier mon questionnement sur les div/form et autre blabla
+            // questionForm.id = 'divQuest_' + qcmArray[indexQuest].id; // Necessary to know what to hide or not
+
+            const questionParagraph = document.createElement('p');
+            questionParagraph.innerHTML = qcmArray[indexQuest].question;
+            questionParagraph.id = window.consts.QUESTION_ID + qcmArray[indexQuest].id;
+
+            questionForm.appendChild(questionParagraph);
+
+            for (let indexAns = 0; indexAns < qcmArray[indexQuest].choices.length; indexAns++) {
+                const ansRadio = document.createElement('input');
+                ansRadio.type = 'radio';
+                ansRadio.id = window.consts.INPUT_ID + qcmArray[indexQuest].choices[indexAns].id;
+                ansRadio.innerHTML = qcmArray[indexQuest].choices[indexAns].text;
+                ansRadio.class = window.consts.INPUT_CLASS + qcmArray[indexQuest].id;
+
+                // indicate the descName value for question about description
+                if (qcmArray[indexQuest].descName) {
+                    ansRadio.descName = qcmArray[indexQuest].descName;
+                    ansRadio.desValue = qcmArray[indexQuest].choices[indexAns].desValue;
+                }
+
+                questionForm.appendChild(ansRadio);
+            }
+        }
+
+        div.appendChild(questionForm);
+        DOMGenerator.getMain().appendChild(div);
+
+        DOMGenerator.loadContinueButton(buttontext, () => functor(this.form));
+
+        DOMGenerator._setDisabled(qcmArray);
     }
 
     static cleanMain (jokers) {
@@ -229,7 +306,7 @@ class DOMGenerator {
         const startButton = document.getElementById(idItemTohide);
 
         const paragraph = document.createElement('div');
-        const acceptButton = document.createElement('INPUT');
+        const acceptButton = document.createElement('input');
         acceptButton.setAttribute('type', 'checkbox');
 
         paragraph.innerHTML = '<br/>' + checkboxText;
@@ -277,6 +354,30 @@ class DOMGenerator {
         return Math.round((remainingRanks / remainingCells) * adaptedIndex) -
             Math.round((remainingRanks / remainingCells) * (adaptedIndex - 1));
     }
-}
 
-export default DOMGenerator;
+    // TODO : verifier fonctionnement à partir de function(event)
+    static _setDisabled (questionnaire) {
+        questionnaire.forEach((question) => {
+            if (question.relatedQuestion) {
+                question.relatedQuestion.triggerChoices.forEach((choiceId) => {
+                    const input = document.getElementById(window.consts.INPUT_ID + choiceId);
+
+                    input.addEventListener('change', (event) => {
+                        const currentRadio = event.target;
+
+                        question.relatedQuestion.questionIds.forEach((questionId) => {
+                            const responses = document.getElementsByClassName(window.consts.INPUT_CLASS + questionId);
+
+                            responses.forEach((resp) => {
+                                if (currentRadio.checked)
+                                    resp.setAttribute('disabled', 'true');
+                                else
+                                    resp.removeAttribute('disabled');
+                            });
+                        });
+                    });
+                });
+            }
+        });
+    }
+}

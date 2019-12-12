@@ -29,26 +29,46 @@ class TraceStorage {
             sessionStorage.setItem(name, old + ',' + data);
     }
 
-    static CleanStorage (name) {
+    static cleanStorage (name) {
         sessionStorage.removeItem(name);
     }
 
-    static CleanStorageFormTraces () {
-        TraceStorage.CleanStorage('steps');
-        TraceStorage.CleanStorage('interview');
-        TraceStorage.CleanStorage('exogen');
-        TraceStorage.CleanStorage('focus');
-        TraceStorage.CleanStorage('change');
-        TraceStorage.CleanStorage('range');
-        TraceStorage.CleanStorage('keypress');
-        TraceStorage.CleanStorage('mousemove');
-        TraceStorage.CleanStorage('mouseclick');
-        TraceStorage.CleanStorage('scrolling');
-        TraceStorage.CleanStorage('zooming');
-        TraceStorage.CleanStorage('media');
-        TraceStorage.CleanStorage('drag');
-        TraceStorage.CleanStorage('drop');
-        TraceStorage.CleanStorage('errors');
-        TraceStorage.CleanStorage('draggablecontainer');
+    static saveForm (form) {
+        const formData = new FormData(form);
+    }
+
+    static cleanStorageFormTraces () {
+        window.consts.TRACE_NAMES.forEach((name) => {
+            TraceStorage.cleanStorage(name);
+        });
+    }
+
+    static GenerateJSON () {
+        let json = '{ "window": { "x": ' +
+            window.innerWidth + ', "y": ' +
+            window.innerHeight +
+            '}, "features": [';
+        window.features.forEach((feature, index) => {
+            json += '{ "id": ' + feature.id + ', "text": "' + feature.text + '" }';
+            if (index < window.features.length - 1)
+                json += ', ';
+        });
+        json += '], ';
+
+        json += '"beginQuestions": ';
+        // TODO : enregistrer dans le json les réponses aux questions de départ
+
+        json += '"rankingResult": ';
+        // TODO : enregistrer dans le json les réponses à chaque bloc
+
+        json += '"endQuestions": ';
+        // TODO : enregistrer dans le json les réponses au questionnaire de fin
+
+        json += '"traces": ';
+        // TODO : enregistrer dans le json les traces
+
+        json += ' }';
+
+        return json;
     }
 }
