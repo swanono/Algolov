@@ -19,6 +19,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 This module is used to declare the class handling the DOM changes during the survey
 */
 
+/* globals Globals */
+
 'use strict';
 
 class DOMGenerator {
@@ -52,14 +54,14 @@ class DOMGenerator {
 
         // creation of the div containing all this bloc
         const bloc = document.createElement('div');
-        bloc.setAttribute('id', 'bloc_' + newBlocConfig.blocId);
+        bloc.setAttribute('id', window.consts.BLOC_ID + newBlocConfig.blocId);
         bloc.setAttribute('blocType', newBlocConfig.type);
         bloc.setAttribute('class', 'bloc');
 
         DOMGenerator.getMain().appendChild(bloc);
 
         // creation of the scale table and the containers inside of the div of this bloc
-        DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.scaleEnds);
+        DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.legends);
 
         // getting the combinatory table to know wich feature to keep
         console.log('combinatoire = ');
@@ -77,7 +79,7 @@ class DOMGenerator {
             combin.forEach((comb) => {
                 console.log('comb = ');
                 console.log(comb);
-                const desc = feature.find(f => comb.descName === f.descName);
+                const desc = feature.combin.find(f => comb.descName === f.descName);
                 if (desc[comb.choice])
                     isInCombin = true;
             });
@@ -94,7 +96,7 @@ class DOMGenerator {
         DOMGenerator.loadCards(usedFeatures);
     }
 	
-    static loadScale (question, likertSize, scaleEnds) {
+    static loadScale (question, likertSize, legends) {
         const bloc = document.querySelector('.bloc');
         
         // creation of the table and its rows for organising the page
@@ -115,9 +117,13 @@ class DOMGenerator {
         headerCell.setAttribute('colspan', `${likertSize}`);
         
         // insertion of the scale indications in the following row
-        scaleEnds.forEach((scaleText) => {
+        legends.forEach((scaleText, i) => {
             const newCell = scaleTextRow.insertCell();
             newCell.appendChild(document.createTextNode(scaleText));
+            newCell.setAttribute('colspan', DOMGenerator._getColSpan(legends.length, i, likertSize));
+
+            if (((legends.length % 2 === 0 && likertSize % 2 === 1) || legends.length === 2) && i + 1 === legends.length / 2)
+                scaleTextRow.insertCell();
             // TODO : changer le style des cellules headers
         });
 
@@ -125,7 +131,7 @@ class DOMGenerator {
         const indexOffset = Math.floor(likertSize / 2);
         for (let i = -indexOffset; i < likertSize - indexOffset; i++) {
             const cellRank = ranksRow.insertCell();
-            DOMGenerator.loadContainer(cellRank, 'rank_container_' + i);
+            DOMGenerator.loadContainer(cellRank, window.consts.RANK_CONTAINER_ID + i);
         }
 
         // insertion of the initial container for the features
@@ -136,7 +142,7 @@ class DOMGenerator {
         bloc.appendChild(scale);
         DOMGenerator.getMain().appendChild(bloc);
     }
-	
+
     static loadContainer (parentNode, containerId) {
         // class nestable => is a container
         const container = document.createElement('div');
@@ -147,7 +153,7 @@ class DOMGenerator {
 
         parentNode.appendChild(container);
     }
-	
+
     static loadCards (features) {
         // class nested-item => is a card inside a container
         // eslint-disable-next-line no-undef
@@ -171,12 +177,12 @@ class DOMGenerator {
     // TODO : appeler la fonction là où on test si il n'y a plus de carte dans le conteneur initial
     static loadContinueButton (text, functor) {
         const button = document.createElement('button');
-        button.setAttribute('id', 'continuebutton');
+        button.setAttribute('id', window.consts.CONTINUE_BUTTON_ID);
         button.appendChild(document.createTextNode(text));
         button.addEventListener('click', () => functor());
         DOMGenerator.getMain().appendChild(button);
     }
-    
+
     static generateStepPage (contentpage, buttontext, functor, jokers) {
         DOMGenerator.cleanMain(jokers);
         const div = document.createElement('div');
@@ -233,17 +239,17 @@ class DOMGenerator {
         
         const sectionForm = document.createElement('section');
 
-        // Adding all the questions and answers to the main 
+        // Adding all the questions and answers to the main
         for (let indexQuest = 0; indexQuest < qcmArray.length; indexQuest++) {
             // Scanning all the question and add them to a div
             // TODO: Verifier mon questionnement sur les div/form et autre blabla
             const questionForm = document.createElement('form');
-            questionForm.onsubmit = event.preventDefault();
+            questionForm.addEventListener('submit', (event) => event.preventDefault());
             questionForm.id = 'formQuest_' + qcmArray[indexQuest].id; // Necessary to know what to hide or not
 
             const questionLegend = document.createElement('legend');
             questionLegend.innerHTML = qcmArray[indexQuest].question;
-            questionLegend.id = 'legendQuest_' + qcmArray[indexQuest].id;
+            questionLegend.id = window.consts.LEGEND_ID + qcmArray[indexQuest].id;
 
             questionForm.appendChild(questionLegend);
 
@@ -254,16 +260,17 @@ class DOMGenerator {
                 ansInput.type = qcmArray[indexQuest].answers[indexAns].type;
 
                 // Set id and name with the same string to get the input at the saving with FormData
-                ansInput.name = 'nameAns_' + qcmArray[indexQuest].id;
-                ansInput.id = 'idAns_' + qcmArray[indexQuest].answers[indexAns].id;
-                paragraphInput.id = 'idAns_' + qcmArray[indexQuest].answers[indexAns].id;
-                ansLabel.htmlFor = 'idAns_' + qcmArray[indexQuest].answers[indexAns].id;
+                ansInput.name = window.consts.INPUT_NAME + qcmArray[indexQuest].id;
+                ansInput.id = window.consts.INPUT_ID + qcmArray[indexQuest].answers[indexAns].id;
+                paragraphInput.id = window.consts.PARAGRAPH_QUEST_ID + qcmArray[indexQuest].answers[indexAns].id;
+                ansLabel.htmlFor = window.consts.INPUT_ID + qcmArray[indexQuest].answers[indexAns].id;
 
                 ansLabel.innerHTML = qcmArray[indexQuest].answers[indexAns].text;
 
-                ansInput.setAttribute('class', 'questClass_' + qcmArray[indexQuest].id);
-                ansLabel.setAttribute('class', 'questClass_' + qcmArray[indexQuest].id);
-                paragraphInput.setAttribute('class','questClass_' + qcmArray[indexQuest].id);
+                ansInput.setAttribute('class', window.consts.INPUT_CLASS + qcmArray[indexQuest].id);
+                ansLabel.setAttribute('class', window.consts.INPUT_CLASS + qcmArray[indexQuest].id);
+                paragraphInput.setAttribute('class', window.consts.QUESTION_CLASS + qcmArray[indexQuest].id);
+
                 console.log(qcmArray[indexQuest]);
                 // indicate the descName value for question about description
                 if (qcmArray[indexQuest].answers[indexAns].descName !== undefined) {
@@ -290,9 +297,12 @@ class DOMGenerator {
         DOMGenerator.getMain().appendChild(div);
         const forms = document.getElementsByTagName('form');
         console.log('descQuest = ' + descQuest);
+
         DOMGenerator.loadContinueButton(buttontext, () => functor1(forms, descQuest, functor2));
+
+        DOMGenerator._setDisabled(qcmArray);
     }
-    
+
     static cleanMain (jokers) {
         var main = DOMGenerator.getMain();
         if (jokers) {
@@ -333,7 +343,7 @@ class DOMGenerator {
         const startButton = document.getElementById(idItemTohide);
 
         const paragraph = document.createElement('div');
-        const acceptButton = document.createElement('INPUT');
+        const acceptButton = document.createElement('input');
         acceptButton.setAttribute('type', 'checkbox');
 
         paragraph.innerHTML = '<br/>' + checkboxText;
@@ -345,6 +355,66 @@ class DOMGenerator {
         acceptButton.addEventListener('change', function () {
             const _displayButton = this.checked ? 'inline-block' : 'none';
             startButton.style.display = _displayButton;
+        });
+    }
+
+    static _getColSpan (nbCells, indexCell, scaleSize) {
+        console.log(nbCells + ' ' + indexCell + ' ' + scaleSize);
+        const specialCase = (nbCells % 2 === 0 && scaleSize % 2 === 1);
+        if (nbCells > scaleSize)
+            return undefined;
+        if (nbCells === 2 || nbCells === 3) {
+            if (indexCell === 0 || indexCell === 2)
+                return 1;
+            else if (indexCell >= 3)
+                return undefined;
+            else
+                return scaleSize - 2;
+        } 
+        if (indexCell >= nbCells + (specialCase ? 1 : 0))
+            return undefined;
+        if (nbCells === scaleSize)
+            return 1;
+        if (nbCells === 1)
+            return scaleSize;
+        if (indexCell === 0)
+            return 1;
+        if (specialCase && (indexCell === Math.floor(nbCells / 2) || indexCell === nbCells))
+            return 1;
+        if (!specialCase && indexCell === nbCells - 1)
+            return 1;
+
+        const remainingRanks = scaleSize - 2 - (specialCase ? 1 : 0);
+        const remainingCells = nbCells - 2;
+        const adaptedIndex = indexCell - (indexCell > nbCells / 2 && specialCase ? 1 : 0);
+
+        return Math.round((remainingRanks / remainingCells) * adaptedIndex) -
+            Math.round((remainingRanks / remainingCells) * (adaptedIndex - 1));
+    }
+
+    // TODO : verifier fonctionnement à partir de function(event)
+    static _setDisabled (questionnaire) {
+        questionnaire.forEach((question) => {
+            if (question.relatedQuestion) {
+                question.relatedQuestion.triggerChoices.forEach((choiceId) => {
+                    const input = document.getElementById(window.consts.INPUT_ID + choiceId);
+
+                    input.addEventListener('change', (event) => {
+                        const currentRadio = event.target;
+
+                        question.relatedQuestion.questionIds.forEach((questionId) => {
+                            const responses = document.getElementsByClassName(window.consts.INPUT_CLASS + questionId);
+
+                            responses.forEach((resp) => {
+                                if (currentRadio.checked)
+                                    resp.setAttribute('disabled', 'true');
+                                else
+                                    resp.removeAttribute('disabled');
+                            });
+                        });
+                    });
+                });
+            }
         });
     }
 }

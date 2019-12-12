@@ -19,28 +19,28 @@
                 "type": "physique",
                 "question": "question 1",
                 "likertSize": 7,
-                "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
+                "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
                 "blocId": 2,
                 "type": "attitude",
                 "question": "question 2",
                 "likertSize": 7,
-                "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
+                "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
                 "blocId": 3,
                 "type": "physique",
                 "question": "question 3",
                 "likertSize": 7,
-                "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
+                "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
                 "blocId": 4,
                 "type": "attitude",
                 "question": "question 4",
                 "likertSize": 7,
-                "scaleEnds": ["pas apprécié du tout", "indifférent", "très apprécié"]
+                "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
             }
         ]
     },
@@ -503,10 +503,12 @@
                         "text": "non, je n'ai jamais utilisé d'applications de rencontres"
                     }
                 ],
-                "relatedQuestion": {
-                    "triggerChoices": [1, 2],
-                    "questionIds": [2, 3, 4]
-                }
+                "relatedQuestion": [
+                    {
+                        "triggerChoices": [3],
+                        "questionIds": [2, 3, 4]
+                    }
+                ]
             },
             {
                 "id": 4,
