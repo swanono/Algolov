@@ -31,8 +31,8 @@ window.consts = {
     INPUT_CLASS: 'classInput_',
     INPUT_ID: 'idInput_',
     LEGEND_ID: 'idLegend_',
-    INPUT_NAME: 'nameInput',
-    PARAGRAPH_QUEST_ID: 'idParQuest',
+    INPUT_NAME: 'nameInput_',
+    PARAGRAPH_QUEST_ID: 'idParQuest_',
     QUESTION_ID: 'idQuest_',
     QUESTION_CLASS: 'classQuest_',
     CONTINUE_BUTTON_ID: 'continueButton_',
@@ -102,7 +102,6 @@ function changeState () {
         const qcmArray = getQCMArray('begin');
         // console.log(qcmArray);
         DOMGenerator.generateStepQCMPage('contentpage', 'Continuer', TraceStorage.saveForm, changeState, qcmArray);
-
     } else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc) {
         // The blocs steps where the user can classify features
 

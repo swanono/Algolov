@@ -35,15 +35,25 @@ class TraceStorage {
 
     static saveForm (forms, descQuest, functor) {
         // TODO: FAIRE BOUCLE SUR LES FORM
-        const formdata = new FormData(forms[0]);
+        console.log('forms = ');
+        console.log(forms);
         const answersData = [];
-        const questionId = [];
+        for (var form of forms) {
+            console.log('form = ');
+            console.log(form);
+            const formdata = new FormData(form);
+            const questionId = [];
 
-        // Loop on input answered (take only the checked radio/checkbox and ignore the disabled input)
-        for (var pair of formdata.entries()) {
-            console.log(window.consts.INPUT_CLASS + pair[0].split('_')[1]);
-            console.log(document.getElementsByName(pair[0]));
-            for (var ansInput of document.getElementsByName(pair[0])) {
+            // Loop on input answered (take only the checked radio/checkbox and ignore the disabled input)
+            for (var pair of formdata.entries()) {
+                console.log('pair = ');
+                console.log(pair);
+
+                const idInput = pair[1].includes(window.consts.INPUT_ID) ? pair[1] : (window.consts.INPUT_ID + pair[0].split('_')[1]);
+                const ansInput = document.getElementById(idInput);
+                // To delete or not
+                // for (var ansInput of document.getElementsByName(pair[0])) {
+                console.log('ansInput = ');
                 console.log(ansInput);
                 // const ansInput = document.getElementById(pair[0]);
 
@@ -91,7 +101,7 @@ class TraceStorage {
                 }
             }
         }
-
+        console.log('answersData');
         console.log(answersData);
         if (descQuest)
             TraceStorage.appendToStorage('combinatoire', JSON.stringify(answersData));

@@ -73,12 +73,8 @@ class DOMGenerator {
         const usedFeatures = [];
         window.config.features.forEach((feature) => {
             // we search in the combinatory object if the current feature is compatible
-            console.log('feature = ');
-            console.log(feature);
             let isInCombin = false;
             combin.forEach((comb) => {
-                console.log('comb = ');
-                console.log(comb);
                 const desc = feature.combin.find(f => comb.descName === f.descName);
                 if (desc[comb.choice])
                     isInCombin = true;
@@ -260,7 +256,12 @@ class DOMGenerator {
                 ansInput.type = qcmArray[indexQuest].answers[indexAns].type;
 
                 // Set id and name with the same string to get the input at the saving with FormData
-                ansInput.name = window.consts.INPUT_NAME + qcmArray[indexQuest].id;
+                if (ansInput.type === 'radio') {
+                    ansInput.name = window.consts.INPUT_NAME + qcmArray[indexQuest].id;
+                    ansInput.value = window.consts.INPUT_ID + qcmArray[indexQuest].answers[indexAns].id;
+                } else 
+                    ansInput.name = window.consts.INPUT_NAME + qcmArray[indexQuest].answers[indexAns].id;
+
                 ansInput.id = window.consts.INPUT_ID + qcmArray[indexQuest].answers[indexAns].id;
                 paragraphInput.id = window.consts.PARAGRAPH_QUEST_ID + qcmArray[indexQuest].answers[indexAns].id;
                 ansLabel.htmlFor = window.consts.INPUT_ID + qcmArray[indexQuest].answers[indexAns].id;
