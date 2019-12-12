@@ -62,14 +62,21 @@ class DOMGenerator {
         DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.scaleEnds);
 
         // getting the combinatory table to know wich feature to keep
+        console.log('combinatoire = ');
+        console.log(sessionStorage.getItem('combinatoire'));
         const combin = JSON.parse(sessionStorage.getItem('combinatoire'));
+        // const combin = sessionStorage.getItem('combinatoire'); => voir lequel garder
 
         // getting all the features used for this bloc to initialize after
         const usedFeatures = [];
         window.config.features.forEach((feature) => {
             // we search in the combinatory object if the current feature is compatible
+            console.log('feature = ');
+            console.log(feature);
             let isInCombin = false;
             combin.forEach((comb) => {
+                console.log('comb = ');
+                console.log(comb);
                 const desc = feature.find(f => comb.descName === f.descName);
                 if (desc[comb.choice])
                     isInCombin = true;

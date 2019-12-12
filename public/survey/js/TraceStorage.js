@@ -34,6 +34,7 @@ class TraceStorage {
     }
 
     static saveForm (forms, descQuest, functor) {
+        // TODO: FAIRE BOUCLE SUR LES FORM
         const formdata = new FormData(forms[0]);
         const answersData = [];
         const questionId = [];
@@ -93,13 +94,14 @@ class TraceStorage {
 
         console.log(answersData);
         if (descQuest)
-            TraceStorage.appendToStorage('combinatoire', answersData);
+            TraceStorage.appendToStorage('combinatoire', JSON.stringify(answersData));
         else
             TraceStorage.appendToStorage('repQuest', answersData);
         functor();
     }
 
     static CleanStorageFormTraces () {
+        TraceStorage.CleanStorage('combinatoire'); // TODO: check si on laisse ça ici
         TraceStorage.CleanStorage('steps');
         TraceStorage.CleanStorage('interview');
         TraceStorage.CleanStorage('exogen');
