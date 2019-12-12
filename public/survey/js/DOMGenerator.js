@@ -184,7 +184,7 @@ class DOMGenerator {
         DOMGenerator.loadContinueButton(buttontext, functor);
     }
 
-    static generateStepQCMPage (contentpage, buttontext, functor, qcmArray, jokers) {
+    static generateStepQCMPage (contentpage, buttontext, functor1, functor2, qcmArray, jokers) {
         // qcmArray = [question2, [[id1, answer1], [id2, answer2}}, question2, {{id1, answer1}, {id2, answer2}} }
         /* qcmArray = [
                 {
@@ -196,12 +196,14 @@ class DOMGenerator {
                             descValue: 'ffrjgr' // if necessary
                             id: 'lol',
                             text: 'coucou mdr'
+                            type: 'radio'
                         },
                         {
                             descName: 'fgr' // if necessary
                             descValue: 'ffrjgr' // if necessary
                             id: 'lol2',
                             text: 'coucou mdr2'
+                            type: 'radio'
                         }
                     ]
 
@@ -212,6 +214,8 @@ class DOMGenerator {
         qcmArray[indiceQuestion].answers[indiceAnswer].text -> 'coucou mdr' ou 'coucou mdr2'
          */
         DOMGenerator.cleanMain(jokers);
+
+        let descQuest = false; // false if there is no description information in the question
         const div = document.createElement('div');
         div.className = 'presdiv';
         const text = document.createElement('div');
@@ -220,42 +224,66 @@ class DOMGenerator {
 
         div.appendChild(text);
         
-        const questionForm = document.createElement('form');
-        questionForm.onsubmit = event.preventDefault();
+        const sectionForm = document.createElement('section');
 
         // Adding all the questions and answers to the main 
         for (let indexQuest = 0; indexQuest < qcmArray.length; indexQuest++) {
-            //  Scanning all the question and add them to a div
+            // Scanning all the question and add them to a div
             // TODO: Verifier mon questionnement sur les div/form et autre blabla
-            // questionForm.id = 'divQuest_' + qcmArray[indexQuest].id; // Necessary to know what to hide or not
+            const questionForm = document.createElement('form');
+            questionForm.onsubmit = event.preventDefault();
+            questionForm.id = 'formQuest_' + qcmArray[indexQuest].id; // Necessary to know what to hide or not
 
-            const questionParagraph = document.createElement('p');
-            questionParagraph.innerHTML = qcmArray[indexQuest].question;
-            questionParagraph.id = 'parQuest_' + qcmArray[indexQuest].id;
+            const questionLegend = document.createElement('legend');
+            questionLegend.innerHTML = qcmArray[indexQuest].question;
+            questionLegend.id = 'legendQuest_' + qcmArray[indexQuest].id;
 
-            questionForm.appendChild(questionParagraph);
+            questionForm.appendChild(questionLegend);
 
             for (let indexAns = 0; indexAns < qcmArray[indexQuest].answers.length; indexAns++) {
-                const ansRadio = document.createElement('input');
-                ansRadio.type = 'radio';
-                ansRadio.id = 'idAns_' + qcmArray[indexQuest].answers[indexAns].id;
-                ansRadio.innerHTML = qcmArray[indexQuest].answers[indexAns].text;
-                ansRadio.class = 'questClass_' + qcmArray[indexQuest].id;
+                const paragraphInput = document.createElement('p');
+                const ansInput = document.createElement('input');
+                const ansLabel = document.createElement('label');
+                ansInput.type = qcmArray[indexQuest].answers[indexAns].type;
 
+                // Set id and name with the same string to get the input at the saving with FormData
+                ansInput.name = 'nameAns_' + qcmArray[indexQuest].id;
+                ansInput.id = 'idAns_' + qcmArray[indexQuest].answers[indexAns].id;
+                paragraphInput.id = 'idAns_' + qcmArray[indexQuest].answers[indexAns].id;
+                ansLabel.htmlFor = 'idAns_' + qcmArray[indexQuest].answers[indexAns].id;
+
+                ansLabel.innerHTML = qcmArray[indexQuest].answers[indexAns].text;
+
+                ansInput.setAttribute('class', 'questClass_' + qcmArray[indexQuest].id);
+                ansLabel.setAttribute('class', 'questClass_' + qcmArray[indexQuest].id);
+                paragraphInput.setAttribute('class','questClass_' + qcmArray[indexQuest].id);
+                console.log(qcmArray[indexQuest]);
                 // indicate the descName value for question about description
-                if (qcmArray[indexQuest].descName) {
-                    ansRadio.descName = qcmArray[indexQuest].descName;
-                    ansRadio.desValue = qcmArray[indexQuest].answers[indexAns].desValue;
+                if (qcmArray[indexQuest].answers[indexAns].descName !== undefined) {
+                    descQuest = true;
+                    ansInput.setAttribute('descName', qcmArray[indexQuest].answers[indexAns].descName);
+                    ansInput.setAttribute('descValue', qcmArray[indexQuest].answers[indexAns].descValue);
                 }
 
-                questionForm.appendChild(ansRadio);
+                // Sorting the order between label and input in link to the type of input
+                if (ansInput.type === 'checkbox' || ansInput.type === 'radio') {
+                    paragraphInput.appendChild(ansInput);
+                    paragraphInput.appendChild(ansLabel);
+                } else {
+                    paragraphInput.appendChild(ansLabel);
+                    paragraphInput.appendChild(ansInput);
+                }
+
+                questionForm.appendChild(paragraphInput);
             }
+            sectionForm.appendChild(questionForm);
         }
 
-        div.appendChild(questionForm);
+        div.appendChild(sectionForm);
         DOMGenerator.getMain().appendChild(div);
-
-        DOMGenerator.loadContinueButton(buttontext, () => functor(this.form));
+        const forms = document.getElementsByTagName('form');
+        console.log('descQuest = ' + descQuest);
+        DOMGenerator.loadContinueButton(buttontext, () => functor1(forms, descQuest, functor2));
     }
     
     static cleanMain (jokers) {

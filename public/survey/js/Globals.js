@@ -57,28 +57,14 @@ function changeState () {
 
     if (window.state === 1) {
         DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
-        DOMGenerator.addCheckBoxToSee('button', 'Acceptez-vous les conditions ci-dessus ? ');
+        DOMGenerator.addCheckBoxToSee('continuebutton', 'Acceptez-vous les conditions ci-dessus ? ');
     } else if (window.state === 2)
         DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
     else if (window.state === 3) {
-        // TODO : ajouter les vraies questions
-        var qcmArray = [
-            {
-                id: window.confi,
-                question: 'hey',
-                answers: [
-                    {
-                        id: 'lol',
-                        text: 'coucou mdr'
-                    },
-                    {
-                        id: 'lol2',
-                        text: 'coucou mdr2'
-                    }
-                ]
+        const qcmArray = getQCMArray('begin');
+        // console.log(qcmArray);
+        DOMGenerator.generateStepQCMPage('contentpage', 'buttontext', TraceStorage.saveForm, changeState, qcmArray);
 
-            }
-        ];
     } else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc) {
         if ((window.state - statesBeforeBloc - 1) % window.config.surveyConfiguration.nbBlocPerDesc === 0)
             DOMGenerator.loadDescription();
@@ -97,4 +83,42 @@ function shuffleArray (list) {
         list[j] = temp;
     }
     return list;
+}
+
+function getQCMArray (questionOrder) {
+    let originalQCM = [];
+    // Select the QCM
+    if (questionOrder === 'begin')
+        originalQCM = window.config.QCM.begin;
+    else
+        originalQCM = window.config.QCM.end;
+
+    // Setting the questions to the adequate format
+    const questions = [];
+    for (var question of originalQCM) {
+        const answers = [];
+        for (var answer of question.choices) {
+            answers.push({
+                id: answer.choiceId,
+                text: answer.text,
+                type: question.type
+            });
+            // Adding the description part to the answer if necessary
+            if (question.descName !== undefined) {
+                Object.assign(answers[answers.length - 1],
+                    {
+                        descName: question.descName,
+                        descValue: answer.descValue
+                    }
+                );
+            }
+        }
+        questions.push({
+            id: question.id,
+            question: question.question,
+            answers: answers
+        });
+    }
+
+    return questions;
 }

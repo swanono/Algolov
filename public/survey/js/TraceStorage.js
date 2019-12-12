@@ -33,8 +33,70 @@ class TraceStorage {
         sessionStorage.removeItem(name);
     }
 
-    static saveForm (form) {
-        const formData = new FormData(form);
+    static saveForm (forms, descQuest, functor) {
+        const formdata = new FormData(forms[0]);
+        const answersData = [];
+        const questionId = [];
+
+        // Loop on input answered (take only the checked radio/checkbox and ignore the disabled input)
+        for (var pair of formdata.entries()) {
+            console.log('questClass_' + pair[0].split('_')[1]);
+            console.log(document.getElementsByName(pair[0]));
+            for (var ansInput of document.getElementsByName(pair[0])) {
+                console.log(ansInput);
+                // const ansInput = document.getElementById(pair[0]);
+
+                if (descQuest) {
+                    // If there is description information in the question
+                    const ans = {
+                        descName: ansInput.getAttribute('descName'),
+                        choice: ansInput.getAttribute('descValue')
+                    };
+                    answersData.push(ans);
+                } else {
+                    // If the question is not about description
+                    const idQuestInput = ansInput.getAttribute('class').split('_')[1];
+                    const idAnsInput = ansInput.getAttribute('id').split('_')[1];
+                    console.log('idAnsInput = ' + idAnsInput + ', idQuestInput = ' + idQuestInput + ', begin.lenght = ' + window.config.QCM.begin.length);
+                    const indexConfigQuest = idQuestInput - window.config.QCM.begin.length;
+
+                    if (answersData.indexOf(idQuestInput) !== -1) {
+                        // This question is not already saved
+                        // Save the question id to remind it position
+                        answersData.push(idQuestInput);
+
+                        // Construction of the new question and answers object to save
+                        const questionAnswered = {
+                            idQuest: idQuestInput,
+                            textQuest: window.config.end[indexConfigQuest].question,
+                            answers: [{
+                                idAns: idAnsInput,
+                                textAns: window.config.QCM.end[indexConfigQuest].choices[idAnsInput - 1].text
+                            }]
+                        };
+
+                        // Save the answer in the list of answers for the page
+                        answersData.push(questionAnswered);
+                    } else {
+                        // This question is not already saved
+                        const ans = {
+                            idAns: idAnsInput,
+                            textAns: window.config.QCM.end[indexConfigQuest].choices[idAnsInput - 1].text
+                        };
+
+                        // Add this answer to the question it answered
+                        answersData[answersData.indexOf(idQuestInput)].answers.push(ans);
+                    }
+                }
+            }
+        }
+
+        console.log(answersData);
+        if (descQuest)
+            TraceStorage.appendToStorage('combinatoire', answersData);
+        else
+            TraceStorage.appendToStorage('repQuest', answersData);
+        functor();
     }
 
     static CleanStorageFormTraces () {
