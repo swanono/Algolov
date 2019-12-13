@@ -314,7 +314,7 @@ class DOMGenerator {
         });
     }
 
-    // TODO : verifier fonctionnement à partir de function(event)
+   
     static _setDisabled (questionnaire) {
         questionnaire.forEach((question) => {
             if (question.relatedQuestion) {
