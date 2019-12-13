@@ -65,6 +65,8 @@ class DOMGenerator {
 
         // getting the combinatory table to know wich feature to keep
         const combin = JSON.parse(sessionStorage.getItem('combinatoire'));
+        console.log('combinatoire = ');
+        console.log(combin);
 
         // getting all the features used for this bloc to initialize after
         const usedFeatures = [];
@@ -73,8 +75,13 @@ class DOMGenerator {
             let isInCombin = false;
             combin.forEach((comb) => {
                 const desc = feature.combin.find(f => comb.descName === f.descName);
-                if (desc[comb.choice])
+                if (desc[comb.choice]) {
+                    console.log('feature :');
+                    console.log(feature);
+                    console.log('choice : ' + comb.choice);
+                    console.log('desc : ' + desc[comb.choice]);
                     isInCombin = true;
+                }
             });
 
             // if the feature is of the same type of the current bloc and is compatible with the combinatory choices, we add it
@@ -190,7 +197,94 @@ class DOMGenerator {
         DOMGenerator.loadContinueButton(buttontext, functor);
     }
 
-    static generateStepQCMPage (contentpage, buttontext, functor, qcmArray, jokers) {
+    static generateStepQCMPage (contentpage, buttontext, functor1, functor2, qcmArray, jokers) {
+        DOMGenerator.cleanMain(jokers);
+
+        const descQuest = qcmArray[0].descName !== undefined; // false if there is no description information in the question
+        const div = document.createElement('div');
+        div.className = 'presdiv';
+        const text = document.createElement('div');
+        text.className = 'prestext noselect';
+        text.innerHTML = contentpage;
+
+        div.appendChild(text);
+
+        const main = DOMGenerator.getMain();
+        main.appendChild(div);
+
+        const form = document.createElement('form');
+
+        qcmArray.forEach((question) => {
+            const fieldset = document.createElement('fieldset');
+            fieldset.setAttribute('id', window.consts.QUESTION_ID + question.id);
+
+            const legend = document.createElement('p');
+            legend.appendChild(document.createTextNode(question.question));
+            fieldset.appendChild(legend);
+
+            switch (question.type) {
+            case 'text':
+                fieldset.appendChild(DOMGenerator._createTextInput(question));
+                break;
+            case 'radio':
+            case 'checkbox':
+                DOMGenerator._createCheckableInputs(question).forEach((tag) => fieldset.appendChild(tag));
+                break;
+            default:
+                console.error('Unhandled input type required by config : ' + question.type);
+                break;
+            }
+
+            form.appendChild(fieldset);
+        });
+
+        div.appendChild(form);
+        
+        DOMGenerator.loadContinueButton(buttontext, () => functor1(form, descQuest, functor2));
+
+        DOMGenerator._setDisabled(qcmArray);
+    }
+
+    static _createTextInput (question) {
+        const textInput = document.createElement('input');
+
+        textInput.setAttribute('type', question.type);
+        textInput.setAttribute('id', window.consts.INPUT_ID + question.id + '_1');
+        textInput.setAttribute('class', window.consts.INPUT_CLASS + question.id);
+        textInput.setAttribute('name', textInput.getAttribute('class'));
+
+        return textInput;
+    }
+
+    static _createCheckableInputs (question) {
+        const htmlTags = [];
+
+        question.choices.forEach((choice) => {
+            const input = document.createElement('input');
+            input.setAttribute('type', question.type);
+            input.setAttribute('id', window.consts.INPUT_ID + question.id + '_' + choice.choiceId);
+            input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
+            input.setAttribute('value', input.getAttribute('id'));
+            input.setAttribute('name', input.getAttribute('class'));
+
+            if (question.descName) {
+                input.setAttribute('descName', question.descName);
+                input.setAttribute('descValue', choice.descValue);
+            }
+
+            htmlTags.push(input);
+
+            const label = document.createElement('label');
+            label.setAttribute('for', input.getAttribute('value'));
+            label.appendChild(document.createTextNode(choice.text));
+
+            htmlTags.push(label);
+        });
+
+        return htmlTags;
+    }
+
+    static _generateStepQCMPage (contentpage, buttontext, functor1, functor2, qcmArray, jokers) {
         // qcmArray = [question2, [[id1, answer1], [id2, answer2}}, question2, {{id1, answer1}, {id2, answer2}} }
         /* qcmArray = [
                 {
@@ -202,12 +296,14 @@ class DOMGenerator {
                             descValue: 'ffrjgr' // if necessary
                             id: 'lol',
                             text: 'coucou mdr'
+                            type: 'radio'
                         },
                         {
                             descName: 'fgr' // if necessary
                             descValue: 'ffrjgr' // if necessary
                             id: 'lol2',
                             text: 'coucou mdr2'
+                            type: 'radio'
                         }
                     ]
 
@@ -218,6 +314,8 @@ class DOMGenerator {
         qcmArray[indiceQuestion].answers[indiceAnswer].text -> 'coucou mdr' ou 'coucou mdr2'
          */
         DOMGenerator.cleanMain(jokers);
+
+        let descQuest = false; // false if there is no description information in the question
         const div = document.createElement('div');
         div.className = 'presdiv';
         const text = document.createElement('div');
@@ -225,43 +323,72 @@ class DOMGenerator {
         text.innerHTML = contentpage;
 
         div.appendChild(text);
-
-        const questionForm = document.createElement('form');
-        questionForm.addEventListener('submit', (event) => event.preventDefault());
+        
+        const sectionForm = document.createElement('section');
 
         // Adding all the questions and answers to the main
         for (let indexQuest = 0; indexQuest < qcmArray.length; indexQuest++) {
-            //  Scanning all the question and add them to a div
+            // Scanning all the question and add them to a div
             // TODO: Verifier mon questionnement sur les div/form et autre blabla
-            // questionForm.id = 'divQuest_' + qcmArray[indexQuest].id; // Necessary to know what to hide or not
+            const questionForm = document.createElement('form');
+            questionForm.addEventListener('submit', (event) => event.preventDefault());
+            questionForm.id = 'formQuest_' + qcmArray[indexQuest].id; // Necessary to know what to hide or not
 
-            const questionParagraph = document.createElement('p');
-            questionParagraph.innerHTML = qcmArray[indexQuest].question;
-            questionParagraph.id = window.consts.QUESTION_ID + qcmArray[indexQuest].id;
+            const questionLegend = document.createElement('legend');
+            questionLegend.innerHTML = qcmArray[indexQuest].question;
+            questionLegend.id = window.consts.LEGEND_ID + qcmArray[indexQuest].id;
 
-            questionForm.appendChild(questionParagraph);
+            questionForm.appendChild(questionLegend);
 
-            for (let indexAns = 0; indexAns < qcmArray[indexQuest].choices.length; indexAns++) {
-                const ansRadio = document.createElement('input');
-                ansRadio.type = 'radio';
-                ansRadio.id = window.consts.INPUT_ID + qcmArray[indexQuest].choices[indexAns].id;
-                ansRadio.innerHTML = qcmArray[indexQuest].choices[indexAns].text;
-                ansRadio.class = window.consts.INPUT_CLASS + qcmArray[indexQuest].id;
+            for (let indexAns = 0; indexAns < qcmArray[indexQuest].answers.length; indexAns++) {
+                const paragraphInput = document.createElement('p');
+                const ansInput = document.createElement('input');
+                const ansLabel = document.createElement('label');
+                ansInput.type = qcmArray[indexQuest].answers[indexAns].type;
 
+                // Set id and name with the same string to get the input at the saving with FormData
+                if (ansInput.type === 'radio') {
+                    ansInput.name = window.consts.INPUT_NAME + qcmArray[indexQuest].id;
+                    ansInput.value = window.consts.INPUT_ID + qcmArray[indexQuest].answers[indexAns].id;
+                } else 
+                    ansInput.name = window.consts.INPUT_NAME + qcmArray[indexQuest].answers[indexAns].id;
+
+                ansInput.id = window.consts.INPUT_ID + qcmArray[indexQuest].answers[indexAns].id;
+                paragraphInput.id = window.consts.PARAGRAPH_QUEST_ID + qcmArray[indexQuest].answers[indexAns].id;
+                ansLabel.htmlFor = window.consts.INPUT_ID + qcmArray[indexQuest].answers[indexAns].id;
+
+                ansLabel.innerHTML = qcmArray[indexQuest].answers[indexAns].text;
+
+                ansInput.setAttribute('class', window.consts.INPUT_CLASS + qcmArray[indexQuest].id);
+                ansLabel.setAttribute('class', window.consts.INPUT_CLASS + qcmArray[indexQuest].id);
+                paragraphInput.setAttribute('class', window.consts.QUESTION_CLASS + qcmArray[indexQuest].id);
+
+                console.log(qcmArray[indexQuest]);
                 // indicate the descName value for question about description
-                if (qcmArray[indexQuest].descName) {
-                    ansRadio.descName = qcmArray[indexQuest].descName;
-                    ansRadio.desValue = qcmArray[indexQuest].choices[indexAns].desValue;
+                if (qcmArray[indexQuest].answers[indexAns].descName !== undefined) {
+                    descQuest = true;
+                    ansInput.setAttribute('descName', qcmArray[indexQuest].answers[indexAns].descName);
+                    ansInput.setAttribute('descValue', qcmArray[indexQuest].answers[indexAns].descValue);
                 }
 
-                questionForm.appendChild(ansRadio);
+                // Sorting the order between label and input in link to the type of input
+                if (ansInput.type === 'checkbox' || ansInput.type === 'radio') {
+                    paragraphInput.appendChild(ansInput);
+                    paragraphInput.appendChild(ansLabel);
+                } else {
+                    paragraphInput.appendChild(ansLabel);
+                    paragraphInput.appendChild(ansInput);
+                }
+
+                questionForm.appendChild(paragraphInput);
             }
+            sectionForm.appendChild(questionForm);
         }
 
-        div.appendChild(questionForm);
+        div.appendChild(sectionForm);
         DOMGenerator.getMain().appendChild(div);
-
-        DOMGenerator.loadContinueButton(buttontext, () => functor(this.form));
+        const forms = document.getElementsByTagName('form');
+        console.log('descQuest = ' + descQuest);
 
         DOMGenerator._setDisabled(qcmArray);
     }
@@ -322,7 +449,6 @@ class DOMGenerator {
     }
 
     static _getColSpan (nbCells, indexCell, scaleSize) {
-        console.log(nbCells + ' ' + indexCell + ' ' + scaleSize);
         const specialCase = (nbCells % 2 === 0 && scaleSize % 2 === 1);
         if (nbCells > scaleSize)
             return undefined;
@@ -360,7 +486,7 @@ class DOMGenerator {
         questionnaire.forEach((question) => {
             if (question.relatedQuestion) {
                 question.relatedQuestion.triggerChoices.forEach((choiceId) => {
-                    const input = document.getElementById(window.consts.INPUT_ID + choiceId);
+                    const input = document.getElementById(window.consts.INPUT_ID + question.id + '_' + choiceId);
 
                     input.addEventListener('change', (event) => {
                         const currentRadio = event.target;

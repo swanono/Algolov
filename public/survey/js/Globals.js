@@ -30,8 +30,12 @@ window.ranking = []; // Contains all the blocs with the ranking of the features 
 window.consts = {
     INPUT_CLASS: 'classInput_',
     INPUT_ID: 'idInput_',
+    LEGEND_ID: 'idLegend_',
+    INPUT_NAME: 'nameInput_',
+    PARAGRAPH_QUEST_ID: 'idParQuest_',
     QUESTION_ID: 'idQuest_',
-    CONTINUE_BUTTON_ID: 'continueButton_',
+    QUESTION_CLASS: 'classQuest_',
+    CONTINUE_BUTTON_ID: 'continuebutton',
     RANK_CONTAINER_ID: 'rankContainer_',
     BLOC_ID: 'bloc_',
     TRACE_NAMES: [
@@ -71,6 +75,8 @@ function start () {
 }
 
 function loadFeatures () {
+    TraceStorage.cleanStorage('combinatoire');
+    TraceStorage.cleanStorage('ansQuest');
     TraceStorage.cleanStorageFormTraces();
 
     if (window.config.features)
@@ -93,9 +99,9 @@ function changeState () {
         // The second step of the survey : Explaining how the survey works
         DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
     else if (window.state === 3) {
-        // TODO : ajouter les vraies questions
-        const qcmArray = window.config.QCM.begin;
-        DOMGenerator.generateStepQCMPage('', 'Continuer', () => changeState(), qcmArray);
+        const qcmArray = window.config.QCM.begin;// getQCMArray('begin');
+        // console.log(qcmArray);
+        DOMGenerator.generateStepQCMPage('Questions préliminaires', 'Continuer', TraceStorage.saveForm, changeState, qcmArray);
     } else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc) {
         // The blocs steps where the user can classify features
 
@@ -107,7 +113,7 @@ function changeState () {
         // The last state for some questions and sending the datas to the server
 
         const quest = window.config.QCM.end;
-        DOMGenerator.generateStepQCMPage('', 'Valider', () => sendJSON(), quest);
+        DOMGenerator.generateStepQCMPage('', 'Valider', TraceStorage.saveForm, () => sendJSON(), quest);
     } else
         console.error("This state doesn't exist : " + window.state);
 }
@@ -121,6 +127,44 @@ function shuffleArray (list) {
         list[j] = temp;
     }
     return list;
+}
+
+function getQCMArray (questionOrder) {
+    let originalQCM = [];
+    // Select the QCM
+    if (questionOrder === 'begin')
+        originalQCM = window.config.QCM.begin;
+    else
+        originalQCM = window.config.QCM.end;
+
+    // Setting the questions to the adequate format
+    const questions = [];
+    for (var question of originalQCM) {
+        const answers = [];
+        for (var answer of question.choices) {
+            answers.push({
+                id: answer.choiceId,
+                text: answer.text,
+                type: question.type
+            });
+            // Adding the description part to the answer if necessary
+            if (question.descName !== undefined) {
+                Object.assign(answers[answers.length - 1],
+                    {
+                        descName: question.descName,
+                        descValue: answer.descValue
+                    }
+                );
+            }
+        }
+        questions.push({
+            id: question.id,
+            question: question.question,
+            answers: answers
+        });
+    }
+
+    return questions;
 }
 
 async function sendJSON () {
