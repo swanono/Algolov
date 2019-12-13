@@ -18,8 +18,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 This module is used to declare global variables and functions
 */
 
-/* global TraceStorage */
-/* global DOMGenerator */
+/* globals DOMGenerator */
+/* globals TraceStorage */
 
 'use strict';
 
@@ -54,6 +54,8 @@ window.consts = {
     ]
 };
 
+window.continueButtonId = 'continuebutton';
+
 function start () {
     // Start the questionnaire, to use at the first
 
@@ -65,7 +67,7 @@ function start () {
             loadFeatures();
             changeState();
         })
-        .catch(e => console.log(e));
+        .catch(e => console.error(e));
 }
 
 function loadFeatures () {

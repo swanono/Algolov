@@ -1,3 +1,4 @@
+/* eslint-disable no-trailing-spaces */
 /* eslint-disable no-unused-vars */
 /*
 -------------------------------------------------------------------------------------------------
@@ -17,6 +18,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
 This module is used to declare the class handling the DOM changes during the survey
 */
+
+/* globals Globals */
 
 'use strict';
 
@@ -58,7 +61,7 @@ class DOMGenerator {
         DOMGenerator.getMain().appendChild(bloc);
 
         // creation of the scale table and the containers inside of the div of this bloc
-        DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.scaleEnds);
+        DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.legends);
 
         // getting the combinatory table to know wich feature to keep
         const combin = JSON.parse(sessionStorage.getItem('combinatoire'));
@@ -69,7 +72,7 @@ class DOMGenerator {
             // we search in the combinatory object if the current feature is compatible
             let isInCombin = false;
             combin.forEach((comb) => {
-                const desc = feature.find(f => comb.descName === f.descName);
+                const desc = feature.combin.find(f => comb.descName === f.descName);
                 if (desc[comb.choice])
                     isInCombin = true;
             });
@@ -85,10 +88,10 @@ class DOMGenerator {
 
         DOMGenerator.loadCards(usedFeatures);
     }
-
-    static loadScale (question, likertSize, scaleEnds) {
+	
+    static loadScale (question, likertSize, legends) {
         const bloc = document.querySelector('.bloc');
-
+        
         // creation of the table and its rows for organising the page
         const scale = document.createElement('table');
         scale.setAttribute('id', 'scale_tab');
@@ -105,11 +108,15 @@ class DOMGenerator {
         const headerCell = headerRow.insertCell();
         headerCell.appendChild(document.createTextNode(question));
         headerCell.setAttribute('colspan', `${likertSize}`);
-
+        
         // insertion of the scale indications in the following row
-        scaleEnds.forEach((scaleText) => {
+        legends.forEach((scaleText, i) => {
             const newCell = scaleTextRow.insertCell();
             newCell.appendChild(document.createTextNode(scaleText));
+            newCell.setAttribute('colspan', DOMGenerator._getColSpan(legends.length, i, likertSize));
+
+            if (((legends.length % 2 === 0 && likertSize % 2 === 1) || legends.length === 2) && i + 1 === legends.length / 2)
+                scaleTextRow.insertCell();
             // TODO : changer le style des cellules headers
         });
 
@@ -274,20 +281,20 @@ class DOMGenerator {
                 if (!found) {
                     main.removeChild(main.childNodes[iterator]);
                     iterator--;
-                } else
+                } else 
                     main.childNodes[iterator].style.display = 'none';
             }
         } else {
-            while (main.firstChild)
+            while (main.firstChild) 
                 main.removeChild(main.firstChild);
         }
     }
 
     static getMain () {
         var main = document.getElementById('main');
-        if (main != null)
+        if (main != null) 
             return main;
-
+        
         main = document.createElement('div');
         main.id = 'main';
         document.body.appendChild(main);
@@ -314,7 +321,41 @@ class DOMGenerator {
         });
     }
 
-   
+    static _getColSpan (nbCells, indexCell, scaleSize) {
+        console.log(nbCells + ' ' + indexCell + ' ' + scaleSize);
+        const specialCase = (nbCells % 2 === 0 && scaleSize % 2 === 1);
+        if (nbCells > scaleSize)
+            return undefined;
+        if (nbCells === 2 || nbCells === 3) {
+            if (indexCell === 0 || indexCell === 2)
+                return 1;
+            else if (indexCell >= 3)
+                return undefined;
+            else
+                return scaleSize - 2;
+        } 
+        if (indexCell >= nbCells + (specialCase ? 1 : 0))
+            return undefined;
+        if (nbCells === scaleSize)
+            return 1;
+        if (nbCells === 1)
+            return scaleSize;
+        if (indexCell === 0)
+            return 1;
+        if (specialCase && (indexCell === Math.floor(nbCells / 2) || indexCell === nbCells))
+            return 1;
+        if (!specialCase && indexCell === nbCells - 1)
+            return 1;
+
+        const remainingRanks = scaleSize - 2 - (specialCase ? 1 : 0);
+        const remainingCells = nbCells - 2;
+        const adaptedIndex = indexCell - (indexCell > nbCells / 2 && specialCase ? 1 : 0);
+
+        return Math.round((remainingRanks / remainingCells) * adaptedIndex) -
+            Math.round((remainingRanks / remainingCells) * (adaptedIndex - 1));
+    }
+
+    // TODO : verifier fonctionnement à partir de function(event)
     static _setDisabled (questionnaire) {
         questionnaire.forEach((question) => {
             if (question.relatedQuestion) {
