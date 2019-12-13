@@ -52,6 +52,8 @@ class TraceStorage {
                     questionText: input.parentElement.firstChild.textContent
                 });
             }
+            console.log('response :');
+            console.log(responses);
         } else {
             // TODO : prendre en compte le fait que pair[1] puisse être égal à du texte
         }

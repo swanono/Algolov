@@ -64,10 +64,9 @@ class DOMGenerator {
         DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.legends);
 
         // getting the combinatory table to know wich feature to keep
-        console.log('combinatoire = ');
-        console.log(sessionStorage.getItem('combinatoire'));
         const combin = JSON.parse(sessionStorage.getItem('combinatoire'));
-        // const combin = sessionStorage.getItem('combinatoire'); => voir lequel garder
+        console.log('combinatoire = ');
+        console.log(combin);
 
         // getting all the features used for this bloc to initialize after
         const usedFeatures = [];
@@ -76,8 +75,13 @@ class DOMGenerator {
             let isInCombin = false;
             combin.forEach((comb) => {
                 const desc = feature.combin.find(f => comb.descName === f.descName);
-                if (desc[comb.choice])
+                if (desc[comb.choice]) {
+                    console.log('feature :');
+                    console.log(feature);
+                    console.log('choice : ' + comb.choice);
+                    console.log('desc : ' + desc[comb.choice]);
                     isInCombin = true;
+                }
             });
 
             // if the feature is of the same type of the current bloc and is compatible with the combinatory choices, we add it
@@ -214,7 +218,7 @@ class DOMGenerator {
             const fieldset = document.createElement('fieldset');
             fieldset.setAttribute('id', window.consts.QUESTION_ID + question.id);
 
-            const legend = document.createElement('legend');
+            const legend = document.createElement('p');
             legend.appendChild(document.createTextNode(question.question));
             fieldset.appendChild(legend);
 
@@ -234,7 +238,7 @@ class DOMGenerator {
             form.appendChild(fieldset);
         });
 
-        main.appendChild(form);
+        div.appendChild(form);
         
         DOMGenerator.loadContinueButton(buttontext, () => functor1(form, descQuest, functor2));
 
@@ -445,7 +449,6 @@ class DOMGenerator {
     }
 
     static _getColSpan (nbCells, indexCell, scaleSize) {
-        console.log(nbCells + ' ' + indexCell + ' ' + scaleSize);
         const specialCase = (nbCells % 2 === 0 && scaleSize % 2 === 1);
         if (nbCells > scaleSize)
             return undefined;
