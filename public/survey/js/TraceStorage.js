@@ -33,7 +33,34 @@ class TraceStorage {
         sessionStorage.removeItem(name);
     }
 
-    static saveForm (forms, descQuest, functor) {
+    static saveForm (form, descQuest, functor) {
+        const formData = new FormData(form);
+
+        const responses = [];
+
+        if (descQuest) {
+            for (const pair of formData.entries()) {
+                const input = document.getElementById(pair[1]);
+                const questionId = input.getAttribute('id').split('_')[1];
+                const choiceId = input.getAttribute('id').split('_')[2];
+
+                responses.push({
+                    descName: input.getAttribute('descName'),
+                    choice: input.getAttribute('descValue'),
+                    idQuestion: questionId,
+                    idChoice: choiceId,
+                    questionText: input.parentElement.firstChild.textContent
+                });
+            }
+        } else {
+            // TODO : prendre en compte le fait que pair[1] puisse être égal à du texte
+        }
+
+        TraceStorage.appendToStorage(descQuest ? 'combinatoire' : 'finalQuestions', JSON.stringify(responses));
+        functor();
+    }
+
+    static _saveForm (forms, descQuest, functor) {
         // TODO: FAIRE BOUCLE SUR LES FORM
         console.log('forms = ');
         console.log(forms);

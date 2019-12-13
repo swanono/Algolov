@@ -35,7 +35,7 @@ window.consts = {
     PARAGRAPH_QUEST_ID: 'idParQuest_',
     QUESTION_ID: 'idQuest_',
     QUESTION_CLASS: 'classQuest_',
-    CONTINUE_BUTTON_ID: 'continueButton_',
+    CONTINUE_BUTTON_ID: 'continuebutton',
     RANK_CONTAINER_ID: 'rankContainer_',
     BLOC_ID: 'bloc_',
     TRACE_NAMES: [
@@ -99,9 +99,9 @@ function changeState () {
         // The second step of the survey : Explaining how the survey works
         DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
     else if (window.state === 3) {
-        const qcmArray = getQCMArray('begin');
+        const qcmArray = window.config.QCM.begin;// getQCMArray('begin');
         // console.log(qcmArray);
-        DOMGenerator.generateStepQCMPage('contentpage', 'Continuer', TraceStorage.saveForm, changeState, qcmArray);
+        DOMGenerator.generateStepQCMPage('Questions préliminaires', 'Continuer', TraceStorage.saveForm, changeState, qcmArray);
     } else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc) {
         // The blocs steps where the user can classify features
 

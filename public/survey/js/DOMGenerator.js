@@ -194,6 +194,93 @@ class DOMGenerator {
     }
 
     static generateStepQCMPage (contentpage, buttontext, functor1, functor2, qcmArray, jokers) {
+        DOMGenerator.cleanMain(jokers);
+
+        const descQuest = qcmArray[0].descName !== undefined; // false if there is no description information in the question
+        const div = document.createElement('div');
+        div.className = 'presdiv';
+        const text = document.createElement('div');
+        text.className = 'prestext noselect';
+        text.innerHTML = contentpage;
+
+        div.appendChild(text);
+
+        const main = DOMGenerator.getMain();
+        main.appendChild(div);
+
+        const form = document.createElement('form');
+
+        qcmArray.forEach((question) => {
+            const fieldset = document.createElement('fieldset');
+            fieldset.setAttribute('id', window.consts.QUESTION_ID + question.id);
+
+            const legend = document.createElement('legend');
+            legend.appendChild(document.createTextNode(question.question));
+            fieldset.appendChild(legend);
+
+            switch (question.type) {
+            case 'text':
+                fieldset.appendChild(DOMGenerator._createTextInput(question));
+                break;
+            case 'radio':
+            case 'checkbox':
+                DOMGenerator._createCheckableInputs(question).forEach((tag) => fieldset.appendChild(tag));
+                break;
+            default:
+                console.error('Unhandled input type required by config : ' + question.type);
+                break;
+            }
+
+            form.appendChild(fieldset);
+        });
+
+        main.appendChild(form);
+        
+        DOMGenerator.loadContinueButton(buttontext, () => functor1(form, descQuest, functor2));
+
+        DOMGenerator._setDisabled(qcmArray);
+    }
+
+    static _createTextInput (question) {
+        const textInput = document.createElement('input');
+
+        textInput.setAttribute('type', question.type);
+        textInput.setAttribute('id', window.consts.INPUT_ID + question.id + '_1');
+        textInput.setAttribute('class', window.consts.INPUT_CLASS + question.id);
+        textInput.setAttribute('name', textInput.getAttribute('class'));
+
+        return textInput;
+    }
+
+    static _createCheckableInputs (question) {
+        const htmlTags = [];
+
+        question.choices.forEach((choice) => {
+            const input = document.createElement('input');
+            input.setAttribute('type', question.type);
+            input.setAttribute('id', window.consts.INPUT_ID + question.id + '_' + choice.choiceId);
+            input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
+            input.setAttribute('value', input.getAttribute('id'));
+            input.setAttribute('name', input.getAttribute('class'));
+
+            if (question.descName) {
+                input.setAttribute('descName', question.descName);
+                input.setAttribute('descValue', choice.descValue);
+            }
+
+            htmlTags.push(input);
+
+            const label = document.createElement('label');
+            label.setAttribute('for', input.getAttribute('value'));
+            label.appendChild(document.createTextNode(choice.text));
+
+            htmlTags.push(label);
+        });
+
+        return htmlTags;
+    }
+
+    static _generateStepQCMPage (contentpage, buttontext, functor1, functor2, qcmArray, jokers) {
         // qcmArray = [question2, [[id1, answer1], [id2, answer2}}, question2, {{id1, answer1}, {id2, answer2}} }
         /* qcmArray = [
                 {
@@ -299,8 +386,6 @@ class DOMGenerator {
         const forms = document.getElementsByTagName('form');
         console.log('descQuest = ' + descQuest);
 
-        DOMGenerator.loadContinueButton(buttontext, () => functor1(forms, descQuest, functor2));
-
         DOMGenerator._setDisabled(qcmArray);
     }
 
@@ -398,7 +483,7 @@ class DOMGenerator {
         questionnaire.forEach((question) => {
             if (question.relatedQuestion) {
                 question.relatedQuestion.triggerChoices.forEach((choiceId) => {
-                    const input = document.getElementById(window.consts.INPUT_ID + choiceId);
+                    const input = document.getElementById(window.consts.INPUT_ID + question.id + '_' + choiceId);
 
                     input.addEventListener('change', (event) => {
                         const currentRadio = event.target;
