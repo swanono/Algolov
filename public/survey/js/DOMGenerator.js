@@ -1,4 +1,3 @@
-/* eslint-disable no-trailing-spaces */
 /* eslint-disable no-unused-vars */
 /*
 -------------------------------------------------------------------------------------------------
@@ -52,7 +51,7 @@ class DOMGenerator {
 
         // creation of the div containing all this bloc
         const bloc = document.createElement('div');
-        bloc.setAttribute('id', 'bloc_' + newBlocConfig.blocId);
+        bloc.setAttribute('id', window.consts.BLOC_ID + newBlocConfig.blocId);
         bloc.setAttribute('blocType', newBlocConfig.type);
         bloc.setAttribute('class', 'bloc');
 
@@ -86,10 +85,10 @@ class DOMGenerator {
 
         DOMGenerator.loadCards(usedFeatures);
     }
-	
+
     static loadScale (question, likertSize, scaleEnds) {
         const bloc = document.querySelector('.bloc');
-        
+
         // creation of the table and its rows for organising the page
         const scale = document.createElement('table');
         scale.setAttribute('id', 'scale_tab');
@@ -106,7 +105,7 @@ class DOMGenerator {
         const headerCell = headerRow.insertCell();
         headerCell.appendChild(document.createTextNode(question));
         headerCell.setAttribute('colspan', `${likertSize}`);
-        
+
         // insertion of the scale indications in the following row
         scaleEnds.forEach((scaleText) => {
             const newCell = scaleTextRow.insertCell();
@@ -118,7 +117,7 @@ class DOMGenerator {
         const indexOffset = Math.floor(likertSize / 2);
         for (let i = -indexOffset; i < likertSize - indexOffset; i++) {
             const cellRank = ranksRow.insertCell();
-            DOMGenerator.loadContainer(cellRank, 'rank_container_' + i);
+            DOMGenerator.loadContainer(cellRank, window.consts.RANK_CONTAINER_ID + i);
         }
 
         // insertion of the initial container for the features
@@ -129,7 +128,7 @@ class DOMGenerator {
         bloc.appendChild(scale);
         DOMGenerator.getMain().appendChild(bloc);
     }
-	
+
     static loadContainer (parentNode, containerId) {
         // class nestable => is a container
         const container = document.createElement('div');
@@ -140,7 +139,7 @@ class DOMGenerator {
 
         parentNode.appendChild(container);
     }
-	
+
     static loadCards (features) {
         // class nested-item => is a card inside a container
         // eslint-disable-next-line no-undef
@@ -164,12 +163,12 @@ class DOMGenerator {
     // TODO : appeler la fonction là où on test si il n'y a plus de carte dans le conteneur initial
     static loadContinueButton (text, functor) {
         const button = document.createElement('button');
-        button.setAttribute('id', 'continuebutton');
+        button.setAttribute('id', window.consts.CONTINUE_BUTTON_ID);
         button.appendChild(document.createTextNode(text));
         button.addEventListener('click', () => functor());
         DOMGenerator.getMain().appendChild(button);
     }
-    
+
     static generateStepPage (contentpage, buttontext, functor, jokers) {
         DOMGenerator.cleanMain(jokers);
         const div = document.createElement('div');
@@ -219,11 +218,11 @@ class DOMGenerator {
         text.innerHTML = contentpage;
 
         div.appendChild(text);
-        
-        const questionForm = document.createElement('form');
-        questionForm.onsubmit = event.preventDefault();
 
-        // Adding all the questions and answers to the main 
+        const questionForm = document.createElement('form');
+        questionForm.addEventListener('submit', (event) => event.preventDefault());
+
+        // Adding all the questions and answers to the main
         for (let indexQuest = 0; indexQuest < qcmArray.length; indexQuest++) {
             //  Scanning all the question and add them to a div
             // TODO: Verifier mon questionnement sur les div/form et autre blabla
@@ -231,21 +230,21 @@ class DOMGenerator {
 
             const questionParagraph = document.createElement('p');
             questionParagraph.innerHTML = qcmArray[indexQuest].question;
-            questionParagraph.id = 'parQuest_' + qcmArray[indexQuest].id;
+            questionParagraph.id = window.consts.QUESTION_ID + qcmArray[indexQuest].id;
 
             questionForm.appendChild(questionParagraph);
 
-            for (let indexAns = 0; indexAns < qcmArray[indexQuest].answers.length; indexAns++) {
+            for (let indexAns = 0; indexAns < qcmArray[indexQuest].choices.length; indexAns++) {
                 const ansRadio = document.createElement('input');
                 ansRadio.type = 'radio';
-                ansRadio.id = 'idAns_' + qcmArray[indexQuest].answers[indexAns].id;
-                ansRadio.innerHTML = qcmArray[indexQuest].answers[indexAns].text;
-                ansRadio.class = 'questClass_' + qcmArray[indexQuest].id;
+                ansRadio.id = window.consts.INPUT_ID + qcmArray[indexQuest].choices[indexAns].id;
+                ansRadio.innerHTML = qcmArray[indexQuest].choices[indexAns].text;
+                ansRadio.class = window.consts.INPUT_CLASS + qcmArray[indexQuest].id;
 
                 // indicate the descName value for question about description
                 if (qcmArray[indexQuest].descName) {
                     ansRadio.descName = qcmArray[indexQuest].descName;
-                    ansRadio.desValue = qcmArray[indexQuest].answers[indexAns].desValue;
+                    ansRadio.desValue = qcmArray[indexQuest].choices[indexAns].desValue;
                 }
 
                 questionForm.appendChild(ansRadio);
@@ -256,8 +255,10 @@ class DOMGenerator {
         DOMGenerator.getMain().appendChild(div);
 
         DOMGenerator.loadContinueButton(buttontext, () => functor(this.form));
+
+        DOMGenerator._setDisabled(qcmArray);
     }
-    
+
     static cleanMain (jokers) {
         var main = DOMGenerator.getMain();
         if (jokers) {
@@ -273,20 +274,20 @@ class DOMGenerator {
                 if (!found) {
                     main.removeChild(main.childNodes[iterator]);
                     iterator--;
-                } else 
+                } else
                     main.childNodes[iterator].style.display = 'none';
             }
         } else {
-            while (main.firstChild) 
+            while (main.firstChild)
                 main.removeChild(main.firstChild);
         }
     }
 
     static getMain () {
         var main = document.getElementById('main');
-        if (main != null) 
+        if (main != null)
             return main;
-        
+
         main = document.createElement('div');
         main.id = 'main';
         document.body.appendChild(main);
@@ -298,7 +299,7 @@ class DOMGenerator {
         const startButton = document.getElementById(idItemTohide);
 
         const paragraph = document.createElement('div');
-        const acceptButton = document.createElement('INPUT');
+        const acceptButton = document.createElement('input');
         acceptButton.setAttribute('type', 'checkbox');
 
         paragraph.innerHTML = '<br/>' + checkboxText;
@@ -313,30 +314,29 @@ class DOMGenerator {
         });
     }
 
-    //TODO : verifier fonctionnement à partir de function(event)
-    static setDisabled(questionnaire){
-        questionnaire.forEach((question)=> {
-            if(question.relatedQuestion !== undefined){
-               question.relatedQuestion.triggerChoices.forEach((choiceId)=> {
-                   const balise = document.getElementById('idAns_' + choiceId);
-                   balise.addEventListener('change', function(event){
-                        var currentCheckedRadio = event.target;
-                        var name = currentCheckedRadio.name;
-                        name.find((currentCheckedRadio, triggerChoices)=>{
-                            question.relatedQuestion.questionIds.forEach((questionIds)=>{
-                                const q = question.choix.choiceId;
-                                if (questionIds === q){
-                                    q.setAttribute("display","disabled");
-                                }
+    // TODO : verifier fonctionnement à partir de function(event)
+    static _setDisabled (questionnaire) {
+        questionnaire.forEach((question) => {
+            if (question.relatedQuestion) {
+                question.relatedQuestion.triggerChoices.forEach((choiceId) => {
+                    const input = document.getElementById(window.consts.INPUT_ID + choiceId);
 
-                            })
+                    input.addEventListener('change', (event) => {
+                        const currentRadio = event.target;
 
+                        question.relatedQuestion.questionIds.forEach((questionId) => {
+                            const responses = document.getElementsByClassName(window.consts.INPUT_CLASS + questionId);
+
+                            responses.forEach((resp) => {
+                                if (currentRadio.checked)
+                                    resp.setAttribute('disabled', 'true');
+                                else
+                                    resp.removeAttribute('disabled');
+                            });
                         });
-                
-                    } )
-
-               });
+                    });
+                });
             }
-        })
+        });
     }
 }

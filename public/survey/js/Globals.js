@@ -26,6 +26,33 @@ This module is used to declare global variables and functions
 window.state = 0;
 window.config = {}; // Contains the config.json file
 window.features = null; // Contains all the features
+window.ranking = []; // Contains all the blocs with the ranking of the features by the user
+window.consts = {
+    INPUT_CLASS: 'classInput_',
+    INPUT_ID: 'idInput_',
+    QUESTION_ID: 'idQuest_',
+    CONTINUE_BUTTON_ID: 'continueButton_',
+    RANK_CONTAINER_ID: 'rankContainer_',
+    BLOC_ID: 'bloc_',
+    TRACE_NAMES: [
+        'steps',
+        'interview',
+        'exogen',
+        'focus',
+        'change',
+        'range',
+        'keypress',
+        'mousemove',
+        'mouseclick',
+        'scrolling',
+        'zooming',
+        'media',
+        'drag',
+        'drop',
+        'errors',
+        'draggablecontainer'
+    ]
+};
 
 function start () {
     // Start the questionnaire, to use at the first
@@ -42,7 +69,7 @@ function start () {
 }
 
 function loadFeatures () {
-    TraceStorage.CleanStorageFormTraces();
+    TraceStorage.cleanStorageFormTraces();
 
     if (window.config.features)
         window.features = window.config.features;
@@ -56,44 +83,31 @@ function changeState () {
     const statesBeforeBloc = window.config.surveyConfiguration.nbStatesBeforeBloc;
 
     if (window.state === 1) {
+        // The first step of the survey : show RGPD requirements
+
         DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
-        DOMGenerator.addCheckBoxToSee('button', 'Acceptez-vous les conditions ci-dessus ? ');
+        DOMGenerator.addCheckBoxToSee(window.consts.CONTINUE_BUTTON_ID, 'Acceptez-vous les conditions ci-dessus ? ');
     } else if (window.state === 2)
+        // The second step of the survey : Explaining how the survey works
         DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
     else if (window.state === 3) {
         // TODO : ajouter les vraies questions
-        var qcmArray = [
-            {
-                id: window.confi,
-                question: 'hey',
-                answers: [
-                    {
-                        id: 'lol',
-                        text: 'coucou mdr'
-                    },
-                    {
-                        id: 'lol2',
-                        text: 'coucou mdr2'
-                    }
-                ]
-
-            }
-        ];
+        const qcmArray = window.config.QCM.begin;
+        DOMGenerator.generateStepQCMPage('', 'Continuer', () => changeState(), qcmArray);
     } else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc) {
+        // The blocs steps where the user can classify features
+
         if ((window.state - statesBeforeBloc - 1) % window.config.surveyConfiguration.nbBlocPerDesc === 0)
             DOMGenerator.loadDescription();
         else
             DOMGenerator.loadBloc();
-    }else if (window.state = window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc+statesBeforeBloc){
-       
-        const quest = window.config.QCM.end;
-        DOMGenerator.generateStepQCMPage('','Valider', ()=> changeState(),quest);
-        DOMGenerator.setDisabled(quest);
-        return SendJSON();
-        
+    } else if (window.state === window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc + statesBeforeBloc) {
+        // The last state for some questions and sending the datas to the server
 
-    }else
-        console.log('This state doesn\'t exist : ' + window.state);
+        const quest = window.config.QCM.end;
+        DOMGenerator.generateStepQCMPage('', 'Valider', () => sendJSON(), quest);
+    } else
+        console.error("This state doesn't exist : " + window.state);
 }
 
 // Fisher-Yates Algorithm
@@ -107,14 +121,12 @@ function shuffleArray (list) {
     return list;
 }
 
-
-function SendJSON(){
+async function sendJSON () {
     const json = TraceStorage.GenerateJSON();
     const html = await fetch('/api/survey', {
-        method: 'POST' ,
+        method: 'POST',
         body: json
     });
 
     return html.text();
-
 }
