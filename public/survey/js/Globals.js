@@ -27,6 +27,7 @@ window.state = 0;
 window.config = {}; // Contains the config.json file
 window.features = null; // Contains all the features
 window.ranking = []; // Contains all the blocs with the ranking of the features by the user
+window.sortable = null;
 window.consts = {
     INPUT_CLASS: 'classInput_',
     INPUT_ID: 'idInput_',
@@ -38,6 +39,7 @@ window.consts = {
     CONTINUE_BUTTON_ID: 'continuebutton',
     RANK_CONTAINER_ID: 'rankContainer_',
     BLOC_ID: 'bloc_',
+    RANK_CLASS: 'rank',
     TRACE_NAMES: [
         'steps',
         'interview',
@@ -57,8 +59,6 @@ window.consts = {
         'draggablecontainer'
     ]
 };
-
-window.continueButtonId = 'continuebutton';
 
 function start () {
     // Start the questionnaire, to use at the first
@@ -102,14 +102,14 @@ function changeState () {
         const qcmArray = window.config.QCM.begin;// getQCMArray('begin');
         // console.log(qcmArray);
         DOMGenerator.generateStepQCMPage('Questions préliminaires', 'Continuer', TraceStorage.saveForm, changeState, qcmArray);
-    } else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc) {
-        // The blocs steps where the user can classify features
+    } else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc + statesBeforeBloc) {
+        // The blocs steps where the user can sort features
 
         if ((window.state - statesBeforeBloc - 1) % window.config.surveyConfiguration.nbBlocPerDesc === 0)
             DOMGenerator.loadDescription();
         else
             DOMGenerator.loadBloc();
-    } else if (window.state === window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc + statesBeforeBloc) {
+    } else if (window.state === window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc + statesBeforeBloc + 1) {
         // The last state for some questions and sending the datas to the server
 
         const quest = window.config.QCM.end;
