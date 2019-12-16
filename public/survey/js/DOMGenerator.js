@@ -333,7 +333,7 @@ class DOMGenerator {
 
         startButton.style.display = 'none';
         acceptButton.addEventListener('change', function () {
-            const _displayButton = this.checked ? 'inline-block' : 'none';
+            const _displayButton = this.checked ? '' : 'none';
             startButton.style.display = _displayButton;
         });
     }
