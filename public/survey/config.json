@@ -3,11 +3,13 @@
         "descNames": [
             {
                 "name": "soi",
-                "presentation": "presentation de la description de soi"
+                "presentation": "Premièrement, vous allez classer les caractéristiques qui vous définissent le plus.",
+                "text": "Concernant les caractéristiques qui vous décrivent,"
             },
             {
                 "name": "autre",
-                "presentation": "presentation de la description de autre"
+                "presentation": "Maintenant, classez les caractéristiques d'une personne attractive pour vous.",
+                "text": "Concernant les caractéristiques qui décrivent les personnes que vous trouvez attirantes,"
             }
         ],
         "nbStatesBeforeBloc": 3,
@@ -16,29 +18,29 @@
         "blocThemes": [
             {
                 "blocId": 1,
-                "type": "physique",
-                "question": "question 1",
+                "type": "physique-1",
+                "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?",
                 "likertSize": 7,
                 "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
                 "blocId": 2,
-                "type": "attitude",
-                "question": "question 2",
+                "type": "physique-2",
+                "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?",
                 "likertSize": 7,
                 "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
                 "blocId": 3,
-                "type": "physique",
-                "question": "question 3",
+                "type": "attitude-1",
+                "question": "Quelles sont les caractéristiques importantes pour vous ?",
                 "likertSize": 7,
                 "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
             },
             {
                 "blocId": 4,
-                "type": "attitude",
-                "question": "question 4",
+                "type": "autres",
+                "question": "Quelles sont les caractéristiques importantes pour vous ?",
                 "likertSize": 7,
                 "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
             }
@@ -48,8 +50,8 @@
         {
             "id": 1,
             "content": "text",
-            "type": "physique",
-            "data": "feature 1",
+            "type": "physique-1",
+            "data": "Signes particuliers (grains de beauté, taches de rousseur, bronzage, tatouages, piercings...)",
             "combin": [
                 {
                     "descName": "soi",
@@ -66,8 +68,8 @@
         {
             "id": 2,
             "content": "text",
-            "type": "physique",
-            "data": "feature 2",
+            "type": "physique-1",
+            "data": "Sous-vêtements",
             "combin": [
                 {
                     "descName": "soi",
@@ -84,8 +86,8 @@
         {
             "id": 3,
             "content": "text",
-            "type": "physique",
-            "data": "feature 3",
+            "type": "physique-1",
+            "data": "Couleur des yeux",
             "combin": [
                 {
                     "descName": "soi",
@@ -102,8 +104,8 @@
         {
             "id": 4,
             "content": "text",
-            "type": "physique",
-            "data": "feature 4",
+            "type": "physique-1",
+            "data": "Longueur des cheveux",
             "combin": [
                 {
                     "descName": "soi",
@@ -120,8 +122,8 @@
         {
             "id": 5,
             "content": "text",
-            "type": "physique",
-            "data": "feature 5",
+            "type": "physique-1",
+            "data": "Couleur de cheveux",
             "combin": [
                 {
                     "descName": "soi",
@@ -138,8 +140,8 @@
         {
             "id": 6,
             "content": "text",
-            "type": "physique",
-            "data": "feature 6",
+            "type": "physique-1",
+            "data": "Style de cheveux",
             "combin": [
                 {
                     "descName": "soi",
@@ -156,8 +158,8 @@
         {
             "id": 7,
             "content": "text",
-            "type": "physique",
-            "data": "feature 7",
+            "type": "physique-1",
+            "data": "Silhouette (mince, sportif.ve, ronde, costaud, body builder…)",
             "combin": [
                 {
                     "descName": "soi",
@@ -174,8 +176,8 @@
         {
             "id": 8,
             "content": "text",
-            "type": "physique",
-            "data": "feature 8",
+            "type": "physique-1",
+            "data": "Origines",
             "combin": [
                 {
                     "descName": "soi",
@@ -192,17 +194,17 @@
         {
             "id": 9,
             "content": "text",
-            "type": "physique",
-            "data": "feature 9 (male feature)",
+            "type": "physique-1",
+            "data": "Taille",
             "combin": [
                 {
                     "descName": "soi",
-                    "F": false,
+                    "F": true,
                     "M": true
                 },
                 {
                     "descName": "autre",
-                    "F": false,
+                    "F": true,
                     "M": true
                 }
             ]
@@ -210,53 +212,53 @@
         {
             "id": 10,
             "content": "text",
-            "type": "physique",
-            "data": "feature 10 (female feature)",
+            "type": "physique-1",
+            "data": "Poids",
             "combin": [
                 {
                     "descName": "soi",
                     "F": true,
-                    "M": false
+                    "M": true
                 },
                 {
                     "descName": "autre",
                     "F": true,
-                    "M": false
+                    "M": true
                 }
             ]
         },
         {
             "id": 11,
             "content": "text",
-            "type": "physique",
-            "data": "feature 11 (male searching female feature)",
+            "type": "physique-2",
+            "data": "Pilosité (rasé.e, imberbe, juste ce qu'il faut, ours...)",
             "combin": [
                 {
                     "descName": "soi",
-                    "F": false,
+                    "F": true,
                     "M": true
                 },
                 {
                     "descName": "autre",
                     "F": true,
-                    "M": false
+                    "M": true
                 }
             ]
         },
         {
             "id": 12,
             "content": "text",
-            "type": "physique",
-            "data": "feature 12 (female searching male feature)",
+            "type": "physique-2",
+            "data": "Perception de l'aspect physique (très agréable à regarder, agréable à regarder, dans la moyenne…)",
             "combin": [
                 {
                     "descName": "soi",
                     "F": true,
-                    "M": false
+                    "M": true
                 },
                 {
                     "descName": "autre",
-                    "F": false,
+                    "F": true,
                     "M": true
                 }
             ]
@@ -264,17 +266,17 @@
         {
             "id": 13,
             "content": "text",
-            "type": "attitude",
-            "data": "feature 13",
+            "type": "physique-2",
+            "data": "Taille du pénis",
             "combin": [
                 {
                     "descName": "soi",
-                    "F": true,
+                    "F": false,
                     "M": true
                 },
                 {
                     "descName": "autre",
-                    "F": true,
+                    "F": false,
                     "M": true
                 }
             ]
@@ -282,17 +284,17 @@
         {
             "id": 14,
             "content": "text",
-            "type": "attitude",
-            "data": "feature 14",
+            "type": "physique-2",
+            "data": "Circoncision",
             "combin": [
                 {
                     "descName": "soi",
-                    "F": true,
+                    "F": false,
                     "M": true
                 },
                 {
                     "descName": "autre",
-                    "F": true,
+                    "F": false,
                     "M": true
                 }
             ]
@@ -300,44 +302,44 @@
         {
             "id": 15,
             "content": "text",
-            "type": "attitude",
-            "data": "feature 15",
+            "type": "physique-2",
+            "data": "Taille de la poitrine",
             "combin": [
                 {
                     "descName": "soi",
                     "F": true,
-                    "M": true
+                    "M": false
                 },
                 {
                     "descName": "autre",
                     "F": true,
-                    "M": true
+                    "M": false
                 }
             ]
         },
         {
             "id": 16,
             "content": "text",
-            "type": "attitude",
-            "data": "feature 16",
+            "type": "physique-2",
+            "data": "Taille de bonnet (A, B, C, D, DD…)",
             "combin": [
                 {
                     "descName": "soi",
                     "F": true,
-                    "M": true
+                    "M": false
                 },
                 {
                     "descName": "autre",
                     "F": true,
-                    "M": true
+                    "M": false
                 }
             ]
         },
         {
             "id": 17,
             "content": "text",
-            "type": "attitude",
-            "data": "feature 17",
+            "type": "physique-2",
+            "data": "Parties du corps considérées des zones érogènes",
             "combin": [
                 {
                     "descName": "soi",
@@ -354,8 +356,8 @@
         {
             "id": 18,
             "content": "text",
-            "type": "attitude",
-            "data": "feature 18",
+            "type": "physique-2",
+            "data": "Importance de la taille (hauteur)",
             "combin": [
                 {
                     "descName": "soi",
@@ -372,8 +374,8 @@
         {
             "id": 19,
             "content": "text",
-            "type": "attitude",
-            "data": "feature 19",
+            "type": "physique-2",
+            "data": "Sexe",
             "combin": [
                 {
                     "descName": "soi",
@@ -390,8 +392,8 @@
         {
             "id": 20,
             "content": "text",
-            "type": "attitude",
-            "data": "feature 20",
+            "type": "physique-2",
+            "data": "Age",
             "combin": [
                 {
                     "descName": "soi",
@@ -408,8 +410,8 @@
         {
             "id": 21,
             "content": "text",
-            "type": "attitude",
-            "data": "feature 21",
+            "type": "physique-2",
+            "data": "Style d'habillement du jour",
             "combin": [
                 {
                     "descName": "soi",
@@ -426,8 +428,368 @@
         {
             "id": 22,
             "content": "text",
-            "type": "attitude",
-            "data": "feature 22",
+            "type": "physique-2",
+            "data": "Style d'habillement du soir",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 23,
+            "content": "text",
+            "type": "attitude-1",
+            "data": "Style de vêtement en lien avec la personnalité (bab, cutester, BCBG, bohème, chic, classique, décontracté, electro, excentrique, fluo)",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 24,
+            "content": "text",
+            "type": "attitude-1",
+            "data": "Consommation d'alcool et fréquence",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 25,
+            "content": "text",
+            "type": "attitude-1",
+            "data": "Consommation du tabac et fréquence",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 26,
+            "content": "text",
+            "type": "attitude-1",
+            "data": "Régime alimentaire, habitudes, plats préférés, importance accordée aux repas",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 27,
+            "content": "text",
+            "type": "attitude-1",
+            "data": "S'exposer en photos",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 28,
+            "content": "text",
+            "type": "attitude-1",
+            "data": "S'exposer en vidéos",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 29,
+            "content": "text",
+            "type": "attitude-1",
+            "data": "Orientation sexuelle (hétéro, homo, bi, trans)",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 30,
+            "content": "text",
+            "type": "attitude-1",
+            "data": "Fétichisme avec des vêtements (cuir, équipement de sports, skateur.se, caoutchouc, sous-vêtements, peaux et punks, bottes, lycra, uniforme, robe de soirée, raver, bas et bas, jeans, lingerie, travailleur)",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 31,
+            "content": "text",
+            "type": "attitude-1",
+            "data": "Genre (agender, androgyne, asexué, bigender, cisgender, cisgender...)",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 32,
+            "content": "text",
+            "type": "attitude-1",
+            "data": "Genre (agender, androgyne, asexué, bigender, cisgender, cisgender...)",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 33,
+            "content": "text",
+            "type": "autres",
+            "data": "Talents culinaires",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 34,
+            "content": "text",
+            "type": "autres",
+            "data": "Statut VIH",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 35,
+            "content": "text",
+            "type": "autres",
+            "data": "Lunettes ou lentilles de contact",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 36,
+            "content": "text",
+            "type": "autres",
+            "data": "Maladies sexuellement transmissibles (Verrues génitales, Herpès type I, Herpès type II…)",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 37,
+            "content": "text",
+            "type": "autres",
+            "data": "S'exposer en Webcam",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 38,
+            "content": "text",
+            "type": "autres",
+            "data": "Mode et marques",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 39,
+            "content": "text",
+            "type": "autres",
+            "data": "Sports préférés, sports pratiqués, fréquence de la pratique",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 40,
+            "content": "text",
+            "type": "autres",
+            "data": "Satisfaction de l'apparence physique",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 41,
+            "content": "text",
+            "type": "autres",
+            "data": "L'âge dans la tête",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 42,
+            "content": "text",
+            "type": "autres",
+            "data": "Dates de rappels de pistage",
             "combin": [
                 {
                     "descName": "soi",
@@ -442,8 +804,8 @@
             ]
         }
     ],
-    "RGPDText": "displayed RGPD Text",
-    "surveyExplain": "explaining how to fill the survey correctly",
+    "RGPDText": "Ce questionnaire effectue une récolte de vos données personnelles (caractéristiques physiques, goûts, coordonnées notamment) ainsi que de données sur la manière dont vous le remplissez (vitesse, hésitations, changements, etc.). Ces données seront utilisées à des fins de recherches dans le cadre des tavaux de Mme Jessica Pidoux. Pour toute demande concernant la gestion des données personnelles, envoyer un mail à l'adresse 'jessica.pidoux@epfl.ch'",
+    "surveyExplain": "Le questionnaire est divisé en plusieurs phases : une phase de questions de départ sur votre sexe et votre orientation sexuelle, plusieurs phases de classement, une phase de questions suplémentaires à la fin. Lors des phases de classement, vous devrez déplacer avec la souris des descriptions de caractéristiques vers une échelle d'importance.",
     "wrongStatementFormatMessage": "mauvais fichier config.json récupéré",
     "QCM": {
         "begin": [
@@ -506,7 +868,7 @@
                 "relatedQuestion": [
                     {
                         "triggerChoices": [3],
-                        "questionIds": [4, 5, 6]
+                        "questionIds": [2, 3, 4]
                     }
                 ]
             },
@@ -668,18 +1030,16 @@
                         "text": "non"
                     }
                 ],
-                "relatedQuestion": [
-                    {
-                        "triggerChoices": [2],
-                        "questionIds": [9, 10]
-                    }
-                ]
+                "relatedQuestion": {
+                    "triggerChoices": [1],
+                    "questionIds": [7]
+                }
             },
             {
                 "id": 9,
                 "question": "quelle est votre adresse mail ou votre numéro de téléphone ?",
                 "type": "text",
-                "format": "^([0-9]{10})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3})$"
+                "format": "^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3})$"
             },
             {
                 "id": 10,

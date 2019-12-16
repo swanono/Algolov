@@ -110,6 +110,12 @@ class DOMGenerator {
 
         // insertion of the main text of the bloc in the header row
         const headerCell = headerRow.insertCell();
+        headerCell.appendChild(document.createTextNode(
+            window.config.surveyConfiguration.descNames.find(
+                desc => desc.name === window.currentDescription
+            ).text
+        ));
+        headerCell.appendChild(document.createElement('br'));
         headerCell.appendChild(document.createTextNode(question));
         headerCell.setAttribute('colspan', `${likertSize}`);
         
@@ -325,18 +331,22 @@ class DOMGenerator {
         const div = DOMGenerator.getMain().firstChild;
         const startButton = document.getElementById(idItemTohide);
 
-        const paragraph = document.createElement('div');
+        const divInput = document.createElement('div');
+        const label = document.createElement('label');
         const acceptButton = document.createElement('input');
         acceptButton.setAttribute('type', 'checkbox');
+        acceptButton.setAttribute('name', 'acceptButton');
 
-        paragraph.innerHTML = '<br/>' + checkboxText;
-        paragraph.appendChild(acceptButton);
-
-        div.appendChild(paragraph);
+        label.innerHTML = checkboxText;
+        label.setAttribute('for', 'acceptButton');
+        divInput.appendChild(label);
+        divInput.appendChild(acceptButton);
+        
+        div.appendChild(divInput);
 
         startButton.style.display = 'none';
         acceptButton.addEventListener('change', function () {
-            const _displayButton = this.checked ? 'inline-block' : 'none';
+            const _displayButton = this.checked ? '' : 'none';
             startButton.style.display = _displayButton;
         });
     }
