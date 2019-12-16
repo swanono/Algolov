@@ -49,16 +49,34 @@ class TraceStorage {
                     choice: input.getAttribute('descValue'),
                     idQuestion: questionId,
                     idChoice: choiceId,
-                    questionText: input.parentElement.firstChild.textContent
+                    questionText: document.getElementById(window.consts.QUESTION_ID + questionId).firstElementChild.textContent
                 });
             }
-            console.log('response :');
-            console.log(responses);
+
+            TraceStorage.appendToStorage('combinatoire', JSON.stringify(responses));
         } else {
             // TODO : prendre en compte le fait que pair[1] puisse être égal à du texte
+            for (const pair of formData.entries()) {
+                const objRes = {};
+                if (!pair[1].includes(window.consts.INPUT_ID)) {
+                    // The pair corresponds to a text input
+                    objRes.idQuestion = pair[0].split('_')[1];
+                    objRes.idChoice = '1';
+                    objRes.questionText = document.getElementById(window.consts.QUESTION_ID + objRes.idQuestion).firstElementChild.textContent;
+                    objRes.choiceText = pair[1];
+                } else {
+                    // The pair corresponds to a radio or checkbox input
+                    const input = document.getElementById(pair[1]);
+                    objRes.idQuestion = input.getAttribute('id').split('_')[1];
+                    objRes.idChoice = input.getAttribute('id').split('_')[2];
+                    objRes.questionText = document.getElementById(window.consts.QUESTION_ID + objRes.idQuestion).firstElementChild.textContent;
+                    objRes.choiceText = document.querySelector(`label[for=${window.consts.INPUT_ID + objRes.idChoice}]`).textContent;
+                }
+                responses.push(objRes);
+            }
+            TraceStorage.appendToStorage('finalQuestions', JSON.stringify(responses));
         }
 
-        TraceStorage.appendToStorage(descQuest ? 'combinatoire' : 'finalQuestions', JSON.stringify(responses));
         functor();
     }
 

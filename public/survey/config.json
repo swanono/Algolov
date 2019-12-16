@@ -506,7 +506,7 @@
                 "relatedQuestion": [
                     {
                         "triggerChoices": [3],
-                        "questionIds": [2, 3, 4]
+                        "questionIds": [4, 5, 6]
                     }
                 ]
             },
@@ -668,16 +668,18 @@
                         "text": "non"
                     }
                 ],
-                "relatedQuestion": {
-                    "triggerChoices": [1],
-                    "questionIds": [7]
-                }
+                "relatedQuestion": [
+                    {
+                        "triggerChoices": [2],
+                        "questionIds": [9, 10]
+                    }
+                ]
             },
             {
                 "id": 9,
                 "question": "quelle est votre adresse mail ou votre numéro de téléphone ?",
                 "type": "text",
-                "format": "^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3})$"
+                "format": "^([0-9]{10})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3})$"
             },
             {
                 "id": 10,
