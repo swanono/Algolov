@@ -322,14 +322,18 @@ class DOMGenerator {
         const div = DOMGenerator.getMain().firstChild;
         const startButton = document.getElementById(idItemTohide);
 
-        const paragraph = document.createElement('div');
+        const divInput = document.createElement('div');
+        const label = document.createElement('label');
         const acceptButton = document.createElement('input');
         acceptButton.setAttribute('type', 'checkbox');
+        acceptButton.setAttribute('name', 'acceptButton');
 
-        paragraph.innerHTML = '<br/>' + checkboxText;
-        paragraph.appendChild(acceptButton);
-
-        div.appendChild(paragraph);
+        divInput.innerHTML = checkboxText;
+        label.htmlFor('acceptButton');
+        divInput.appendChild(label);
+        divInput.appendChild(acceptButton);
+        
+        div.appendChild(divInput);
 
         startButton.style.display = 'none';
         acceptButton.addEventListener('change', function () {
