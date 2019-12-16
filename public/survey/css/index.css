@@ -111,39 +111,76 @@ fieldset {
     margin-left: 10px; 
     margin-bottom: 50px;
  }
+
+ #idQuest_1{
+     text-align:center;
+ }
+
+ #idQuest_2{
+    text-align:center;
+}
 #idInput_1_1+label{
     display: inline-block;
+    margin: 20px;
+    position:relative;
+    margin-left: 0px; 
+    margin-bottom: 10px;
+    text-align: center;
+    margin-right: 30px;
   
 
 }
 #idInput_1_1{
-    top: -8px ;
+    top: -4px ;
+    text-align: center;
+    vertical-align: top;
+    /*margin:0px;*/
 }
 #idInput_1_2+label{
     display: inline-block;
-    position: relative;
+    margin: 20px;
+    position:relative;
+    margin-left: 0px; 
+    margin-bottom: 10px;
+    text-align: center;
+    margin-right: 30px;
     
   
 
 }
 #idInput_1_2{
-    top: -8px ;
-    margin-left: 10px;
+    top: -4px ;
+    text-align: center;
+    vertical-align: top;
 }
 #idInput_2_1+label{
     display: inline-block;
+    margin: 20px;
+    position:relative;
+    margin-left: 0px; 
+    margin-bottom: 10px;
+    text-align: center;
+    margin-right: 30px;
     
 }
 #idInput_2_1{
-    top: -8px ;
+    top: -4px ;
+    text-align: center;
+    vertical-align: top;
 }
 #idInput_2_2+label{
     display: inline-block;
-    
+    margin: 20px;
+    position:relative;
+    margin-left: 0px; 
+    margin-bottom: 10px;
+    text-align: center;
+    margin-right: 30px;
 }
 #idInput_2_2{
-    top: -8px ;
-    margin-left: 10px;
+    top: -4px ;
+    text-align: center;
+    vertical-align: top;
 }
 
 .classInput_3-container {
