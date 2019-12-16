@@ -773,7 +773,7 @@
         "begin": [
             {
                 "id": 1,
-                "question": "quel est votre sexe ?",
+                "question": "Quel est votre sexe ?",
                 "type": "radio",
                 "descName": "soi",
                 "choices": [
@@ -791,7 +791,7 @@
             },
             {
                 "id": 2,
-                "question": "quel est le sexe par lequel vous êtes attiré ?",
+                "question": "Quel est le sexe par lequel vous êtes attiré ?",
                 "type": "radio",
                 "descName": "autre",
                 "choices": [
