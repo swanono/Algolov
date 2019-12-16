@@ -328,8 +328,8 @@ class DOMGenerator {
         acceptButton.setAttribute('type', 'checkbox');
         acceptButton.setAttribute('name', 'acceptButton');
 
-        divInput.innerHTML = checkboxText;
-        label.htmlFor('acceptButton');
+        label.innerHTML = checkboxText;
+        label.setAttribute('for', 'acceptButton');
         divInput.appendChild(label);
         divInput.appendChild(acceptButton);
         
