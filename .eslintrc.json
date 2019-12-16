@@ -2,11 +2,13 @@
     "env": {
         "browser": true,
         "commonjs": true,
+        "jest": true,
         "es6": true
     },
     "extends": [
         "standard"
     ],
+    "plugins": ["jest"],
     "globals": {
         "Atomics": "readonly",
         "SharedArrayBuffer": "readonly"
@@ -15,5 +17,9 @@
         "ecmaVersion": 2018
     },
     "rules": {
+        "semi": [2, "always"],
+        "indent": ["error", 4, { "VariableDeclarator": "first" }],
+        "no-tabs": "off",
+        "curly": ["error", "multi-or-nest"]
     }
 }

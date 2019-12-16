@@ -1,7 +1,7 @@
 /*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
-Copyright © <Année> <Nom de l’auteur>
+Copyright © 2019 Ulysse GUYON
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -14,24 +14,21 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
 
-This module is used to handle client requests and redirect them to the right analysing methods
+This module is used to set global and environnement variables
 */
 'use strict';
 
-const config = require('./config.js');
-const express = require('express');
+const dotenv = require('dotenv');
 
-module.exports = (passport) => {
-    const app = express();
+dotenv.config();
 
-    app.post(config.pathPostSurveyApi, function (req, res) {
-        console.log(req.body);
+const _nodeEnv = process.env.NODE_ENV;
+const _directoryPrefix = (_nodeEnv === 'dev' ? '' : '');
 
-        // TODO : Valider le fichier JSON reçu
-        // TODO : enregistrer les données JSON dans la BDD
-
-        res.redirect(config.pathGetThanksAbs);
-    });
-
-    return app;
+module.exports = {
+    nodeEnv: _nodeEnv,
+    port: process.env.PORT,
+    directoryPrefix: _directoryPrefix,
+    pathPostSurveyApi: '/survey',
+    pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html'
 };
