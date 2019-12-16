@@ -47,7 +47,7 @@
     "features": [
         {
             "id": 1,
-            "content": "text",
+            "content": "style",
             "type": "physique",
             "data": "feature 1",
             "combin": [
@@ -65,7 +65,7 @@
         },
         {
             "id": 2,
-            "content": "text",
+            "content": "signes particuliers",
             "type": "physique",
             "data": "feature 2",
             "combin": [
@@ -83,7 +83,7 @@
         },
         {
             "id": 3,
-            "content": "text",
+            "content": "sports",
             "type": "physique",
             "data": "feature 3",
             "combin": [
@@ -101,7 +101,7 @@
         },
         {
             "id": 4,
-            "content": "text",
+            "content": "Ce qui se cache dessous",
             "type": "physique",
             "data": "feature 4",
             "combin": [
@@ -119,7 +119,7 @@
         },
         {
             "id": 5,
-            "content": "text",
+            "content": "couleur des yeux",
             "type": "physique",
             "data": "feature 5",
             "combin": [
@@ -137,7 +137,7 @@
         },
         {
             "id": 6,
-            "content": "text",
+            "content": "longueur des cheveux",
             "type": "physique",
             "data": "feature 6",
             "combin": [
@@ -155,7 +155,7 @@
         },
         {
             "id": 7,
-            "content": "text",
+            "content": "style de cheveux",
             "type": "physique",
             "data": "feature 7",
             "combin": [
@@ -173,7 +173,7 @@
         },
         {
             "id": 8,
-            "content": "text",
+            "content": "silhouette",
             "type": "physique",
             "data": "feature 8",
             "combin": [
@@ -191,7 +191,7 @@
         },
         {
             "id": 9,
-            "content": "text",
+            "content": "origines",
             "type": "physique",
             "data": "feature 9 (male feature)",
             "combin": [
@@ -209,7 +209,7 @@
         },
         {
             "id": 10,
-            "content": "text",
+            "content": "tabac",
             "type": "physique",
             "data": "feature 10 (female feature)",
             "combin": [
@@ -227,7 +227,7 @@
         },
         {
             "id": 11,
-            "content": "text",
+            "content": "alimentation",
             "type": "physique",
             "data": "feature 11 (male searching female feature)",
             "combin": [
@@ -245,7 +245,7 @@
         },
         {
             "id": 12,
-            "content": "text",
+            "content": "taille",
             "type": "physique",
             "data": "feature 12 (female searching male feature)",
             "combin": [
@@ -263,7 +263,7 @@
         },
         {
             "id": 13,
-            "content": "text",
+            "content": "poids",
             "type": "attitude",
             "data": "feature 13",
             "combin": [
@@ -281,7 +281,7 @@
         },
         {
             "id": 14,
-            "content": "text",
+            "content": "pilosité homme",
             "type": "attitude",
             "data": "feature 14",
             "combin": [
@@ -299,7 +299,7 @@
         },
         {
             "id": 15,
-            "content": "text",
+            "content": "âge",
             "type": "attitude",
             "data": "feature 15",
             "combin": [
@@ -317,7 +317,7 @@
         },
         {
             "id": 16,
-            "content": "text",
+            "content": "sexe",
             "type": "attitude",
             "data": "feature 16",
             "combin": [
@@ -335,7 +335,7 @@
         },
         {
             "id": 17,
-            "content": "text",
+            "content": "photo",
             "type": "attitude",
             "data": "feature 17",
             "combin": [
@@ -353,7 +353,7 @@
         },
         {
             "id": 18,
-            "content": "text",
+            "content": "vidéo",
             "type": "attitude",
             "data": "feature 18",
             "combin": [
@@ -371,7 +371,7 @@
         },
         {
             "id": 19,
-            "content": "text",
+            "content": "perception de l'aspect physique",
             "type": "attitude",
             "data": "feature 19",
             "combin": [
@@ -389,7 +389,7 @@
         },
         {
             "id": 20,
-            "content": "text",
+            "content": "orientation sexuelle",
             "type": "attitude",
             "data": "feature 20",
             "combin": [
@@ -407,7 +407,7 @@
         },
         {
             "id": 21,
-            "content": "text",
+            "content": "taille du pénis",
             "type": "attitude",
             "data": "feature 21",
             "combin": [
@@ -425,9 +425,333 @@
         },
         {
             "id": 22,
-            "content": "text",
+            "content": "circoncision",
             "type": "attitude",
             "data": "feature 22",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 23,
+            "content": "fétichisme vêtements",
+            "type": "attitude",
+            "data": "feature 23",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 24,
+            "content": "mode et beauté",
+            "type": "attitude",
+            "data": "feature 24",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 25,
+            "content": "identité du genre",
+            "type": "attitude",
+            "data": "feature 25",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 26,
+            "content": "Talents culinaire",
+            "type": "attitude",
+            "data": "feature 26",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 27,
+            "content": "statut VIH",
+            "type": "attitude",
+            "data": "feature 27",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 28,
+            "content": "dernière date test",
+            "type": "attitude",
+            "data": "feature 28",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 29,
+            "content": "date rappel de pistage",
+            "type": "attitude",
+            "data": "feature 29",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 30,
+            "content": "âge dans la tête",
+            "type": "attitude",
+            "data": "feature 30",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 31,
+            "content": "lunette/lentille de contact",
+            "type": "attitude",
+            "data": "feature 31",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 32,
+            "content": "taille de la poitrine",
+            "type": "attitude",
+            "data": "feature 32",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 33,
+            "content": "taille du bonnet",
+            "type": "attitude",
+            "data": "feature 33",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 34,
+            "content": "zone érogène",
+            "type": "attitude",
+            "data": "feature 34",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 35,
+            "content": "Importance de la taille",
+            "type": "attitude",
+            "data": "feature 35",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 36,
+            "content": "style d'habillement du jour",
+            "type": "attitude",
+            "data": "feature 36",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 37,
+            "content": "style d'habillement du soir",
+            "type": "attitude",
+            "data": "feature 37",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 38,
+            "content": "Maladie sexuellement transmissible",
+            "type": "attitude",
+            "data": "feature 38",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 38,
+            "content": "webcam",
+            "type": "attitude",
+            "data": "feature 38",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "F": true,
+                    "M": true
+                },
+                {
+                    "descName": "autre",
+                    "F": true,
+                    "M": true
+                }
+            ]
+        },
+        {
+            "id": 39,
+            "content": "Satisfaction de l'apparence physique",
+            "type": "attitude",
+            "data": "feature 37",
             "combin": [
                 {
                     "descName": "soi",
@@ -487,20 +811,20 @@
         "end": [
             {
                 "id": 3,
-                "question": "avez-vous utilisé une application de rencontres dans le passé ou utilisez-vous actuellement une application de rencontres ?",
+                "question": "Avez-vous utilisé une application de rencontres dans le passé ou utilisez-vous actuellement une application de rencontres ?",
                 "type": "radio",
                 "choices": [
                     {
                         "choiceId": 1,
-                        "text": "oui, j'en ai utilisé par le passé mais je n'en utilise plus"
+                        "text": "Oui, j'en ai utilisé par le passé mais je n'en utilise plus"
                     },
                     {
                         "choiceId": 2,
-                        "text": "oui, j'utilise actuellement des applications de rencontres"
+                        "text": "Oui, j'utilise actuellement des applications de rencontres"
                     },
                     {
                         "choiceId": 3,
-                        "text": "non, je n'ai jamais utilisé d'applications de rencontres"
+                        "text": "Non, je n'ai jamais utilisé d'applications de rencontres"
                     }
                 ],
                 "relatedQuestion": [
@@ -512,7 +836,7 @@
             },
             {
                 "id": 4,
-                "question": "quelles applications de rencontres avez-vous déjà utilisé ou utilisez-vous actuellement ?",
+                "question": "Quelles applications de rencontres avez-vous déjà utilisé ou utilisez-vous actuellement ?",
                 "type": "checkbox",
                 "choices": [
                     {
@@ -604,68 +928,68 @@
             },
             {
                 "id": 5,
-                "question": "quand était votre première inscription à un application de rencontres ? (format MM/AAAA)",
+                "question": "Quand était votre première inscription à un application de rencontres ? (format MM/AAAA)",
                 "type": "text",
                 "format": "^[0-9]{2}/[0-9]{4}$"
             },
             {
                 "id": 6,
-                "question": "avec quelle frequence utilisiez ou utilisez-vous des applications de rencontres ?",
+                "question": "Avec quelle frequence utilisiez ou utilisez-vous des applications de rencontres ?",
                 "type": "radio",
                 "choices": [
                     {
                         "choiceId": 1,
-                        "text": "plusieurs fois par jour"
+                        "text": "Plusieurs fois par jour"
                     },
                     {
                         "choiceId": 2,
-                        "text": "une fois par jour"
+                        "text": "Une fois par jour"
                     },
                     {
                         "choiceId": 3,
-                        "text": "deux ou trois fois par semaine"
+                        "text": "Deux ou trois fois par semaine"
                     },
                     {
                         "choiceId": 4,
-                        "text": "une fois par semaine"
+                        "text": "Une fois par semaine"
                     },
                     {
                         "choiceId": 5,
-                        "text": "rarement"
+                        "text": "Rarement"
                     }
                 ]
             },
             {
                 "id": 7,
-                "question": "avez-vous eu dans le passé ou avez-vous actuellement une relation à long terme (petit.e ami.e, conjoint.e) ou à court terme (rencontre sexuelle) ?",
+                "question": "Avez-vous eu dans le passé ou avez-vous actuellement une relation à long terme (petit.e ami.e, conjoint.e) ou à court terme (rencontre sexuelle) ?",
                 "type": "radio",
                 "choices": [
                     {
                         "choiceId": 1,
-                        "text": "oui, j'ai eu des expériences dans le passé et je suis actuellement dans une relation"
+                        "text": "Oui, j'ai eu des expériences dans le passé et je suis actuellement dans une relation"
                     },
                     {
                         "choiceId": 2,
-                        "text": "je suis actuellement dans ma première relation"
+                        "text": "Je suis actuellement dans ma première relation"
                     },
                     {
                         "choiceId": 3,
-                        "text": "non, je n'ai aucune experience dans les relations (amoureuse ou sexuelle)"
+                        "text": "Non, je n'ai aucune experience dans les relations (amoureuse ou sexuelle)"
                     }
                 ]
             },
             {
                 "id": 8,
-                "question": "pourrions-nous vous contacter plus tard pour participer à un entretien d'environ 45min afin d'approfondir l'étude quantitative à laquelle vous participez actuellement ?",
+                "question": "Pourrions-nous vous contacter plus tard pour participer à un entretien d'environ 45min afin d'approfondir l'étude quantitative à laquelle vous participez actuellement ?",
                 "type": "radio",
                 "choices": [
                     {
                         "choiceId": 1,
-                        "text": "oui"
+                        "text": "Oui"
                     },
                     {
                         "choiceId": 2,
-                        "text": "non"
+                        "text": "Non"
                     }
                 ],
                 "relatedQuestion": [
@@ -677,13 +1001,13 @@
             },
             {
                 "id": 9,
-                "question": "quelle est votre adresse mail ou votre numéro de téléphone ?",
+                "question": "Quelle est votre adresse mail ou votre numéro de téléphone ?",
                 "type": "text",
                 "format": "^([0-9]{10})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3})$"
             },
             {
                 "id": 10,
-                "question": "quel est votre age ?",
+                "question": "Quel est votre age ?",
                 "type": "text",
                 "format": "^([0-9]{2,3})$"
             }
