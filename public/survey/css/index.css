@@ -114,6 +114,34 @@ fieldset {
     margin-bottom: 50px;
  }
 
+ input+label{
+    display: inline-flex;
+   
+    
+}
+
+/*radio bouton*/
+[type="radio"]:not(:checked) + label,
+[type="radio"]:checked + label {
+	position: relative; /* permet de positionner les pseudo-éléments */
+	padding-left: 1.2em; /* fait un peu d'espace pour notre case à venir */
+	font-size: 1.05em; /* Label un peu plus gros */
+	line-height: 1.7;
+    top: -30px;
+    display: flex;
+}
+
+/*checkbox*/
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+	position: relative; 
+	font-size: 1.05em; 
+    line-height: 1.7;
+    display: inline-flex;
+    top: -14.5px;
+    
+}
+
  #idQuest_1{
      text-align:center;
  }
@@ -193,23 +221,13 @@ fieldset {
 }
 
 
-.classInput_3-container {
+/*.classInput_3-container {
     height:100vh;
     -webkit-column-count: 4;
     -moz-column-count:4;
     column-count: 4;
-}
+}*/
 
-/*radio bouton*/
-[type="radio"]:not(:checked) + label,
-[type="radio"]:checked + label {
-	position: relative; /* permet de positionner les pseudo-éléments */
-	padding-left: 1.2em; /* fait un peu d'espace pour notre case à venir */
-	font-size: 1.05em; /* Label un peu plus gros */
-	line-height: 1.7;
-    top: -30px;
-    display: flex;
-}
 
 label[for=acceptButton] {
     position:relative;
@@ -230,11 +248,7 @@ input[name=acceptButton]{
 
 }
 
-input+label{
-    display: inline-flex;
-   
-    
-}
+
 
 
 input {
@@ -247,16 +261,7 @@ top: 10px;
 margin-bottom: 20px;
 }
 
-/*checkbox*/
-[type="checkbox"]:not(:checked) + label,
-[type="checkbox"]:checked + label {
-	position: relative; 
-	font-size: 1.05em; 
-    line-height: 1.7;
-    display: inline-flex;
-    top: -14.5px;
-    
-}
+
 
 [type = "checkbox"]{
     
