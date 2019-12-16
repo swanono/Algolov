@@ -25,7 +25,7 @@
             },
             {
                 "blocId": 2,
-                "type": "attitude-2",
+                "type": "physique-2",
                 "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?",
                 "likertSize": 7,
                 "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
