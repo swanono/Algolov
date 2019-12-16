@@ -107,6 +107,12 @@ class DOMGenerator {
 
         // insertion of the main text of the bloc in the header row
         const headerCell = headerRow.insertCell();
+        headerCell.appendChild(document.createTextNode(
+            window.config.surveyConfiguration.descNames.find(
+                desc => desc.name === window.currentDescription
+            ).text
+        ));
+        headerCell.appendChild(document.createElement('br'));
         headerCell.appendChild(document.createTextNode(question));
         headerCell.setAttribute('colspan', `${likertSize}`);
         
