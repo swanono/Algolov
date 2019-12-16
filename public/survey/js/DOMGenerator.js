@@ -19,7 +19,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 This module is used to declare the class handling the DOM changes during the survey
 */
 
-/* globals Globals */
+/* globals Swappable */
+/* globals Draggable */
 
 'use strict';
 
@@ -37,7 +38,7 @@ class DOMGenerator {
         const statesBeforeBloc = window.config.surveyConfiguration.nbStatesBeforeBloc;
         const blocState = window.state - statesBeforeBloc;
         const surveyConfig = window.config.surveyConfiguration;
-        if (blocState >= surveyConfig.nbBlocPerDesc * surveyConfig.descNames.length) {
+        if (blocState > surveyConfig.nbBlocPerDesc * surveyConfig.descNames.length) {
             console.error(`Called DOMGenerator.loadBloc() with wrong state : ${window.state}`);
             return;
         }
@@ -88,6 +89,8 @@ class DOMGenerator {
         });
 
         DOMGenerator.loadCards(usedFeatures);
+
+        DOMGenerator._makeSortable();
     }
 	
     static loadScale (question, likertSize, legends) {
@@ -125,7 +128,7 @@ class DOMGenerator {
         const indexOffset = Math.floor(likertSize / 2);
         for (let i = -indexOffset; i < likertSize - indexOffset; i++) {
             const cellRank = ranksRow.insertCell();
-            DOMGenerator.loadContainer(cellRank, window.consts.RANK_CONTAINER_ID + i);
+            DOMGenerator.loadContainer(cellRank, window.consts.RANK_CONTAINER_ID + i, window.consts.RANK_CLASS);
         }
 
         // insertion of the initial container for the features
@@ -137,10 +140,10 @@ class DOMGenerator {
         DOMGenerator.getMain().appendChild(bloc);
     }
 
-    static loadContainer (parentNode, containerId) {
+    static loadContainer (parentNode, containerId, additionnalClass) {
         // class nestable => is a container
         const container = document.createElement('div');
-        container.setAttribute('class', 'nestable container');
+        container.setAttribute('class', 'nestable container ' + additionnalClass);
         container.setAttribute('id', containerId);
 
         // TODO : arranger le style du container pour width et height
@@ -405,5 +408,30 @@ class DOMGenerator {
                 }
             }
         });
+    }
+
+    static _checkAllsorted () {
+        const cards = document.getElementsByClassName('nested-item');
+
+        let isComplete = true;
+        for (const card of cards) {
+            if (!card.parentElement.getAttribute('class').includes(window.consts.RANK_CLASS) &&
+                !(card.getAttribute('class').includes('draggable--original') || card.getAttribute('class').includes('draggable-mirror')))
+                isComplete = false;
+        }
+
+        const buttonExists = document.getElementById(window.consts.CONTINUE_BUTTON_ID);
+        if (isComplete && !buttonExists) {
+            // eslint-disable-next-line no-undef
+            DOMGenerator.loadContinueButton('Continuer', () => changeState());
+        } else if (!isComplete && buttonExists)
+            buttonExists.remove();
+    }
+
+    static _makeSortable () {
+        window.sortable = new Draggable.Sortable(document.querySelectorAll('.nestable'), {
+            draggable: '.nested-item'
+        });
+        window.sortable.on('sortable:stop', () => DOMGenerator._checkAllsorted());
     }
 }
