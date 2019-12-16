@@ -93,7 +93,115 @@ th, td {
     vertical-align: middle;
 }
 
+/*position bouton continuer*/
 #continuebutton {
-    float: center;
+
+    display: block;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/*questionnaire debut*/
+
+fieldset {
+    border: 0;
+}
+
+#idInput_1_1+label{
+    display: inline-block;
+  
+
+}
+#idInput_1_1{
+    top: -8px ;
+}
+#idInput_1_2+label{
+    display: inline-block;
+    
+  
+
+}
+#idInput_1_2{
+    top: -8px ;
+    margin-left: 10px;
+}
+#idInput_2_1+label{
+    display: inline-block;
+    
+}
+#idInput_2_1{
+    top: -8px ;
+}
+#idInput_2_2+label{
+    display: inline-block;
+    
+}
+#idInput_2_2{
+    top: -8px ;
+    margin-left: 10px;
+}
+
+.classInput_3-container {
+    height:100vh;
+    -webkit-column-count: 4;
+    -moz-column-count:4;
+    column-count: 4;
+}
+
+
+.classInput_3-container {
+    height:100vh;
+    -webkit-column-count: 4;
+    -moz-column-count:4;
+    column-count: 4;
+}
+
+/*radio bouton*/
+[type="radio"]:not(:checked) + label,
+[type="radio"]:checked + label {
+	position: relative; /* permet de positionner les pseudo-éléments */
+	padding-left: 2.3em; /* fait un peu d'espace pour notre case à venir */
+	font-size: 1.05em; /* Label un peu plus gros */
+	line-height: 1.7;
+   
+    display: flex;
+}
+
+
+input+label{
+    display: inline-flex;
+   
+    
+}
+
+input {
+
+padding: 0;
+margin:0;
+vertical-align: bottom;
+position: relative;
+top: 21px;
+}
+
+/*checkbox*/
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+	position: relative; 
+	padding-left: 2.3em;
+	font-size: 1.05em; 
+    line-height: 1.7;
+    display: inline-flex;
+   
+}
+
+[type = "checkbox"]{
+    width:49%;
+    display: inline-block;
+    top:-5px;
+}
+
+.classInput4.label{
+    display: block;
 }
 
