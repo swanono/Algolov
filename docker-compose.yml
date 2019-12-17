@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+    db:
+        image: mongo:4.2
+        container_name: 'algolov-database'
+        volumes:
+            - ./mongo-data:/data/db
+        restart: always
+        environment:
+            - MONGO_INITDB_DATABASE=algolov_db
+            - MONGO_INITDB_ROOT_USERNAME=admin_algolov
+            - MONGO_INITDB_ROOT_PASSWORD=algolov_secret
+        ports:
+            - '27017-27019:27017-27019'
+    
+    server:
+        image: algolov-server
+        container_name: 'algolov-server'
+        depends_on:
+            - db
+        restart: always
+        ports:
+            - '8081:8081'
+        

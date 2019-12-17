@@ -1,3 +1,4 @@
 node_modules/
 .vscode/
 QTrace/
+mongo-data/
