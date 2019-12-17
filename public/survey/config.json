@@ -868,7 +868,7 @@
                 "relatedQuestion": [
                     {
                         "triggerChoices": [3],
-                        "questionIds": [2, 3, 4]
+                        "questionIds": [4, 5, 6]
                     }
                 ]
             },
@@ -1032,7 +1032,7 @@
                 ],
                 "relatedQuestion": {
                     "triggerChoices": [1],
-                    "questionIds": [7]
+                    "questionIds": [9]
                 }
             },
             {
