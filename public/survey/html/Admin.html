@@ -24,27 +24,39 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <title>AlgoLov - Admin</title>
 
     <link rel="stylesheet" href="../css/admin.css"/>
+    <h1>Administration</h1>
 </head>
     <body>
-        <h1> Administration </h1>
-            <div>
-                <h3>Liste question(s) existante(s)</h3>
-                 <p id= "liste question"> q1 ... </p>
-            </div>
-            <input type = "button" id = "modifierQuestionnaire" value= "Modifier le questionnaire">
-            <div>
-                <h3> Documents de features utilisables</h3>
-                 <div>
-                     <form action="">
-                        <p>Recuperer sur le serveur </p>
-                        <p>ajout d'input pour checkbox ou radio pour chaque document</p>
-                        
+        
+        <div id="sidebar" value="hidden">
+            <!-- Ceci est ma colonne latérale -->
+            <span>Recuperer rapport</span>
+            <p> Quelques statistique</p>
+        </div>
 
-                     </form>
-                     <input type = "button" id = "modifierFeature" value= "Ajouter un nouveau document">
-                 </div>
-            </div>
-
+        <ol>
+            <li id="Qexist">
+                <div>
+                    <h3 id="TitreQexist">Liste question(s) existante(s)</h3>
+                    <p id= "liste question"> q1 ... </p>
+                </div>
+                    <input type = "button" id = "modifierQuestionnaire" value= "Modifier le questionnaire">
+            </li>
+            <li id = "Fexist">
+                <div>
+                    <h3> Documents de features utilisables</h3>
+                     <div>
+                         <form action="">
+                            <p>Recuperer sur le serveur </p>
+                            <p>ajout d'input pour checkbox ou radio pour chaque document</p>                        
+                       </form>
+                  
+                    </div>
+                    <input type = "button" id = "modifierFeature" value= "Ajouter un nouveau document">
+                </div>
+            </li>
+    
+        </ol>
 
     </body>
 </html>
