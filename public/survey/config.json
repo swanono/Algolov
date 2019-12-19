@@ -804,8 +804,8 @@
             ]
         }
     ],
-    "RGPDText": "Ce questionnaire effectue une récolte de vos données personnelles (caractéristiques physiques, goûts, coordonnées notamment) ainsi que de données sur la manière dont vous le remplissez (vitesse, hésitations, changements, etc.). Ces données seront utilisées à des fins de recherches dans le cadre des tavaux de Mme Jessica Pidoux. Pour toute demande concernant la gestion des données personnelles, envoyer un mail à l'adresse 'jessica.pidoux@epfl.ch'",
-    "surveyExplain": "Le questionnaire est divisé en plusieurs phases : une phase de questions de départ sur votre sexe et votre orientation sexuelle, plusieurs phases de classement, une phase de questions suplémentaires à la fin. Lors des phases de classement, vous devrez déplacer avec la souris des descriptions de caractéristiques vers une échelle d'importance.",
+    "RGPDText": "Ce questionnaire effectue une récolte de vos données personnelles (caractéristiques physiques, goûts, coordonnées notamment) ainsi que de données sur la manière dont vous le remplissez (vitesse, hésitations, changements, etc.). Ces données seront utilisées à des fins de recherches dans le cadre des travaux de Mme Jessica Pidoux. Pour toute demande concernant la gestion des données personnelles, envoyer un mail à l'adresse 'jessica.pidoux@epfl.ch'",
+    "surveyExplain": "Le questionnaire est divisé en plusieurs phases : une phase de questions de départ sur votre sexe et votre orientation sexuelle, plusieurs phases de classement, une phase de questions supplémentaires à la fin. Lors des phases de classement, vous devrez déplacer avec la souris des descriptions de caractéristiques vers une échelle d'importance.",
     "wrongStatementFormatMessage": "mauvais fichier config.json récupéré",
     "QCM": {
         "begin": [
