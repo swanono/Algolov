@@ -9,8 +9,10 @@ h1{
 
 * {padding:0;}
 ol {position:relative; margin:0 10%; list-style:none;}
-ul {list-style:inside;}
+ul {list-style:inside; border:black;}
 h3 {text-align:center;}
+
+
 #Qexist {
     position:fixed;
     height:100%;
@@ -28,3 +30,5 @@ h3 {text-align:center;}
     text-align: center;
 
 }
+
+
