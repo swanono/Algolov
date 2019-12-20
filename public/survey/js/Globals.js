@@ -23,7 +23,7 @@ This module is used to declare global variables and functions
 
 'use strict';
 
-window.state = 0;
+window.state = 11;
 window.config = {}; // Contains the config.json file
 window.features = null; // Contains all the features
 window.ranking = []; // Contains all the blocs with the ranking of the features by the user
@@ -113,7 +113,7 @@ function changeState () {
         // The last state for some questions and sending the datas to the server
 
         const quest = window.config.QCM.end;
-        DOMGenerator.generateStepQCMPage('', 'Valider', TraceStorage.saveForm, () => sendJSON(), quest);
+        DOMGenerator.generateStepQCMPage('', 'Valider', TraceStorage.saveForm, async () => sendJSON(), quest);
     } else
         console.error("This state doesn't exist : " + window.state);
 }
@@ -169,10 +169,14 @@ function getQCMArray (questionOrder) {
 
 async function sendJSON () {
     const json = TraceStorage.GenerateJSON();
-    const html = await fetch('/api/survey', {
+    const response = await fetch('/api/survey', {
         method: 'POST',
-        body: json
+        body: json,
+        headers: new Headers({ 'Content-type': 'application/json' })
     });
 
-    return html.text();
+    if (!response.ok)
+        console.error('Une erreur est survenue lors de l\'envoi des données : ' + response.statusText);
+
+    window.location.href = response.url;
 }

@@ -175,16 +175,19 @@ class TraceStorage {
         });
         json += '], ';
 
-        json += '"beginQuestions": ';
+        json += '"beginQuestions": {}';
         // TODO : enregistrer dans le json les réponses aux questions de départ
+        json += ',';
 
-        json += '"rankingResult": ';
+        json += '"rankingResult": {}';
         // TODO : enregistrer dans le json les réponses à chaque bloc
+        json += ',';
 
-        json += '"endQuestions": ';
+        json += '"endQuestions": {}';
         // TODO : enregistrer dans le json les réponses au questionnaire de fin
+        json += ',';
 
-        json += '"traces": ';
+        json += '"traces": {}';
         // TODO : enregistrer dans le json les traces
 
         json += ' }';
