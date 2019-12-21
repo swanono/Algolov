@@ -18,4 +18,28 @@ This module is used to launch unit tests with jest on the dao functions
 */
 'use strict';
 
+const daos = require('../dao');
 // TODO : voir @shelf/jest-mongodb pour avoir une bdd test
+
+describe('Test DAO Users Connexion', () => {
+    let daoUsers;
+
+    beforeAll(async done => { daoUsers = new daos.DAOUsers(1, done, process.env.MONGO_URL); });
+
+    test('DAO Users Connexion', () => {
+        expect(daoUsers.database.databaseName).toEqual('db-algolov');
+        expect(daoUsers.sessionId).toEqual(1);
+    });
+});
+
+describe('Tests on DAO Users', () => {
+    let dao;
+
+    beforeEach(async done => { dao = new daos.DAOUsers(1, done, process.env.MONGO_URL); });
+
+    afterEach(() => dao.closeConnexion());
+
+    test('Successful insertion of one user', () => {
+        return expect(dao.insert({ name: 'test user', question: [1, 2, 3] })).resolves.toHaveProperty('insertedCount', 1);
+    });
+});

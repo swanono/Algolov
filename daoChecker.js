@@ -21,7 +21,8 @@ This module is used for checking the validity of the data passed to the dao
 const checkers = {};
 
 checkers.checkNewUser = (userData) => new Promise(function (resolve, reject) {
-
+    // TODO : remplir la fonction
+    resolve(userData);
 });
 
 module.exports = checkers;

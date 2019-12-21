@@ -24,12 +24,15 @@ dotenv.config();
 
 const _nodeEnv = process.env.NODE_ENV;
 const _directoryPrefix = (_nodeEnv === 'dev' ? '' : '');
+const _dbPort = process.env.DB_PORT;
 
 module.exports = {
     nodeEnv: _nodeEnv,
     port: process.env.PORT,
-    dbPort: process.env.DB_PORT,
+    dbPort: _dbPort,
     directoryPrefix: _directoryPrefix,
     pathPostSurveyApi: '/survey',
-    pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html'
+    pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
+    dbUrl: 'mongodb://localhost:' + _dbPort + '/',
+    dbName: 'db-algolov'
 };

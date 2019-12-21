@@ -22,51 +22,113 @@ const config = require('./config');
 const checker = require('./daoChecker');
 const mongo = require('mongodb').MongoClient;
 
-const dbURL = 'mongodb://localhost:' + config.dbPort + '/';
+/**
+ * DAO base class used as basic middleware between server and database
+ */
+class DAO {
+    sessionId;
+    database;
+    clientConnexion;
+    collectionName;
+    logId;
 
-// Database Object
-let database;
+    constructor (collectionName, sessionId = 0, callback = () => {}, url = config.dbUrl, dbName = config.dbName) {
+        this.collectionName = collectionName;
 
-// Collection names
-const nameDbUser = 'Users';
+        mongo.connect(url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }, (err, db) => {
+            if (err) {
+                console.error('Une erreur est survenue lors de la création de la base de données : ' + err);
+                return;
+            }
 
-// DAO Objects used as middleware between server and DB
-const users = {};
+            this.clientConnexion = db;
+            this.database = db.db(dbName);
 
-mongo.connect(dbURL, (err, db) => {
-    if (err) {
-        console.error('Une erreur est survenue lors de la création de la base de données : ' + err);
-        return;
+            console.log('new connection to database "' + this.database.databaseName + '" established. ID : ' + sessionId);
+
+            this.sessionId = sessionId;
+
+            this.logId = '[Connection ' + sessionId + '] ';
+
+            callback();
+        });
     }
 
-    database = db.db('db-algolov');
+    _insert (data) { return this.database.collection(this.collectionName).insertOne(data); }
 
-    console.log('Connected to database : ' + database.databaseName);
-});
+    _find (query, one) {
+        let resPromise;
+
+        if (one)
+            resPromise = this.database.collection(this.collectionName).findOne(query);
+        else
+            resPromise = this.database.collection(this.collectionName).find(query);
+
+        return resPromise;
+    }
+
+    _update (query, newData, one) {
+        let resPromise;
+
+        if (one)
+            resPromise = this.database.collection(this.collectionName).updateOne(query, newData);
+        else
+            resPromise = this.database.collection(this.collectionName).updateMany(query, newData);
+
+        return resPromise;
+    }
+
+    _delete (query, one) {
+        let resPromise;
+
+        if (one)
+            resPromise = this.database.collection(this.collectionName).deleteOne(query);
+        else
+            resPromise = this.database.collection(this.collectionName).deleteMany(query);
+
+        return resPromise;
+    }
+
+    dropCollection () {
+        return this.database.collection(this.collectionName).drop();
+    }
+
+    closeConnexion () {
+        this.clientConnexion.close();
+    }
+}
 
 /**
- * --- Basic functions for DB access ---
+ * DAO subclass used as accessor for the Users collection
  */
+class DAOUsers extends DAO {
+    static nameDbUser = 'Users';
 
-const dbInsert = (coll, data) => new Promise(function (resolve, reject) {
-    database.collection(coll).insertOne(data, function (err, res) {
-        if (err)
-            console.error('Error during insertion in collection "' + coll + '" : ' + err);
-    });
-});
+    constructor (sessionId, callback, url, dbName) {
+        super(DAOUsers.nameDbUser, sessionId, callback, url, dbName);
+    }
 
-/**
- * --- Accessors for Users collection ---
- */
+    insert (user) {
+        // TODO : tester si le self marche
+        const self = this;
 
-users.insert = (userObj) => new Promise(function (resolve, reject) {
-    checker.checkNewUser(userObj)
-        .then(user => dbInsert(nameDbUser, user))
-        .then(() => {
-            console.log('Inserted new user in Database');
-            resolve();
-        })
-        .catch(err => reject(err));
-});
+        return new Promise(function (resolve, reject) {
+            checker.checkNewUser(user)
+                .then(validUser => self._insert(validUser))
+                .then(result => {
+                    console.log(self.logId + 'Inserted ' + result.insertedCount +
+                        ' in ' + self.collectionName);
+                    resolve(result);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        });
+    }
+}
 
-module.exports.users = users;
+module.exports.DAOUsers = DAOUsers;
