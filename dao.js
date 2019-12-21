@@ -17,3 +17,56 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 This module is used as an interface with the database
 */
 'use strict';
+
+const config = require('./config');
+const checker = require('./daoChecker');
+const mongo = require('mongodb').MongoClient;
+
+const dbURL = 'mongodb://localhost:' + config.dbPort + '/';
+
+// Database Object
+let database;
+
+// Collection names
+const nameDbUser = 'Users';
+
+// DAO Objects used as middleware between server and DB
+const users = {};
+
+mongo.connect(dbURL, (err, db) => {
+    if (err) {
+        console.error('Une erreur est survenue lors de la création de la base de données : ' + err);
+        return;
+    }
+
+    database = db.db('db-algolov');
+
+    console.log('Connected to database : ' + database.databaseName);
+});
+
+/**
+ * --- Basic functions for DB access ---
+ */
+
+const dbInsert = (coll, data) => new Promise(function (resolve, reject) {
+    database.collection(coll).insertOne(data, function (err, res) {
+        if (err)
+            console.error('Error during insertion in collection "' + coll + '" : ' + err);
+    });
+});
+
+/**
+ * --- Accessors for Users collection ---
+ */
+
+users.insert = (userObj) => new Promise(function (resolve, reject) {
+    checker.checkNewUser(userObj)
+        .then(user => dbInsert(nameDbUser, user))
+        .then(() => {
+            console.log('Inserted new user in Database');
+            resolve();
+        })
+        .catch(err => reject(err));
+});
+
+module.exports.users = users;

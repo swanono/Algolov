@@ -14,22 +14,8 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
 
-This module is used to set global and environnement variables
+This module is used to launch unit tests with jest on the dao functions
 */
 'use strict';
 
-const dotenv = require('dotenv');
-
-dotenv.config();
-
-const _nodeEnv = process.env.NODE_ENV;
-const _directoryPrefix = (_nodeEnv === 'dev' ? '' : '');
-
-module.exports = {
-    nodeEnv: _nodeEnv,
-    port: process.env.PORT,
-    dbPort: process.env.DB_PORT,
-    directoryPrefix: _directoryPrefix,
-    pathPostSurveyApi: '/survey',
-    pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html'
-};
+// TODO : voir @shelf/jest-mongodb pour avoir une bdd test

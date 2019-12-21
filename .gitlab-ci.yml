@@ -7,10 +7,9 @@ image: node
 stages:
   - lint
   - unitTest
-#   - exec
 
 variables:
-  PORT: 8080
+  PORT: 8081
 
 eslint:
   stage: lint
@@ -42,13 +41,6 @@ htmllint:
 jest:
   stage: unitTest
   before_script:
-    - npm i
+    - npm install
   script:
     - npm run unitTest
-
-# server:
-#   stage: exec
-#   before_script:
-#     - npm i
-#   script:
-#     - npm run start

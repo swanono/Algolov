@@ -14,22 +14,40 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
 
-This module is used to set global and environnement variables
+This module is used to launch unit tests with jest on the server functions
 */
 'use strict';
 
-const dotenv = require('dotenv');
+// Test de lancement de serveur avant les autres tests
+describe('Testing server launching', () => {
+    let serv;
 
-dotenv.config();
+    test('Server launched', done => {
+        const server = require('../server');
+        serv = server.app.listen(require('../config').port, () => {
+            expect(serv.listening).toBe(true);
+            done();
+        });
+    });
 
-const _nodeEnv = process.env.NODE_ENV;
-const _directoryPrefix = (_nodeEnv === 'dev' ? '' : '');
+    afterAll(() => {
+        serv.close();
+    });
+});
 
-module.exports = {
-    nodeEnv: _nodeEnv,
-    port: process.env.PORT,
-    dbPort: process.env.DB_PORT,
-    directoryPrefix: _directoryPrefix,
-    pathPostSurveyApi: '/survey',
-    pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html'
-};
+// Tests sur les fonctions du serveur
+describe('Testing server related functions', () => {
+    let server;
+    let serv;
+
+    beforeAll(() => {
+        server = require('../server.js');
+        serv = server.main();
+    });
+
+    afterAll(() => {
+        serv.close();
+    });
+});
+
+// TODO : unit test on server.testFunc.isAdmin
