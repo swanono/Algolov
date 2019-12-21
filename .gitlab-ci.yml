@@ -20,6 +20,8 @@ eslint:
     - npm install eslint-plugin-node --save-dev
     - npm install eslint-plugin-promise --save-dev
     - npm install eslint-plugin-standard --save-dev
+    - npm install babel-eslint --save-dev
+    - npm install @babel/plugin-proposal-class-properties --save-dev
   script:
     - npm run lintjs
 
