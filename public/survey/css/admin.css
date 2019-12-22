@@ -57,3 +57,25 @@ h3 {text-align:center;}
     margin-left:40%;
 }
 
+
+#FormulaireModifQuestion {
+
+    left:60%;
+    position:fixed;
+    width:40%;
+    height:100%;
+    text-align: center;
+
+}
+
+.bouton{
+    border:1px solid gray;
+    padding:5px;
+    background:#CCC;
+    
+    
+}
+a{
+    color:black;
+    text-decoration: none;
+}

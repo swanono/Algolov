@@ -25,45 +25,54 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
     <link rel="stylesheet" href="../css/admin.css"/>
     <script type="text/javascript" src="../js/Admin.js" ></script>
-    <h1>Administration</h1>
-    <button" id = "Donnees" class="bouton"> <a href="../html/Admin.html">Données existante </a></button>
+    <h1>Administration - Modifier le questionnaire</h1>
+    <button" id = "Admin" class="bouton"> <a href="../html/Admin.html">Retour </a></button>
+                
 </head>
     <body>
-        
-        <div id="sidebar">
-            <!-- Ceci est ma colonne latérale -->
-            <span>Recuperer rapport</span>
-            <p> Quelques statistique</p>
-        </div>
 
         <ol>
             <li id="Qexist">
                 <div id = QuestionList>
-                
                     <h3 id="TitreQexist">Liste question(s) existante(s)</h3>
+                    <h5>Partie intro</h5>
+                    <!--recuperer question d'intro-->
+                    <h5>Partie Drag&Drop</h5>
+                    <!--recuperer question drag&drop-->
+                    <h5>Partie finale </h5>
+                    <!--recuperer question final form-->
                     
-                    <p id= "liste question"> q1 ... </p>
-                    <p id= "liste question"> q1 ... </p>
-                    <p id= "liste question"> q1 ... </p>
-                    <p id= "liste question"> q1 ... </p>
-                    <p id= "liste question"> q1 ... </p>
-                    <p id= "liste question"> q1 ... </p>
+                    
                     
                 </div>
-                <button" id = "modifierQuestionnaire" class="bouton"> <a href="../html/ModifQuestion.html">ModifierQuestionnaire </a></button>
+                    
             </li>
-            <li id = "Fexist">
-                <div id=FeaturesList>
-                    <h3> Documents de features utilisables</h3>
-                     <div>
-                         <form action="">
-                            <p>Recuperer sur le serveur </p>
-                            <p>ajout d'input pour checkbox ou radio pour chaque document</p>                        
-                       </form>
-                  
-                    </div>
-                </div>
-                <button" id = "modifierFeature" class="bouton"> <a href="../html/ModifFeature.html">Ajouter un nouveau document </a></button>
+            <li id = "FormulaireModifQuestion">
+                <form id=ajoutQuest>
+                    <label for="1" >
+                        1
+                    </label>
+                    <input type="text" id=1>
+                    <label for="2">
+                        1
+                    </label>
+                    <input type="text" id="2">
+                    <label>
+                        1
+                    </label>
+                    <input type="text" for ="3">
+                    <label>
+                        1
+                    </label>
+                    <input type="text" id="3">
+                    <label>
+                        1
+                    </label>
+                    <input type="text">
+
+                </form>
+                
+                
                 
             </li>
     
