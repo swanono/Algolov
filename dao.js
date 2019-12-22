@@ -22,51 +22,173 @@ const config = require('./config');
 const checker = require('./daoChecker');
 const mongo = require('mongodb').MongoClient;
 
-const dbURL = 'mongodb://localhost:' + config.dbPort + '/';
+/**
+ * DAO base class used as basic middleware between server and database
+ */
+class DAO {
+    get sessionId () { return this._sessionId; }
+    get database () { return this._database; }
+    get clientConnexion () { return this._clientConnexion; }
+    get collectionName () { return this._collectionName; }
+    get logId () { return this._logId; }
 
-// Database Object
-let database;
+    set sessionId (sessionId) { this._sessionId = sessionId; }
+    set database (database) { this._database = database; }
+    set clientConnexion (clientConnexion) { this._clientConnexion = clientConnexion; }
+    set collectionName (collectionName) { this._collectionName = collectionName; }
+    set logId (logId) { this._logId = logId; }
 
-// Collection names
-const nameDbUser = 'Users';
+    constructor (collectionName, sessionId = 0, callback = () => {}, url = config.dbUrl, dbName = config.dbName) {
+        this.collectionName = collectionName;
 
-// DAO Objects used as middleware between server and DB
-const users = {};
+        mongo.connect(url, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        }, (err, db) => {
+            if (err) {
+                console.error('Une erreur est survenue lors de la création de la base de données : ' + err);
+                return;
+            }
 
-mongo.connect(dbURL, (err, db) => {
-    if (err) {
-        console.error('Une erreur est survenue lors de la création de la base de données : ' + err);
-        return;
+            this.clientConnexion = db;
+            this.database = db.db(dbName);
+
+            console.log('new connection to database "' + this.database.databaseName + '" established. ID : ' + sessionId);
+
+            this.sessionId = sessionId;
+
+            this.logId = '[Connection ' + sessionId + '] ';
+
+            callback();
+        });
     }
 
-    database = db.db('db-algolov');
+    /**
+     * !! Some functions are meant to be overriden (the ones begining with _)
+     * but the behavior of the super keyword is weird inside promises
+     * so they are just used as "private" functions !!
+     */
 
-    console.log('Connected to database : ' + database.databaseName);
-});
+    _insert (data) { return this.database.collection(this.collectionName).insertOne(data); }
+
+    _find (query, one = true) {
+        let resPromise;
+
+        if (one)
+            resPromise = this.database.collection(this.collectionName).findOne(query);
+        else
+            resPromise = this.database.collection(this.collectionName).find(query);
+
+        return resPromise;
+    }
+
+    _update (query, newData, one = true) {
+        let resPromise;
+
+        if (one)
+            resPromise = this.database.collection(this.collectionName).updateOne(query, newData);
+        else
+            resPromise = this.database.collection(this.collectionName).updateMany(query, newData);
+
+        return resPromise;
+    }
+
+    _delete (query, one = true) {
+        let resPromise;
+
+        if (one)
+            resPromise = this.database.collection(this.collectionName).deleteOne(query);
+        else
+            resPromise = this.database.collection(this.collectionName).deleteMany(query);
+
+        return resPromise;
+    }
+
+    dropCollection () {
+        return this.database.collection(this.collectionName).drop();
+    }
+
+    closeConnexion () {
+        this.clientConnexion.close();
+    }
+}
 
 /**
- * --- Basic functions for DB access ---
+ * DAO subclass used as accessor for the Users collection
  */
+class DAOUsers extends DAO {
+    static get nameDbUser () { return 'Users'; }
 
-const dbInsert = (coll, data) => new Promise(function (resolve, reject) {
-    database.collection(coll).insertOne(data, function (err, res) {
-        if (err)
-            console.error('Error during insertion in collection "' + coll + '" : ' + err);
-    });
-});
+    constructor (sessionId, callback, url, dbName) {
+        super(DAOUsers.nameDbUser, sessionId, callback, url, dbName);
+    }
+
+    insert (user) {
+        const self = this;
+
+        return new Promise(function (resolve, reject) {
+            checker.checkNewUser(user)
+                .then(validUser => self._insert(validUser))
+                .then(result => {
+                    console.log(self.logId + 'Inserted ' + result.insertedCount +
+                        ' in ' + self.collectionName);
+                    resolve(result);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        });
+    }
+}
 
 /**
- * --- Accessors for Users collection ---
+ * DAO subclass used as accessor for the Admin collection
  */
+class DAOAdmins extends DAO {
+    static get nameDbAdmin () { return 'Admin'; }
 
-users.insert = (userObj) => new Promise(function (resolve, reject) {
-    checker.checkNewUser(userObj)
-        .then(user => dbInsert(nameDbUser, user))
-        .then(() => {
-            console.log('Inserted new user in Database');
-            resolve();
-        })
-        .catch(err => reject(err));
-});
+    constructor (sessionId, callback, url, dbName) {
+        super(DAOAdmins.nameDbAdmin, sessionId, callback, url, dbName);
+    }
+    
+    insert (admin) {
+        const self = this;
 
-module.exports.users = users;
+        return new Promise(function (resolve, reject) {
+            checker.checkNewAdmin(admin)
+                .then(validAdmin => self._insert(validAdmin))
+                .then(result => {
+                    console.log(self.logId + 'Inserted ' + result.insertedCount +
+                        ' in ' + self.collectionName);
+                    resolve(result);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        });
+    }
+
+    findByName (name) {
+        const self = this;
+
+        return new Promise(function (resolve, reject) {
+            checker.checkAdminName(name)
+                .then(validName => self._find({name: validName}))
+                .then(result => {
+                    console.log(self.logId + 'Found 1 item in ' + self.collectionName);
+                    resolve(result);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        });
+    }
+}
+
+module.exports = {
+    DAOUsers: DAOUsers,
+    DAOAdmins: DAOAdmins
+};

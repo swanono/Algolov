@@ -18,6 +18,7 @@ This module is used to handle client requests and redirect them to the right ana
 */
 'use strict';
 
+const daos = require('./dao');
 const config = require('./config.js');
 const express = require('express');
 
@@ -25,8 +26,11 @@ module.exports = (passport) => {
     const app = express();
 
     app.post(config.pathPostSurveyApi, function (req, res) {
-        // TODO : Valider le fichier JSON reçu
-        // TODO : enregistrer les données JSON dans la BDD
+        const daoUser = new daos.DAOUsers(req.sessionID, () => {
+            daoUser.insert(req.body);
+        });
+
+        // TODO : envoyer le mail ici
 
         res.redirect(config.pathGetThanksAbs);
     });
