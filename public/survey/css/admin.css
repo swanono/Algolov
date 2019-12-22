@@ -1,21 +1,37 @@
 h1{
     height : 15%;
     width: 100%;
-    position:fixed;
+    position:absolute;
     text-align: center;
     background-color: white;
     
 }
 
 * {padding:0;}
-ol {position:relative; margin:0 10%; list-style:none;}
-ul {list-style:inside; border:black;}
-h3 {text-align:center;}
+ol 
+{
+    position:relative;
+    margin:0 10%; 
+    list-style:none;
+}
+
+ul 
+{
+    list-style:inside;
+    border:black;
+}
+
+h3 
+{
+    text-align:center;
+}
 
 
 #Qexist {
+    top:20%;
     position:fixed;
-    height:100%;
+    height:500px;
+    width: 500px;
     margin-bottom: 100%;
     border-color: black;
      
@@ -24,10 +40,11 @@ h3 {text-align:center;}
 }
 #Fexist {
 
-    left:60%;
-    position:fixed;
-    width:40%;
-    height:100%;
+    width: 500px;
+    top:20%;
+    left:50%;
+    position:fixed;  
+    height:500px;
     text-align: center;
 
 }
@@ -51,6 +68,7 @@ h3 {text-align:center;}
 {
    
     margin-left:40%;
+    
 }
 
 #modifierFeature{
@@ -84,13 +102,21 @@ a{
 
 #FormulaireModifQuestion {
 
-    left:60%;
+    
     position:fixed;
-    width:40%;
-    height:100%;
+    
+   
     text-align: center;
+    top:20%;
+    width: 500px;
+    
+    left:50%;
+    
+    height:500px;
+    
 
 }
+
 
 
 form#ajoutQuest {
@@ -124,7 +150,8 @@ label.ajoutQuest {
     background: lightgrey; color: #fff;	
     position: fixed;
     left: -260px; top: 0px;
-    
+     
+
     -webkit-transition: all .5s ease-in;
 	transition: all .5s ease-in;
 }
@@ -157,7 +184,10 @@ label.ajoutQuest {
 
 
 #volet a.fermer {
-	display: none;
+    display:none;
+    background-color: grey;
+    color:white;
+    text-align: center;
 }
 
 #volet:target a.ouvrir {
@@ -170,4 +200,7 @@ label.ajoutQuest {
 #volet p, span {
     color: black;
 }
-/*sidebar*/
+
+
+/* fin sidebar*/
+
