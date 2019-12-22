@@ -48,30 +48,55 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                     
             </li>
             <li id = "FormulaireModifQuestion">
-                <form id=ajoutQuest>
-                    <label for="1" >
-                        1
-                    </label>
-                    <input type="text" id=1>
-                    <label for="2">
-                        1
-                    </label>
-                    <input type="text" id="2">
-                    <label>
-                        1
-                    </label>
-                    <input type="text" for ="3">
-                    <label>
-                        1
-                    </label>
-                    <input type="text" id="3">
-                    <label>
-                        1
-                    </label>
-                    <input type="text">
+                <div id=formulaire>
+                    <form action ="" methode="get" id=ajoutQuest>
+                        <div id=ajoutQuest>
+                            <label for="1"class=ajoutQuest >
+                                Emplacement dans le formulaire
+                            </label>
+                            <input type="select" id=1 class=ajoutQuest required>
+                                <option>Intro</option>
+                                <option>Drag&Drop</option>
+                                <option>Fin</option>
+                            </input>
+                        </div>
+                        <div id=ajoutQuest >   
+                            <label for="2"class=ajoutQuest>
+                                numéro de question:
+                            </label>
+                            <input type="select" id="2"class=ajoutQuest required>
+                            <!-- recuperer nombre de question +1-->
+                            <!-- peut etre adapter a chaque differente partie (3 pour intro, N+1 pour drag&drop, M+1 pour final-->
+                        </div>
+                        <div id=ajoutQuest>
+                            <label for="3" class=ajoutQuest>
+                                Question :
+                            </label>
+                            <input type="text" for ="3" class=ajoutQuest required>
+                        </div>
+                        <div id=ajoutQuest>
+                            <label for="4" class=ajoutQuest>
+                                Si cette question n'appartient pas à la Partie 2, indiquez les réponses à proposer :
+                            </label>
+                            <input type="text" id="4" class=ajoutQuest>
 
+                        </div>
+                        <div id=ajoutQuest>
+                            <label for="5" class=ajoutQuest>
+                                Sinon, indiquez le thème des features associées
+                            </label>
+                            <input type="checkbox" checked>
+                            <input type="select" id="5" class=ajoutQuest>
+                            <input type="checkbox" checked>
+                            <input type="text" id="5" class=ajoutQuest> Other</input>
+
+
+                        </div>
+                        
+                    </div>
                 </form>
-                
+                <button" id = "Validation" class="bouton" type= "submit"> <a href="../html/Admin.html">Valider </a></button>
+        
                 
                 
             </li>
