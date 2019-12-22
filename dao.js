@@ -26,11 +26,17 @@ const mongo = require('mongodb').MongoClient;
  * DAO base class used as basic middleware between server and database
  */
 class DAO {
-    sessionId;
-    database;
-    clientConnexion;
-    collectionName;
-    logId;
+    get sessionId () { return this._sessionId; }
+    get database () { return this._database; }
+    get clientConnexion () { return this._clientConnexion; }
+    get collectionName () { return this._collectionName; }
+    get logId () { return this._logId; }
+
+    set sessionId (sessionId) { this._sessionId = sessionId; }
+    set database (database) { this._database = database; }
+    set clientConnexion (clientConnexion) { this._clientConnexion = clientConnexion; }
+    set collectionName (collectionName) { this._collectionName = collectionName; }
+    set logId (logId) { this._logId = logId; }
 
     constructor (collectionName, sessionId = 0, callback = () => {}, url = config.dbUrl, dbName = config.dbName) {
         this.collectionName = collectionName;
@@ -57,9 +63,15 @@ class DAO {
         });
     }
 
+    /**
+     * !! Some functions are meant to be overriden (the ones begining with _)
+     * but the behavior of the super keyword is weird inside promises
+     * so they are just used as "private" functions !!
+     */
+
     _insert (data) { return this.database.collection(this.collectionName).insertOne(data); }
 
-    _find (query, one) {
+    _find (query, one = true) {
         let resPromise;
 
         if (one)
@@ -70,7 +82,7 @@ class DAO {
         return resPromise;
     }
 
-    _update (query, newData, one) {
+    _update (query, newData, one = true) {
         let resPromise;
 
         if (one)
@@ -81,7 +93,7 @@ class DAO {
         return resPromise;
     }
 
-    _delete (query, one) {
+    _delete (query, one = true) {
         let resPromise;
 
         if (one)
@@ -105,14 +117,13 @@ class DAO {
  * DAO subclass used as accessor for the Users collection
  */
 class DAOUsers extends DAO {
-    static nameDbUser = 'Users';
+    static get nameDbUser () { return 'Users'; }
 
     constructor (sessionId, callback, url, dbName) {
         super(DAOUsers.nameDbUser, sessionId, callback, url, dbName);
     }
 
     insert (user) {
-        // TODO : tester si le self marche
         const self = this;
 
         return new Promise(function (resolve, reject) {
@@ -131,4 +142,53 @@ class DAOUsers extends DAO {
     }
 }
 
-module.exports.DAOUsers = DAOUsers;
+/**
+ * DAO subclass used as accessor for the Admin collection
+ */
+class DAOAdmins extends DAO {
+    static get nameDbAdmin () { return 'Admin'; }
+
+    constructor (sessionId, callback, url, dbName) {
+        super(DAOAdmins.nameDbAdmin, sessionId, callback, url, dbName);
+    }
+    
+    insert (admin) {
+        const self = this;
+
+        return new Promise(function (resolve, reject) {
+            checker.checkNewAdmin(admin)
+                .then(validAdmin => self._insert(validAdmin))
+                .then(result => {
+                    console.log(self.logId + 'Inserted ' + result.insertedCount +
+                        ' in ' + self.collectionName);
+                    resolve(result);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        });
+    }
+
+    findByName (name) {
+        const self = this;
+
+        return new Promise(function (resolve, reject) {
+            checker.checkAdminName(name)
+                .then(validName => self._find({name: validName}))
+                .then(result => {
+                    console.log(self.logId + 'Found 1 item in ' + self.collectionName);
+                    resolve(result);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        });
+    }
+}
+
+module.exports = {
+    DAOUsers: DAOUsers,
+    DAOAdmins: DAOAdmins
+};

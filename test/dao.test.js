@@ -19,7 +19,6 @@ This module is used to launch unit tests with jest on the dao functions
 'use strict';
 
 const daos = require('../dao');
-// TODO : voir @shelf/jest-mongodb pour avoir une bdd test
 
 describe('Test DAO Users Connexion', () => {
     let daoUsers;
@@ -32,6 +31,17 @@ describe('Test DAO Users Connexion', () => {
     });
 });
 
+describe('Test DAO Admins Connexion', () => {
+    let daoAdmins;
+
+    beforeAll(async done => { daoAdmins = new daos.DAOAdmins(1, done, process.env.MONGO_URL); });
+
+    test('DAO Users Connexion', () => {
+        expect(daoAdmins.database.databaseName).toEqual('db-algolov');
+        expect(daoAdmins.sessionId).toEqual(1);
+    });
+});
+
 describe('Tests on DAO Users', () => {
     let dao;
 
@@ -41,5 +51,23 @@ describe('Tests on DAO Users', () => {
 
     test('Successful insertion of one user', () => {
         return expect(dao.insert({ name: 'test user', question: [1, 2, 3] })).resolves.toHaveProperty('insertedCount', 1);
+    });
+});
+
+describe('Tests on DAO Admins', () => {
+    let dao;
+
+    beforeEach(async done => { dao = new daos.DAOAdmins(1, done, process.env.MONGO_URL); });
+
+    afterEach(() => dao.closeConnexion());
+    
+    test('Successful insertion of one admin', () => {
+        return expect(dao.insert({ name: 'test admin', email: 'ulysse.guyon@gmail.com', password: 'TestTest123'})).resolves.toHaveProperty('insertedCount', 1);
+    });
+
+    test('Successful find of an admin', async () => {
+        const tested = { name: 'Test', email: 'ulysse.guyon@gmail.com', password: 'TestTest123' };
+        await dao.insert(tested);
+        return expect(dao.findByName(tested.name)).resolves.toEqual(tested);
     });
 });

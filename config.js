@@ -34,5 +34,7 @@ module.exports = {
     pathPostSurveyApi: '/survey',
     pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
     dbUrl: 'mongodb://localhost:' + _dbPort + '/',
-    dbName: 'db-algolov'
+    dbName: 'db-algolov',
+    adminIdRegex: /[A-Za-z0-9-_]{3,}/,
+    adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
 };

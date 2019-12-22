@@ -18,11 +18,31 @@ This module is used for checking the validity of the data passed to the dao
 */
 'use strict';
 
+const config = require('./config');
+
+function isString (v) {
+    return Object.prototype.toString.call(v) === '[object String]';
+}
+
 const checkers = {};
 
 checkers.checkNewUser = (userData) => new Promise(function (resolve, reject) {
     // TODO : remplir la fonction
     resolve(userData);
+});
+checkers.checkNewAdmin = (adminData) => new Promise(function (resolve, reject) {
+    // TODO : remplir la fonction
+    resolve(adminData);
+});
+
+checkers.checkAdminName = (adminName) => new Promise(function (resolve, reject) {
+    if (isString(adminName)) {
+        if (adminName.match(config.adminNameRegex))
+            resolve(adminName);
+        else
+            reject(new Error('Given id is not a username : id = ' + adminName));
+    } else
+        reject(new TypeError('The id  given is not a strings : id =' + adminName));
 });
 
 module.exports = checkers;
