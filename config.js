@@ -26,6 +26,9 @@ const _nodeEnv = process.env.NODE_ENV;
 const _directoryPrefix = (_nodeEnv === 'dev' ? '' : '');
 const _dbPort = process.env.DB_PORT;
 
+const _mongoUser = (process.env.MONGO_INITDB_ROOT_USERNAME ? process.env.MONGO_INITDB_ROOT_USERNAME : '');
+const _mongoPassword = (process.env.MONGO_INITDB_ROOT_PASSWORD ? process.env.MONGO_INITDB_ROOT_PASSWORD : '');
+
 module.exports = {
     nodeEnv: _nodeEnv,
     port: process.env.PORT,
@@ -33,7 +36,7 @@ module.exports = {
     directoryPrefix: _directoryPrefix,
     pathPostSurveyApi: '/survey',
     pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
-    dbUrl: 'mongodb://localhost:' + _dbPort + '/',
+    dbUrl: `mongodb://${_mongoUser}:${_mongoPassword}@db:` + _dbPort + '/',
     dbName: 'db-algolov',
     adminIdRegex: /[A-Za-z0-9-_]{3,}/,
     adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/

@@ -70,7 +70,7 @@ class TraceStorage {
                     objRes.idQuestion = input.getAttribute('id').split('_')[1];
                     objRes.idChoice = input.getAttribute('id').split('_')[2];
                     objRes.questionText = document.getElementById(window.consts.QUESTION_ID + objRes.idQuestion).firstElementChild.textContent;
-                    objRes.choiceText = document.querySelector(`label[for=${window.consts.INPUT_ID + objRes.idChoice}]`).textContent;
+                    objRes.choiceText = document.querySelector(`label[for=${window.consts.INPUT_ID + objRes.idQuestion + '_' + objRes.idChoice}]`).textContent;
                 }
                 responses.push(objRes);
             }
