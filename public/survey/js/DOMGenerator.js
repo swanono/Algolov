@@ -280,14 +280,34 @@ class DOMGenerator {
                 input.setAttribute('descValue', choice.descValue);
             }
 
+            const label = document.createElement('label');
+            label.setAttribute('for', input.getAttribute('id'));
+            label.appendChild(document.createTextNode(choice.text));
+
+            const containerDiv = document.createElement('div');
+            containerDiv.setAttribute('id', window.consts.INPUT_DIV_ID + question.id + '_' + choice.choiceId);
+            containerDiv.appendChild(input);
+            containerDiv.appendChild(label);
+
+            htmlTags.push(containerDiv);
+        });
+
+        if (question.other) {
+            const idText = Math.max(...question.choices) + 1;
+            const input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.setAttribute('id', window.consts.INPUT_ID + question.id + '_' + idText);
+            input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
+            input.setAttribute('name', input.getAttribute('class'));
+
             htmlTags.push(input);
 
             const label = document.createElement('label');
-            label.setAttribute('for', input.getAttribute('value'));
-            label.appendChild(document.createTextNode(choice.text));
+            label.setAttribute('for', input.getAttribute('id'));
+            label.appendChild(document.createTextNode('Autre'));
 
             htmlTags.push(label);
-        });
+        }
 
         return htmlTags;
     }

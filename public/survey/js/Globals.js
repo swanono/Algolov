@@ -31,6 +31,7 @@ window.sortable = null;
 window.consts = {
     INPUT_CLASS: 'classInput_',
     INPUT_ID: 'idInput_',
+    INPUT_DIV_ID: 'idDivInput_',
     LEGEND_ID: 'idLegend_',
     INPUT_NAME: 'nameInput_',
     PARAGRAPH_QUEST_ID: 'idParQuest_',

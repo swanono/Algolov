@@ -968,7 +968,7 @@
                 "id": 5,
                 "question": "quand était votre première inscription à un application de rencontres ? (format MM/AAAA)",
                 "type": "text",
-                "format": "^[0-9]{2}/[0-9]{4}$"
+                "format": "^[0-1][0-9]/[1-2][09][0-9]{2}$"
             },
             {
                 "id": 6,
@@ -1030,19 +1030,27 @@
                         "text": "non"
                     }
                 ],
-                "relatedQuestion": {
-                    "triggerChoices": [1],
-                    "questionIds": [9]
-                }
+                "relatedQuestion": [
+                    {
+                        "triggerChoices": [1],
+                        "questionIds": [9]
+                    }
+                ]
             },
             {
                 "id": 9,
-                "question": "quelle est votre adresse mail ou votre numéro de téléphone ?",
+                "question": "quelle est votre adresse mail ?",
                 "type": "text",
-                "format": "^([0-9]{9})|([A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3})$"
+                "format": "^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$"
             },
             {
                 "id": 10,
+                "question": "quel est votre numéro de téléphone ? (Format internationnal, commençant par +33 pour la France ou +41 pour la Suisse)",
+                "type": "text",
+                "format": "^(\\+[0-9]{11,})$"
+            },
+            {
+                "id": 11,
                 "question": "quel est votre age ?",
                 "type": "text",
                 "format": "^([0-9]{2,3})$"
