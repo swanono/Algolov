@@ -100,9 +100,12 @@ function changeState () {
         // The second step of the survey : Explaining how the survey works
         DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
     else if (window.state === 3) {
-        const qcmArray = window.config.QCM.begin;// getQCMArray('begin');
-        // console.log(qcmArray);
-        DOMGenerator.generateStepQCMPage('Questions préliminaires', 'Continuer', TraceStorage.saveForm, changeState, qcmArray);
+        const qcm = window.config.QCM.begin;
+
+        if (qcm.fragmented)
+            _loadFragmentedQCM(qcm.list)
+        
+        DOMGenerator.generateStepQCMPage('Questions préliminaires', 'Continuer', changeState, qcm);
     } else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc + statesBeforeBloc) {
         // The blocs steps where the user can sort features
 
@@ -113,8 +116,11 @@ function changeState () {
     } else if (window.state === window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc + statesBeforeBloc + 1) {
         // The last state for some questions and sending the datas to the server
 
-        const quest = window.config.QCM.end;
-        DOMGenerator.generateStepQCMPage('', 'Valider', TraceStorage.saveForm, () => sendJSON(), quest);
+        const qcm = window.config.QCM.end;
+        if (qcm.fragmented)
+            _loadFragmentedQCM(qcm.list)
+
+        DOMGenerator.generateStepQCMPage('Questions Finales', 'Valider', () => sendJSON(), qcm);
     } else
         console.error("This state doesn't exist : " + window.state);
 }
@@ -130,42 +136,12 @@ function shuffleArray (list) {
     return list;
 }
 
-function getQCMArray (questionOrder) {
-    let originalQCM = [];
-    // Select the QCM
-    if (questionOrder === 'begin')
-        originalQCM = window.config.QCM.begin;
-    else
-        originalQCM = window.config.QCM.end;
+function _loadFragmentedQCM (questionArray) {
+    window.fragmentedQuestions = [];
 
-    // Setting the questions to the adequate format
-    const questions = [];
-    for (var question of originalQCM) {
-        const answers = [];
-        for (var answer of question.choices) {
-            answers.push({
-                id: answer.choiceId,
-                text: answer.text,
-                type: question.type
-            });
-            // Adding the description part to the answer if necessary
-            if (question.descName !== undefined) {
-                Object.assign(answers[answers.length - 1],
-                    {
-                        descName: question.descName,
-                        descValue: answer.descValue
-                    }
-                );
-            }
-        }
-        questions.push({
-            id: question.id,
-            question: question.question,
-            answers: answers
-        });
-    }
-
-    return questions;
+    questionArray.reverse().forEach((question) => {
+        window.fragmentedQuestions.push(question.id);
+    });
 }
 
 async function sendJSON () {

@@ -200,10 +200,12 @@ class DOMGenerator {
         DOMGenerator.loadContinueButton(buttontext, functor);
     }
 
-    static generateStepQCMPage (contentpage, buttontext, functor1, functor2, qcmArray, jokers) {
+    static generateStepQCMPage (contentpage, buttontext, functor, qcm, jokers) {
         DOMGenerator.cleanMain(jokers);
 
-        const descQuest = qcmArray[0].descName !== undefined; // false if there is no description information in the question
+        const qcmArray = qcm.list;
+        const descQuest = qcm.isDescriptionLinked; // false if there is no description information in the question
+        const isFragmented = qcm.fragmented;
         const div = document.createElement('div');
         div.className = 'presdiv';
         const text = document.createElement('div');
@@ -217,39 +219,76 @@ class DOMGenerator {
 
         const form = document.createElement('form');
 
-        qcmArray.forEach((question) => {
-            const fieldset = document.createElement('fieldset');
-            fieldset.setAttribute('id', window.consts.QUESTION_ID + question.id);
+        if (isFragmented) {
+            const questId = window.fragmentedQuestions.pop();
+            const quest = qcmArray.find((question) => question.id === questId);
+            DOMGenerator._createQuestion(quest, form);
 
-            const legend = document.createElement('p');
-            legend.appendChild(document.createTextNode(question.question));
-            fieldset.appendChild(legend);
+            if (window.fragmentedQuestions.length === 0)
+                DOMGenerator.loadContinueButton(buttontext, () => TraceStorage.saveForm(form, descQuest, functor));
+            else
+                DOMGenerator.loadContinueButton(buttontext, () => TraceStorage.saveForm(form, descQuest, () => {
+                    if (quest.relatedQuestion) {
+                        const radios = document.getElementsByClassName(window.consts.INPUT_CLASS + quest.id);
+                        for (const radio of radios) {
+                            if (radio.checked) {
+                                const radioId = parseInt(radio.getAttribute('id').split('_')[2]);
+    
+                                const triggers = quest.relatedQuestion.filter((trigger) => trigger.triggerChoices.includes(radioId));
 
-            /* 
-             * For a non text input, we need to set the id and the value equal to the same string
-             * in order for the storage to work
-             */
-            switch (question.type) {
-            case 'text':
-                fieldset.appendChild(DOMGenerator._createTextInput(question));
-                break;
-            case 'radio':
-            case 'checkbox':
-                DOMGenerator._createCheckableInputs(question).forEach((tag) => fieldset.appendChild(tag));
-                break;
-            default:
-                console.error('Unhandled input type required by config : ' + question.type);
-                break;
-            }
+                                triggers.forEach((trigger) => {
+                                    window.fragmentedQuestions = window.fragmentedQuestions.filter((id) => !trigger.questionIds.includes(id));
+                                });
+                            }
+                        }
+                    }
+                    DOMGenerator.generateStepQCMPage(contentpage, buttontext, functor, qcm, jokers);
+                }));
+        } else {
+            qcmArray.forEach((question) => DOMGenerator._createQuestion(question, form));
+        
+            DOMGenerator.loadContinueButton(buttontext, () => TraceStorage.saveForm(form, descQuest, functor));
+        }
 
-            form.appendChild(fieldset);
-        });
+        // This button is made to prevent user to validate the form by hitting enter, witch causes bugs
+        const falseButton = document.createElement('button');
+        falseButton.setAttribute('type', 'submit');
+        falseButton.setAttribute('disabled', 'true');
+        falseButton.setAttribute('style', 'display: none;');
+        form.appendChild(falseButton);
 
         div.appendChild(form);
-        
-        DOMGenerator.loadContinueButton(buttontext, () => functor1(form, descQuest, functor2));
 
-        DOMGenerator._setDisabled(qcmArray);
+        if (!isFragmented)
+            DOMGenerator._setDisabled(qcmArray);
+    }
+
+    static _createQuestion (questionData, formTag) {
+        const fieldset = document.createElement('fieldset');
+        fieldset.setAttribute('id', window.consts.QUESTION_ID + questionData.id);
+
+        const legend = document.createElement('p');
+        legend.appendChild(document.createTextNode(questionData.question));
+        fieldset.appendChild(legend);
+
+        /* 
+        * For a non text input, we need to set the id and the value equal to the same string
+        * in order for the storage to work
+        */
+        switch (questionData.type) {
+        case 'text':
+            fieldset.appendChild(DOMGenerator._createTextInput(questionData));
+            break;
+        case 'radio':
+        case 'checkbox':
+            DOMGenerator._createCheckableInputs(questionData).forEach((tag) => fieldset.appendChild(tag));
+            break;
+        default:
+            console.error('Unhandled input type required by config : ' + questionData.type);
+            break;
+        }
+
+        formTag.appendChild(fieldset);
     }
 
     static _createTextInput (question) {

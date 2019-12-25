@@ -29,6 +29,11 @@ class TraceStorage {
             sessionStorage.setItem(name, old + ',' + data);
     }
 
+    static replaceInStorage (name, data) {
+        TraceStorage.cleanStorage(name);
+        TraceStorage.appendToStorage(name, data);
+    }
+
     static cleanStorage (name) {
         sessionStorage.removeItem(name);
     }
@@ -55,7 +60,6 @@ class TraceStorage {
 
             TraceStorage.appendToStorage('combinatoire', JSON.stringify(responses));
         } else {
-            // TODO : prendre en compte le fait que pair[1] puisse être égal à du texte
             for (const pair of formData.entries()) {
                 const objRes = {};
                 if (!pair[1].includes(window.consts.INPUT_ID)) {
@@ -70,11 +74,16 @@ class TraceStorage {
                     objRes.idQuestion = input.getAttribute('id').split('_')[1];
                     objRes.idChoice = input.getAttribute('id').split('_')[2];
                     objRes.questionText = document.getElementById(window.consts.QUESTION_ID + objRes.idQuestion).firstElementChild.textContent;
-                    objRes.choiceText = document.querySelector(`label[for=${window.consts.INPUT_ID + objRes.idChoice}]`).textContent;
+                    objRes.choiceText = document.querySelector(`label[for=${window.consts.INPUT_ID + objRes.idQuestion + '_' + objRes.idChoice}]`).textContent;
                 }
-                responses.push(objRes);
+                if (objRes.choiceText)
+                    responses.push(objRes);
             }
-            TraceStorage.appendToStorage('finalQuestions', JSON.stringify(responses));
+            
+            const oldResponses = JSON.parse(sessionStorage.getItem('finalQuestions'));
+            if (oldResponses)
+                responses.push(...oldResponses);
+            TraceStorage.replaceInStorage('finalQuestions', JSON.stringify(responses));
         }
 
         functor();
@@ -175,14 +184,12 @@ class TraceStorage {
         });
         json += '], ';
 
-        json += '"beginQuestions": ';
-        // TODO : enregistrer dans le json les réponses aux questions de départ
+        json += '"beginQuestions": ' + sessionStorage.getItem('combinatoire') + ',';
 
         json += '"rankingResult": ';
         // TODO : enregistrer dans le json les réponses à chaque bloc
 
-        json += '"endQuestions": ';
-        // TODO : enregistrer dans le json les réponses au questionnaire de fin
+        json += '"endQuestions": ' + sessionStorage.getItem('finalQuestions') + ',';
 
         json += '"traces": ';
         // TODO : enregistrer dans le json les traces
