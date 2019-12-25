@@ -21,28 +21,28 @@
                 "type": "physique-1",
                 "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?",
                 "likertSize": 7,
-                "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
+                "legends": ["pas apprécié du tout", "pas apprécié", "assez peu apprécié", "indifférent", "un peu apprécié", "apprécié", "très apprécié"]
             },
             {
                 "blocId": 2,
                 "type": "physique-2",
                 "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?",
                 "likertSize": 7,
-                "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
+                "legends": ["pas apprécié du tout", "pas apprécié", "assez peu apprécié", "indifférent", "un peu apprécié", "apprécié", "très apprécié"]
             },
             {
                 "blocId": 3,
                 "type": "attitude-1",
                 "question": "Quelles sont les caractéristiques importantes pour vous ?",
                 "likertSize": 7,
-                "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
+                "legends": ["pas apprécié du tout", "pas apprécié", "assez peu apprécié", "indifférent", "un peu apprécié", "apprécié", "très apprécié"]
             },
             {
                 "blocId": 4,
                 "type": "autres",
                 "question": "Quelles sont les caractéristiques importantes pour vous ?",
                 "likertSize": 7,
-                "legends": ["pas apprécié du tout", "indifférent", "très apprécié"]
+                "legends": ["pas apprécié du tout", "pas apprécié", "assez peu apprécié", "indifférent", "un peu apprécié", "apprécié", "très apprécié"]
             }
         ]
     },

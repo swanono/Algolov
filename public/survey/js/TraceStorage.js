@@ -79,7 +79,7 @@ class TraceStorage {
                 if (objRes.choiceText)
                     responses.push(objRes);
             }
-            
+
             const oldResponses = JSON.parse(sessionStorage.getItem('finalQuestions'));
             if (oldResponses)
                 responses.push(...oldResponses);

@@ -21,6 +21,7 @@ This module is used to declare the class handling the DOM changes during the sur
 
 /* globals Swappable */
 /* globals Draggable */
+/* globals TraceStorage */
 
 'use strict';
 
@@ -226,7 +227,7 @@ class DOMGenerator {
 
             if (window.fragmentedQuestions.length === 0)
                 DOMGenerator.loadContinueButton(buttontext, () => TraceStorage.saveForm(form, descQuest, functor));
-            else
+            else {
                 DOMGenerator.loadContinueButton(buttontext, () => TraceStorage.saveForm(form, descQuest, () => {
                     if (quest.relatedQuestion) {
                         const radios = document.getElementsByClassName(window.consts.INPUT_CLASS + quest.id);
@@ -244,6 +245,7 @@ class DOMGenerator {
                     }
                     DOMGenerator.generateStepQCMPage(contentpage, buttontext, functor, qcm, jokers);
                 }));
+            }
         } else {
             qcmArray.forEach((question) => DOMGenerator._createQuestion(question, form));
         

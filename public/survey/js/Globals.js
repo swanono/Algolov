@@ -103,8 +103,8 @@ function changeState () {
         const qcm = window.config.QCM.begin;
 
         if (qcm.fragmented)
-            _loadFragmentedQCM(qcm.list)
-        
+            _loadFragmentedQCM(qcm.list);
+
         DOMGenerator.generateStepQCMPage('Questions préliminaires', 'Continuer', changeState, qcm);
     } else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc + statesBeforeBloc) {
         // The blocs steps where the user can sort features
@@ -118,7 +118,7 @@ function changeState () {
 
         const qcm = window.config.QCM.end;
         if (qcm.fragmented)
-            _loadFragmentedQCM(qcm.list)
+            _loadFragmentedQCM(qcm.list);
 
         DOMGenerator.generateStepQCMPage('Questions Finales', 'Valider', () => sendJSON(), qcm);
     } else

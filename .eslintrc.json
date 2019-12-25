@@ -1,12 +1,13 @@
 {
     "env": {
+        "node": true,
         "browser": true,
         "commonjs": true,
         "jest": true,
         "es6": true
     },
     "extends": [
-        "standard"
+        "eslint:recommended"
     ],
     "plugins": ["jest"],
     "globals": {
@@ -18,8 +19,10 @@
     },
     "rules": {
         "semi": [2, "always"],
-        "indent": ["error", 4, { "VariableDeclarator": "first" }],
+        "indent": ["error", 4],
         "no-tabs": "off",
-        "curly": ["error", "multi-or-nest"]
+        "curly": ["error", "multi-or-nest"],
+        "no-unused-vars": "off",
+        "no-process-env": "off"
     }
 }
