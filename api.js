@@ -25,8 +25,6 @@ module.exports = (passport) => {
     const app = express();
 
     app.post(config.pathPostSurveyApi, function (req, res) {
-        console.log(req.body);
-
         // TODO : Valider le fichier JSON reçu
         // TODO : enregistrer les données JSON dans la BDD
 
