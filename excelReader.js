@@ -43,10 +43,10 @@ class ExcelReader {
         for (let row = range.s.r; row <= range.e.r; row++) {
             const newDesc = {};
 
-            newDesc.name = this.descSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].trim();
-            newDesc.presentation = this.descSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].trim();
-            newDesc.text = this.descSheet[XLSX.utils.encode_cell({ r: row, c: 2 })].trim();
-            newDesc.combin = this.descSheet[XLSX.utils.encode_cell({ r: row, c: 3 })].split(',').map(c => c.trim());
+            newDesc.name = this.descSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].v.trim();
+            newDesc.presentation = this.descSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v.trim();
+            newDesc.text = this.descSheet[XLSX.utils.encode_cell({ r: row, c: 2 })].v.trim();
+            newDesc.combin = this.descSheet[XLSX.utils.encode_cell({ r: row, c: 3 })].v.split(',').map(c => c.trim());
 
             this.newConfig.descriptions.push(newDesc);
         }
@@ -59,8 +59,8 @@ class ExcelReader {
             const newBloc = {};
 
             newBloc.blocId = row - range.s.r + 1;
-            newBloc.type = this.typeSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].trim();
-            const lickert = this.typeSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].trim();
+            newBloc.type = this.typeSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].v.trim();
+            const lickert = this.typeSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v;
             try {
                 newBloc.likertSize = parseInt(lickert);
 
@@ -81,7 +81,7 @@ class ExcelReader {
             } catch (err) {
                 this.xlsErrors.push('La taille de l\'échelle renseignée est mauvaise : ' + lickert);
             }
-            newBloc.question = this.typeSheet[XLSX.utils.encode_cell({ r: row, c: 2 })].trim();
+            newBloc.question = this.typeSheet[XLSX.utils.encode_cell({ r: row, c: 2 })].v.trim();
 
             this.newConfig.blocThemes.push(newBloc);
         }
@@ -95,14 +95,14 @@ class ExcelReader {
 
             feature.id = row - range.s.r + 1;
             feature.content = 'text';
-            feature.data = this.featSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].trim();
-            feature.type = this.featSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].trim();
+            feature.data = this.featSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].v.trim();
+            feature.type = this.featSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v.trim();
             feature.combin = [];
             for (let col = 2; col <= range.e.c; col++) {
                 const newCombin = {};
-                newCombin.descName = this.featSheet[XLSX.utils.encode_cell({ r: 0, c: col })].trim();
+                newCombin.descName = this.featSheet[XLSX.utils.encode_cell({ r: 0, c: col })].v.trim();
 
-                const combins = this.featSheet[XLSX.utils.encode_cell({ r: row, c: col })].split(',').map(c => c.trim());
+                const combins = this.featSheet[XLSX.utils.encode_cell({ r: row, c: col })].v.split(',').map(c => c.trim());
                 combins.forEach(c => { newCombin[c] = true; });
                 this.newConfig
                     .descriptions.find(d => d.name === newCombin.descName)

@@ -56,11 +56,15 @@ h3 {
     text-align: center;
 }
 #modifierQuestionnaire {
-    margin-left: 40%;
+    position: absolute;
+    left: 50%;
+    margin: 0.5em;
 }
 
-#modifierFeature{
-    margin-left: 40%;
+#modifierFeature {
+    position: absolute;
+    left: 50%;
+    margin: 0.5em;
 }
 
 .retour {
