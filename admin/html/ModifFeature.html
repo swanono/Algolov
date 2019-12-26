@@ -35,8 +35,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         
         <div class="download-bar-container">
             <a id="Template-Excel" class="download-bar bouton" href="../../features_files/template/Template_Features.xlsx">
-                <img class="logo" src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px"/>
-                <div class="download-bar-text">Télécharger le fichier Excel type pour le changement de features</div>
+                <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px"/>
+                <div>Télécharger le fichier Excel type pour le changement de features</div>
             </a>
         </div>
 
@@ -46,7 +46,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
         <form id="Upload-Form" action="/api/admin/changeFeatures" method="POST" enctype="multipart/form-data">
             <p>Cliquez sur le bouton ci-dessous pour charger un nouveau set de features :</p>
-            <input type="file" name="Excel-Upload">
+            <input type="file" name="Excel-Upload" accept=".xlsx , .xls" class="bouton">
+            <input type="submit" value="Envoyer" class="bouton">
         </form>
 
     </body>

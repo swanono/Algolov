@@ -19,7 +19,9 @@ This module is used to handle client requests and redirect them to the right ana
 'use strict';
 
 const config = require('./config.js');
+const ExcelReader = require('./excelReader');
 const express = require('express');
+const FormHandler = require('formidable');
 
 module.exports = (passport) => {
     const app = express();
@@ -32,8 +34,20 @@ module.exports = (passport) => {
     });
 
     app.post(config.pathPostChangeFeatures, function (req, res) {
-        // TODO : analyser le fichier excel
-        // TODO : envoyer en réponse un message d'état
+        const form = new FormHandler.IncomingForm();
+        form.parse(req, function (err, fields, files) {
+            if (err)
+                res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
+            else {
+                const reader = new ExcelReader(files[Object.keys(files)[0]].path);
+                const errors = reader.validate();
+                if (errors.length === 0) {
+                    reader.applyToConfig();
+                    res.send({ ok: true, message: 'Les features du questionnaire ont bien été mises à jour !' });
+                } else
+                    res.send(new Error('Le fichier Excel fournit contient des erreurs : ' + errors.join(' / ')));
+            }
+        });
     });
 
     return app;

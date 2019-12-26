@@ -77,6 +77,8 @@ h3 {
 	border-radius: 2px;
     border: 1px solid #ccc;
     width: max-content;
+
+    cursor: pointer;
 }
 
 a {
@@ -102,6 +104,10 @@ a {
     margin-top: 1em;
     padding: 1em;
     border: 1px solid black;
+}
+#Upload-Form * {
+    display: block;
+    margin: 0.5em;
 }
 
 /* page ajouterQuestion */

@@ -31,5 +31,11 @@ module.exports = {
     directoryPrefix: _directoryPrefix,
     pathPostSurveyApi: '/survey',
     pathPostChangeFeatures: '/admin/changeFeatures',
-    pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html'
+    pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
+    excelSheetNames: { descript: 'Description', types: 'Types', features: 'Features' },
+    blocLegends: {
+        3: ['pas apprécié du tout', 'indifférent', 'très apprécié'],
+        5: ['pas apprécié du tout', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'très apprécié'],
+        7: ['pas apprécié du tout', 'pas apprécié', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'apprécié', 'très apprécié']
+    }
 };
