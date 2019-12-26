@@ -1,0 +1,82 @@
+<!--
+-------------------------------------------------------------------------------------------------
+<Une ligne décrivant le nom du programme et ce qu’il fait>
+Copyright © 2019 Ulysse GUYON Sacha WANONO Eléa THUILIER
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see < https://www.gnu.org/licenses/ >.
+-------------------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AlgoLov - Admin</title>
+
+    <link rel="stylesheet" href="../css/admin.css"/>
+    <script type="text/javascript" src="../js/Admin.js" ></script>
+    
+</head>
+<body>
+    <h1>Administration</h1>
+    <div id="volet">
+        <p>Recuperer rapport</p>
+        <span>Quelques statistique</span>
+        
+        <a href="#volet" class="ouvrir" aria-hidden="true">Données existantes</a>
+        <a href="#volet_clos" class="fermer" aria-hidden="false">fermer</a>
+    </div>
+    
+
+    <ol>
+        <li id="Qexist">
+            <div id = QuestionList>
+            
+                <h3 id="TitreQexist">Liste question(s) existante(s)</h3>
+                
+                <p id= "liste question"> q1 ... </p>
+                <p id= "liste question"> q1 ... </p>
+                <p id= "liste question"> q1 ... </p>
+                <p id= "liste question"> q1 ... </p>
+                <p id= "liste question"> q1 ... </p>
+                <p id= "liste question"> q1 ... </p>
+                
+            </div>
+            <button id="modifierQuestionnaire" class="bouton">
+                <a href="./ModifQuestion.html">
+                    ModifierQuestionnaire
+                </a>
+            </button>
+        </li>
+        <li id = "Fexist">
+            <div id=FeaturesList>
+                <h3> Documents de features utilisables</h3>
+                <div>
+                    <form action="">
+                        <p>Recuperer sur le serveur </p>
+                        <p>ajout d'input pour checkbox ou radio pour chaque document</p>                        
+                    </form>
+                </div>
+            </div>
+            <button id="modifierFeature" class="bouton">
+                <a href="./ModifFeature.html">
+                    Ajouter un nouveau document
+                </a>
+            </button>
+            
+        </li>
+
+    </ol>
+
+</body>
+</html>

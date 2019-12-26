@@ -30,5 +30,6 @@ module.exports = {
     port: process.env.PORT,
     directoryPrefix: _directoryPrefix,
     pathPostSurveyApi: '/survey',
+    pathPostChangeFeatures: '/admin/changeFeatures',
     pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html'
 };

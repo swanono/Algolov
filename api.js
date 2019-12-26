@@ -33,5 +33,10 @@ module.exports = (passport) => {
         res.redirect(config.pathGetThanksAbs);
     });
 
+    app.post(config.pathPostChangeFeatures, function (req, res) {
+        // TODO : analyser le fichier excel
+        // TODO : envoyer en réponse un message d'état
+    });
+
     return app;
 };

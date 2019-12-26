@@ -25,13 +25,29 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
     <link rel="stylesheet" href="../css/admin.css"/>
     <script type="text/javascript" src="../js/Admin.js" ></script>
-    <h1>Administration - Nouvelles Features</h1>
-    <button" id = "Admin" class="bouton"> <a href="../html/Admin.html">Retour</a></button>
 
 </head>
     <body>
+        <h1>Administration - Nouvelles Features</h1>
+        <a id="Admin" class="bouton retour" href="../html/Admin.html">
+            Retour
+        </a>
         
-   
+        <div class="download-bar-container">
+            <a id="Template-Excel" class="download-bar bouton" href="../../features_files/template/Template_Features.xlsx">
+                <img class="logo" src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px"/>
+                <div class="download-bar-text">Télécharger le fichier Excel type pour le changement de features</div>
+            </a>
+        </div>
+
+        <div id="alert-message">
+
+        </div>
+
+        <form id="Upload-Form" action="/api/admin/changeFeatures" method="POST" enctype="multipart/form-data">
+            <p>Cliquez sur le bouton ci-dessous pour charger un nouveau set de features :</p>
+            <input type="file" name="Excel-Upload">
+        </form>
 
     </body>
 </html>
