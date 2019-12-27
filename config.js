@@ -31,6 +31,8 @@ module.exports = {
     directoryPrefix: _directoryPrefix,
     pathPostSurveyApi: '/survey',
     pathPostChangeFeatures: '/admin/changeFeatures',
+    pathGetHistoricFeatures: '/admin/historicFeatures',
+    pathPostSelectFeatures: '/admin/selectFeatures',
     pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
     excelSheetNames: { descript: 'Descriptions', types: 'Types', features: 'Features' },
     blocLegends: {

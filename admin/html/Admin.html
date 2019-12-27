@@ -27,7 +27,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <script type="text/javascript" src="../js/Admin.js" ></script>
     
 </head>
-<body>
+<body onload="fillPage();">
     <h1>Administration</h1>
     <div id="volet">
         <p>Recuperer un rapport</p>
@@ -36,7 +36,10 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         <a href="#volet" class="ouvrir" aria-hidden="true">Données existantes</a>
         <a href="#volet_clos" class="fermer" aria-hidden="false">Fermer</a>
     </div>
-    
+
+    <div id="alert-message">
+
+    </div>
 
     <ol>
         <li id="Qexist">
@@ -52,21 +55,23 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                 <p id= "liste question"> q1 ... </p>
                 
             </div>
-            
+
             <a id="modifierQuestionnaire" class="bouton" href="./ModifQuestion.html">
                 Modifier le Questionnaire
             </a>
         </li>
         <li id = "Fexist">
-            <div id=FeaturesList>
+            <div id="FeaturesList">
                 <h3> Documents de features utilisables</h3>
                 <div>
-                    <form action="">
-                        <p>Recuperer sur le serveur</p>
-                        <p>ajout d'input pour checkbox ou radio pour chaque document</p>                        
+                    <form id="formFeatureFiles" method="POST" action="/api/admin/selectFeatures" onsubmit="event.preventDefault(); sendSelectFeatureDoc(event.target);">                      
                     </form>
                 </div>
             </div>
+            
+            <button id="selectFeatureDoc" class="bouton" type="submit" form="formFeatureFiles">
+                Utiliser le document coché
+            </button>
 
             <a id="modifierFeature" class="bouton" href="./ModifFeature.html">
                 Ajouter un nouveau document
