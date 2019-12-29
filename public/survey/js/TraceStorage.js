@@ -37,6 +37,36 @@ class TraceStorage {
         sessionStorage.removeItem(name);
     }
 
+    static saveSortedBloc () {
+        const cards = document.getElementsByClassName('feature-card');
+
+        let blocsSorting = JSON.parse(sessionStorage.getItem('sorting'));
+        if (blocsSorting === null)
+            blocsSorting = [];
+        
+        const blocDiv = document.querySelector('.bloc');
+        const thisBloc = {};
+        thisBloc.id = parseInt(blocDiv.getAttribute('id').split('_')[1]);
+        thisBloc.type = blocDiv.getAttribute('bloctype');
+        thisBloc.ranks = {};
+
+        const allRanks = document.getElementsByClassName('rank');
+        for (const rank of allRanks)
+            thisBloc.ranks[parseInt(rank.getAttribute('id').split('_')[1])] = [];
+
+        for (const card of cards) {
+            thisBloc
+                .ranks[parseInt(card.getAttribute('location').split('_')[1])]
+                .push({
+                    id: parseInt(card.getAttribute('id').split('_')[1]),
+                    text: card.textContent
+                });
+        }
+
+        blocsSorting.push(thisBloc);
+        TraceStorage.replaceInStorage('sorting', JSON.stringify(blocsSorting));
+    }
+
     static saveForm (form, descQuest, functor) {
         const formData = new FormData(form);
 
@@ -185,7 +215,7 @@ class TraceStorage {
 
         json += '"beginQuestions": ' + sessionStorage.getItem('combinatoire') + ',';
 
-        json += '"rankingResult": ';
+        json += '"rankingResult": ' + sessionStorage.getItem('sorting') + ',';
         // TODO : enregistrer dans le json les réponses à chaque bloc
 
         json += '"endQuestions": ' + sessionStorage.getItem('finalQuestions') + ',';
@@ -194,6 +224,8 @@ class TraceStorage {
         // TODO : enregistrer dans le json les traces
 
         json += ' }';
+
+        console.log(json);
 
         return json;
     }

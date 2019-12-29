@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
@@ -138,7 +139,7 @@ class DOMGenerator {
 
         // insertion of the initial container for the features
         const initalContainerCell = containerRow.insertCell();
-        DOMGenerator.loadContainer(initalContainerCell, 'initial_container');
+        DOMGenerator.loadContainer(initalContainerCell, window.consts.INIT_CONTAINER_ID);
         initalContainerCell.setAttribute('colspan', `${likertSize}`);
 
         bloc.appendChild(scale);
@@ -158,7 +159,6 @@ class DOMGenerator {
 
     static loadCards (features) {
         // class nested-item => is a card inside a container
-        // eslint-disable-next-line no-undef
         features = shuffleArray(features);
 
         const initCont = document.getElementById('initial_container');
@@ -166,7 +166,7 @@ class DOMGenerator {
         for (const feat of features) {
             const newCard = document.createElement('div');
             newCard.setAttribute('id', 'feature_' + feat.id);
-            newCard.setAttribute('class', 'nested-item');
+            newCard.setAttribute('class', 'nested-item feature-card');
             newCard.setAttribute('location', initCont.getAttribute('id'));
 
             if (feat.content === 'text')
@@ -476,7 +476,7 @@ class DOMGenerator {
     }
 
     static _checkAllsorted () {
-        const cards = document.getElementsByClassName('nested-item');
+        const cards = document.getElementsByClassName('feature-card');
 
         let isComplete = true;
         for (const card of cards) {
@@ -487,8 +487,10 @@ class DOMGenerator {
 
         const buttonExists = document.getElementById(window.consts.CONTINUE_BUTTON_ID);
         if (isComplete && !buttonExists) {
-            // eslint-disable-next-line no-undef
-            DOMGenerator.loadContinueButton('Continuer', () => changeState());
+            DOMGenerator.loadContinueButton('Continuer', () => {
+                TraceStorage.saveSortedBloc();
+                changeState();
+            });
         } else if (!isComplete && buttonExists)
             buttonExists.remove();
     }
@@ -497,6 +499,12 @@ class DOMGenerator {
         window.sortable = new Draggable.Sortable(document.querySelectorAll('.nestable'), {
             draggable: '.nested-item'
         });
-        window.sortable.on('sortable:stop', () => DOMGenerator._checkAllsorted());
+        window.sortable.on('sortable:stop', (event) => {
+            const dragged = event.data.dragEvent.data.originalSource;
+            const newCont = event.data.newContainer;
+
+            dragged.setAttribute('location', newCont.getAttribute('id'));
+            DOMGenerator._checkAllsorted();
+        });
     }
 }

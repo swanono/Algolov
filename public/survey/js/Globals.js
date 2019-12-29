@@ -38,6 +38,7 @@ window.consts = {
     QUESTION_CLASS: 'classQuest_',
     CONTINUE_BUTTON_ID: 'continuebutton',
     RANK_CONTAINER_ID: 'rankContainer_',
+    INIT_CONTAINER_ID: 'initial_container',
     BLOC_ID: 'bloc_',
     RANK_CLASS: 'rank',
     TRACE_NAMES: [
