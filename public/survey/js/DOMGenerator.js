@@ -186,7 +186,6 @@ class DOMGenerator {
         }
     }
 
-    // TODO : appeler la fonction là où on test si il n'y a plus de carte dans le conteneur initial
     static loadContinueButton (text, functor) {
         const button = document.createElement('button');
         button.setAttribute('id', window.consts.CONTINUE_BUTTON_ID);
@@ -227,6 +226,9 @@ class DOMGenerator {
         main.appendChild(div);
 
         const form = document.createElement('form');
+        form.setAttribute('id', 'form-id');
+
+        let usedFunctor = functor;
 
         if (isFragmented) {
             const questId = window.fragmentedQuestions.pop();
@@ -234,9 +236,10 @@ class DOMGenerator {
             DOMGenerator._createQuestion(quest, form);
 
             if (window.fragmentedQuestions.length === 0)
-                DOMGenerator.loadContinueButton(buttontext, () => TraceStorage.saveForm(form, descQuest, functor));
+                DOMGenerator.loadContinueButton(buttontext, () => {});
             else {
-                DOMGenerator.loadContinueButton(buttontext, () => TraceStorage.saveForm(form, descQuest, () => {
+                DOMGenerator.loadContinueButton(buttontext, () => {});
+                usedFunctor = () => {
                     if (quest.relatedQuestion) {
                         const radios = document.getElementsByClassName(window.consts.INPUT_CLASS + quest.id);
                         for (const radio of radios) {
@@ -252,13 +255,20 @@ class DOMGenerator {
                         }
                     }
                     DOMGenerator.generateStepQCMPage(contentpage, buttontext, functor, qcm, jokers);
-                }));
+                };
             }
         } else {
             qcmArray.forEach((question) => DOMGenerator._createQuestion(question, form));
         
-            DOMGenerator.loadContinueButton(buttontext, () => TraceStorage.saveForm(form, descQuest, functor));
+            DOMGenerator.loadContinueButton(buttontext, () => {});
         }
+
+        document.getElementById(window.consts.CONTINUE_BUTTON_ID).setAttribute('type', 'submit');
+        document.getElementById(window.consts.CONTINUE_BUTTON_ID).setAttribute('form', 'form-id');
+        form.onsubmit = (event) => {
+            event.preventDefault();
+            TraceStorage.saveForm(form, descQuest, usedFunctor);
+        };
 
         // This button is made to prevent user to validate the form by hitting enter, witch causes bugs
         const falseButton = document.createElement('button');
@@ -309,6 +319,7 @@ class DOMGenerator {
         textInput.setAttribute('class', window.consts.INPUT_CLASS + question.id);
         textInput.setAttribute('name', textInput.getAttribute('class'));
         textInput.setAttribute('pattern', question.format);
+        textInput.setAttribute('required', 'true');
 
         return textInput;
     }
@@ -323,6 +334,8 @@ class DOMGenerator {
             input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
             input.setAttribute('value', input.getAttribute('id'));
             input.setAttribute('name', input.getAttribute('class'));
+            if(question.type !== 'checkbox')
+                input.setAttribute('required', 'true');
 
             if (question.descName) {
                 input.setAttribute('descName', question.descName);
