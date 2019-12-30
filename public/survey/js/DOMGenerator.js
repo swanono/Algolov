@@ -47,8 +47,6 @@ class DOMGenerator {
         // with jokers we keep the wanted tags from being cleaned
         const jokers = [];
 
-        // TODO : mettre dans jokers les id des balises à garder
-
         DOMGenerator.cleanMain(jokers);
 
         const blocIndex = (blocState - 1) % surveyConfig.nbBlocPerDesc;
@@ -89,6 +87,18 @@ class DOMGenerator {
         });
 
         DOMGenerator.loadCards(usedFeatures);
+
+        const stopButton = document.createElement('button');
+        stopButton.setAttribute('id', 'stop-button');
+        stopButton.appendChild(document.createTextNode('Arrêter le questionnaire'));
+        stopButton.addEventListener('click', () => {
+            TraceStorage.saveSortedBloc();
+            window.state = window.config.surveyConfiguration.descNames.length *
+                            window.config.surveyConfiguration.nbBlocPerDesc +
+                            window.config.surveyConfiguration.nbStatesBeforeBloc;
+            changeState();
+        });
+        DOMGenerator.getMain().appendChild(stopButton);
 
         DOMGenerator._makeSortable();
     }

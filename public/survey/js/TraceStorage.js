@@ -55,12 +55,14 @@ class TraceStorage {
             thisBloc.ranks[parseInt(rank.getAttribute('id').split('_')[1])] = [];
 
         for (const card of cards) {
-            thisBloc
-                .ranks[parseInt(card.getAttribute('location').split('_')[1])]
-                .push({
-                    id: parseInt(card.getAttribute('id').split('_')[1]),
-                    text: card.textContent
-                });
+            const idCard = parseInt(card.getAttribute('id').split('_')[1]);
+            let locationCard = card.getAttribute('location').split('_')[1];
+            try {
+                locationCard = parseInt(locationCard);
+                thisBloc.ranks[locationCard].push({ id: idCard, text: card.textContent });
+            } catch (typeError) {
+                /* Expected typeError catched here when survey ended prematurely */
+            }
         }
 
         blocsSorting.push(thisBloc);

@@ -95,7 +95,7 @@ function changeState () {
         // The first step of the survey : show RGPD requirements
 
         DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
-        DOMGenerator.addCheckBoxToSee(window.consts.CONTINUE_BUTTON_ID, 'Acceptez-vous les conditions ci-dessus ? ');
+        DOMGenerator.addCheckBoxToSee(window.consts.CONTINUE_BUTTON_ID, 'Cochez la case si vous acceptez les conditions ci-dessus ? ');
     } else if (window.state === 2)
         // The second step of the survey : Explaining how the survey works
         DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
