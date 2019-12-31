@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
@@ -29,8 +28,45 @@ class TraceStorage {
             sessionStorage.setItem(name, old + ',' + data);
     }
 
+    static replaceInStorage (name, data) {
+        TraceStorage.cleanStorage(name);
+        TraceStorage.appendToStorage(name, data);
+    }
+
     static cleanStorage (name) {
         sessionStorage.removeItem(name);
+    }
+
+    static saveSortedBloc () {
+        const cards = document.getElementsByClassName('feature-card');
+
+        let blocsSorting = JSON.parse(sessionStorage.getItem('sorting'));
+        if (blocsSorting === null)
+            blocsSorting = [];
+        
+        const blocDiv = document.querySelector('.bloc');
+        const thisBloc = {};
+        thisBloc.id = parseInt(blocDiv.getAttribute('id').split('_')[1]);
+        thisBloc.type = blocDiv.getAttribute('bloctype');
+        thisBloc.ranks = {};
+
+        const allRanks = document.getElementsByClassName('rank');
+        for (const rank of allRanks)
+            thisBloc.ranks[parseInt(rank.getAttribute('id').split('_')[1])] = [];
+
+        for (const card of cards) {
+            const idCard = parseInt(card.getAttribute('id').split('_')[1]);
+            let locationCard = card.getAttribute('location').split('_')[1];
+            try {
+                locationCard = parseInt(locationCard);
+                thisBloc.ranks[locationCard].push({ id: idCard, text: card.textContent });
+            } catch (typeError) {
+                /* Expected typeError catched here when survey ended prematurely */
+            }
+        }
+
+        blocsSorting.push(thisBloc);
+        TraceStorage.replaceInStorage('sorting', JSON.stringify(blocsSorting));
     }
 
     static saveForm (form, descQuest, functor) {
@@ -55,7 +91,6 @@ class TraceStorage {
 
             TraceStorage.appendToStorage('combinatoire', JSON.stringify(responses));
         } else {
-            // TODO : prendre en compte le fait que pair[1] puisse être égal à du texte
             for (const pair of formData.entries()) {
                 const objRes = {};
                 if (!pair[1].includes(window.consts.INPUT_ID)) {
@@ -70,11 +105,16 @@ class TraceStorage {
                     objRes.idQuestion = input.getAttribute('id').split('_')[1];
                     objRes.idChoice = input.getAttribute('id').split('_')[2];
                     objRes.questionText = document.getElementById(window.consts.QUESTION_ID + objRes.idQuestion).firstElementChild.textContent;
-                    objRes.choiceText = document.querySelector(`label[for=${window.consts.INPUT_ID + objRes.idChoice}]`).textContent;
+                    objRes.choiceText = document.querySelector(`label[for=${window.consts.INPUT_ID + objRes.idQuestion + '_' + objRes.idChoice}]`).textContent;
                 }
-                responses.push(objRes);
+                if (objRes.choiceText)
+                    responses.push(objRes);
             }
-            TraceStorage.appendToStorage('finalQuestions', JSON.stringify(responses));
+
+            const oldResponses = JSON.parse(sessionStorage.getItem('finalQuestions'));
+            if (oldResponses)
+                responses.push(...oldResponses);
+            TraceStorage.replaceInStorage('finalQuestions', JSON.stringify(responses));
         }
 
         functor();
@@ -98,22 +138,20 @@ class TraceStorage {
         });
         json += '], ';
 
-        json += '"beginQuestions": {}';
-        // TODO : enregistrer dans le json les réponses aux questions de départ
-        json += ',';
+        json += '"beginQuestions": ' + sessionStorage.getItem('combinatoire') + ',';
 
-        json += '"rankingResult": {}';
+        json += '"rankingResult": ' + sessionStorage.getItem('sorting') + ',';
         // TODO : enregistrer dans le json les réponses à chaque bloc
         json += ',';
 
-        json += '"endQuestions": {}';
-        // TODO : enregistrer dans le json les réponses au questionnaire de fin
-        json += ',';
+        json += '"endQuestions": ' + sessionStorage.getItem('finalQuestions') + ',';
 
         json += '"traces": {}';
         // TODO : enregistrer dans le json les traces
 
         json += ' }';
+
+        console.log(json);
 
         return json;
     }

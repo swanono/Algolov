@@ -20,7 +20,11 @@ This module is used to handle client requests and redirect them to the right ana
 
 const daos = require('./dao');
 const config = require('./config.js');
+const ExcelReader = require('./excelReader');
+const DataGetter = require('./pageData');
 const express = require('express');
+const FormHandler = require('formidable');
+const path = require('path');
 
 module.exports = (passport) => {
     const app = express();
@@ -35,5 +39,37 @@ module.exports = (passport) => {
         res.redirect(config.pathGetThanksAbs);
     });
 
+    app.post(config.pathPostChangeFeatures, function (req, res) {
+        const form = new FormHandler.IncomingForm();
+        form.parse(req, function (err, fields, files) {
+            if (err)
+                res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
+            else
+                loadExcel(files[Object.keys(files)[0]].path, true, req, res);
+        });
+    });
+
+    app.get(config.pathGetHistoricFeatures, function (req, res) {
+        res.json(DataGetter.getFeatureDocsHist());
+    });
+
+    app.post(config.pathPostSelectFeatures, function (req, res) {
+        const filePath = JSON.parse(req.body[Object.keys(req.body)[0]]);
+        loadExcel(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
+    });
+
     return app;
 };
+
+function loadExcel (path, save, req, res) {
+    const reader = new ExcelReader(path);
+    const errors = reader.validate();
+    if (errors.length === 0) {
+        reader.applyToConfig();
+        reader.makeCurentUsedFile();
+        if (save)
+            reader.saveFile();
+        res.json({ ok: true, message: 'Les features du questionnaire ont bien été mises à jour !' });
+    } else
+        res.json({ ok: false, message: 'Le fichier Excel fournit contient des erreurs : ' + errors.join(' / ') });
+}
