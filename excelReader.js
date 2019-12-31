@@ -203,7 +203,17 @@ class ExcelReader {
         config.surveyConfiguration.blocThemes = this.newConfig.blocThemes;
         config.features = this.newConfig.features;
 
-        config.QCM.begin = this.newConfig.beginQCM;
+        let count = 1;
+        config.QCM.begin = this.newConfig.beginQCM.map((quest) => {
+            quest.id = count;
+            count++;
+            return quest;
+        });
+        config.QCM.end = config.QCM.end.map((quest) => {
+            quest.id = count;
+            count++;
+            return quest;
+        });
 
         fs.writeFileSync('./public/survey/config.json', JSON.stringify(config, null, 4));
     }
