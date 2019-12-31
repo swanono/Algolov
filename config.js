@@ -30,5 +30,14 @@ module.exports = {
     port: process.env.PORT,
     directoryPrefix: _directoryPrefix,
     pathPostSurveyApi: '/survey',
-    pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html'
+    pathPostChangeFeatures: '/admin/changeFeatures',
+    pathGetHistoricFeatures: '/admin/historicFeatures',
+    pathPostSelectFeatures: '/admin/selectFeatures',
+    pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
+    excelSheetNames: { descript: 'Descriptions', types: 'Types', features: 'Features' },
+    blocLegends: {
+        3: ['pas apprécié du tout', 'indifférent', 'très apprécié'],
+        5: ['pas apprécié du tout', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'très apprécié'],
+        7: ['pas apprécié du tout', 'pas apprécié', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'apprécié', 'très apprécié']
+    }
 };

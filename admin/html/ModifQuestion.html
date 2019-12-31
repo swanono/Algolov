@@ -1,0 +1,107 @@
+<!--
+-------------------------------------------------------------------------------------------------
+<Une ligne décrivant le nom du programme et ce qu’il fait>
+Copyright © 2019 Ulysse GUYON Sacha WANONO Eléa THUILIER
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see < https://www.gnu.org/licenses/ >.
+-------------------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AlgoLov - Admin</title>
+
+    <link rel="stylesheet" href="../css/admin.css"/>
+    <script type="text/javascript" src="../js/Admin.js" ></script>
+    <h1>Administration - Modifier le questionnaire</h1>
+    <button id = "Admin" class="bouton"> <a href="../html/Admin.html">Retour </a></button>
+                
+</head>
+    <body>
+
+        <ol>
+            <li id="Qexist">
+                <div id = QuestionList>
+                    <h3 id="TitreQexist">Liste question(s) existante(s)</h3>
+                    <h5>Partie intro</h5>
+                    <!--recuperer question d'intro-->
+                    <h5>Partie Drag&Drop</h5>
+                    <!--recuperer question drag&drop-->
+                    <h5>Partie finale </h5>
+                    <!--recuperer question final form-->
+                    
+                    
+                    
+                </div>
+                    
+            </li>
+            <li id = "FormulaireModifQuestion">
+                <div id=formulaire>
+                    <form action ="" methode="get" id=ajoutQuest>
+                        <div id=ajoutQuest>
+                            <label for="1"class=ajoutQuest >
+                                Emplacement dans le formulaire
+                            </label>
+                            <input type="select" id=1 class=ajoutQuest required>
+                                <option>Intro</option>
+                                <option>Drag&Drop</option>
+                                <option>Fin</option>
+                            </input>
+                        </div>
+                        <div id=ajoutQuest >   
+                            <label for="2"class=ajoutQuest>
+                                numéro de question:
+                            </label>
+                            <input type="select" id="2"class=ajoutQuest required>
+                            <!-- recuperer nombre de question +1-->
+                            <!-- peut etre adapter a chaque differente partie (3 pour intro, N+1 pour drag&drop, M+1 pour final-->
+                        </div>
+                        <div id=ajoutQuest>
+                            <label for="3" class=ajoutQuest>
+                                Question :
+                            </label>
+                            <input type="text" for ="3" class=ajoutQuest required>
+                        </div>
+                        <div id=ajoutQuest>
+                            <label for="4" class=ajoutQuest>
+                                Si cette question n'appartient pas à la Partie 2, indiquez les réponses à proposer :
+                            </label>
+                            <input type="text" id="4" class=ajoutQuest>
+
+                        </div>
+                        <div id=ajoutQuest>
+                            <label for="5" class=ajoutQuest>
+                                Sinon, indiquez le thème des features associées
+                            </label>
+                            <input type="checkbox" checked>
+                            <input type="select" id="5" class=ajoutQuest>
+                            <input type="checkbox" checked>
+                            <input type="text" id="5" class=ajoutQuest> Other</input>
+
+
+                        </div>
+                        
+                    </div>
+                </form>
+                <button id = "Validation" class="bouton" type= "submit"> <a href="../html/Admin.html">Valider </a></button>
+        
+                
+                
+            </li>
+    
+        </ol>
+
+    </body>
+</html>
