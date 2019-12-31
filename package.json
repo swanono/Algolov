@@ -17,7 +17,6 @@
     "docx": "^5.0.0-rc7",
     "dotenv": "^8.2.0",
     "express": "^4.16.4",
-    "express-fileupload": "^1.1.6",
     "express-session": "^1.16.1",
     "formidable": "^1.2.1",
     "mathjax": "^2.7.7",
@@ -37,7 +36,10 @@
     "unitTest": "jest"
   },
   "nodemonConfig": {
-    "ignore": ["public/survey/*.json", "admin*.json"]
+    "ignore": [
+      "public/survey/*.json",
+      "admin/*.json"
+    ]
   },
   "devDependencies": {
     "eslint": "^6.6.0",
