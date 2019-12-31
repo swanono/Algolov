@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 /*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
-Copyright © 2019 Ulysse GUYON
+Copyright © 2019 Ulysse GUYON Sacha WANONO Eléa THUILIER
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -14,35 +15,24 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
 
-This module is used for retrieving simple data for the admin pages to be filled properly
+This module is used for the interactivity of the Admin page
 */
 'use strict';
 
-const fs = require('fs');
+async function sendNewExcel () {
+    const file = document.getElementById('new-excel-input').files[0];
+    const formData = new FormData();
+    formData.append('file', file);
 
-class DataGetter {
-    static getFeatureDocsHist () {
-        const docs = [];
+    const fetchRes = await fetch('/api/admin/changeFeatures', {
+        method: 'POST',
+        body: formData
+    });
 
-        const featuresDir = fs.readdirSync('./admin/features_files/historic');
+    const res = await fetchRes.json();
 
-        const usedFile = JSON.parse(fs.readFileSync('./admin/historic.json')).lastFeatureFile;
+    const innerHTML = res.message.split('/').map((m) => m.trim()).join('<br/>');
 
-        featuresDir.forEach(featuresFile => {
-            const newDoc = {};
-
-            newDoc.path = '../features_files/historic/' + featuresFile;
-            newDoc.name = featuresFile;
-            if (usedFile === featuresFile)
-                newDoc.isUsed = true;
-
-            docs.push(newDoc);
-        });
-
-        // TODO : récupérer le nom du fichier actuellement utilisé (BDD ?)
-
-        return docs;
-    }
+    // eslint-disable-next-line no-undef
+    setAlertMessage(innerHTML, res.ok);
 }
-
-module.exports = DataGetter;

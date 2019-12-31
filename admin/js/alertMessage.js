@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
 /*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
-Copyright © 2019 Ulysse GUYON
+Copyright © 2019 Ulysse GUYON Sacha WANONO Eléa THUILIER
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -14,35 +15,21 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
 
-This module is used for retrieving simple data for the admin pages to be filled properly
+This module is used for the interactivity of the Admin page
 */
 'use strict';
 
-const fs = require('fs');
-
-class DataGetter {
-    static getFeatureDocsHist () {
-        const docs = [];
-
-        const featuresDir = fs.readdirSync('./admin/features_files/historic');
-
-        const usedFile = JSON.parse(fs.readFileSync('./admin/historic.json')).lastFeatureFile;
-
-        featuresDir.forEach(featuresFile => {
-            const newDoc = {};
-
-            newDoc.path = '../features_files/historic/' + featuresFile;
-            newDoc.name = featuresFile;
-            if (usedFile === featuresFile)
-                newDoc.isUsed = true;
-
-            docs.push(newDoc);
-        });
-
-        // TODO : récupérer le nom du fichier actuellement utilisé (BDD ?)
-
-        return docs;
-    }
+function setAlertMessage (text, success) {
+    const divMsg = document.getElementById('alert-message');
+    while (divMsg.firstChild)
+        divMsg.removeChild(divMsg.firstChild);
+    divMsg.setAttribute('class', (success ? 'success fade-out-message' : 'error'));
+    divMsg.innerHTML = text;
 }
 
-module.exports = DataGetter;
+function stopFadeOut () {
+    const divMsg = document.getElementById('alert-message');
+    while (divMsg.firstChild)
+        divMsg.removeChild(divMsg.firstChild);
+    divMsg.setAttribute('class', 'stop-fade-out');
+}

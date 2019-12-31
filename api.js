@@ -41,7 +41,7 @@ module.exports = (passport) => {
             if (err)
                 res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
             else
-                loadExcel(files[Object.keys(files)[0]].path, req, res);
+                loadExcel(files[Object.keys(files)[0]].path, true, req, res);
         });
     });
 
@@ -51,18 +51,21 @@ module.exports = (passport) => {
 
     app.post(config.pathPostSelectFeatures, function (req, res) {
         const filePath = JSON.parse(req.body[Object.keys(req.body)[0]]);
-        loadExcel(path.resolve('./admin/features_files/historic/' + filePath.name), req, res);
+        loadExcel(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
     });
 
     return app;
 };
 
-function loadExcel (path, req, res) {
+function loadExcel (path, save, req, res) {
     const reader = new ExcelReader(path);
     const errors = reader.validate();
     if (errors.length === 0) {
         reader.applyToConfig();
-        res.send({ ok: true, message: 'Les features du questionnaire ont bien été mises à jour !' });
+        reader.makeCurentUsedFile();
+        if (save)
+            reader.saveFile();
+        res.json({ ok: true, message: 'Les features du questionnaire ont bien été mises à jour !' });
     } else
-        res.send(new Error('Le fichier Excel fournit contient des erreurs : ' + errors.join(' / ')));
+        res.json({ ok: false, message: 'Le fichier Excel fournit contient des erreurs : ' + errors.join(' / ') });
 }

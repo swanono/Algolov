@@ -20,17 +20,23 @@ This module is used to read xlsx files and apply changes on the config file
 
 const config = require('./config');
 const XLSX = require('xlsx');
-// const fs = require('fs');
+const fs = require('fs');
+const Path = require('path');
+
+function isString (v) {
+    return Object.prototype.toString.call(v) === '[object String]';
+}
 
 class ExcelReader {
     constructor (filePath) {
         this.xlsErrors = [];
         this.newConfig = {};
 
-        const workbook = XLSX.readFile(filePath);
-        this.descSheet = workbook.Sheets[config.excelSheetNames.descript];
-        this.typeSheet = workbook.Sheets[config.excelSheetNames.types];
-        this.featSheet = workbook.Sheets[config.excelSheetNames.features];
+        this.name = Path.basename(filePath);
+        this.workbook = XLSX.readFile(filePath);
+        this.descSheet = this.workbook.Sheets[config.excelSheetNames.descript];
+        this.typeSheet = this.workbook.Sheets[config.excelSheetNames.types];
+        this.featSheet = this.workbook.Sheets[config.excelSheetNames.features];
 
         this._init();
     }
@@ -40,7 +46,8 @@ class ExcelReader {
         let range = XLSX.utils.decode_range(this.descSheet['!ref']);
 
         this.newConfig.descriptions = [];
-        for (let row = range.s.r; row <= range.e.r; row++) {
+        this.newConfig.beginQCM = [];
+        for (let row = range.s.r + 1; row <= range.e.r; row++) {
             const newDesc = {};
 
             newDesc.name = this.descSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].v.trim();
@@ -49,16 +56,36 @@ class ExcelReader {
             newDesc.combin = this.descSheet[XLSX.utils.encode_cell({ r: row, c: 3 })].v.split(',').map(c => c.trim());
 
             this.newConfig.descriptions.push(newDesc);
+
+            const newQuest = {};
+
+            newQuest.id = row - range.s.r;
+            newQuest.question = this.descSheet[XLSX.utils.encode_cell({ r: row, c: 4 })].v.trim();
+            newQuest.type = 'radio';
+            newQuest.descName = newDesc.name;
+            newQuest.choices = [];
+
+            newDesc.combin.forEach((comb, i) => {
+                const choiceObj = {};
+
+                choiceObj.choiceId = i + 1;
+                choiceObj.text = comb;
+                choiceObj.descValue = comb;
+
+                newQuest.choices.push(choiceObj);
+            });
+
+            this.newConfig.beginQCM.push(newQuest);
         }
 
         // Retrieving bloc datas
         range = XLSX.utils.decode_range(this.typeSheet['!ref']);
 
         this.newConfig.blocThemes = [];
-        for (let row = range.s.r; row <= range.e.r; row++) {
+        for (let row = range.s.r + 1; row <= range.e.r; row++) {
             const newBloc = {};
 
-            newBloc.blocId = row - range.s.r + 1;
+            newBloc.blocId = row - range.s.r;
             newBloc.type = this.typeSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].v.trim();
             const lickert = this.typeSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v;
             try {
@@ -90,10 +117,10 @@ class ExcelReader {
         range = XLSX.utils.decode_range(this.featSheet['!ref']);
 
         this.newConfig.features = [];
-        for (let row = range.s.r; row <= range.e.r; row++) {
+        for (let row = range.s.r + 1; row <= range.e.r; row++) {
             const feature = {};
 
-            feature.id = row - range.s.r + 1;
+            feature.id = row - range.s.r;
             feature.content = 'text';
             feature.data = this.featSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].v.trim();
             feature.type = this.featSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v.trim();
@@ -119,11 +146,91 @@ class ExcelReader {
     }
 
     validate () {
+        const featureCount = [];
+
+        this.newConfig.descriptions.forEach((desc, i) => {
+            if (!(isString(desc.name) && isString(desc.presentation) && isString(desc.text) &&
+                desc.combin.length > 0 && !desc.combin.find((comb) => !isString(comb))))
+                this.xlsErrors.push('La description n°' + i + ' a été mal formée');
+            else {
+                this.newConfig.blocThemes.forEach((bloc) => {
+                    const blocFeatures = this.newConfig.features.filter((feature) => feature.type === bloc.type);
+
+                    desc.combin.forEach((comb) => {
+                        const countObj = { count: 0 };
+
+                        blocFeatures.forEach((feature) => {
+                            if (feature.combin.find((featComb) => featComb.descName === desc.name)[comb])
+                                countObj.count++;
+                        });
+
+                        featureCount.push(countObj);
+                    });
+                });
+            }
+        });
+
+        const finalCount = featureCount[0].count;
+        const hasSameNbFeature = featureCount.reduce((perviousRes, count) => perviousRes && count.count === finalCount, true);
+        if (!hasSameNbFeature)
+            this.xlsErrors.push('Il n\'y a pas le même nombre de features entre chaque combinatoire');
+
+        this.newConfig.blocThemes.forEach((bloc, i) => {
+            if (!(isString(bloc.type) && isString(bloc.question) && !isNaN(bloc.likertSize)))
+                this.xlsErrors.push('Le bloc n°' + i + ' a été mal formé');
+        });
+
+        this.newConfig.features.forEach((feature, i) => {
+            if (!(isString(feature.data) && isString(feature.type) && feature.combin.length === this.newConfig.descriptions.length))
+                this.xlsErrors.push('La feature n°' + i + ' est mal formée');
+
+            if (!this.newConfig.blocThemes.find((bloc) => bloc.type === feature.type))
+                this.xlsErrors.push('Type de feature non renseigné dans la page de blocs : ' + feature.type);
+
+            feature.combin.forEach((combin) => {
+                if (!this.newConfig.descriptions.find((desc) => desc.name === combin.descName))
+                    this.xlsErrors.push('Une description n\'a pas été renseignée dans la feature "' + feature.data + '"');
+            });
+        });
+
         return this.xlsErrors;
     }
 
     applyToConfig () {
+        const config = JSON.parse(fs.readFileSync('./public/survey/config.json'));
 
+        config.surveyConfiguration.descNames = this.newConfig.descriptions;
+        config.surveyConfiguration.blocThemes = this.newConfig.blocThemes;
+        config.features = this.newConfig.features;
+
+        config.QCM.begin = this.newConfig.beginQCM;
+
+        fs.writeFileSync('./public/survey/config.json', JSON.stringify(config, null, 4));
+    }
+
+    saveFile () {
+        const thisDate = new Date();
+
+        const ext = '.xlsx';
+        let count = '1';
+        let fileName = './admin/features_files/historic/Features_' + thisDate.getDate() + '_' +
+                                    (thisDate.getMonth() + 1) + '_' +
+                                    thisDate.getFullYear() + '_' + count + ext;
+
+        while (fs.existsSync(fileName)) {
+            const prevLen = count.length;
+            count = '' + (parseInt(count) + 1);
+            fileName = fileName.substring(0, fileName.length - prevLen - ext.length) + count + ext;
+        }
+        XLSX.writeFile(this.workbook, fileName);
+    }
+
+    makeCurentUsedFile () {
+        const hist = JSON.parse(fs.readFileSync('./admin/historic.json'));
+
+        hist.lastFeatureFile = this.name;
+
+        fs.writeFileSync('./admin/historic.json', JSON.stringify(hist, null, 4));
     }
 }
 

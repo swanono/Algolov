@@ -33,13 +33,13 @@ async function sendSelectFeatureDoc (formTag) {
 
     const res = await fetchRes.json();
 
-    const divMsg = document.getElementById('alert-message');
-    while (divMsg.firstChild)
-        divMsg.removeChild(divMsg.firstChild);
-    divMsg.setAttribute('class', (res.ok ? 'success' : 'error') + ' ');
-    divMsg.appendChild(document.createTextNode(res.message));
+    const innerHTML = res.message.split('/').map((m) => m.trim()).join('<br/>');
 
-    appendArrowToChecked();
+    // eslint-disable-next-line no-undef
+    setAlertMessage(innerHTML, res.ok);
+
+    if (res.ok)
+        appendArrowToChecked();
 }
 
 function fillPage () {
@@ -84,11 +84,8 @@ async function fillFeatureDocForm () {
         newInput.setAttribute('name', 'select_feature_file');
         newInput.setAttribute('value', JSON.stringify(doc));
         newInput.setAttribute('required', 'true');
-        if (doc.isUsed) {
+        if (doc.isUsed)
             newInput.checked = true;
-
-            appendArrowToChecked();
-        }
 
         newLink.appendChild(newLogo);
         newLink.appendChild(newDiv);
@@ -99,16 +96,22 @@ async function fillFeatureDocForm () {
 
         formFeatures.appendChild(newContainer);
     });
+
+    appendArrowToChecked();
 }
 
 function appendArrowToChecked () {
     const cbs = document.querySelectorAll('[name="select_feature_file"]');
     for (const input of cbs) {
-        if (input.checked) {
+        if (input.checked && input.parentElement.firstElementChild.getAttribute('class') !== 'arrow') {
             const arrow = document.createElement('div');
             arrow.setAttribute('class', 'arrow');
             arrow.innerHTML = '&rarr;';
             input.parentElement.prepend(arrow);
+        } else if (!input.checked) {
+            const maybeArrow = input.parentElement.firstElementChild;
+            if (maybeArrow.getAttribute('class') === 'arrow')
+                maybeArrow.remove();
         }
     }
 }

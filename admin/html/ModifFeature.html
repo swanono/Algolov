@@ -24,7 +24,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <title>AlgoLov - Admin2</title>
 
     <link rel="stylesheet" href="../css/admin.css"/>
-    <script type="text/javascript" src="../js/Admin.js" ></script>
+    <script type="text/javascript" src="../js/alertMessage.js" ></script>
+    <script type="text/javascript" src="../js/ModifFeature.js" ></script>
 
 </head>
     <body>
@@ -44,9 +45,9 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
         </div>
 
-        <form id="Upload-Form" action="/api/admin/changeFeatures" method="POST" enctype="multipart/form-data">
+        <form id="Upload-Form" action="/api/admin/changeFeatures" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewExcel(); stopFadeOut();">
             <p>Cliquez sur le bouton ci-dessous pour charger un nouveau set de features :</p>
-            <input type="file" name="Excel-Upload" accept=".xlsx , .xls" class="bouton">
+            <input id="new-excel-input" type="file" name="Excel-Upload" accept=".xlsx , .xls" class="bouton">
             <input type="submit" value="Envoyer" class="bouton">
         </form>
 
