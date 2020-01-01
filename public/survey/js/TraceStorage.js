@@ -132,7 +132,7 @@ class TraceStorage {
             window.innerHeight +
             '}, "features": [';
         window.features.forEach((feature, index) => {
-            json += '{ "id": ' + feature.id + ', "text": "' + feature.text + '" }';
+            json += '{ "id": ' + feature.id + ', "text": "' + feature.data + '", "type": "' + feature.type + '" }';
             if (index < window.features.length - 1)
                 json += ', ';
         });
@@ -141,8 +141,6 @@ class TraceStorage {
         json += '"beginQuestions": ' + sessionStorage.getItem('combinatoire') + ',';
 
         json += '"rankingResult": ' + sessionStorage.getItem('sorting') + ',';
-        // TODO : enregistrer dans le json les réponses à chaque bloc
-        json += ',';
 
         json += '"endQuestions": ' + sessionStorage.getItem('finalQuestions') + ',';
 
@@ -150,8 +148,6 @@ class TraceStorage {
         // TODO : enregistrer dans le json les traces
 
         json += ' }';
-
-        console.log(json);
 
         return json;
     }

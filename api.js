@@ -30,6 +30,7 @@ module.exports = (passport) => {
     const app = express();
 
     app.post(config.pathPostSurveyApi, function (req, res) {
+        console.log('received user data');
         const daoUser = new daos.DAOUsers(req.sessionID, () => {
             daoUser.insert(req.body);
         });

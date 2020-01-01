@@ -22,7 +22,7 @@ This module is used to declare global variables and functions
 
 'use strict';
 
-window.state = 0;
+window.state = 11;
 window.config = {}; // Contains the config.json file
 window.features = null; // Contains all the features
 window.ranking = []; // Contains all the blocs with the ranking of the features by the user
@@ -146,14 +146,16 @@ function _loadFragmentedQCM (questionArray) {
 
 async function sendJSON () {
     const json = TraceStorage.GenerateJSON();
-    const response = await fetch('/api/survey', {
+    fetch('/api/survey', {
         method: 'POST',
         body: json,
         headers: new Headers({ 'Content-type': 'application/json' })
-    });
-
-    if (!response.ok)
-        console.error('Une erreur est survenue lors de l\'envoi des données : ' + response.statusText);
-
-    window.location.href = response.url;
+    })
+        .then(response => {
+            if (!response.ok)
+                console.error('Une erreur est survenue lors de l\'envoi des données : ' + response.statusText);
+    
+            window.location.href = response.url;
+        })
+        .catch(err => console.error(err));
 }
