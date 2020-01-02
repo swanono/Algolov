@@ -24,6 +24,7 @@
         "curly": ["error", "multi-or-nest"],
         "no-console": "off",
         "no-unused-vars": "off",
-        "space-before-function-paren": "error"
+        "space-before-function-paren": "error",
+        "no-process-env": "off"
     }
 }

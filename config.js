@@ -28,6 +28,9 @@ const _dbPort = process.env.DB_PORT;
 
 const _mongoUser = (process.env.MONGO_INITDB_ROOT_USERNAME ? process.env.MONGO_INITDB_ROOT_USERNAME : '');
 const _mongoPassword = (process.env.MONGO_INITDB_ROOT_PASSWORD ? process.env.MONGO_INITDB_ROOT_PASSWORD : '');
+const _mongoURL = _nodeEnv === 'dev' ?
+    `mongodb://localhost:${_dbPort}/` :
+    `mongodb://${_mongoUser}:${_mongoPassword}@db:${_dbPort}/`;
 
 module.exports = {
     nodeEnv: _nodeEnv,
@@ -36,8 +39,18 @@ module.exports = {
     directoryPrefix: _directoryPrefix,
     pathPostSurveyApi: '/survey',
     pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
-    dbUrl: `mongodb://${_mongoUser}:${_mongoPassword}@db:` + _dbPort + '/',
+    dbUrl: _mongoURL,
     dbName: 'db-algolov',
     adminIdRegex: /[A-Za-z0-9-_]{3,}/,
-    adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/
+    adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
+    pathPostChangeFeatures: '/admin/changeFeatures',
+    pathGetHistoricFeatures: '/admin/historicFeatures',
+    pathPostSelectFeatures: '/admin/selectFeatures',
+    pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
+    excelSheetNames: { descript: 'Descriptions', types: 'Types', features: 'Features' },
+    blocLegends: {
+        3: ['pas apprécié du tout', 'indifférent', 'très apprécié'],
+        5: ['pas apprécié du tout', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'très apprécié'],
+        7: ['pas apprécié du tout', 'pas apprécié', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'apprécié', 'très apprécié']
+    }
 };

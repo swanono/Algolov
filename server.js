@@ -23,6 +23,7 @@ const express = require('express');
 const app = express();
 const api = require('./api.js');
 const auth = require('./auth.js');
+const bodyParser = require('body-parser');
 // const dao = require('./dao.js');
 const passport = auth(app);
 
@@ -33,16 +34,16 @@ const envPort = config.port;
 // Routes accèdant à l'api (pas les fichiers du serveur)
 app.use('/api',
     function (req, res, next) {
-        if (req.path.includes('admin')) {
-            if (!req.username /* TODO : Rajouter toutes les routes admin d'api */)
-                res.redirect(connexionPath);
-            else
-                adminCheck(req, res, next);
-        }
-        next();
+        if (req.path.includes('admin'))
+            adminCheck(req, res, next);
+        else
+            next();
     },
     api(passport)
 );
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 // donner un accès total aux fichier dans le répertoire public via les routes / et /public
 app.use('/', express.static('public'));
@@ -50,8 +51,9 @@ app.use('/public', express.static('public'));
 
 // Vérification de la connexion en tant qu'admin pour l'accès à l'espace admin
 app.use('/admin',
-    require('connect-ensure-login').ensureLoggedIn(connexionPath),
-    adminCheck, // TODO : check si il faut mettre les parenthèses
+    // TODO : à changer lors de l'implémentation des mdp
+    // require('connect-ensure-login').ensureLoggedIn(connexionPath),
+    (res, req, next) => adminCheck(res, req, next), // TODO : check si il faut mettre les parenthèses
     express.static('admin')
 );
 
@@ -62,13 +64,15 @@ app.use('/admin',
  * res : http response object
  * next : the following callback function of this route
  */
+// TODO : mettre cette fonction dans auth.js
 function adminCheck (req, res, next) {
-    console.log('[Server] Requesting admin access : ' + JSON.stringify(req.user));
-    if (!req.user)
+    console.log('[Server] Requesting admin access : "' + JSON.stringify(req.user) + '" for ' + req.baseUrl + req.path);
+    /* if (req.user) // TODO : à changer quand on aura la vérif de mdp
         res.redirect(connexionPath);
-    else {
-        // TODO : checker dans la BDD si l'admin existe, utiliser next() si c'est bon
-    }
+    else
+        next();
+        // TODO : checker dans la BDD si l'admin existe, utiliser next() si c'est bon */
+    next();
 }
 
 function main () {

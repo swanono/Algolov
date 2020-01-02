@@ -1,5 +1,4 @@
-/* eslint-disable no-trailing-spaces */
-/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
 /*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
@@ -21,6 +20,7 @@ This module is used to declare the class handling the DOM changes during the sur
 
 /* globals Swappable */
 /* globals Draggable */
+/* globals TraceStorage */
 
 'use strict';
 
@@ -46,8 +46,6 @@ class DOMGenerator {
         // cleaning of previous page
         // with jokers we keep the wanted tags from being cleaned
         const jokers = [];
-
-        // TODO : mettre dans jokers les id des balises à garder
 
         DOMGenerator.cleanMain(jokers);
 
@@ -89,6 +87,18 @@ class DOMGenerator {
         });
 
         DOMGenerator.loadCards(usedFeatures);
+
+        const stopButton = document.createElement('button');
+        stopButton.setAttribute('id', 'stop-button');
+        stopButton.appendChild(document.createTextNode('Arrêter le questionnaire'));
+        stopButton.addEventListener('click', () => {
+            TraceStorage.saveSortedBloc();
+            window.state = window.config.surveyConfiguration.descNames.length *
+                            window.config.surveyConfiguration.nbBlocPerDesc +
+                            window.config.surveyConfiguration.nbStatesBeforeBloc;
+            changeState();
+        });
+        DOMGenerator.getMain().appendChild(stopButton);
 
         DOMGenerator._makeSortable();
     }
@@ -139,7 +149,7 @@ class DOMGenerator {
 
         // insertion of the initial container for the features
         const initalContainerCell = containerRow.insertCell();
-        DOMGenerator.loadContainer(initalContainerCell, 'initial_container');
+        DOMGenerator.loadContainer(initalContainerCell, window.consts.INIT_CONTAINER_ID);
         initalContainerCell.setAttribute('colspan', `${likertSize}`);
 
         bloc.appendChild(scale);
@@ -159,7 +169,6 @@ class DOMGenerator {
 
     static loadCards (features) {
         // class nested-item => is a card inside a container
-        // eslint-disable-next-line no-undef
         features = shuffleArray(features);
 
         const initCont = document.getElementById('initial_container');
@@ -167,7 +176,7 @@ class DOMGenerator {
         for (const feat of features) {
             const newCard = document.createElement('div');
             newCard.setAttribute('id', 'feature_' + feat.id);
-            newCard.setAttribute('class', 'nested-item');
+            newCard.setAttribute('class', 'nested-item feature-card');
             newCard.setAttribute('location', initCont.getAttribute('id'));
 
             if (feat.content === 'text')
@@ -177,7 +186,6 @@ class DOMGenerator {
         }
     }
 
-    // TODO : appeler la fonction là où on test si il n'y a plus de carte dans le conteneur initial
     static loadContinueButton (text, functor) {
         const button = document.createElement('button');
         button.setAttribute('id', window.consts.CONTINUE_BUTTON_ID);
@@ -200,10 +208,12 @@ class DOMGenerator {
         DOMGenerator.loadContinueButton(buttontext, functor);
     }
 
-    static generateStepQCMPage (contentpage, buttontext, functor1, functor2, qcmArray, jokers) {
+    static generateStepQCMPage (contentpage, buttontext, functor, qcm, jokers) {
         DOMGenerator.cleanMain(jokers);
 
-        const descQuest = qcmArray[0].descName !== undefined; // false if there is no description information in the question
+        const qcmArray = qcm.list;
+        const descQuest = qcm.isDescriptionLinked; // false if there is no description information in the question
+        const isFragmented = qcm.fragmented;
         const div = document.createElement('div');
         div.className = 'presdiv';
         const text = document.createElement('div');
@@ -216,40 +226,89 @@ class DOMGenerator {
         main.appendChild(div);
 
         const form = document.createElement('form');
+        form.setAttribute('id', 'form-id');
 
-        qcmArray.forEach((question) => {
-            const fieldset = document.createElement('fieldset');
-            fieldset.setAttribute('id', window.consts.QUESTION_ID + question.id);
+        let usedFunctor = functor;
 
-            const legend = document.createElement('p');
-            legend.appendChild(document.createTextNode(question.question));
-            fieldset.appendChild(legend);
+        if (isFragmented) {
+            const questId = window.fragmentedQuestions.pop();
+            const quest = qcmArray.find((question) => question.id === questId);
+            DOMGenerator._createQuestion(quest, form);
 
-            /* 
-             * For a non text input, we need to set the id and the value equal to the same string
-             * in order for the storage to work
-             */
-            switch (question.type) {
-            case 'text':
-                fieldset.appendChild(DOMGenerator._createTextInput(question));
-                break;
-            case 'radio':
-            case 'checkbox':
-                DOMGenerator._createCheckableInputs(question).forEach((tag) => fieldset.appendChild(tag));
-                break;
-            default:
-                console.error('Unhandled input type required by config : ' + question.type);
-                break;
+            if (window.fragmentedQuestions.length === 0)
+                DOMGenerator.loadContinueButton(buttontext, () => {});
+            else {
+                DOMGenerator.loadContinueButton(buttontext, () => {});
+                usedFunctor = () => {
+                    if (quest.relatedQuestion) {
+                        const radios = document.getElementsByClassName(window.consts.INPUT_CLASS + quest.id);
+                        for (const radio of radios) {
+                            if (radio.checked) {
+                                const radioId = parseInt(radio.getAttribute('id').split('_')[2]);
+    
+                                const triggers = quest.relatedQuestion.filter((trigger) => trigger.triggerChoices.includes(radioId));
+
+                                triggers.forEach((trigger) => {
+                                    window.fragmentedQuestions = window.fragmentedQuestions.filter((id) => !trigger.questionIds.includes(id));
+                                });
+                            }
+                        }
+                    }
+                    DOMGenerator.generateStepQCMPage(contentpage, buttontext, functor, qcm, jokers);
+                };
             }
+        } else {
+            qcmArray.forEach((question) => DOMGenerator._createQuestion(question, form));
+        
+            DOMGenerator.loadContinueButton(buttontext, () => {});
+        }
 
-            form.appendChild(fieldset);
-        });
+        document.getElementById(window.consts.CONTINUE_BUTTON_ID).setAttribute('type', 'submit');
+        document.getElementById(window.consts.CONTINUE_BUTTON_ID).setAttribute('form', 'form-id');
+        form.onsubmit = (event) => {
+            event.preventDefault();
+            TraceStorage.saveForm(form, descQuest, usedFunctor);
+        };
+
+        // This button is made to prevent user to validate the form by hitting enter, witch causes bugs
+        const falseButton = document.createElement('button');
+        falseButton.setAttribute('type', 'submit');
+        falseButton.setAttribute('disabled', 'true');
+        falseButton.setAttribute('style', 'display: none;');
+        form.appendChild(falseButton);
 
         div.appendChild(form);
-        
-        DOMGenerator.loadContinueButton(buttontext, () => functor1(form, descQuest, functor2));
 
-        DOMGenerator._setDisabled(qcmArray);
+        if (!isFragmented)
+            DOMGenerator._setDisabled(qcmArray);
+    }
+
+    static _createQuestion (questionData, formTag) {
+        const fieldset = document.createElement('fieldset');
+        fieldset.setAttribute('id', window.consts.QUESTION_ID + questionData.id);
+
+        const legend = document.createElement('p');
+        legend.appendChild(document.createTextNode(questionData.question));
+        fieldset.appendChild(legend);
+
+        /* 
+        * For a non text input, we need to set the id and the value equal to the same string
+        * in order for the storage to work
+        */
+        switch (questionData.type) {
+        case 'text':
+            fieldset.appendChild(DOMGenerator._createTextInput(questionData));
+            break;
+        case 'radio':
+        case 'checkbox':
+            DOMGenerator._createCheckableInputs(questionData).forEach((tag) => fieldset.appendChild(tag));
+            break;
+        default:
+            console.error('Unhandled input type required by config : ' + questionData.type);
+            break;
+        }
+
+        formTag.appendChild(fieldset);
     }
 
     static _createTextInput (question) {
@@ -260,6 +319,7 @@ class DOMGenerator {
         textInput.setAttribute('class', window.consts.INPUT_CLASS + question.id);
         textInput.setAttribute('name', textInput.getAttribute('class'));
         textInput.setAttribute('pattern', question.format);
+        textInput.setAttribute('required', 'true');
 
         return textInput;
     }
@@ -274,20 +334,42 @@ class DOMGenerator {
             input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
             input.setAttribute('value', input.getAttribute('id'));
             input.setAttribute('name', input.getAttribute('class'));
+            if(question.type !== 'checkbox')
+                input.setAttribute('required', 'true');
 
             if (question.descName) {
                 input.setAttribute('descName', question.descName);
                 input.setAttribute('descValue', choice.descValue);
             }
 
+            const label = document.createElement('label');
+            label.setAttribute('for', input.getAttribute('id'));
+            label.appendChild(document.createTextNode(choice.text));
+
+            const containerDiv = document.createElement('div');
+            containerDiv.setAttribute('id', window.consts.INPUT_DIV_ID + question.id + '_' + choice.choiceId);
+            containerDiv.appendChild(input);
+            containerDiv.appendChild(label);
+
+            htmlTags.push(containerDiv);
+        });
+
+        if (question.other) {
+            const idText = Math.max(...question.choices) + 1;
+            const input = document.createElement('input');
+            input.setAttribute('type', 'text');
+            input.setAttribute('id', window.consts.INPUT_ID + question.id + '_' + idText);
+            input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
+            input.setAttribute('name', input.getAttribute('class'));
+
             htmlTags.push(input);
 
             const label = document.createElement('label');
-            label.setAttribute('for', input.getAttribute('value'));
-            label.appendChild(document.createTextNode(choice.text));
+            label.setAttribute('for', input.getAttribute('id'));
+            label.appendChild(document.createTextNode('Autre'));
 
             htmlTags.push(label);
-        });
+        }
 
         return htmlTags;
     }
@@ -417,7 +499,7 @@ class DOMGenerator {
     }
 
     static _checkAllsorted () {
-        const cards = document.getElementsByClassName('nested-item');
+        const cards = document.getElementsByClassName('feature-card');
 
         let isComplete = true;
         for (const card of cards) {
@@ -428,8 +510,10 @@ class DOMGenerator {
 
         const buttonExists = document.getElementById(window.consts.CONTINUE_BUTTON_ID);
         if (isComplete && !buttonExists) {
-            // eslint-disable-next-line no-undef
-            DOMGenerator.loadContinueButton('Continuer', () => changeState());
+            DOMGenerator.loadContinueButton('Continuer', () => {
+                TraceStorage.saveSortedBloc();
+                changeState();
+            });
         } else if (!isComplete && buttonExists)
             buttonExists.remove();
     }
@@ -438,6 +522,12 @@ class DOMGenerator {
         window.sortable = new Draggable.Sortable(document.querySelectorAll('.nestable'), {
             draggable: '.nested-item'
         });
-        window.sortable.on('sortable:stop', () => DOMGenerator._checkAllsorted());
+        window.sortable.on('sortable:stop', (event) => {
+            const dragged = event.data.dragEvent.data.originalSource;
+            const newCont = event.data.newContainer;
+
+            dragged.setAttribute('location', newCont.getAttribute('id'));
+            DOMGenerator._checkAllsorted();
+        });
     }
 }

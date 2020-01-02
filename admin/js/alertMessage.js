@@ -1,4 +1,5 @@
-<!--
+/* eslint-disable no-unused-vars */
+/*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
 Copyright © 2019 Ulysse GUYON Sacha WANONO Eléa THUILIER
@@ -13,25 +14,22 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
--->
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AlgoLov</title>
+This module is used for the interactivity of the Admin page
+*/
+'use strict';
 
-    <script type="text/javascript" src="../js/Globals.js" ></script>
-    <script type="text/javascript" src="../js/TraceStorage.js" ></script>
-    <script type="text/javascript" src="../js/DOMGenerator.js" ></script>
+function setAlertMessage (text, success) {
+    const divMsg = document.getElementById('alert-message');
+    while (divMsg.firstChild)
+        divMsg.removeChild(divMsg.firstChild);
+    divMsg.setAttribute('class', (success ? 'success fade-out-message' : 'error'));
+    divMsg.innerHTML = text;
+}
 
-    <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/draggable.bundle.js" ></script>
-
-    <link rel="stylesheet" href="../css/index.css"/>
-</head>
-    <body onload="start()">
-        <div id="main"></div>
-    </body>
-</html>
+function stopFadeOut () {
+    const divMsg = document.getElementById('alert-message');
+    while (divMsg.firstChild)
+        divMsg.removeChild(divMsg.firstChild);
+    divMsg.setAttribute('class', 'stop-fade-out');
+}
