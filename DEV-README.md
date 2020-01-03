@@ -30,6 +30,30 @@ npm run unitTests
 npm run start
 ```
 
+## Commandes d'environnement Docker
+
+### Création de l'image Docker du serveur
+```bash
+docker build -t algolov-server .
+```
+
+### Mise en route des conteneurs
+```bash
+docker-compose up -d
+```
+
+### Accès au bash d'un conteneur
+```bash
+docker exec -ti <nom-du-conteneur> bash
+```
+
+### Mongo Bash
+```bash
+mongo --username $MONGO_INITDB_ROOT_USERNAME --password $MONGO_INITDB_ROOT_PASSWORD
+show dbs
+db.<collection>.findOne()
+```
+
 ## Licence
 
 ### A mettre à chaque début de fichier de code

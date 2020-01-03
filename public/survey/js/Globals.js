@@ -22,7 +22,7 @@ This module is used to declare global variables and functions
 
 'use strict';
 
-window.state = 11;
+window.state = 0;
 window.config = {}; // Contains the config.json file
 window.features = null; // Contains all the features
 window.ranking = []; // Contains all the blocs with the ranking of the features by the user

@@ -8,7 +8,7 @@ services:
             - ./mongo-data:/data/db
         restart: always
         environment:
-            - MONGO_INITDB_DATABASE=db-algolov
+            - MONGO_INITDB_DATABASE=db_algolov
             - MONGO_INITDB_ROOT_USERNAME=admin_algolov
             - MONGO_INITDB_ROOT_PASSWORD=algolov_secret
         ports:
@@ -17,11 +17,14 @@ services:
     server:
         image: algolov-server
         container_name: 'algolov-server'
+        volumes:
+            - ./admin/historic.json:./admin/historic.json
+            - ./public/survey/config.json:./public/survey/config.json
         depends_on:
             - db
         restart: always
         environment:
-            - MONGO_INITDB_DATABASE=db-algolov
+            - MONGO_INITDB_DATABASE=db_algolov
             - MONGO_INITDB_ROOT_USERNAME=admin_algolov
             - MONGO_INITDB_ROOT_PASSWORD=algolov_secret
         ports:
