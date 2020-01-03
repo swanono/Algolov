@@ -94,11 +94,11 @@ class ExcelReader {
                 const legendNum = Object.keys(config.blocLegends).find(num => {
                     let isMaxInbound = true;
 
-                    if (parseInt(num) > newBloc.lickertSize)
+                    if (parseInt(num) > newBloc.likertSize)
                         isMaxInbound = false;
 
                     Object.keys(config.blocLegends).forEach(other => {
-                        if (parseInt(other) > parseInt(num) && parseInt(other) <= newBloc.lickertSize)
+                        if (parseInt(other) > parseInt(num) && parseInt(other) <= newBloc.likertSize)
                             isMaxInbound = false;
                     });
 
