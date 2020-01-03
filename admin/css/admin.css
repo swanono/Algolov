@@ -194,9 +194,13 @@ label.ajoutQuest {
     position: fixed;
     left: -260px;
     top: 0px;
+    z-index: 2;
 
     -webkit-transition: all .5s ease-in;
 	transition: all .5s ease-in;
+}
+#volet * {
+    color: black;
 }
 #volet a.ouvrir {
     padding: 10px 25px;
@@ -237,8 +241,18 @@ label.ajoutQuest {
 	display: block;
 }
 
-#volet p, span {
-    color: black;
+#tab-stats {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1em;
+}
+#tab-stats * {
+    text-align: center;
+    border: black 1px solid;
+}
+#tab-stats thead {
+    font-size: large;
+    font-weight: bold;
 }
 
 /* fin sidebar*/

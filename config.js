@@ -38,6 +38,7 @@ module.exports = {
     adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
     pathPostChangeFeatures: '/admin/changeFeatures',
     pathGetHistoricFeatures: '/admin/historicFeatures',
+    pathGetBasicStats: '/admin/basicStats',
     pathPostSelectFeatures: '/admin/selectFeatures',
     pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
     excelSheetNames: { descript: 'Descriptions', types: 'Types', features: 'Features' },
@@ -45,5 +46,8 @@ module.exports = {
         3: ['pas apprécié du tout', 'indifférent', 'très apprécié'],
         5: ['pas apprécié du tout', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'très apprécié'],
         7: ['pas apprécié du tout', 'pas apprécié', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'apprécié', 'très apprécié']
+    },
+    queryBasicStats: {
+        
     }
 };
