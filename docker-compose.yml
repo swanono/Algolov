@@ -18,8 +18,8 @@ services:
         image: algolov-server
         container_name: 'algolov-server'
         volumes:
-            - ./admin/historic.json:./admin/historic.json
-            - ./public/survey/config.json:./public/survey/config.json
+            - ./admin/historic.json:/usr/src/app/admin/historic.json
+            - ./public/survey/config.json:/usr/src/app/public/survey/config.json
         depends_on:
             - db
         restart: always

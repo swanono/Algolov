@@ -47,6 +47,11 @@ docker-compose up -d
 docker exec -ti <nom-du-conteneur> bash
 ```
 
+### Accès au logs d'un conteneur
+```bash
+docker logs $(sudo docker ps -aq --filter name=<nom-du-conteneur>)
+```
+
 ### Mongo Bash
 ```bash
 mongo --username $MONGO_INITDB_ROOT_USERNAME --password $MONGO_INITDB_ROOT_PASSWORD
