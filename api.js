@@ -30,7 +30,6 @@ module.exports = (passport) => {
     const app = express();
 
     app.post(config.pathPostSurveyApi, function (req, res) {
-        console.log('received user data');
         const daoUser = new daos.DAOUsers(req.sessionID, () => {
             daoUser.insert(req.body);
         });
@@ -52,6 +51,12 @@ module.exports = (passport) => {
 
     app.get(config.pathGetHistoricFeatures, function (req, res) {
         res.json(DataGetter.getFeatureDocsHist());
+    });
+
+    app.get(config.pathGetBasicStats, function (req, res) {
+        DataGetter.getBasicStats(req.sessionID)
+            .then(stats => res.json(stats))
+            .catch(err => res.json(err));
     });
 
     app.post(config.pathPostSelectFeatures, function (req, res) {

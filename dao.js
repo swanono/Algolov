@@ -140,6 +140,23 @@ class DAOUsers extends DAO {
                 });
         });
     }
+
+    findAllByQuery (query) {
+        const self = this;
+
+        return new Promise(function (resolve, reject) {
+            self._find(query, false).toArray()
+                .then(result => {
+                    console.log(self.logId + 'Found ' + result.length +
+                        ' in ' + self.collectionName);
+                    resolve(result);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        });
+    }
 }
 
 /**
