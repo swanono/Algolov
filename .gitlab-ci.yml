@@ -7,20 +7,22 @@ image: node
 stages:
   - lint
   - unitTest
-#   - exec
 
 variables:
-  PORT: 8080
+  PORT: 8081
 
 eslint:
   stage: lint
   before_script:
     - npm install eslint --save-dev
     - npm install eslint-config-standard --save-dev
+    - npm install eslint-config-recommended --save-dev
     - npm install eslint-plugin-import --save-dev
     - npm install eslint-plugin-node --save-dev
     - npm install eslint-plugin-promise --save-dev
     - npm install eslint-plugin-standard --save-dev
+    - npm install babel-eslint --save-dev
+    - npm install @babel/plugin-proposal-class-properties --save-dev
   script:
     - npm run lintjs
 
@@ -42,13 +44,6 @@ htmllint:
 jest:
   stage: unitTest
   before_script:
-    - npm i
+    - npm install
   script:
     - npm run unitTest
-
-# server:
-#   stage: exec
-#   before_script:
-#     - npm i
-#   script:
-#     - npm run start

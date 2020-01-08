@@ -132,7 +132,7 @@ class TraceStorage {
             window.innerHeight +
             '}, "features": [';
         window.features.forEach((feature, index) => {
-            json += '{ "id": ' + feature.id + ', "text": "' + feature.text + '" }';
+            json += '{ "id": ' + feature.id + ', "text": "' + feature.data + '", "type": "' + feature.type + '" }';
             if (index < window.features.length - 1)
                 json += ', ';
         });

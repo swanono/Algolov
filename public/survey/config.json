@@ -28,28 +28,60 @@
                 "blocId": 1,
                 "type": "physique-1",
                 "likertSize": 7,
-                "legends": ["pas apprécié du tout", "pas apprécié", "assez peu apprécié", "indifférent", "un peu apprécié", "apprécié", "très apprécié"],
+                "legends": [
+                    "pas apprécié du tout",
+                    "pas apprécié",
+                    "assez peu apprécié",
+                    "indifférent",
+                    "un peu apprécié",
+                    "apprécié",
+                    "très apprécié"
+                ],
                 "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?"
             },
             {
                 "blocId": 2,
                 "type": "physique-2",
                 "likertSize": 7,
-                "legends": ["pas apprécié du tout", "pas apprécié", "assez peu apprécié", "indifférent", "un peu apprécié", "apprécié", "très apprécié"],
+                "legends": [
+                    "pas apprécié du tout",
+                    "pas apprécié",
+                    "assez peu apprécié",
+                    "indifférent",
+                    "un peu apprécié",
+                    "apprécié",
+                    "très apprécié"
+                ],
                 "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?"
             },
             {
                 "blocId": 3,
                 "type": "attitude",
                 "likertSize": 7,
-                "legends": ["pas apprécié du tout", "pas apprécié", "assez peu apprécié", "indifférent", "un peu apprécié", "apprécié", "très apprécié"],
+                "legends": [
+                    "pas apprécié du tout",
+                    "pas apprécié",
+                    "assez peu apprécié",
+                    "indifférent",
+                    "un peu apprécié",
+                    "apprécié",
+                    "très apprécié"
+                ],
                 "question": "Quelles sont les caractéristiques importantes pour vous ?"
             },
             {
                 "blocId": 4,
                 "type": "autres",
                 "likertSize": 7,
-                "legends": ["pas apprécié du tout", "pas apprécié", "assez peu apprécié", "indifférent", "un peu apprécié", "apprécié", "très apprécié"],
+                "legends": [
+                    "pas apprécié du tout",
+                    "pas apprécié",
+                    "assez peu apprécié",
+                    "indifférent",
+                    "un peu apprécié",
+                    "apprécié",
+                    "très apprécié"
+                ],
                 "question": "Quelles sont les caractéristiques importantes pour vous ?"
             }
         ]
@@ -828,31 +860,31 @@
                     "choices": [
                         {
                             "choiceId": 1,
-                            "text": "Femme",
-                            "descValue": "F"
+                            "text": "Homme",
+                            "descValue": "Homme"
                         },
                         {
                             "choiceId": 2,
-                            "text": "Homme",
-                            "descValue": "M"
+                            "text": "Femme",
+                            "descValue": "Femme"
                         }
                     ]
                 },
                 {
                     "id": 2,
-                    "question": "quel est le sexe par lequel vous êtes attiré ?",
+                    "question": "quel est le sexe par lequel vous êtes attiré.e ?",
                     "type": "radio",
                     "descName": "autre",
                     "choices": [
                         {
                             "choiceId": 1,
-                            "text": "Femme",
-                            "descValue": "F"
+                            "text": "Homme",
+                            "descValue": "Homme"
                         },
                         {
                             "choiceId": 2,
-                            "text": "Homme",
-                            "descValue": "M"
+                            "text": "Femme",
+                            "descValue": "Femme"
                         }
                     ]
                 }
@@ -882,8 +914,14 @@
                     ],
                     "relatedQuestion": [
                         {
-                            "triggerChoices": [3],
-                            "questionIds": [4, 5, 6]
+                            "triggerChoices": [
+                                3
+                            ],
+                            "questionIds": [
+                                4,
+                                5,
+                                6
+                            ]
                         }
                     ]
                 },
@@ -1047,8 +1085,13 @@
                     ],
                     "relatedQuestion": [
                         {
-                            "triggerChoices": [2],
-                            "questionIds": [9, 10]
+                            "triggerChoices": [
+                                2
+                            ],
+                            "questionIds": [
+                                9,
+                                10
+                            ]
                         }
                     ]
                 },

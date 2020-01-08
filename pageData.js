@@ -19,6 +19,8 @@ This module is used for retrieving simple data for the admin pages to be filled 
 'use strict';
 
 const fs = require('fs');
+const daos = require('./dao');
+const config = require('./config');
 
 class DataGetter {
     static getFeatureDocsHist () {
@@ -39,9 +41,47 @@ class DataGetter {
             docs.push(newDoc);
         });
 
-        // TODO : récupérer le nom du fichier actuellement utilisé (BDD ?)
-
         return docs;
+    }
+
+    static getBasicStats (sessionId) {
+        return new Promise(function (resolve, reject) {
+            const stats = {};
+    
+            const usersDAO = new daos.DAOUsers(sessionId, () => {
+                usersDAO.findAllByQuery(config.queryBasicStats)
+                    .then(users => {
+                        const questConfig = JSON.parse(fs.readFileSync('./public/survey/config.json'));
+
+                        stats.desc = [];
+                        questConfig.surveyConfiguration.descNames.forEach((desc, i) => {
+                            const newStatDesc = {};
+
+                            newStatDesc.name = desc.name;
+                            newStatDesc.combin = [];
+                            desc.combin.forEach((comb) => {
+                                const newComb = {};
+
+                                newComb.name = comb;
+                                newComb.value = users.filter((user) =>
+                                    user.beginQuestions.length > i &&
+                                    user.beginQuestions[i].choice === comb).length;
+
+                                newStatDesc.combin.push(newComb);
+                            });
+
+                            stats.desc.push(newStatDesc);
+                        });
+                        stats.total = stats.desc[0].combin.reduce((prec, curr) => prec + curr.value, 0);
+
+                        stats.ageMean = users.reduce((precRes, user) => precRes +
+                            parseInt(user.endQuestions.find((quest) => quest.questionText.includes('age')).choiceText), 0) / users.length;
+
+                        resolve(stats);
+                    })
+                    .catch(err => reject(err));
+            });
+        });
     }
 }
 

@@ -1,7 +1,7 @@
-<!--
+/*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
-Copyright © 2019 Ulysse GUYON Sacha WANONO Eléa THUILIER
+Copyright © 2019 Ulysse GUYON
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -13,25 +13,41 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
--->
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AlgoLov</title>
+This module is used to launch unit tests with jest on the server functions
+*/
+'use strict';
 
-    <script type="text/javascript" src="../js/Globals.js" ></script>
-    <script type="text/javascript" src="../js/TraceStorage.js" ></script>
-    <script type="text/javascript" src="../js/DOMGenerator.js" ></script>
+// Test de lancement de serveur avant les autres tests
+describe('Testing server launching', () => {
+    let serv;
 
-    <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/draggable.bundle.js" ></script>
+    test('Server launched', done => {
+        const server = require('../server');
+        serv = server.app.listen(require('../config').port, () => {
+            expect(serv.listening).toBe(true);
+            done();
+        });
+    });
 
-    <link rel="stylesheet" href="../css/index.css"/>
-</head>
-    <body onload="start()">
-        <div id="main"></div>
-    </body>
-</html>
+    afterAll(() => {
+        serv.close();
+    });
+});
+
+// Tests sur les fonctions du serveur
+describe('Testing server related functions', () => {
+    let server;
+    let serv;
+
+    beforeAll(() => {
+        server = require('../server.js');
+        serv = server.main();
+    });
+
+    afterAll(() => {
+        serv.close();
+    });
+});
+
+// TODO : unit test on server.testFunc.isAdmin

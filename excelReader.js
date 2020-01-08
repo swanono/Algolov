@@ -94,11 +94,11 @@ class ExcelReader {
                 const legendNum = Object.keys(config.blocLegends).find(num => {
                     let isMaxInbound = true;
 
-                    if (parseInt(num) > newBloc.lickertSize)
+                    if (parseInt(num) > newBloc.likertSize)
                         isMaxInbound = false;
 
                     Object.keys(config.blocLegends).forEach(other => {
-                        if (parseInt(other) > parseInt(num) && parseInt(other) <= newBloc.lickertSize)
+                        if (parseInt(other) > parseInt(num) && parseInt(other) <= newBloc.likertSize)
                             isMaxInbound = false;
                     });
 
@@ -204,12 +204,13 @@ class ExcelReader {
         config.features = this.newConfig.features;
 
         let count = 1;
-        config.QCM.begin = this.newConfig.beginQCM.map((quest) => {
+        config.QCM.begin.list = this.newConfig.beginQCM.map((quest) => {
             quest.id = count;
             count++;
             return quest;
         });
-        config.QCM.end = config.QCM.end.map((quest) => {
+        config.QCM.begin.isDescriptionLinked = true;
+        config.QCM.end.list = config.QCM.end.list.map((quest) => {
             quest.id = count;
             count++;
             return quest;

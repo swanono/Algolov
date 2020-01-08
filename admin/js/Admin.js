@@ -44,6 +44,58 @@ async function sendSelectFeatureDoc (formTag) {
 
 function fillPage () {
     fillFeatureDocForm();
+    fillStats();
+}
+
+async function fillStats () {
+    const fetchRes = await fetch('/api/admin/basicStats', { method: 'GET' });
+
+    if (!fetchRes.ok) {
+        console.error('Une erreur est survenue lors de la récupération des données : ' + fetchRes.statusText);
+        return;
+    }
+
+    const stats = await fetchRes.json();
+    
+    const divStats = document.getElementById('stats-div');
+
+    const ageP = document.createElement('p');
+    ageP.appendChild(document.createTextNode(`Age moyen des répondants : ${stats.ageMean} ans`));
+    divStats.appendChild(ageP);
+
+    const tabStats = document.createElement('table');
+    tabStats.setAttribute('id', 'tab-stats');
+    divStats.appendChild(tabStats);
+
+    const header = tabStats.createTHead().insertRow().insertCell();
+    header.appendChild(document.createTextNode('Répondants'));
+
+    const tabBody = tabStats.createTBody();
+    let colspan = 0;
+    const bodyHeaders = [];
+    stats.desc.forEach((desc, i) => {
+        if (i !== 0)
+            return;
+            
+        let currentSpan = 0;
+
+        const h = tabBody.insertRow().insertCell();
+        h.appendChild(document.createTextNode('Sexes' /* desc.name */));
+        bodyHeaders.push(h);
+
+        const rowName = tabBody.insertRow();
+        const rowVal = tabBody.insertRow();
+        desc.combin.forEach((comb) => {
+            rowName.insertCell().appendChild(document.createTextNode(comb.name));
+            rowVal.insertCell().appendChild(document.createTextNode(comb.value));
+            currentSpan++;
+        });
+
+        colspan = Math.max(colspan, currentSpan);
+    });
+
+    header.setAttribute('colspan', colspan);
+    bodyHeaders.forEach((head) => head.setAttribute('colspan', colspan));
 }
 
 async function fillFeatureDocForm () {

@@ -146,14 +146,16 @@ function _loadFragmentedQCM (questionArray) {
 
 async function sendJSON () {
     const json = TraceStorage.GenerateJSON();
-    const response = await fetch('/api/survey', {
+    fetch('/api/survey', {
         method: 'POST',
         body: json,
         headers: new Headers({ 'Content-type': 'application/json' })
-    });
-
-    if (!response.ok)
-        console.error('Une erreur est survenue lors de l\'envoi des données : ' + response.statusText);
-
-    window.location.href = response.url;
+    })
+        .then(response => {
+            if (!response.ok)
+                console.error('Une erreur est survenue lors de l\'envoi des données : ' + response.statusText);
+    
+            window.location.href = response.url;
+        })
+        .catch(err => console.error(err));
 }

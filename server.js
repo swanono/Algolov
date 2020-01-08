@@ -36,6 +36,8 @@ app.use('/api',
     function (req, res, next) {
         if (req.path.includes('admin'))
             adminCheck(req, res, next);
+        else
+            next();
     },
     api(passport)
 );
@@ -65,11 +67,12 @@ app.use('/admin',
 // TODO : mettre cette fonction dans auth.js
 function adminCheck (req, res, next) {
     console.log('[Server] Requesting admin access : "' + JSON.stringify(req.user) + '" for ' + req.baseUrl + req.path);
-    if (req.user) // TODO : à changer quand on aura la vérif de mdp
+    /* if (req.user) // TODO : à changer quand on aura la vérif de mdp
         res.redirect(connexionPath);
     else
         next();
-        // TODO : checker dans la BDD si l'admin existe, utiliser next() si c'est bon
+        // TODO : checker dans la BDD si l'admin existe, utiliser next() si c'est bon */
+    next();
 }
 
 function main () {
