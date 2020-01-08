@@ -23,6 +23,7 @@
         "no-tabs": "off",
         "curly": ["error", "multi-or-nest"],
         "no-unused-vars": "off",
-        "no-process-env": "off"
+        "no-process-env": "off",
+        "no-console": "off"
     }
 }

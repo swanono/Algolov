@@ -93,6 +93,7 @@ class DOMGenerator {
         stopButton.appendChild(document.createTextNode('Arrêter le questionnaire'));
         stopButton.addEventListener('click', () => {
             TraceStorage.saveSortedBloc();
+            TraceStorage.appendToStorage('terminated', 'true');
             window.state = window.config.surveyConfiguration.descNames.length *
                             window.config.surveyConfiguration.nbBlocPerDesc +
                             window.config.surveyConfiguration.nbStatesBeforeBloc;

@@ -141,17 +141,14 @@ class TraceStorage {
         json += '"beginQuestions": ' + sessionStorage.getItem('combinatoire') + ',';
 
         json += '"rankingResult": ' + sessionStorage.getItem('sorting') + ',';
-        // TODO : enregistrer dans le json les réponses à chaque bloc
-        json += ',';
 
         json += '"endQuestions": ' + sessionStorage.getItem('finalQuestions') + ',';
 
         json += '"traces": {}';
-        // TODO : enregistrer dans le json les traces
+
+        json += '"terminated": ' + sessionStorage.getItem('terminated') + ',';
 
         json += ' }';
-
-        console.log(json);
 
         return json;
     }
