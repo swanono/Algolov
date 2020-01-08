@@ -76,7 +76,7 @@ class DataGetter {
 
                         stats.ageMean = users.reduce((precRes, user) => precRes +
                             parseInt(user.endQuestions.find((quest) => quest.questionText.includes('age')).choiceText), 0) / users.length;
-
+                        
                         resolve(stats);
                     })
                     .catch(err => reject(err));

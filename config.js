@@ -48,6 +48,6 @@ module.exports = {
         7: ['pas apprécié du tout', 'pas apprécié', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'apprécié', 'très apprécié']
     },
     queryBasicStats: {
-        
+        terminated: null
     }
 };

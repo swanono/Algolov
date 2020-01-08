@@ -144,11 +144,13 @@ class TraceStorage {
 
         json += '"endQuestions": ' + sessionStorage.getItem('finalQuestions') + ',';
 
-        json += '"traces": {}';
+        json += '"traces": {}' + ',';
 
-        json += '"terminated": ' + sessionStorage.getItem('terminated') + ',';
+        json += '"terminated": ' + sessionStorage.getItem('terminated');
 
         json += ' }';
+
+        console.log(json);
 
         return json;
     }
