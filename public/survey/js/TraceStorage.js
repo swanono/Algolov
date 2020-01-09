@@ -121,7 +121,7 @@ class TraceStorage {
     }
 
     static cleanStorageFormTraces () {
-        window.consts.TRACE_NAMES.forEach((name) => {
+        Object.values(window.consts.TRACE_NAMES).forEach((name) => {
             TraceStorage.cleanStorage(name);
         });
     }
@@ -144,11 +144,144 @@ class TraceStorage {
 
         json += '"endQuestions": ' + sessionStorage.getItem('finalQuestions') + ',';
 
-        json += '"traces": {}';
-        // TODO : enregistrer dans le json les traces
+        json += '"traces": [';
+
+        Object.values(window.consts.TRACE_NAMES).forEach((value) => {
+            json += '{ "name": ' + value + ', "data":' + sessionStorage.getItem(value);
+        });
+
+        json += ']';
 
         json += ' }';
 
         return json;
     }
+
+    static storeNextStepEvent (step,extra)
+    {
+        const object = {};
+        object.s=step;
+        if(extra)
+            object.e=extra;
+        TraceStorage.storeItem('steps',object);
+    }
+
+    static storeOnChangeChoiceEvent (event)
+    {
+        const object = {};
+        object.id=event.currentTarget.id;
+        switch (event.currentTarget.getAttribute('type')){
+        case 'radio':
+            object.ty="r";
+            if(event.currentTarget.checked)
+                object.v=event.currentTarget.value;
+            TraceStorage.storeItem('change',object);
+            break;
+        case 'checkbox':
+            object.ty="cb";
+            object.v=event.currentTarget.value;
+            object.ic=event.currentTarget.checked;
+            TraceStorage.storeItem('change',object);
+            break;
+        case 'range':
+            object.v=event.currentTarget.value;
+            TraceStorage.storeItem('range',object);
+            break;
+        default:
+            console.error('type d\'input non pris en charge');
+        }
+		
+    }
+
+    static storeFocusEvent (event)
+    {
+        const object = {};
+        object.id=event.currentTarget.id;
+        TraceStorage.storeItem('focus',object);
+    }
+
+    static storeKeyEvent (event)
+    {
+        const object = {};
+        object.id=event.currentTarget.id;
+        object.ty=event.type;
+        object.kc=event.code;
+        object.ak=event.altKey;
+        object.ck=event.ctrlKey;
+        object.sk=event.shiftKey;
+        TraceStorage.storeItem('keypress', object);
+    }
+
+    static storeMousePositionData (event)
+    {
+        const object = {};
+        object.x=event.clientX;
+        object.y=event.clientY;
+        TraceStorage.storeItem('mousemove', object);
+    }
+
+    static storeMouseClickData (event,element_id)
+    {
+        const object = {};
+        if(element_id)
+            object.id=element_id;
+        object.mid=event.button;
+        object.x=event.clientX;
+        object.y=event.clientY;
+        TraceStorage.storeItem('mouseclick', object);
+    }
+
+    static storeScrollingData (event)
+    {
+        const object = {};
+        object.x0=document.scrollingElement.scrollLeft;
+        object.y0=document.scrollingElement.scrollTop;
+        object.w=document.scrollingElement.scrollWidth;
+        object.h=document.scrollingElement.scrollHeight;
+        TraceStorage.storeItem('scrolling', object);
+    }
+
+    // storeEvent("drag","start",id,parentid)
+
+    static storeDragEvent (type,id,parentid) {
+        const object = {};
+        object.ty = type;
+        object.id = id;
+        object.parentId = parentid;
+        TraceStorage.storeItem('drag', object);
+    }
+
+    static storeDropEvent (id,parentid) {
+        const object = {};
+        object.ty = 'elementlist';
+        object.id = id;
+        object.parentId = parentid;
+        TraceStorage.storeItem('drop', object);
+    }
+
+    static storeError (error, extra)
+    {
+        let object={};
+        object.log=error;
+        if(extra)
+            object.e=extra;
+        TraceStorage.storeItem('errors', object);
+    }
+
+    static storeDraggableEvent (id,cardid)
+    {
+        let object={};
+        object.id=id;
+        object.c=cardid;
+        TraceStorage.storeItem('draggablecontainer', object);
+    }
+    
+    static StoreItem (name,object)
+    {
+        // eslint-disable-next-line no-undef
+        object.t = getMillisecSinceRefTime();
+        TraceStorage.appendToStorage(name, JSON.stringify(object));
+    }
+    
+
 }

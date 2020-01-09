@@ -31,10 +31,12 @@ class DOMGenerator {
         const surveyConfig = window.config.surveyConfiguration;
         const descConfig = surveyConfig.descNames[Math.floor(blocState / surveyConfig.nbBlocPerDesc)];
         window.currentDescription = descConfig.name;
+        TraceStorage.storeNextStepEvent(window.state, 'desc_' + descConfig.name);
         DOMGenerator.generateStepPage(descConfig.presentation, 'Commencer', () => DOMGenerator.loadBloc());
     }
 
     static loadBloc () {
+        TraceStorage.storeNextStepEvent(window.state);
         const statesBeforeBloc = window.config.surveyConfiguration.nbStatesBeforeBloc;
         const blocState = window.state - statesBeforeBloc;
         const surveyConfig = window.config.surveyConfiguration;
@@ -230,8 +232,9 @@ class DOMGenerator {
 
         let usedFunctor = functor;
 
+        let questId = null;
         if (isFragmented) {
-            const questId = window.fragmentedQuestions.pop();
+            questId = window.fragmentedQuestions.pop();
             const quest = qcmArray.find((question) => question.id === questId);
             DOMGenerator._createQuestion(quest, form);
 
@@ -263,11 +266,16 @@ class DOMGenerator {
             DOMGenerator.loadContinueButton(buttontext, () => {});
         }
 
+        const realUsedFunctor = () => {
+            usedFunctor();
+            TraceStorage.storeNextStepEvent(window.state, 'quest_' + questId);
+        };
+
         document.getElementById(window.consts.CONTINUE_BUTTON_ID).setAttribute('type', 'submit');
         document.getElementById(window.consts.CONTINUE_BUTTON_ID).setAttribute('form', 'form-id');
         form.onsubmit = (event) => {
             event.preventDefault();
-            TraceStorage.saveForm(form, descQuest, usedFunctor);
+            TraceStorage.saveForm(form, descQuest, realUsedFunctor);
         };
 
         // This button is made to prevent user to validate the form by hitting enter, witch causes bugs
@@ -526,8 +534,11 @@ class DOMGenerator {
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.newContainer;
 
+
             dragged.setAttribute('location', newCont.getAttribute('id'));
             DOMGenerator._checkAllsorted();
+            // TODO : parsé id feature pour enlever le feature et peut etre l'id du conteneur parce que! 
+            storeDropEvent(dragged.getAttribute('id'), newCont.getAttribute('id'))
         });
     }
 }
