@@ -1,1 +1,0 @@
-docker system prune && docker build -t algolov-server . && docker-compose up -d

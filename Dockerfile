@@ -8,6 +8,6 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 8081
+EXPOSE 443
 
-CMD ["npm", "start"]
+CMD ["npm", "run", "servInst"]
