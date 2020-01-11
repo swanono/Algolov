@@ -43,18 +43,18 @@ window.consts = {
     BLOC_ID: 'bloc_',
     RANK_CLASS: 'rank',
     TRACE_NAMES: {
-        steps: 'steps',
-        focus: 'focus',
-        change: 'change',
-        range: 'range',
-        keypress: 'keypress',
-        mousemove: 'mousemove',
-        mouseclick: 'mouseclick',
-        scrolling: 'scrolling',
-        drag: 'drag',
-        drop: 'drop',
-        errors: 'errors',
-        draggablecontainer: 'draggablecontainer'
+        steps: 'steps', /*fait*/ 
+        focus: 'focus', /*fait*/
+        change: 'change', /*fait*/
+        range: 'range', /*fait*/
+        keypress: 'keypress', /*fait*/
+        mousemove: 'mousemove',/*fait*/
+        mouseclick: 'mouseclick',/*fait*/
+        scrolling: 'scrolling', /*fait*/
+        drag: 'drag',/*fait*/
+        drop: 'drop', /*fait*/
+        errors: 'errors', /*???*/
+        draggablecontainer: 'draggablecontainer' /*fait*/
     }
 };
 

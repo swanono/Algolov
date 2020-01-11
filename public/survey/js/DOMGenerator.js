@@ -328,7 +328,18 @@ class DOMGenerator {
         textInput.setAttribute('name', textInput.getAttribute('class'));
         textInput.setAttribute('pattern', question.format);
         textInput.setAttribute('required', 'true');
-
+        textInput.addEventListener('focus', (event) => {
+            console.log('focus event');
+            TraceStorage.storeFocusEvent(event);
+        });
+        textInput.addEventListener('keydown', (event) => {
+            console.log('keyboard event');
+            TraceStorage.storeFocusEvent(event);
+        });
+        textInput.addEventListener('keyup', (event) => {
+            console.log('keyboard event');
+            TraceStorage.storeFocusEvent(event);
+        });
         return textInput;
     }
 
@@ -342,9 +353,13 @@ class DOMGenerator {
             input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
             input.setAttribute('value', input.getAttribute('id'));
             input.setAttribute('name', input.getAttribute('class'));
+            input.addEventListener('change', (event) => {
+                console.log('change event');
+                TraceStorage.storeOnChangeChoiceEvent(event);
+            });
+
             if(question.type !== 'checkbox')
                 input.setAttribute('required', 'true');
-
             if (question.descName) {
                 input.setAttribute('descName', question.descName);
                 input.setAttribute('descValue', choice.descValue);
@@ -413,6 +428,19 @@ class DOMGenerator {
         
         main = document.createElement('div');
         main.id = 'main';
+
+        if (window.state > 0 ) {
+            main.addEventListener('click', (event) => {
+                TraceStorage.storeMouseClickData(event);
+            });
+            main.addEventListener('scrol', (event) => {
+                TraceStorage.storeScrollingData(event); 
+                
+            });
+            main.addEventListener('mousemove', (event) => {
+                TraceStorage.storeMousePositionData(event);
+            });
+        }
         document.body.appendChild(main);
         return main;
     }
@@ -426,6 +454,10 @@ class DOMGenerator {
         const acceptButton = document.createElement('input');
         acceptButton.setAttribute('type', 'checkbox');
         acceptButton.setAttribute('name', 'acceptButton');
+        acceptButton.addEventListener('change', (event) => {
+            console.log('change event');
+            TraceStorage.storeOnChangeChoiceEvent(event);
+        });
 
         label.innerHTML = checkboxText;
         label.setAttribute('for', 'acceptButton');
@@ -558,7 +590,7 @@ class DOMGenerator {
 
             dragged.setAttribute('location', newCont.getAttribute('id'));
             DOMGenerator._checkAllsorted();
-            TraceStorage.storeDragEvent('start',dragged.getAttribute('id').split('_')[1], newCont.getAttribute('id').split('_')[1]);
+            TraceStorage.storeDraggableEvent(dragged.getAttribute('id').split('_')[1], newCont.getAttribute('id').split('_')[1]);
         });
     }
 }
