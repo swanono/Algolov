@@ -85,10 +85,7 @@ const checkers = {};
 
 checkers.checkNewUser = async (userData) => userSchema.validateAsync(userData);
 
-checkers.checkNewAdmin = (adminData) => new Promise(function (resolve, reject) {
-    // TODO : remplir la fonction
-    resolve(adminData);
-});
+checkers.checkNewAdmin = async (adminData) => adminSchema.validateAsync(adminData);
 
 checkers.checkAdminName = (adminName) => new Promise(function (resolve, reject) {
     if (isString(adminName)) {
