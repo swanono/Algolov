@@ -329,15 +329,12 @@ class DOMGenerator {
         textInput.setAttribute('pattern', question.format);
         textInput.setAttribute('required', 'true');
         textInput.addEventListener('focus', (event) => {
-            console.log('focus event');
             TraceStorage.storeFocusEvent(event);
         });
         textInput.addEventListener('keydown', (event) => {
-            console.log('keyboard event');
             TraceStorage.storeFocusEvent(event);
         });
         textInput.addEventListener('keyup', (event) => {
-            console.log('keyboard event');
             TraceStorage.storeFocusEvent(event);
         });
         return textInput;
@@ -354,7 +351,6 @@ class DOMGenerator {
             input.setAttribute('value', input.getAttribute('id'));
             input.setAttribute('name', input.getAttribute('class'));
             input.addEventListener('change', (event) => {
-                console.log('change event');
                 TraceStorage.storeOnChangeChoiceEvent(event);
             });
 
@@ -384,6 +380,15 @@ class DOMGenerator {
             input.setAttribute('id', window.consts.INPUT_ID + question.id + '_' + idText);
             input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
             input.setAttribute('name', input.getAttribute('class'));
+            input.addEventListener('focus', (event) => {
+                TraceStorage.storeFocusEvent(event);
+            });
+            input.addEventListener('keydown', (event) => {
+                TraceStorage.storeFocusEvent(event);
+            });
+            input.addEventListener('keyup', (event) => {
+                TraceStorage.storeFocusEvent(event);
+            });
 
             htmlTags.push(input);
 
@@ -455,7 +460,6 @@ class DOMGenerator {
         acceptButton.setAttribute('type', 'checkbox');
         acceptButton.setAttribute('name', 'acceptButton');
         acceptButton.addEventListener('change', (event) => {
-            console.log('change event');
             TraceStorage.storeOnChangeChoiceEvent(event);
         });
 
@@ -574,7 +578,6 @@ class DOMGenerator {
         });
 
         window.sortable.on('sortable:start', (event) => {
-            console.log('start event : ');
             
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.dragEvent.data.sourceContainer;
