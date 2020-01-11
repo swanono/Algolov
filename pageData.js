@@ -26,7 +26,9 @@ class DataGetter {
     static getFeatureDocsHist () {
         const docs = [];
 
-        const featuresDir = fs.readdirSync('./admin/features_files/historic');
+        const basePath = './admin/features_files/historic';
+
+        const featuresDir = fs.readdirSync(basePath);
 
         const usedFile = JSON.parse(fs.readFileSync('./admin/historic.json')).lastFeatureFile;
 
@@ -37,6 +39,8 @@ class DataGetter {
             newDoc.name = featuresFile;
             if (usedFile === featuresFile)
                 newDoc.isUsed = true;
+            
+            newDoc.modifDate = fs.statSync(`${basePath}/${featuresFile}`).mtime;
 
             docs.push(newDoc);
         });
