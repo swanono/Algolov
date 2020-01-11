@@ -537,8 +537,28 @@ class DOMGenerator {
 
             dragged.setAttribute('location', newCont.getAttribute('id'));
             DOMGenerator._checkAllsorted();
-            // TODO : parsé id feature pour enlever le feature et peut etre l'id du conteneur parce que! 
-            storeDropEvent(dragged.getAttribute('id'), newCont.getAttribute('id'))
+            TraceStorage.storeDragEvent('end',dragged.getAttribute('id').split('_')[1], newCont.getAttribute('id').split('_')[1]);
+            TraceStorage.storeDropEvent(dragged.getAttribute('id').split('_')[1], newCont.getAttribute('id').split('_')[1]);
+        });
+
+        window.sortable.on('sortable:start', (event) => {
+            console.log('start event : ');
+            
+            const dragged = event.data.dragEvent.data.originalSource;
+            const newCont = event.data.dragEvent.data.sourceContainer;
+
+            dragged.setAttribute('location', newCont.getAttribute('id'));
+            DOMGenerator._checkAllsorted();
+            TraceStorage.storeDragEvent('start',dragged.getAttribute('id').split('_')[1], newCont.getAttribute('id').split('_')[1]);
+        });
+        window.sortable.on('sortable:sort', (event) => {
+            const dragged = event.data.dragEvent.data.originalSource;
+            const newCont = event.data.dragEvent.data.overContainer;
+
+
+            dragged.setAttribute('location', newCont.getAttribute('id'));
+            DOMGenerator._checkAllsorted();
+            TraceStorage.storeDragEvent('start',dragged.getAttribute('id').split('_')[1], newCont.getAttribute('id').split('_')[1]);
         });
     }
 }

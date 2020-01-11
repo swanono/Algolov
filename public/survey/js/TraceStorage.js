@@ -276,7 +276,7 @@ class TraceStorage {
         TraceStorage.storeItem('draggablecontainer', object);
     }
     
-    static StoreItem (name,object)
+    static storeItem (name,object)
     {
         // eslint-disable-next-line no-undef
         object.t = getMillisecSinceRefTime();
