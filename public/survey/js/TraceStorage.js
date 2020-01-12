@@ -209,12 +209,12 @@ class TraceStorage {
     static storeKeyEvent (event)
     {
         const object = {};
-        object.id=event.currentTarget.id;
-        object.ty=event.type;
-        object.kc=event.code;
-        object.ak=event.altKey;
-        object.ck=event.ctrlKey;
-        object.sk=event.shiftKey;
+        object.id = event.currentTarget.id;
+        object.ty = event.type;
+        object.kc = event.code;
+        object.ak = event.altKey;
+        object.ck = event.ctrlKey;
+        object.sk = event.shiftKey;
         TraceStorage.storeItem('keypress', object);
     }
 
@@ -222,8 +222,8 @@ class TraceStorage {
     {
         if (window.state > 1 ) {
             const object = {};
-            object.x=event.clientX;
-            object.y=event.clientY;
+            object.x = event.clientX;
+            object.y = event.clientY;
             TraceStorage.storeItem('mousemove', object);
         }
     }
@@ -233,10 +233,10 @@ class TraceStorage {
         if (window.state > 1 ) {
             const object = {};
             if(element_id)
-                object.id=element_id;
-            object.mid=event.button;
-            object.x=event.clientX;
-            object.y=event.clientY;
+                object.id = element_id;
+            object.mid = event.button;
+            object.x = event.clientX;
+            object.y = event.clientY;
             TraceStorage.storeItem('mouseclick', object);
         }
     }
@@ -245,10 +245,10 @@ class TraceStorage {
     {
         if (window.state > 1 ) {
             const object = {};
-            object.x0=document.scrollingElement.scrollLeft;
-            object.y0=document.scrollingElement.scrollTop;
-            object.w=document.scrollingElement.scrollWidth;
-            object.h=document.scrollingElement.scrollHeight;
+            object.x0 = document.scrollingElement.scrollLeft;
+            object.y0 = document.scrollingElement.scrollTop;
+            object.w = document.scrollingElement.scrollWidth;
+            object.h = document.scrollingElement.scrollHeight;
             TraceStorage.storeItem('scrolling', object);
         }
     }
@@ -291,6 +291,16 @@ class TraceStorage {
         // eslint-disable-next-line no-undef
         object.t = getMillisecSinceRefTime();
         TraceStorage.appendToStorage(name, JSON.stringify(object));
+    }
+
+    static storeWindowSize () {
+        if (window.state > 1 ) {
+            const object = {};
+            object.zoom = Math.round(window.devicePixelRatio);
+            object.wh = window.innerHeight;
+            object.ww = window.innerWidth;
+            TraceStorage.storeItem('size', object);
+        }
     }
     
 

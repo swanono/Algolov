@@ -54,7 +54,8 @@ window.consts = {
         drag: 'drag',/*fait*/
         drop: 'drop', /*fait*/
         errors: 'errors', /*???*/
-        draggablecontainer: 'draggablecontainer' /*fait*/
+        draggablecontainer: 'draggablecontainer', /*fait*/
+        size : 'size'
     }
 };
 
@@ -66,6 +67,7 @@ function start () {
         .then(res => res.json())
         .then(function (data) {
             window.config = data;
+            window.onresize = TraceStorage.storeWindowSize();
             loadFeatures();
             changeState();
         })
@@ -91,6 +93,7 @@ function changeState () {
 
         DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => {
             resetReferenceTime();
+            TraceStorage.storeWindowSize();
             TraceStorage.storeNextStepEvent(window.state);
             changeState(); 
         });
