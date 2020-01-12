@@ -31,10 +31,12 @@ class DOMGenerator {
         const surveyConfig = window.config.surveyConfiguration;
         const descConfig = surveyConfig.descNames[Math.floor(blocState / surveyConfig.nbBlocPerDesc)];
         window.currentDescription = descConfig.name;
+        TraceStorage.storeNextStepEvent(window.state, 'desc_' + descConfig.name);
         DOMGenerator.generateStepPage(descConfig.presentation, 'Commencer', () => DOMGenerator.loadBloc());
     }
 
     static loadBloc () {
+        TraceStorage.storeNextStepEvent(window.state);
         const statesBeforeBloc = window.config.surveyConfiguration.nbStatesBeforeBloc;
         const blocState = window.state - statesBeforeBloc;
         const surveyConfig = window.config.surveyConfiguration;
@@ -230,8 +232,9 @@ class DOMGenerator {
 
         let usedFunctor = functor;
 
+        let questId = 'all';
         if (isFragmented) {
-            const questId = window.fragmentedQuestions.pop();
+            questId = window.fragmentedQuestions.pop();
             const quest = qcmArray.find((question) => question.id === questId);
             DOMGenerator._createQuestion(quest, form);
 
@@ -263,11 +266,16 @@ class DOMGenerator {
             DOMGenerator.loadContinueButton(buttontext, () => {});
         }
 
+        const realUsedFunctor = () => {
+            TraceStorage.storeNextStepEvent(window.state, 'quest_' + questId);
+            usedFunctor();
+        };
+
         document.getElementById(window.consts.CONTINUE_BUTTON_ID).setAttribute('type', 'submit');
         document.getElementById(window.consts.CONTINUE_BUTTON_ID).setAttribute('form', 'form-id');
         form.onsubmit = (event) => {
             event.preventDefault();
-            TraceStorage.saveForm(form, descQuest, usedFunctor);
+            TraceStorage.saveForm(form, descQuest, realUsedFunctor);
         };
 
         // This button is made to prevent user to validate the form by hitting enter, witch causes bugs
@@ -320,7 +328,15 @@ class DOMGenerator {
         textInput.setAttribute('name', textInput.getAttribute('class'));
         textInput.setAttribute('pattern', question.format);
         textInput.setAttribute('required', 'true');
-
+        textInput.addEventListener('focus', (event) => {
+            TraceStorage.storeFocusEvent(event);
+        });
+        textInput.addEventListener('keypress', (event) => {
+            TraceStorage.storeKeyEvent(event);
+        });
+        /*textInput.addEventListener('keyup', (event) => {
+            TraceStorage.storeFocusEvent(event);
+        });*/
         return textInput;
     }
 
@@ -334,9 +350,12 @@ class DOMGenerator {
             input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
             input.setAttribute('value', input.getAttribute('id'));
             input.setAttribute('name', input.getAttribute('class'));
+            input.addEventListener('change', (event) => {
+                TraceStorage.storeOnChangeChoiceEvent(event);
+            });
+
             if(question.type !== 'checkbox')
                 input.setAttribute('required', 'true');
-
             if (question.descName) {
                 input.setAttribute('descName', question.descName);
                 input.setAttribute('descValue', choice.descValue);
@@ -361,6 +380,15 @@ class DOMGenerator {
             input.setAttribute('id', window.consts.INPUT_ID + question.id + '_' + idText);
             input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
             input.setAttribute('name', input.getAttribute('class'));
+            input.addEventListener('focus', (event) => {
+                TraceStorage.storeFocusEvent(event);
+            });
+            input.addEventListener('keypress', (event) => {
+                TraceStorage.storeKeyEvent(event);
+            });
+            /*input.addEventListener('keyup', (event) => {
+                TraceStorage.storeFocusEvent(event);
+            });*/
 
             htmlTags.push(input);
 
@@ -405,6 +433,7 @@ class DOMGenerator {
         
         main = document.createElement('div');
         main.id = 'main';
+        
         document.body.appendChild(main);
         return main;
     }
@@ -418,8 +447,13 @@ class DOMGenerator {
         const acceptButton = document.createElement('input');
         acceptButton.setAttribute('type', 'checkbox');
         acceptButton.setAttribute('name', 'acceptButton');
+        acceptButton.setAttribute('id', 'acceptButton');
+        acceptButton.setAttribute('value', 'rgpd_accept');
+        acceptButton.addEventListener('change', (event) => {
+            TraceStorage.storeOnChangeChoiceEvent(event);
+        });
 
-        label.innerHTML = checkboxText;
+        label.appendChild(document.createTextNode(checkboxText));
         label.setAttribute('for', 'acceptButton');
         divInput.appendChild(label);
         divInput.appendChild(acceptButton);
@@ -526,8 +560,29 @@ class DOMGenerator {
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.newContainer;
 
+
             dragged.setAttribute('location', newCont.getAttribute('id'));
             DOMGenerator._checkAllsorted();
+            TraceStorage.storeDragEvent('end',dragged.getAttribute('id'), newCont.getAttribute('id'));
+            TraceStorage.storeDropEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
+        });
+
+        window.sortable.on('sortable:start', (event) => {
+            
+            const dragged = event.data.dragEvent.data.originalSource;
+            const newCont = event.data.dragEvent.data.sourceContainer;
+
+            dragged.setAttribute('location', newCont.getAttribute('id'));
+            DOMGenerator._checkAllsorted();
+            TraceStorage.storeDragEvent('start',dragged.getAttribute('id'), newCont.getAttribute('id'));
+        });
+        window.sortable.on('sortable:sort', (event) => {
+            const dragged = event.data.dragEvent.data.originalSource;
+            const newCont = event.data.dragEvent.data.overContainer;
+
+            dragged.setAttribute('location', newCont.getAttribute('id'));
+            DOMGenerator._checkAllsorted();
+            TraceStorage.storeDraggableEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
         });
     }
 }

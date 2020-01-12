@@ -201,6 +201,8 @@ class ExcelReader {
 
         config.surveyConfiguration.descNames = this.newConfig.descriptions;
         config.surveyConfiguration.blocThemes = this.newConfig.blocThemes;
+        config.surveyConfiguration.nbBlocPerDesc = this.newConfig.blocThemes.length;
+        config.surveyConfiguration.nbFeaturePerBloc = this.newConfig.features.length;
         config.features = this.newConfig.features;
 
         let count = 1;
