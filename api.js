@@ -31,7 +31,7 @@ module.exports = (passport) => {
 
     app.post(config.pathPostSurveyApi, function (req, res) {
         const daoUser = new daos.DAOUsers(req.sessionID, () => {
-            daoUser.insert(req.body);
+            daoUser.insert(req.body).catch(err => console.error(err));
         });
 
         // TODO : envoyer le mail ici
@@ -72,9 +72,9 @@ function loadExcel (path, save, req, res) {
     const errors = reader.validate();
     if (errors.length === 0) {
         reader.applyToConfig();
-        reader.makeCurentUsedFile();
         if (save)
             reader.saveFile();
+        reader.makeCurentUsedFile();
         res.json({ ok: true, message: 'Les features du questionnaire ont bien été mises à jour !' });
     } else
         res.json({ ok: false, message: 'Le fichier Excel fournit contient des erreurs : ' + errors.join(' / ') });

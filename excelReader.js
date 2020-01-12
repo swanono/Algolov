@@ -201,6 +201,8 @@ class ExcelReader {
 
         config.surveyConfiguration.descNames = this.newConfig.descriptions;
         config.surveyConfiguration.blocThemes = this.newConfig.blocThemes;
+        config.surveyConfiguration.nbBlocPerDesc = this.newConfig.blocThemes.length;
+        config.surveyConfiguration.nbFeaturePerBloc = this.newConfig.features.length;
         config.features = this.newConfig.features;
 
         let count = 1;
@@ -233,6 +235,7 @@ class ExcelReader {
             count = '' + (parseInt(count) + 1);
             fileName = fileName.substring(0, fileName.length - prevLen - ext.length) + count + ext;
         }
+        this.name = Path.basename(fileName);
         XLSX.writeFile(this.workbook, fileName);
     }
 
