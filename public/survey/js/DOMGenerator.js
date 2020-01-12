@@ -118,7 +118,7 @@ class DOMGenerator {
         const ranksRow = scale.insertRow(2);
         const containerRow = scale.insertRow(3);
 
-        headerRow.setAttribute('class', 'heading');
+        headerRow.setAttribute('class', 'heading_txt');
         scaleTextRow.setAttribute('class', 'heading');
 
         // insertion of the main text of the bloc in the header row
