@@ -335,9 +335,6 @@ class DOMGenerator {
         textInput.addEventListener('keypress', (event) => {
             TraceStorage.storeKeyEvent(event);
         });
-        /*textInput.addEventListener('keyup', (event) => {
-            TraceStorage.storeFocusEvent(event);
-        });*/
         return textInput;
     }
 
@@ -368,6 +365,8 @@ class DOMGenerator {
 
             const containerDiv = document.createElement('div');
             containerDiv.setAttribute('id', window.consts.INPUT_DIV_ID + question.id + '_' + choice.choiceId);
+            if (window.state === 3)
+                containerDiv.setAttribute('class', 'divQuest');
             containerDiv.appendChild(input);
             containerDiv.appendChild(label);
 
@@ -387,17 +386,19 @@ class DOMGenerator {
             input.addEventListener('keypress', (event) => {
                 TraceStorage.storeKeyEvent(event);
             });
-            /*input.addEventListener('keyup', (event) => {
-                TraceStorage.storeFocusEvent(event);
-            });*/
-
-            htmlTags.push(input);
 
             const label = document.createElement('label');
             label.setAttribute('for', input.getAttribute('id'));
             label.appendChild(document.createTextNode('Autre'));
 
-            htmlTags.push(label);
+            const containerDiv = document.createElement('div');
+            containerDiv.setAttribute('id', window.consts.INPUT_DIV_ID + question.id + '_' + idText);
+            if (window.state === 3)
+                containerDiv.setAttribute('class', 'divQuest');
+            containerDiv.appendChild(input);
+            containerDiv.appendChild(label);
+            
+            htmlTags.push(containerDiv);
         }
 
         return htmlTags;
