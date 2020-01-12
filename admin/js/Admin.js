@@ -113,7 +113,7 @@ async function fillFeatureDocForm () {
     }
 
     const formFeatures = document.getElementById('formFeatureFiles');
-    docs.forEach((doc, i) => {
+    docs.sort((d1, d2) => new Date(d2.modifDate) - new Date(d1.modifDate)).forEach((doc, i) => {
         const newContainer = document.createElement('div');
         newContainer.setAttribute('class', 'download-bar-container');
 

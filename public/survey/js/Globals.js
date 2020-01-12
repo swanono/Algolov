@@ -27,6 +27,7 @@ window.config = {}; // Contains the config.json file
 window.features = null; // Contains all the features
 window.ranking = []; // Contains all the blocs with the ranking of the features by the user
 window.sortable = null;
+window.referenceTime = Date.now();
 window.consts = {
     INPUT_CLASS: 'classInput_',
     INPUT_ID: 'idInput_',
@@ -41,24 +42,21 @@ window.consts = {
     INIT_CONTAINER_ID: 'initial_container',
     BLOC_ID: 'bloc_',
     RANK_CLASS: 'rank',
-    TRACE_NAMES: [
-        'steps',
-        'interview',
-        'exogen',
-        'focus',
-        'change',
-        'range',
-        'keypress',
-        'mousemove',
-        'mouseclick',
-        'scrolling',
-        'zooming',
-        'media',
-        'drag',
-        'drop',
-        'errors',
-        'draggablecontainer'
-    ]
+    TRACE_NAMES: {
+        steps: 'steps', /*fait*/ 
+        focus: 'focus', /*fait*/
+        change: 'change', /*fait*/
+        range: 'range', /*fait*/
+        keypress: 'keypress', /*fait*/
+        mousemove: 'mousemove',/*fait*/
+        mouseclick: 'mouseclick',/*fait*/
+        scrolling: 'scrolling', /*fait*/
+        drag: 'drag',/*fait*/
+        drop: 'drop', /*fait*/
+        errors: 'errors', /*???*/
+        draggablecontainer: 'draggablecontainer', /*fait*/
+        size : 'size'
+    }
 };
 
 function start () {
@@ -69,6 +67,7 @@ function start () {
         .then(res => res.json())
         .then(function (data) {
             window.config = data;
+            window.onresize = TraceStorage.storeWindowSize();
             loadFeatures();
             changeState();
         })
@@ -76,14 +75,12 @@ function start () {
 }
 
 function loadFeatures () {
-    TraceStorage.cleanStorage('combinatoire');
-    TraceStorage.cleanStorage('ansQuest');
-    TraceStorage.cleanStorageFormTraces();
+    TraceStorage.cleanFullStorage();
 
     if (window.config.features)
         window.features = window.config.features;
     else
-        alert(window.config.wrongStatementFormatMessage);
+        alert(window.config.wrongStatementFormatMessage || 'mauvaise configuration');
 }
 
 function changeState () {
@@ -94,12 +91,20 @@ function changeState () {
     if (window.state === 1) {
         // The first step of the survey : show RGPD requirements
 
-        DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => changeState());
-        DOMGenerator.addCheckBoxToSee(window.consts.CONTINUE_BUTTON_ID, 'Cochez la case si vous acceptez les conditions ci-dessus ? ');
-    } else if (window.state === 2)
+        DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => {
+            resetReferenceTime();
+            TraceStorage.storeWindowSize();
+            TraceStorage.storeNextStepEvent(window.state);
+            changeState(); 
+        });
+        DOMGenerator.addCheckBoxToSee(window.consts.CONTINUE_BUTTON_ID, 'Cochez la case si vous acceptez les conditions ci-dessus ');
+    } else if (window.state === 2) {
         // The second step of the survey : Explaining how the survey works
-        DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => changeState());
-    else if (window.state === 3) {
+        DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => {
+            TraceStorage.storeNextStepEvent(window.state);
+            changeState();
+        });
+    } else if (window.state === 3) {
         const qcm = window.config.QCM.begin;
 
         if (qcm.fragmented)
@@ -158,4 +163,22 @@ async function sendJSON () {
             window.location.href = response.url;
         })
         .catch(err => console.error(err));
+}
+
+function resetReferenceTime (offset)
+{
+    window.referenceTime = Date.now();
+    if(offset)
+        window.referenceTime -= offset;
+}
+ 
+function getMillisecSinceRefTime () 
+{
+    let time = Date.now() - window.referenceTime;
+    //If here something goes wrong, reinit the timer.
+    if (time < 0) {
+        window.referenceTime = Date.now();
+        return 0;
+    }
+    return time;
 }

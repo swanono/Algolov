@@ -19,6 +19,7 @@ This module is used to launch unit tests with jest on the dao functions
 'use strict';
 
 const daos = require('../dao');
+const consts = require('./consts');
 
 describe('Test DAO Users Connexion', () => {
     let daoUsers;
@@ -50,7 +51,7 @@ describe('Tests on DAO Users', () => {
     afterEach(() => dao.closeConnexion());
 
     test('Successful insertion of one user', () => {
-        return expect(dao.insert({ name: 'test user', question: [1, 2, 3] })).resolves.toHaveProperty('insertedCount', 1);
+        return expect(dao.insert(consts.userInsert)).resolves.toHaveProperty('insertedCount', 1);
     });
 });
 
@@ -62,12 +63,11 @@ describe('Tests on DAO Admins', () => {
     afterEach(() => dao.closeConnexion());
     
     test('Successful insertion of one admin', () => {
-        return expect(dao.insert({ name: 'test admin', email: 'ulysse.guyon@gmail.com', password: 'TestTest123'})).resolves.toHaveProperty('insertedCount', 1);
+        return expect(dao.insert(consts.adminInsert)).resolves.toHaveProperty('insertedCount', 1);
     });
 
     test('Successful find of an admin', async () => {
-        const tested = { name: 'Test', email: 'ulysse.guyon@gmail.com', password: 'TestTest123' };
-        await dao.insert(tested);
-        return expect(dao.findByName(tested.name)).resolves.toEqual(tested);
+        const tested = await dao.insert(consts.adminFind);
+        return expect(dao.findByName(tested.ops[0].name)).resolves.toEqual(tested.ops[0]);
     });
 });
