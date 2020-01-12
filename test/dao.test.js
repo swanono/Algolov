@@ -19,6 +19,7 @@ This module is used to launch unit tests with jest on the dao functions
 'use strict';
 
 const daos = require('../dao');
+const config = require('../config');
 const consts = require('./consts');
 
 describe('Test DAO Users Connexion', () => {
@@ -27,7 +28,7 @@ describe('Test DAO Users Connexion', () => {
     beforeAll(async done => { daoUsers = new daos.DAOUsers(1, done, process.env.MONGO_URL); });
 
     test('DAO Users Connexion', () => {
-        expect(daoUsers.database.databaseName).toEqual('db-algolov');
+        expect(daoUsers.database.databaseName).toEqual(config.dbName);
         expect(daoUsers.sessionId).toEqual(1);
     });
 });
@@ -38,7 +39,7 @@ describe('Test DAO Admins Connexion', () => {
     beforeAll(async done => { daoAdmins = new daos.DAOAdmins(1, done, process.env.MONGO_URL); });
 
     test('DAO Users Connexion', () => {
-        expect(daoAdmins.database.databaseName).toEqual('db-algolov');
+        expect(daoAdmins.database.databaseName).toEqual(config.dbName);
         expect(daoAdmins.sessionId).toEqual(1);
     });
 });
