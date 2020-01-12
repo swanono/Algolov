@@ -24,6 +24,10 @@ const app = express();
 const api = require('./api.js');
 const auth = require('./auth.js');
 const bodyParser = require('body-parser');
+
+app.use(bodyParser.json({limit: '10mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
+
 // const dao = require('./dao.js');
 const passport = auth(app);
 
@@ -41,9 +45,6 @@ app.use('/api',
     },
     api(passport)
 );
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
 
 // donner un accès total aux fichier dans le répertoire public via les routes / et /public
 app.use('/', express.static('public'));
