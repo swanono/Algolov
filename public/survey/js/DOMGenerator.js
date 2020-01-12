@@ -428,14 +428,20 @@ class DOMGenerator {
 
     static getMain () {
         var main = document.getElementById('main');
-        if (main != null) 
-            return main;
-        
-        main = document.createElement('div');
-        main.id = 'main';
-
-        if (window.state > 0 ) {
+        /*if (window.state > 1 ) {
+            main.removeEventListener('click', (event) => {
+                console.log(event);
+                TraceStorage.storeMouseClickData(event);
+            });
+            main.removeEventListener('scrol', (event) => {
+                TraceStorage.storeScrollingData(event); 
+                
+            });
+            main.removeEventListener('mousemove', (event) => {
+                TraceStorage.storeMousePositionData(event);
+            });
             main.addEventListener('click', (event) => {
+                console.log(event);
                 TraceStorage.storeMouseClickData(event);
             });
             main.addEventListener('scrol', (event) => {
@@ -445,7 +451,13 @@ class DOMGenerator {
             main.addEventListener('mousemove', (event) => {
                 TraceStorage.storeMousePositionData(event);
             });
-        }
+        }*/
+        if (main != null) 
+            return main;
+        
+        main = document.createElement('div');
+        main.id = 'main';
+        
         document.body.appendChild(main);
         return main;
     }

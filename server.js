@@ -24,6 +24,10 @@ const app = express();
 const api = require('./api.js');
 const auth = require('./auth.js');
 const bodyParser = require('body-parser');
+
+app.use(bodyParser.json({limit: '10mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
+
 // const dao = require('./dao.js');
 const passport = auth(app);
 

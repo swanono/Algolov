@@ -146,8 +146,10 @@ class TraceStorage {
 
         json += '"traces": [';
 
-        Object.values(window.consts.TRACE_NAMES).forEach((value) => {
-            json += '{ "name": ' + value + ', "data":' + sessionStorage.getItem(value);
+        Object.values(window.consts.TRACE_NAMES).forEach((value, index) => {
+            json += '{ "name": "' + value + '" , "data": [' + sessionStorage.getItem(value) + '] }';
+            if (index < Object.values(window.consts.TRACE_NAMES).length - 1)
+                json += ', ';
         });
 
         json += ']';
@@ -214,31 +216,38 @@ class TraceStorage {
 
     static storeMousePositionData (event)
     {
-        const object = {};
-        object.x=event.clientX;
-        object.y=event.clientY;
-        TraceStorage.storeItem('mousemove', object);
+        if (window.state > 1 ) {
+            const object = {};
+            object.x=event.clientX;
+            object.y=event.clientY;
+            TraceStorage.storeItem('mousemove', object);
+        }
     }
 
     static storeMouseClickData (event,element_id)
     {
-        const object = {};
-        if(element_id)
-            object.id=element_id;
-        object.mid=event.button;
-        object.x=event.clientX;
-        object.y=event.clientY;
-        TraceStorage.storeItem('mouseclick', object);
+        if (window.state > 1 ) {
+            console.log('test');
+            const object = {};
+            if(element_id)
+                object.id=element_id;
+            object.mid=event.button;
+            object.x=event.clientX;
+            object.y=event.clientY;
+            TraceStorage.storeItem('mouseclick', object);
+        }
     }
 
     static storeScrollingData (event)
     {
-        const object = {};
-        object.x0=document.scrollingElement.scrollLeft;
-        object.y0=document.scrollingElement.scrollTop;
-        object.w=document.scrollingElement.scrollWidth;
-        object.h=document.scrollingElement.scrollHeight;
-        TraceStorage.storeItem('scrolling', object);
+        if (window.state > 1 ) {
+            const object = {};
+            object.x0=document.scrollingElement.scrollLeft;
+            object.y0=document.scrollingElement.scrollTop;
+            object.w=document.scrollingElement.scrollWidth;
+            object.h=document.scrollingElement.scrollHeight;
+            TraceStorage.storeItem('scrolling', object);
+        }
     }
 
     // storeEvent("drag","start",id,parentid)
