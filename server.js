@@ -46,9 +46,6 @@ app.use('/api',
     api(passport)
 );
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
-
 // donner un accès total aux fichier dans le répertoire public via les routes / et /public
 app.use('/', express.static('public'));
 app.use('/public', express.static('public'));

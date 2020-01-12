@@ -232,7 +232,7 @@ class DOMGenerator {
 
         let usedFunctor = functor;
 
-        let questId = null;
+        let questId = 'all';
         if (isFragmented) {
             questId = window.fragmentedQuestions.pop();
             const quest = qcmArray.find((question) => question.id === questId);
@@ -267,8 +267,8 @@ class DOMGenerator {
         }
 
         const realUsedFunctor = () => {
-            usedFunctor();
             TraceStorage.storeNextStepEvent(window.state, 'quest_' + questId);
+            usedFunctor();
         };
 
         document.getElementById(window.consts.CONTINUE_BUTTON_ID).setAttribute('type', 'submit');
@@ -331,12 +331,12 @@ class DOMGenerator {
         textInput.addEventListener('focus', (event) => {
             TraceStorage.storeFocusEvent(event);
         });
-        textInput.addEventListener('keydown', (event) => {
-            TraceStorage.storeFocusEvent(event);
+        textInput.addEventListener('keypress', (event) => {
+            TraceStorage.storeKeyEvent(event);
         });
-        textInput.addEventListener('keyup', (event) => {
+        /*textInput.addEventListener('keyup', (event) => {
             TraceStorage.storeFocusEvent(event);
-        });
+        });*/
         return textInput;
     }
 
@@ -383,12 +383,12 @@ class DOMGenerator {
             input.addEventListener('focus', (event) => {
                 TraceStorage.storeFocusEvent(event);
             });
-            input.addEventListener('keydown', (event) => {
-                TraceStorage.storeFocusEvent(event);
+            input.addEventListener('keypress', (event) => {
+                TraceStorage.storeKeyEvent(event);
             });
-            input.addEventListener('keyup', (event) => {
+            /*input.addEventListener('keyup', (event) => {
                 TraceStorage.storeFocusEvent(event);
-            });
+            });*/
 
             htmlTags.push(input);
 
@@ -428,30 +428,6 @@ class DOMGenerator {
 
     static getMain () {
         var main = document.getElementById('main');
-        /*if (window.state > 1 ) {
-            main.removeEventListener('click', (event) => {
-                console.log(event);
-                TraceStorage.storeMouseClickData(event);
-            });
-            main.removeEventListener('scrol', (event) => {
-                TraceStorage.storeScrollingData(event); 
-                
-            });
-            main.removeEventListener('mousemove', (event) => {
-                TraceStorage.storeMousePositionData(event);
-            });
-            main.addEventListener('click', (event) => {
-                console.log(event);
-                TraceStorage.storeMouseClickData(event);
-            });
-            main.addEventListener('scrol', (event) => {
-                TraceStorage.storeScrollingData(event); 
-                
-            });
-            main.addEventListener('mousemove', (event) => {
-                TraceStorage.storeMousePositionData(event);
-            });
-        }*/
         if (main != null) 
             return main;
         
@@ -471,11 +447,13 @@ class DOMGenerator {
         const acceptButton = document.createElement('input');
         acceptButton.setAttribute('type', 'checkbox');
         acceptButton.setAttribute('name', 'acceptButton');
+        acceptButton.setAttribute('id', 'acceptButton');
+        acceptButton.setAttribute('value', 'rgpd_accept');
         acceptButton.addEventListener('change', (event) => {
             TraceStorage.storeOnChangeChoiceEvent(event);
         });
 
-        label.innerHTML = checkboxText;
+        label.appendChild(document.createTextNode(checkboxText));
         label.setAttribute('for', 'acceptButton');
         divInput.appendChild(label);
         divInput.appendChild(acceptButton);
@@ -585,8 +563,8 @@ class DOMGenerator {
 
             dragged.setAttribute('location', newCont.getAttribute('id'));
             DOMGenerator._checkAllsorted();
-            TraceStorage.storeDragEvent('end',dragged.getAttribute('id').split('_')[1], newCont.getAttribute('id').split('_')[1]);
-            TraceStorage.storeDropEvent(dragged.getAttribute('id').split('_')[1], newCont.getAttribute('id').split('_')[1]);
+            TraceStorage.storeDragEvent('end',dragged.getAttribute('id'), newCont.getAttribute('id'));
+            TraceStorage.storeDropEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
         });
 
         window.sortable.on('sortable:start', (event) => {
@@ -596,16 +574,15 @@ class DOMGenerator {
 
             dragged.setAttribute('location', newCont.getAttribute('id'));
             DOMGenerator._checkAllsorted();
-            TraceStorage.storeDragEvent('start',dragged.getAttribute('id').split('_')[1], newCont.getAttribute('id').split('_')[1]);
+            TraceStorage.storeDragEvent('start',dragged.getAttribute('id'), newCont.getAttribute('id'));
         });
         window.sortable.on('sortable:sort', (event) => {
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.dragEvent.data.overContainer;
 
-
             dragged.setAttribute('location', newCont.getAttribute('id'));
             DOMGenerator._checkAllsorted();
-            TraceStorage.storeDraggableEvent(dragged.getAttribute('id').split('_')[1], newCont.getAttribute('id').split('_')[1]);
+            TraceStorage.storeDraggableEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
         });
     }
 }

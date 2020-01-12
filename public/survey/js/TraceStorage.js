@@ -126,6 +126,10 @@ class TraceStorage {
         });
     }
 
+    static cleanFullStorage () {
+        sessionStorage.clear();
+    }
+
     static GenerateJSON () {
         let json = '{ "window": { "x": ' +
             window.innerWidth + ', "y": ' +
@@ -227,7 +231,6 @@ class TraceStorage {
     static storeMouseClickData (event,element_id)
     {
         if (window.state > 1 ) {
-            console.log('test');
             const object = {};
             if(element_id)
                 object.id=element_id;
@@ -249,8 +252,6 @@ class TraceStorage {
             TraceStorage.storeItem('scrolling', object);
         }
     }
-
-    // storeEvent("drag","start",id,parentid)
 
     static storeDragEvent (type,id,parentid) {
         const object = {};
