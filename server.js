@@ -18,6 +18,7 @@ This module is used to launch the server
 */
 'use strict';
 
+const daos = require('./dao');
 const config = require('./config.js');
 const express = require('express');
 const app = express();
@@ -31,8 +32,7 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
 // const dao = require('./dao.js');
 const passport = auth(app);
 
-// TODO : s'assurer qu'il s'agit bien du bon path
-const connexionPath = config.directoryPrefix + '/public/admin-login.html';
+const connexionPath = config.directoryPrefix + '/public/connexion/html/';
 const envPort = config.port;
 
 // Routes accèdant à l'api (pas les fichiers du serveur)
@@ -53,7 +53,7 @@ app.use('/public', express.static('public'));
 // Vérification de la connexion en tant qu'admin pour l'accès à l'espace admin
 app.use('/admin',
     // TODO : à changer lors de l'implémentation des mdp
-    // require('connect-ensure-login').ensureLoggedIn(connexionPath),
+    require('connect-ensure-login').ensureLoggedIn(connexionPath),
     (res, req, next) => adminCheck(res, req, next), // TODO : check si il faut mettre les parenthèses
     express.static('admin')
 );
@@ -68,13 +68,31 @@ app.use('/admin',
 // TODO : mettre cette fonction dans auth.js
 function adminCheck (req, res, next) {
     console.log('[Server] Requesting admin access : "' + JSON.stringify(req.user) + '" for ' + req.baseUrl + req.path);
-    /* if (req.user) // TODO : à changer quand on aura la vérif de mdp
+    if (!req.user) // TODO : à changer quand on aura la vérif de mdp
         res.redirect(connexionPath);
-    else
-        next();
+    else {
+        const daoAdmin = new daos.DAOAdmin(req.sessionID, () => {
+            daoAdmin.findByName(req.user.name)
+                .then( user => {
+                    if (user) {
+                        if (user.password == req.user.password)
+                            next();
+                        else
+                            res.redirect(connexionPath);
+                    }
+                    else
+                        res.redirect(connexionPath);
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.redirect(connexionPath);
+                });
         // TODO : checker dans la BDD si l'admin existe, utiliser next() si c'est bon */
-    next();
+        //next();
+        });
+    }
 }
+
 
 function main () {
     const server = app.listen(envPort, function () {

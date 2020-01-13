@@ -18,6 +18,7 @@ This module is used to manage sessions and authentications
 */
 'use strict';
 
+const daos = require('./dao');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 // const dao = require('./dao.js');
@@ -31,6 +32,28 @@ passport.use(new LocalStrategy({
 },
 function (username, password, cb) {
     // On récupère les information (mot de passe) de l'utilisateur passé en paramètre
+    const daoAdmin = new daos.DAOAdmin(hash(username), (username) => {
+        daoAdmin.findByName(username)
+            .then(
+                user => {
+                    // Utilisateur pas dans la base de données
+                    if (!user) 
+                        cb(null, false);
+                    
+                    // Utilisateur dans la base de données et mot de passe ok
+                    else if (user.password === password) 
+                        cb(null, user);
+                    
+                    // Utilisateur dans la base de données mais mauvais mot de passe
+                    else 
+                        cb(null, false);
+                    
+                },
+                err => {
+                    cb(err);
+                },
+            );
+    });
 
     /* TODO : utiliser cb :
      * cb(null, false) ou cb(err) en cas de mauvais auth ou d'erreur
@@ -63,3 +86,10 @@ module.exports = function (app) {
 
     return passport;
 };
+
+function hash (s) {
+    return s.split('').reduce( function (a, b) {
+        a = ( (a << 5) - a) + b.charCodeAt(0);
+        return a&a;
+    }, 0);              
+}

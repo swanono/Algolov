@@ -64,6 +64,31 @@ module.exports = (passport) => {
         loadExcel(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
     });
 
+    app.post(config.pathPostLogin, function (req, res, next) {
+        if (!req.body.identifiant) 
+            return res.send({success: false, message: 'empty username'});
+        
+        if (!req.body.password) 
+            return res.send({success: false, message: 'empty password'});
+        
+        passport.authenticate('local', function (err, user, info) {
+            if (err) 
+                return next(err); // will generate a 500 error
+            
+            if (!user) 
+                return res.redirect(config.directoryPrefix + '/public/connexion/html/');
+            
+            req.login(user, function (err) {
+                if (err) 
+                    return next(err);
+                
+                console.log('>>> Authentification : ');
+                console.log(user);
+                return res.redirect(config.directoryPrefix + '/admin/html/Admin.html');
+            });
+        })(req, res, next);
+    });
+
     return app;
 };
 
