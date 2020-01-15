@@ -189,23 +189,16 @@ class DAOAdmins extends DAO {
 
     findByName (name) {
         const self = this;
-
-        return new Promise(function (resolve, reject) {
-            checker.checkAdminName(name)
-                .then(validName => self._find({name: validName}))
-                .then(result => {
-                    console.log(self.logId + 'Found 1 item in ' + self.collectionName);
-                    resolve(result);
-                })
-                .catch(err => {
-                    console.error(err);
-                    reject(err);
-                });
-        });
+        return checker.checkAdminName(name)
+            .then(validName => this._find({username: validName})) //console.log(self.logId + 'Found 1 item in ' + self.collectionName);
+            .catch(err => {
+                console.error(err);
+                return Promise.reject(err);
+            });
     }
 }
 
 module.exports = {
-    DAOUsers: DAOUsers,
-    DAOAdmins: DAOAdmins
+    DAOUsers,
+    DAOAdmins
 };

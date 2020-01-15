@@ -65,7 +65,7 @@ module.exports = (passport) => {
     });
 
     app.post(config.pathPostLogin, function (req, res, next) {
-        if (!req.body.identifiant) 
+        if (!req.body.username) 
             return res.send({success: false, message: 'empty username'});
         
         if (!req.body.password) 

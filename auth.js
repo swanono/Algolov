@@ -26,51 +26,47 @@ const LocalStrategy = require('passport-local').Strategy;
 // const saltRounds = 11;
 
 // LocalStrategy = stockage des identifiants et mots de passe
-passport.use(new LocalStrategy({
-    usernameField: 'username',
-    passwordField: 'password'
-},
-function (username, password, cb) {
+passport.use(new LocalStrategy(
+    function (username, password, cb) {
     // On récupère les information (mot de passe) de l'utilisateur passé en paramètre
-    const daoAdmin = new daos.DAOAdmin(hash(username), (username) => {
-        daoAdmin.findByName(username)
-            .then(
-                user => {
+        const daoAdmin = new daos.DAOAdmins(hash(username), () => {
+            console.log(username);
+            console.log(typeof username);
+            daoAdmin.findByName(username)
+                .then(
+                    user => {
                     // Utilisateur pas dans la base de données
-                    if (!user) 
-                        cb(null, false);
+                        if (!user) 
+                            cb(null, false);
                     
-                    // Utilisateur dans la base de données et mot de passe ok
-                    else if (user.password === password) 
-                        cb(null, user);
+                        // Utilisateur dans la base de données et mot de passe ok
+                        else if (user.password === password) 
+                            cb(null, user);
                     
-                    // Utilisateur dans la base de données mais mauvais mot de passe
-                    else 
-                        cb(null, false);
+                        // Utilisateur dans la base de données mais mauvais mot de passe
+                        else 
+                            cb(null, false);
                     
-                },
-                err => {
-                    cb(err);
-                },
-            );
-    });
+                    },
+                ).catch(cb);
+        });
 
     /* TODO : utiliser cb :
      * cb(null, false) ou cb(err) en cas de mauvais auth ou d'erreur
      * cb(null, user) en cas d'auth réussie
      */
-}));
+    }));
 
 // Stocke les données de l'utilisation dans le cookie de session
 passport.serializeUser(function (user, cb) {
     console.log('serializeUser ', JSON.stringify(user));
-    cb(null, user);
+    cb(null, JSON.stringify(user)); //TODO: Handle serialization
 });
 
 // Récupère les données de l'utilisateur depuis le cookie de session
 passport.deserializeUser(function (user, cb) {
     console.log('deserializeUser ' + JSON.stringify(user));
-    cb(null, user);
+    cb(null, JSON.parse(user)); //TODO: Handle deserialization
 });
 
 module.exports = function (app) {
