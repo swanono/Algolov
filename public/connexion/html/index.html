@@ -20,17 +20,24 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="../css/connexion.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AlgoLov - Connexion</title>
 </head>
     <body >
         <form method="post" action="/api/user/login">
             <h1> Se connecter</h1>
-                    
-            <label for="inputName"> Identifiant</label>
-            <input type="text" id="inputName" name="identifiant" class="form-control" placeholder="Identifiant " required autofocus>
-            <label for="inputPassword" >mot de passe</label>
-            <input type="password" name="password" id="inputPassword" placeholder="Mot de passe" required>
+             <div id="Name">
+                <label for="inputName"> Identifiant</label>
+                <input type="text" id="inputName" name="identifiant" class="form-control" placeholder="Identifiant " required autofocus>
+                
+
+             </div> 
+             <div id="Password">
+                <label for="inputPassword" >mot de passe</label>
+                <input type="password" name="password" id="inputPassword" placeholder="Mot de passe" required>
+             </div>      
+             
             <input type="submit" value="Se connecter">
         </form>
     </body>
