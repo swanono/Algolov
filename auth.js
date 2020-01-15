@@ -21,9 +21,11 @@ This module is used to manage sessions and authentications
 const daos = require('./dao');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-// const dao = require('./dao.js');
-// const bcrypt = require('bcrypt');
-// const saltRounds = 11;
+
+// BCrypt module
+const bcrypt = require('bcrypt');
+const saltRounds = 11;
+
 
 // LocalStrategy = stockage des identifiants et mots de passe
 passport.use(new LocalStrategy(
@@ -40,13 +42,16 @@ passport.use(new LocalStrategy(
                             cb(null, false);
                     
                         // Utilisateur dans la base de données et mot de passe ok
-                        else if (user.password === password) 
-                            cb(null, user);
-                    
-                        // Utilisateur dans la base de données mais mauvais mot de passe
-                        else 
-                            cb(null, false);
-                    
+                        else {
+                            bcrypt.compare(password, user.password)
+                                .then(function (res) {
+                                    if (!res) 
+                                        cb(null, false);
+                                    else 
+                                        cb(null, user);
+                                })
+                                .catch(err => {console.log(err); cb(null, false);});
+                        }
                     },
                 ).catch(cb);
         });
