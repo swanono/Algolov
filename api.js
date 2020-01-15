@@ -74,27 +74,7 @@ module.exports = (passport) => {
     });
 
     app.post(config.pathPostRegister, function (req, res) {
-        const daoAdmin = new daos.DAOAdmins(req.sessionID, () => {
-            daoAdmin.findByName(req.body.username)
-                .then( function (user) {
-                    if (user) 
-                        res.send({success: false, message: 'username already exists'});
-                    else {
-                        bcrypt.hash(req.body.password, saltRounds)
-                            .then( psw => {
-                                daoAdmin.insert({
-                                    username: req.body.username,
-                                    password: psw,
-                                    email: req.body.email
-                                })
-                                    .then(() => res.json({ok: true, message: 'Inscription validée'}))
-                                    .catch(err => {console.error(err); res.json(err);});
-                            })
-                            .catch(err => {console.error(err); res.json(err);});
-                    }
-                })
-                .catch(err => {console.error(err); res.json(err);});
-        });
+        CredentialManager.credentialRegister(req, res);
     });
     
     return app;

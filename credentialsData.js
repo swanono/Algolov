@@ -21,6 +21,10 @@ This module is used for retrieving simple data for the admin pages to be filled 
 const daos = require('./dao');
 const config = require('./config');
 
+// BCrypt module
+const bcrypt = require('bcrypt');
+const saltRounds = 11;
+
 class CredentialManager {
 
     static credentialLogin (req, res, next, passport) {
@@ -47,6 +51,31 @@ class CredentialManager {
             });
         })(req, res, next);
     }
+
+    static credentialRegister (req, res) {
+        const daoAdmin = new daos.DAOAdmins(req.sessionID, () => {
+            daoAdmin.findByName(req.body.username)
+                .then( function (user) {
+                    if (user) 
+                        res.send({success: false, message: 'username already exists'});
+                    else {
+                        bcrypt.hash(req.body.password, saltRounds)
+                            .then( psw => {
+                                daoAdmin.insert({
+                                    username: req.body.username,
+                                    password: psw,
+                                    email: req.body.email
+                                })
+                                    .then(() => res.json({ok: true, message: 'Inscription validée'}))
+                                    .catch(err => {console.error(err); res.json(err);});
+                            })
+                            .catch(err => {console.error(err); res.json(err);});
+                    }
+                })
+                .catch(err => {console.error(err); res.json(err);});
+        });
+    }
+
 }
 
 module.exports = CredentialManager;
