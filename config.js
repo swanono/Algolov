@@ -35,7 +35,7 @@ module.exports = {
     dbUrl: 'mongodb://localhost:' + _dbPort + '/',
     dbName: 'db-algolov',
     adminIdRegex: /[A-Za-z0-9-_]{3,}/,
-    adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
+    adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})$/,
     pathPostChangeFeatures: '/admin/changeFeatures',
     pathGetHistoricFeatures: '/admin/historicFeatures',
     pathGetBasicStats: '/admin/basicStats',

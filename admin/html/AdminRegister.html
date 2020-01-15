@@ -20,23 +20,27 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="../css/connexion.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AlgoLov - Connexion</title>
+    <title>AlgoLov - Admin</title>
+
+    <link rel="stylesheet" href="../css/register.css"/>
+    
 </head>
-    <body >
-        <form method="post" action="/api/user/login">
-            <h1>Se connecter</h1>
-            <div id="Name">
-                <label for="username">Identifiant</label>
-                <input type="text" id="username" name="username" class="form-control" placeholder="Identifiant " required autofocus>
-            </div> 
-            <div id="Password">
-                <label for="password" >mot de passe</label>
-                <input type="password" name="password" id="password" placeholder="Mot de passe" required>
-            </div>      
-             
-            <input type="submit" value="Se connecter">
-        </form>
-    </body>
-</html>
+<body>
+    <h1>Créer un profil administrateur</h1>
+    <form method="POST" action="/api/admin/register">
+        <div id="Name">
+            <label for="username">Identifiant</label>
+            <input id="username" name="username" type="text" placeholder="Nouvel Admin" required autofocus/>
+        </div>
+        <div id="Email">
+            <label for="email">Adresse e-mail</label>
+            <input id="email" name="email" type="email" placeholder="Mail" required/>
+        </div>
+        <div id="Password">
+            <label for="password">Mot de passe</label>
+            <input id="password" name="password" type="password" placeholder="Nouveau mot de passe" required/>
+        </div>
+        <input type="submit" value="Inscrire">
+    </form>
+</body>
