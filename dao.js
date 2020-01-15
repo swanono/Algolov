@@ -187,11 +187,11 @@ class DAOAdmins extends DAO {
         });
     }
 
-    updatePasswordByName (adminName) {
+    updatePasswordByName (adminName, newPassword) {
         const self = this;
 
         return new Promise(function (resolve, reject) {
-            self._update({username: adminName})
+            self._update({ username: adminName }, { $set: { password: newPassword } })
                 .then(result => {
                     console.log(self.logId + ' Updated ' + result.modifiedCount + 
                     ' in ' + self.collectionName);
@@ -208,7 +208,7 @@ class DAOAdmins extends DAO {
         const self = this;
 
         return new Promise(function (resolve, reject) {
-            self._delete({username: admin})
+            self._delete({ username: admin })
                 .then(result => {
                     console.log(self.logId + ' Deleted ' + result.deletedCount + 
                     ' in ' + self.collectionName);
@@ -225,7 +225,7 @@ class DAOAdmins extends DAO {
         const self = this;
         return new Promise(function (resolve, reject) {
             checker.checkAdminName(name)
-                .then(validName => self._find({username: validName}))
+                .then(validName => self._find({ username: validName }))
                 .then(result => {
                     console.log(self.logId + 'Found 1 item in ' + self.collectionName);
                     resolve(result);
