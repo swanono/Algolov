@@ -31,8 +31,13 @@ checkers.checkNewUser = (userData) => new Promise(function (resolve, reject) {
     resolve(userData);
 });
 checkers.checkNewAdmin = (adminData) => new Promise(function (resolve, reject) {
-    // TODO : remplir la fonction
-    resolve(adminData);
+    if (adminData && isString(adminData.username) && isString(adminData.password) && isString(adminData.email)) {
+        if (adminData.email.match(config.adminEmailRegex) && adminData.username.match(config.adminNameRegex))
+            resolve(adminData);
+        else
+            reject(new Error('Given admin username or email is not of a valid format : admin = ' + adminData));
+    } else
+        reject(new Error('Given admin is not valid : admin = ' + adminData));
 });
 
 checkers.checkAdminName = (adminName) => new Promise(function (resolve, reject) {
@@ -42,7 +47,7 @@ checkers.checkAdminName = (adminName) => new Promise(function (resolve, reject) 
         else
             reject(new Error('Given id is not a username : id = ' + adminName));
     } else
-        reject(new TypeError('The id  given is not a strings : id =' + adminName));
+        reject(new TypeError('The id  given is not a strings : id = ' + adminName));
 });
 
 module.exports = checkers;

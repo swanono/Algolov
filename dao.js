@@ -187,11 +187,28 @@ class DAOAdmins extends DAO {
         });
     }
 
+    updatePasswordByName (adminName, newPassword) {
+        const self = this;
+
+        return new Promise(function (resolve, reject) {
+            self._update({ username: adminName }, { $set: { password: newPassword } })
+                .then(result => {
+                    console.log(self.logId + ' Updated ' + result.modifiedCount + 
+                    ' in ' + self.collectionName);
+                    resolve(result);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        });
+    }
+
     delete (admin) {
         const self = this;
 
         return new Promise(function (resolve, reject) {
-            self._delete({username: admin})
+            self._delete({ username: admin })
                 .then(result => {
                     console.log(self.logId + ' Deleted ' + result.deletedCount + 
                     ' in ' + self.collectionName);
@@ -206,13 +223,18 @@ class DAOAdmins extends DAO {
 
     findByName (name) {
         const self = this;
-        console.log(name);
-        return checker.checkAdminName(name)
-            .then(validName => this._find({username: validName})) //console.log(self.logId + 'Found 1 item in ' + self.collectionName);
-            .catch(err => {
-                console.error(err);
-                return Promise.reject(err);
-            });
+        return new Promise(function (resolve, reject) {
+            checker.checkAdminName(name)
+                .then(validName => self._find({ username: validName }))
+                .then(result => {
+                    console.log(self.logId + 'Found 1 item in ' + self.collectionName);
+                    resolve(result);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        });
     }
 }
 
