@@ -71,6 +71,10 @@ h3 {
     margin: 0.5em;
 }
 
+.buttonAdmin {
+    float: right;
+}
+
 #alert-message {
     text-align: center;
     margin: 1em;

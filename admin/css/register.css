@@ -17,6 +17,22 @@ form {
     border-radius: 1em;
 }
 
+.bouton {
+    padding: 6px 10px;
+	
+	background:#f5f5f5;
+	
+	border-radius: 2px;
+    border: 1px solid #ccc;
+    width: max-content;
+
+    cursor: pointer;
+
+	font: 15px bold;
+    text-decoration: none;
+    color:#555;
+}
+
 div#Name, div#Password, div#Email {
     display: block;
     margin-block-start: 1em;
