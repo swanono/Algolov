@@ -189,6 +189,7 @@ class DAOAdmins extends DAO {
 
     findByName (name) {
         const self = this;
+        console.log(name);
         return checker.checkAdminName(name)
             .then(validName => this._find({username: validName})) //console.log(self.logId + 'Found 1 item in ' + self.collectionName);
             .catch(err => {

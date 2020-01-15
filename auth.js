@@ -59,13 +59,13 @@ passport.use(new LocalStrategy(
 
 // Stocke les données de l'utilisation dans le cookie de session
 passport.serializeUser(function (user, cb) {
-    console.log('serializeUser ', JSON.stringify(user));
+    //console.log('serializeUser ', JSON.stringify(user));
     cb(null, JSON.stringify(user)); //TODO: Handle serialization
 });
 
 // Récupère les données de l'utilisateur depuis le cookie de session
 passport.deserializeUser(function (user, cb) {
-    console.log('deserializeUser ' + JSON.stringify(user));
+    //console.log('deserializeUser ' + JSON.stringify(user));
     cb(null, JSON.parse(user)); //TODO: Handle deserialization
 });
 
