@@ -88,6 +88,7 @@ class DOMGenerator {
             }
         });
 
+        window.blocCards = [];
         DOMGenerator.loadCards(usedFeatures);
 
         const stopButton = document.createElement('button');
@@ -170,11 +171,48 @@ class DOMGenerator {
         parentNode.appendChild(container);
     }
 
+    static _saveOriginalScale () {
+        const bodyWidthPercentage = 98 / 100;
+        const rankMarginPaddin = 10;
+        const widthAdditionnalOffset = 55;
+        const cardHeightPartRank = 8;
+        const cardHeightPartOrigin = 6;
+        const nbRanks = document.getElementsByClassName('rank').length;
+        window.originalScale.maxInRankWidth = parseInt(((window.innerWidth * bodyWidthPercentage) - (rankMarginPaddin * nbRanks)) / nbRanks - widthAdditionnalOffset);
+        window.originalScale.maxInRankHeight = parseInt(window.innerHeight / cardHeightPartRank);
+        window.originalScale.originalWidth = parseInt(1.6 * window.innerWidth / window.config.surveyConfiguration.nbFeaturePerBloc);
+        window.originalScale.originalHeight = parseInt(window.innerHeight / cardHeightPartOrigin);
+        window.originalScale.fontSize = 1;
+        window.originalScale.minScaleTransition = window.originalScale.maxInRankWidth / window.originalScale.originalWidth;
+    }
+
+    static _applyScaleOnCard (card, scale = 1) {
+        card.style.width = Math.floor(window.originalScale.originalWidth * scale) + 'px';
+        card.style.height = Math.floor(window.originalScale.originalHeight * scale) + 'px';
+        card.style.fontSize = window.originalScale.fontSize * (scale + 1)/2 + 'em';
+        card.setAttribute(window.consts.CURRENT_CARD_SCALE, scale);
+    }
+    static _scalingAnimation (element, start, end, interval, duration) {
+        const speed = 1;
+        let acc = start;
+        const step = speed * (end - start) * interval / duration; 
+        const id = setInterval(() => {
+            acc += step;
+            if (acc >= end && step > 0 || acc <= end && step < 0 || step === 0) {
+                clearInterval(id);
+                acc = end;
+            }
+            DOMGenerator._applyScaleOnCard(element, acc);
+        }, speed * interval);
+    }
+
     static loadCards (features) {
         // class nested-item => is a card inside a container
         features = shuffleArray(features);
 
         const initCont = document.getElementById('initial_container');
+
+        DOMGenerator._saveOriginalScale();
 
         for (const feat of features) {
             const newCard = document.createElement('div');
@@ -182,10 +220,14 @@ class DOMGenerator {
             newCard.setAttribute('class', 'nested-item feature-card');
             newCard.setAttribute('location', initCont.getAttribute('id'));
 
+            DOMGenerator._applyScaleOnCard(newCard);
+
             if (feat.content === 'text')
                 newCard.appendChild(document.createTextNode(feat.data));
 
             initCont.appendChild(newCard);
+
+            window.blocCards.push(newCard);
         }
     }
 
@@ -535,12 +577,10 @@ class DOMGenerator {
     }
 
     static _checkAllsorted () {
-        const cards = document.getElementsByClassName('feature-card');
 
         let isComplete = true;
-        for (const card of cards) {
-            if (!card.parentElement.getAttribute('class').includes(window.consts.RANK_CLASS) &&
-                !(card.getAttribute('class').includes('draggable--original') || card.getAttribute('class').includes('draggable-mirror')))
+        for (const card of window.blocCards) {
+            if (!card.getAttribute('location').includes(window.consts.RANK_CONTAINER_ID))
                 isComplete = false;
         }
 
@@ -562,6 +602,15 @@ class DOMGenerator {
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.newContainer;
 
+            const newScale =
+                newCont.getAttribute('class').includes(window.consts.RANK_CLASS)
+                    ? window.originalScale.minScaleTransition
+                    : 1;
+            DOMGenerator._scalingAnimation(dragged, 
+                1,
+                newScale,
+                window.consts.SCALING_INTERVAL,
+                window.consts.SCALING_DURATION);
 
             dragged.setAttribute('location', newCont.getAttribute('id'));
             DOMGenerator._checkAllsorted();
@@ -573,9 +622,11 @@ class DOMGenerator {
             
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.dragEvent.data.sourceContainer;
+            const mirror = event.data.dragEvent.data.source;
+
+            DOMGenerator._applyScaleOnCard(mirror, 1);
 
             dragged.setAttribute('location', newCont.getAttribute('id'));
-            DOMGenerator._checkAllsorted();
             TraceStorage.storeDragEvent('start',dragged.getAttribute('id'), newCont.getAttribute('id'));
         });
         window.sortable.on('sortable:sort', (event) => {
@@ -583,7 +634,6 @@ class DOMGenerator {
             const newCont = event.data.dragEvent.data.overContainer;
 
             dragged.setAttribute('location', newCont.getAttribute('id'));
-            DOMGenerator._checkAllsorted();
             TraceStorage.storeDraggableEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
         });
     }

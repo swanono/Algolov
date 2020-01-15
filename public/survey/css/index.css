@@ -26,7 +26,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 }
 
 body {
-    max-width: 1920px;
+    margin: auto;
+    width: 98%;
 }
 
 .presdiv {
@@ -66,14 +67,15 @@ th, td {
     background-color: gray;
     max-height: 100%;
     max-width: 100%;
+    padding: 0.1em;
 }
 
 .nested-item {
     border: 1px solid;
-    width: 15vw;
-    height: 100px;
+    /*width: 15vw;
+    height: 100px;*/
     padding: 10px;
-    font-size: 1.2em;
+    font-size: 0.8em;
     box-shadow: 4px 4px 2px #888888;
     border-radius: 25px;
     background-color: white;
@@ -85,8 +87,8 @@ th, td {
 .nestable {
     border: 1px solid;
     text-align: center;
-    min-width: 130px;
-    min-height: 90px;
+    min-width: 8vw;
+    min-height: 10vh;
     height: 100%;
     border-radius: 15px;
     margin: 1px;
@@ -263,8 +265,4 @@ input {
 
 .heading_txt {
     font-size: 1.5em;
-}
-
-.nested-item.feature-card {
-    font-size: 80%;
 }

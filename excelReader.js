@@ -171,6 +171,7 @@ class ExcelReader {
         });
 
         const finalCount = featureCount[0].count;
+        this.newConfig.nbFeaturePerBloc = finalCount;
         const hasSameNbFeature = featureCount.reduce((perviousRes, count) => perviousRes && count.count === finalCount, true);
         if (!hasSameNbFeature)
             this.xlsErrors.push('Il n\'y a pas le même nombre de features entre chaque combinatoire');
@@ -202,7 +203,7 @@ class ExcelReader {
         config.surveyConfiguration.descNames = this.newConfig.descriptions;
         config.surveyConfiguration.blocThemes = this.newConfig.blocThemes;
         config.surveyConfiguration.nbBlocPerDesc = this.newConfig.blocThemes.length;
-        config.surveyConfiguration.nbFeaturePerBloc = this.newConfig.features.length;
+        config.surveyConfiguration.nbFeaturePerBloc = this.newConfig.nbFeaturePerBloc;
         config.features = this.newConfig.features;
 
         let count = 1;

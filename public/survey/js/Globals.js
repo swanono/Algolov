@@ -26,9 +26,13 @@ window.state = 0;
 window.config = {}; // Contains the config.json file
 window.features = null; // Contains all the features
 window.ranking = []; // Contains all the blocs with the ranking of the features by the user
+window.blocCards = [];
+window.originalScale = {};
 window.sortable = null;
 window.referenceTime = Date.now();
 window.consts = {
+    SCALING_INTERVAL: 10,
+    SCALING_DURATION: 250,
     INPUT_CLASS: 'classInput_',
     INPUT_ID: 'idInput_',
     INPUT_DIV_ID: 'idDivInput_',
@@ -42,6 +46,7 @@ window.consts = {
     INIT_CONTAINER_ID: 'initial_container',
     BLOC_ID: 'bloc_',
     RANK_CLASS: 'rank',
+    CURRENT_CARD_SCALE: 'current-scale',
     TRACE_NAMES: {
         steps: 'steps', /*fait*/ 
         focus: 'focus', /*fait*/
