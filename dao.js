@@ -187,6 +187,23 @@ class DAOAdmins extends DAO {
         });
     }
 
+    delete (admin) {
+        const self = this;
+
+        return new Promise(function (resolve, reject) {
+            self._delete({username: admin})
+                .then(result => {
+                    console.log(self.logId + 'Deleted' + result.deletedCount + 
+                    'in' + self.collectionName);
+                    resolve(result);
+                })
+                .catch(err => {
+                    console.error(err);
+                    reject(err);
+                });
+        });
+    }
+
     findByName (name) {
         const self = this;
         console.log(name);
