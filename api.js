@@ -25,6 +25,11 @@ const DataGetter = require('./pageData');
 const express = require('express');
 const FormHandler = require('formidable');
 const path = require('path');
+const CredentialManager = require('./credentialsData');
+
+// BCrypt module
+const bcrypt = require('bcrypt');
+const saltRounds = 11;
 
 module.exports = (passport) => {
     const app = express();
@@ -90,32 +95,32 @@ module.exports = (passport) => {
     });
 
     app.post(config.pathPostRegister, function (req, res) {
-        const daoAdmin = new daos.DAOAdmins(hash(req.body.username), () => {
+        const daoAdmin = new daos.DAOAdmins(req.sessionID, () => {
             daoAdmin.findByName(req.body.username)
                 .then( function (user) {
-                    if (user) {
+                    if (user) 
                         res.send({success: false, message: 'username already exists'});
-                    }
                     else {
                         bcrypt.hash(req.body.password, saltRounds)
-                        .then(psw => {
-                            daoAdmin.insert({
-                                username: req.body.username,
-                                password: psw,
-                                email: req.body.email
+                            .then( psw => {
+                                daoAdmin.insert({
+                                    username: req.body.username,
+                                    password: psw,
+                                    email: req.body.email
+                                })
+                                    .then(() => res.json({ok: true, message: 'Inscription validée'}))
+                                    .catch(err => {console.error(err); res.json(err);});
                             })
-                            .then(() => res.json({ok: true, message: 'Inscription validée'}))
                             .catch(err => {console.error(err); res.json(err);});
-                        })
-                        .catch(err => {console.error(err); res.json(err);});
                     }
                 })
                 .catch(err => {console.error(err); res.json(err);});
         });
-
-        return app;
-
     });
+    
+    return app;
+
+};
 
 function loadExcel (path, save, req, res) {
     const reader = new ExcelReader(path);
