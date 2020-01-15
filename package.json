@@ -35,8 +35,8 @@
     "lintcss": "./node_modules/.bin/stylelint **/*.css",
     "linthtml": "./node_modules/.bin/html-linter --config .htmllinterrc.json",
     "unitTest": "jest",
-    "addAdmin": "node require('./rootAdminManager').addRootAdmin()",
-    "deleteAdmin": "node require('./rootAdminManager').removeRootAdmin()"
+    "addAdmin": "node rootAdminManager.js addRootAdmin",
+    "deleteAdmin": "node rootAdminManager.js deleteRootAdmin"
   },
   "nodemonConfig": {
     "ignore": [

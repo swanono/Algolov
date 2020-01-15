@@ -37,6 +37,7 @@ function addRootAdmin () {
                     password: psw,
                     email: rootEmail
                 })
+                    .then(result => console.log('success'))
                     .catch(err => {console.error(err); });
             })
             .catch(err => {console.error(err);});
@@ -45,6 +46,13 @@ function addRootAdmin () {
 
 function removeRootAdmin () {
     const daoAdmin = new daos.DAOAdmins(1, () => {
-        daoAdmin.delete(rootLogin);
+        daoAdmin.delete(rootLogin)
+            .then(result => console.log('success'))
+            .catch(err => {console.error(err); });
     });
 }
+
+if (process.argv[2] === 'addRootAdmin') 
+    addRootAdmin();
+else if (process.argv[2] === 'deleteRootAdmin') 
+    removeRootAdmin();

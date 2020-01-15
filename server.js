@@ -39,9 +39,10 @@ const envPort = config.port;
 // Routes accèdant à l'api (pas les fichiers du serveur)
 app.use('/api',
     function (req, res, next) {
-        if (req.path.includes('admin'))
+        if (req.path.includes('admin')) {
             login.ensureLoggedIn(connexionPath);
-        else
+            next();
+        } else
             next();
     },
     api(passport)

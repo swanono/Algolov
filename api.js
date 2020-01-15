@@ -70,28 +70,7 @@ module.exports = (passport) => {
     });
 
     app.post(config.pathPostLogin, function (req, res, next) {
-        if (!req.body.username) 
-            return res.send({success: false, message: 'empty username'});
-        
-        if (!req.body.password) 
-            return res.send({success: false, message: 'empty password'});
-        
-        passport.authenticate('local', function (err, user, info) {
-            if (err) 
-                return next(err); // will generate a 500 error
-            
-            if (!user) 
-                return res.redirect(config.directoryPrefix + '/public/connexion/html/');
-            
-            req.login(user, function (err) {
-                if (err) 
-                    return next(err);
-                
-                console.log('>>> Authentification : ');
-                console.log(user);
-                return res.redirect(config.directoryPrefix + '/admin/html/Admin.html');
-            });
-        })(req, res, next);
+        return CredentialManager.credentialLogin(req, res, next, passport);
     });
 
     app.post(config.pathPostRegister, function (req, res) {

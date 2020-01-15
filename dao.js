@@ -193,8 +193,8 @@ class DAOAdmins extends DAO {
         return new Promise(function (resolve, reject) {
             self._delete({username: admin})
                 .then(result => {
-                    console.log(self.logId + 'Deleted' + result.deletedCount + 
-                    'in' + self.collectionName);
+                    console.log(self.logId + ' Deleted ' + result.deletedCount + 
+                    ' in ' + self.collectionName);
                     resolve(result);
                 })
                 .catch(err => {

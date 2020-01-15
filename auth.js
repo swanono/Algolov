@@ -32,8 +32,6 @@ passport.use(new LocalStrategy(
     function (username, password, cb) {
     // On récupère les information (mot de passe) de l'utilisateur passé en paramètre
         const daoAdmin = new daos.DAOAdmins(hash(username), () => {
-            console.log(username);
-            console.log(typeof username);
             daoAdmin.findByName(username)
                 .then(
                     user => {
