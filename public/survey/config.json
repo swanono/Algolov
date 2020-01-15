@@ -2,57 +2,23 @@
     "surveyConfiguration": {
         "descNames": [
             {
-                "name": "soi",
-                "presentation": "texte description",
-                "text": "description 1",
+                "name": "jfoi",
+                "presentation": "jdfio",
+                "text": "sds",
                 "combin": [
-                    "Homme",
-                    "Femme"
-                ]
-            },
-            {
-                "name": "autre",
-                "presentation": "texte description",
-                "text": "description 2",
-                "combin": [
-                    "Homme",
-                    "Femme"
+                    "Homme"
                 ]
             }
         ],
         "nbStatesBeforeBloc": 3,
-        "nbBlocPerDesc": 2,
-        "nbFeaturePerBloc": 4,
+        "nbBlocPerDesc": 1,
+        "nbFeaturePerBloc": 1,
         "blocThemes": [
             {
                 "blocId": 1,
-                "type": "type 1",
-                "likertSize": 7,
-                "legends": [
-                    "pas apprécié du tout",
-                    "pas apprécié",
-                    "assez peu apprécié",
-                    "indifférent",
-                    "un peu apprécié",
-                    "apprécié",
-                    "très apprécié"
-                ],
-                "question": "question 1"
-            },
-            {
-                "blocId": 2,
-                "type": "type 2",
-                "likertSize": 7,
-                "legends": [
-                    "pas apprécié du tout",
-                    "pas apprécié",
-                    "assez peu apprécié",
-                    "indifférent",
-                    "un peu apprécié",
-                    "apprécié",
-                    "très apprécié"
-                ],
-                "question": "question 2"
+                "type": "physique",
+                "likertSize": 1,
+                "question": "sds"
             }
         ]
     },
@@ -60,72 +26,12 @@
         {
             "id": 1,
             "content": "text",
-            "data": "feature 1",
-            "type": "type 1",
+            "data": "gjhkj",
+            "type": "physique",
             "combin": [
                 {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 2,
-            "content": "text",
-            "data": "feature 2",
-            "type": "type 1",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 3,
-            "content": "text",
-            "data": "feature 3",
-            "type": "type 2",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 4,
-            "content": "text",
-            "data": "feature 4",
-            "type": "type 2",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
+                    "descName": "jfoi",
+                    "Homme": true
                 }
             ]
         }
@@ -140,37 +46,14 @@
             "list": [
                 {
                     "id": 1,
-                    "question": "Quel est votre sexe ?",
+                    "question": "hjkvknksdn",
                     "type": "radio",
-                    "descName": "soi",
+                    "descName": "jfoi",
                     "choices": [
                         {
                             "choiceId": 1,
                             "text": "Homme",
                             "descValue": "Homme"
-                        },
-                        {
-                            "choiceId": 2,
-                            "text": "Femme",
-                            "descValue": "Femme"
-                        }
-                    ]
-                },
-                {
-                    "id": 2,
-                    "question": "Quel est votre sexe préféré ?",
-                    "type": "radio",
-                    "descName": "autre",
-                    "choices": [
-                        {
-                            "choiceId": 1,
-                            "text": "Homme",
-                            "descValue": "Homme"
-                        },
-                        {
-                            "choiceId": 2,
-                            "text": "Femme",
-                            "descValue": "Femme"
                         }
                     ]
                 }
@@ -181,7 +64,7 @@
             "isDescriptionLinked": false,
             "list": [
                 {
-                    "id": 3,
+                    "id": 2,
                     "question": "avez-vous utilisé une application de rencontres dans le passé ou utilisez-vous actuellement une application de rencontres ?",
                     "type": "radio",
                     "choices": [
@@ -212,7 +95,7 @@
                     ]
                 },
                 {
-                    "id": 4,
+                    "id": 3,
                     "question": "quelles applications de rencontres avez-vous déjà utilisé ou utilisez-vous actuellement ?",
                     "type": "checkbox",
                     "choices": [
@@ -304,13 +187,13 @@
                     "other": true
                 },
                 {
-                    "id": 5,
+                    "id": 4,
                     "question": "quand était votre première inscription à un application de rencontres ? (format MM/AAAA)",
                     "type": "text",
                     "format": "^[0-1][0-9]/[1-2][09][0-9]{2}$"
                 },
                 {
-                    "id": 6,
+                    "id": 5,
                     "question": "avec quelle frequence utilisiez ou utilisez-vous des applications de rencontres ?",
                     "type": "radio",
                     "choices": [
@@ -337,7 +220,7 @@
                     ]
                 },
                 {
-                    "id": 7,
+                    "id": 6,
                     "question": "avez-vous eu dans le passé ou avez-vous actuellement une relation à long terme (petit.e ami.e, conjoint.e) ou à court terme (rencontre sexuelle) ?",
                     "type": "radio",
                     "choices": [
@@ -356,7 +239,7 @@
                     ]
                 },
                 {
-                    "id": 8,
+                    "id": 7,
                     "question": "pourrions-nous vous contacter plus tard pour participer à un entretien d'environ 45min afin d'approfondir l'étude quantitative à laquelle vous participez actuellement ?",
                     "type": "radio",
                     "choices": [
@@ -382,19 +265,19 @@
                     ]
                 },
                 {
-                    "id": 9,
+                    "id": 8,
                     "question": "quelle est votre adresse mail ?",
                     "type": "text",
                     "format": "^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$"
                 },
                 {
-                    "id": 10,
+                    "id": 9,
                     "question": "quel est votre numéro de téléphone ? (Format internationnal, commençant par +33 pour la France ou +41 pour la Suisse)",
                     "type": "text",
                     "format": "^(\\+[0-9]{11,})$"
                 },
                 {
-                    "id": 11,
+                    "id": 10,
                     "question": "quel est votre age ?",
                     "type": "text",
                     "format": "^([0-9]{2,3})$"

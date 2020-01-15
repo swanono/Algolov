@@ -47,12 +47,17 @@ h3 {
     border: solid grey 1px;
     padding: 1em;
     text-align: center;
+    overflow-y:scroll;
+    height: 400px;
 }
 
 #FeaturesList {
     border: solid grey 1px;
     padding: 1em;
     text-align: center;
+    overflow-y:scroll;
+    height: 400px;
+    
 }
 #modifierQuestionnaire {
     position: absolute;
