@@ -36,7 +36,9 @@ module.exports = (passport) => {
 
     app.post(config.pathPostSurveyApi, function (req, res) {
         const daoUser = new daos.DAOUsers(req.sessionID, () => {
-            daoUser.insert(req.body);
+            daoUser.insert(req.body)
+                .then(() => daoUser.closeConnexion())
+                .catch(err => console.error(err));
         });
 
         // TODO : envoyer le mail ici

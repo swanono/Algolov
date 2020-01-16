@@ -35,7 +35,8 @@ passport.use(new LocalStrategy(
             daoAdmin.findByName(username)
                 .then(
                     user => {
-                    // Utilisateur pas dans la base de données
+                        daoAdmin.closeConnexion();
+                        // Utilisateur pas dans la base de données
                         if (!user) 
                             cb(null, false);
                     
@@ -48,7 +49,10 @@ passport.use(new LocalStrategy(
                                     else 
                                         cb(null, user);
                                 })
-                                .catch(err => {console.log(err); cb(null, false);});
+                                .catch(err => {
+                                    console.log(err);
+                                    cb(null, false);
+                                });
                         }
                     },
                 ).catch(cb);

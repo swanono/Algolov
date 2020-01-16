@@ -66,13 +66,19 @@ class CredentialManager {
                                     password: psw,
                                     email: req.body.email
                                 })
-                                    .then(() => res.json({ok: true, message: 'Inscription validée'}))
+                                    .then(() => {
+                                        daoAdmin.closeConnexion();
+                                        res.json({ok: true, message: 'Inscription validée'});
+                                    })
                                     .catch(err => {console.error(err); res.json(err);});
                             })
                             .catch(err => {console.error(err); res.json(err);});
                     }
                 })
-                .catch(err => {console.error(err); res.json(err);});
+                .catch(err => {
+                    console.error(err);
+                    res.json(err);
+                });
         });
     }
 

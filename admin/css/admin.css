@@ -73,28 +73,7 @@ h3 {
 
 .buttonAdmin {
     float: right;
-}
-
-#alert-message {
-    text-align: center;
-    margin: 1em;
-    border-radius: 15%;
-    font: bold;
-}
-.stop-fade-out {
-    visibility: visible;
-    opacity: 1;
-}
-.fade-out-message {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 5s, opacity 5s ease-in;
-}
-.success {
-    color: green;
-}
-.error {
-    color: red;
+    margin-bottom: 2em;
 }
 
 .retour {
