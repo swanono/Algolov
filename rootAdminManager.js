@@ -26,7 +26,7 @@ const saltRounds = 11;
 
 const rootLogin = 'root';
 const rootPwd = 'root';
-const rootEmail = 'root@root.root';
+const rootEmail = 'root@gmail.com';
 
 function addRootAdmin () {
     const daoAdmin = new daos.DAOAdmins(1, () => {

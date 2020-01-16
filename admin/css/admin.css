@@ -78,14 +78,11 @@ h3 {
 
 .buttonAdmin {
     float: right;
-    margin-bottom: 2em;
     margin-right: 0.5em;
 }
 
 .retour {
-    position: absolute;
-    left: 1em;
-    top: 1em;
+    float: left;
 }
 
 .bouton {
@@ -113,8 +110,6 @@ h3 {
 .download-bar {
     display: flex;
     align-items: center;
-    background-color: white;
-    border: none;
 }
 .download-bar * {
     padding: 2px 5px;

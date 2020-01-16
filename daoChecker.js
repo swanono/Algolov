@@ -66,7 +66,7 @@ const userSchema = JsonValidator.object({
         name: JsonValidator.string(),
         data: JsonValidator.array().items(JsonValidator.object({
             t: anyNumberSchema
-        }).unknown())
+        }).unknown().allow(null))
     })),
 
     terminated: JsonValidator.alternatives().try(JsonValidator.boolean(), null).optional()
