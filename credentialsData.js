@@ -81,9 +81,9 @@ class CredentialManager {
         console.log(1);
         console.log(saltRounds);
         const daoAdmin = new daos.DAOAdmins(req.sessionID, () => {
-            bcrypt.hash(req.body.exPassword, saltRounds)
-                .then( psw => {
-                    if (req.user.password === psw) {
+            bcrypt.compare(req.body.exPassword, req.user.password)
+                .then( res => {
+                    if (res) {
                         bcrypt.hash(req.body.password, saltRounds)
                             .then( newPsw => {
                                 daoAdmin.updatePasswordByName(req.user.username, newPsw)
@@ -92,8 +92,10 @@ class CredentialManager {
                             })
                             .catch(err => {console.error(err); res.json(err);});
                     }
-                    else
+                    else {
+                        res.redirect(config.directoryPrefix + '/admin/html/Admin.html');
                         console.log('Mot de passe incorrect');
+                    }
                 })
                 .catch(err => {console.error(err); res.json(err);});
         });
