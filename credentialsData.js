@@ -93,7 +93,10 @@ class CredentialManager {
                         bcrypt.hash(req.body.password, saltRounds)
                             .then( newPsw => {
                                 daoAdmin.updatePasswordByName(req.user.username, newPsw)
-                                    .then(() => res.json({ok: true, message: 'Modification validée'}))
+                                    .then(() => {
+                                        daoAdmin.closeConnexion();
+                                        res.json({ok: true, message: 'Modification validée'}); 
+                                    })
                                     .catch(err => {console.error(err); res.json(err);});
                             })
                             .catch(err => {console.error(err); res.json(err);});
