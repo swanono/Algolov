@@ -42,6 +42,7 @@ class CredentialManager {
                 return res.redirect(config.directoryPrefix + '/public/connexion/html/');
             
             req.login(user, function (err) {
+                // TODO : envoyer l'erreur au client
                 if (err) 
                     return next(err);
                 
@@ -83,9 +84,6 @@ class CredentialManager {
     }
 
     static credentialUpdate (req, res) {
-        console.log(req.body);
-        console.log(1);
-        console.log(saltRounds);
         const daoAdmin = new daos.DAOAdmins(req.sessionID, () => {
             bcrypt.compare(req.body.exPassword, req.user.password)
                 .then( result => {
@@ -102,8 +100,9 @@ class CredentialManager {
                             .catch(err => {console.error(err); res.json(err);});
                     }
                     else {
-                        res.redirect(config.directoryPrefix + '/admin/html/Admin.html');
-                        console.log('Mot de passe incorrect');
+                        res.redirect(config.directoryPrefix + '/admin/html/AdminUpdate.html');
+                        console.error('Mot de passe incorrect');
+                        // TODO : envoyer le message au client
                     }
                 })
                 .catch(err => {console.error(err); res.json(err);});

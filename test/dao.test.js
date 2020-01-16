@@ -62,12 +62,12 @@ describe('Tests on DAO Admins', () => {
     afterEach(() => dao.closeConnexion());
     
     test('Successful insertion of one admin', () => {
-        return expect(dao.insert({ name: 'test admin', email: 'ulysse.guyon@gmail.com', password: 'TestTest123'})).resolves.toHaveProperty('insertedCount', 1);
+        return expect(dao.insert({ username: 'test admin', email: 'ulysse.guyon@gmail.com', password: 'TestTest123'})).resolves.toHaveProperty('insertedCount', 1);
     });
 
     test('Successful find of an admin', async () => {
-        const tested = { name: 'Test', email: 'ulysse.guyon@gmail.com', password: 'TestTest123' };
+        const tested = { username: 'Test', email: 'ulysse.guyon@gmail.com', password: 'TestTest123' };
         await dao.insert(tested);
-        return expect(dao.findByName(tested.name)).resolves.toEqual(tested);
+        return expect(dao.findByName(tested.username)).resolves.toEqual(tested);
     });
 });

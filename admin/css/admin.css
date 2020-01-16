@@ -74,6 +74,7 @@ h3 {
 .buttonAdmin {
     float: right;
     margin-bottom: 2em;
+    margin-right: 0.5em;
 }
 
 .retour {
