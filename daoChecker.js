@@ -19,6 +19,7 @@ This module is used for checking the validity of the data passed to the dao
 'use strict';
 
 const config = require('./config');
+const util = require('util');
 const JsonValidator = require('@hapi/joi');
 
 const anyNumberSchema = JsonValidator.alternatives().try(
@@ -72,7 +73,7 @@ const userSchema = JsonValidator.object({
 });
 
 const adminSchema = JsonValidator.object({
-    name: JsonValidator.string(),
+    username: JsonValidator.string(),
     email: JsonValidator.string().email(),
     password: JsonValidator.string()
 });
@@ -92,9 +93,9 @@ checkers.checkAdminName = (adminName) => new Promise(function (resolve, reject) 
         if (adminName.match(config.adminNameRegex))
             resolve(adminName);
         else
-            reject(new Error('Given id is not a username : id = ' + adminName));
+            reject(new Error('Given username is not a valid : id = ' + adminName));
     } else
-        reject(new TypeError('The id  given is not a strings : id =' + adminName));
+        reject(new TypeError('The username given is not a strings : id = ' + adminName));
 });
 
 module.exports = checkers;

@@ -133,17 +133,19 @@ const userInsert = {
 };
 
 const adminInsert = {
-    "name": "Test",
+    "username": "Test",
     "email": "ulysse.guyon@gmail.com",
     "password": "TestTest123"
 };
 
 const adminFind = {
-    "name": "Name",
+    "username": "Name",
     "email": "ulysse.guyon@gmail.com",
     "password": "Test"
 };
 
-module.exports.userInsert = userInsert;
-module.exports.adminInsert = adminInsert;
-module.exports.adminFind = adminFind;
+module.exports = {
+    userInsert,
+    adminInsert,
+    adminFind
+};
