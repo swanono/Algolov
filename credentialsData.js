@@ -76,6 +76,29 @@ class CredentialManager {
         });
     }
 
+    static credentialUpdate (req, res) {
+        console.log(req.body);
+        console.log(1);
+        console.log(saltRounds);
+        const daoAdmin = new daos.DAOAdmins(req.sessionID, () => {
+            bcrypt.hash(req.body.exPassword, saltRounds)
+                .then( psw => {
+                    if (req.user.password === psw) {
+                        bcrypt.hash(req.body.password, saltRounds)
+                            .then( newPsw => {
+                                daoAdmin.updatePasswordByName(req.user.username, newPsw)
+                                    .then(() => res.json({ok: true, message: 'Modification validée'}))
+                                    .catch(err => {console.error(err); res.json(err);});
+                            })
+                            .catch(err => {console.error(err); res.json(err);});
+                    }
+                    else
+                        console.log('Mot de passe incorrect');
+                })
+                .catch(err => {console.error(err); res.json(err);});
+        });
+    }
+
 }
 
 module.exports = CredentialManager;

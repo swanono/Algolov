@@ -76,6 +76,11 @@ module.exports = (passport) => {
     app.post(config.pathPostRegister, function (req, res) {
         CredentialManager.credentialRegister(req, res);
     });
+
+    app.post(config.pathPostUpdate, function (req, res) {
+        CredentialManager.credentialUpdate(req, res);
+    });
+    
     
     return app;
 

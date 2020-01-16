@@ -44,6 +44,7 @@ module.exports = {
     pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
     pathPostLogin : '/user/login',
     pathPostRegister : '/admin/register',
+    pathPostUpdate : '/admin/update',
     excelSheetNames: { descript: 'Descriptions', types: 'Types', features: 'Features' },
     blocLegends: {
         3: ['pas apprécié du tout', 'indifférent', 'très apprécié'],
