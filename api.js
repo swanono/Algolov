@@ -93,7 +93,7 @@ module.exports = (passport) => {
 
 };
 
-function loadExcel(path, save, req, res) {
+function loadExcel (path, save, req, res) {
     const reader = new ExcelReader(path);
     const errors = reader.validate();
     if (errors.length === 0) {
