@@ -24,14 +24,23 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <title>AlgoLov - Admin</title>
 
     <link rel="stylesheet" href="../css/register.css"/>
+    <link rel="stylesheet" href="../css/alertMessage.css"/>
     
+    <script type="text/javascript" src="../js/alertMessage.js" ></script>
+    <script type="text/javascript" src="../js/AdminRegister.js" ></script>
 </head>
 <body>
     <h1>Créer un profil administrateur</h1>
+
     <a id="buttonReturn" class="bouton" href="./Admin.html">
         Retour
     </a>
-    <form method="POST" action="/api/admin/register">
+
+    <div id="alert-message">
+
+    </div>
+
+    <form method="POST" action="/api/admin/register" onsubmit="event.preventDefault(); registerAdmin(event.target);">
         <div id="Name">
             <label for="username">Identifiant</label>
             <input id="username" name="username" type="text" placeholder="Nouvel Admin" required autofocus/>

@@ -31,13 +31,16 @@ const rootEmail = 'root@root.root';
 function addRootAdmin () {
     const daoAdmin = new daos.DAOAdmins(1, () => {
         bcrypt.hash(rootPwd, saltRounds)
-            .then( psw => {
+            .then(psw => {
                 daoAdmin.insert({
                     username: rootLogin,
                     password: psw,
                     email: rootEmail
                 })
-                    .then(result => console.log('success'))
+                    .then(result => {
+                        console.log('success'); 
+                        daoAdmin.closeConnexion();
+                    })
                     .catch(err => {console.error(err); });
             })
             .catch(err => {console.error(err);});
@@ -47,7 +50,10 @@ function addRootAdmin () {
 function removeRootAdmin () {
     const daoAdmin = new daos.DAOAdmins(1, () => {
         daoAdmin.delete(rootLogin)
-            .then(result => console.log('success'))
+            .then(result => {
+                console.log('success'); 
+                daoAdmin.closeConnexion();
+            })
             .catch(err => {console.error(err); });
     });
 }
