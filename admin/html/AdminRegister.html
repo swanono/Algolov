@@ -21,37 +21,38 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AlgoLov - Admin2</title>
+    <title>AlgoLov - Admin</title>
 
-    <link rel="stylesheet" href="../css/admin.css"/>
+    <link rel="stylesheet" href="../css/register.css"/>
     <link rel="stylesheet" href="../css/alertMessage.css"/>
-
+    
     <script type="text/javascript" src="../js/alertMessage.js" ></script>
-    <script type="text/javascript" src="../js/ModifFeature.js" ></script>
-
+    <script type="text/javascript" src="../js/AdminRegister.js" ></script>
 </head>
-    <body>
-        <h1>Administration - Nouvelles Features</h1>
-        <a id="Admin" class="bouton retour" href="../html/Admin.html">
-            Retour
-        </a>
-        
-        <div class="download-bar-container">
-            <a id="Template-Excel" class="download-bar bouton" href="../features_files/template/Template_Features.xlsx">
-                <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px"/>
-                <div>Télécharger le fichier Excel type pour le changement de features</div>
-            </a>
+<body>
+    <h1>Créer un profil administrateur</h1>
+
+    <a id="buttonReturn" class="bouton" href="./Admin.html">
+        Retour
+    </a>
+
+    <div id="alert-message">
+
+    </div>
+
+    <form method="POST" action="/api/admin/register" onsubmit="event.preventDefault(); registerAdmin(event.target);">
+        <div id="Name">
+            <label for="username">Identifiant</label>
+            <input id="username" name="username" type="text" placeholder="Nouvel Admin" required autofocus/>
         </div>
-
-        <div id="alert-message">
-
+        <div id="Email">
+            <label for="email">Adresse e-mail</label>
+            <input id="email" name="email" type="email" placeholder="Mail" required/>
         </div>
-
-        <form id="Upload-Form" action="/api/admin/changeFeatures" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewExcel(); stopFadeOut();">
-            <p>Cliquez sur le bouton ci-dessous pour charger un nouveau set de features :</p>
-            <input id="new-excel-input" type="file" name="Excel-Upload" accept=".xlsx , .xls" class="bouton">
-            <input type="submit" value="Envoyer" class="bouton">
-        </form>
-
-    </body>
-</html>
+        <div id="Password">
+            <label for="password">Mot de passe</label>
+            <input id="password" name="password" type="password" placeholder="Nouveau mot de passe" required/>
+        </div>
+        <input type="submit" value="Inscrire">
+    </form>
+</body>

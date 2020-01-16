@@ -18,36 +18,62 @@ This module is used to manage sessions and authentications
 */
 'use strict';
 
+const daos = require('./dao');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-// const dao = require('./dao.js');
-// const bcrypt = require('bcrypt');
-// const saltRounds = 11;
+
+// BCrypt module
+const bcrypt = require('bcrypt');
+const saltRounds = 11;
+
 
 // LocalStrategy = stockage des identifiants et mots de passe
-passport.use(new LocalStrategy({
-    usernameField: 'username',
-    passwordField: 'password'
-},
-function (username, password, cb) {
+passport.use(new LocalStrategy(
+    function (username, password, cb) {
     // On récupère les information (mot de passe) de l'utilisateur passé en paramètre
+        const daoAdmin = new daos.DAOAdmins(hash(username), () => {
+            daoAdmin.findByName(username)
+                .then(
+                    user => {
+                        daoAdmin.closeConnexion();
+                        // Utilisateur pas dans la base de données
+                        if (!user) 
+                            cb(null, false);
+                    
+                        // Utilisateur dans la base de données et mot de passe ok
+                        else {
+                            bcrypt.compare(password, user.password)
+                                .then(function (res) {
+                                    if (!res) 
+                                        cb(null, false);
+                                    else 
+                                        cb(null, user);
+                                })
+                                .catch(err => {
+                                    console.log(err);
+                                    cb(null, false);
+                                });
+                        }
+                    },
+                ).catch(cb);
+        });
 
     /* TODO : utiliser cb :
      * cb(null, false) ou cb(err) en cas de mauvais auth ou d'erreur
      * cb(null, user) en cas d'auth réussie
      */
-}));
+    }));
 
 // Stocke les données de l'utilisation dans le cookie de session
 passport.serializeUser(function (user, cb) {
-    console.log('serializeUser ', JSON.stringify(user));
-    cb(null, user);
+    //console.log('serializeUser ', JSON.stringify(user));
+    cb(null, JSON.stringify(user)); //TODO: Handle serialization
 });
 
 // Récupère les données de l'utilisateur depuis le cookie de session
 passport.deserializeUser(function (user, cb) {
-    console.log('deserializeUser ' + JSON.stringify(user));
-    cb(null, user);
+    //console.log('deserializeUser ' + JSON.stringify(user));
+    cb(null, JSON.parse(user)); //TODO: Handle deserialization
 });
 
 module.exports = function (app) {
@@ -63,3 +89,10 @@ module.exports = function (app) {
 
     return passport;
 };
+
+function hash (s) {
+    return s.split('').reduce( function (a, b) {
+        a = ( (a << 5) - a) + b.charCodeAt(0);
+        return a&a;
+    }, 0);              
+}

@@ -25,13 +25,20 @@ const DataGetter = require('./pageData');
 const express = require('express');
 const FormHandler = require('formidable');
 const path = require('path');
+const CredentialManager = require('./credentialsData');
+
+// BCrypt module
+const bcrypt = require('bcrypt');
+const saltRounds = 11;
 
 module.exports = (passport) => {
     const app = express();
 
     app.post(config.pathPostSurveyApi, function (req, res) {
         const daoUser = new daos.DAOUsers(req.sessionID, () => {
-            daoUser.insert(req.body).catch(err => console.error(err));
+            daoUser.insert(req.body)
+                .then(() => daoUser.closeConnexion())
+                .catch(err => console.error(err));
         });
 
         // TODO : envoyer le mail ici
@@ -64,7 +71,26 @@ module.exports = (passport) => {
         loadExcel(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
     });
 
+    app.post(config.pathPostLogin, function (req, res, next) {
+        return CredentialManager.credentialLogin(req, res, next, passport);
+    });
+
+    app.post(config.pathPostRegister, function (req, res) {
+        CredentialManager.credentialRegister(req, res);
+    });
+
+    app.post(config.pathPostUpdate, function (req, res) {
+        CredentialManager.credentialUpdate(req, res);
+    });
+
+    app.get(config.pathLogOut, function (req, res) {
+        req.logOut();
+        res.redirect(config.directoryPrefix + '/public/connexion/html/');
+    });
+
+
     return app;
+
 };
 
 function loadExcel (path, save, req, res) {

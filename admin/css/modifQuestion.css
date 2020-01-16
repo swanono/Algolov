@@ -1,0 +1,95 @@
+h1{
+    text-align: center;
+}
+
+li{display: inline-block;
+}
+
+label{
+    display:block;
+    float:left;
+    width:150px;
+}
+   
+
+.bouton {
+    padding: 6px 10px;
+	
+	background:#f5f5f5;
+	
+	border-radius: 2px;
+    border: 1px solid #ccc;
+    width: max-content;
+
+    cursor: pointer;
+
+	font: 15px bold;
+    text-decoration: none;
+    color:#555;
+    
+}
+input{
+    float: left;
+}
+#Qexist{
+    
+    width:30%;
+    height:500px;
+    margin-right:5%;
+    margin-left: 5%;
+    border: solid rgb(201, 199, 199);
+    padding:4%;
+    overflow-y: scroll;
+}
+
+
+#QuestionList{
+    text-align: center;
+}
+
+#formulaire{
+    
+    width: 30%;
+    height:500px;
+    margin-right:5%;
+    top:118px;
+    border: solid rgb(201, 199, 199);
+    padding:4%;
+    position: fixed;
+}
+
+
+form#ajoutQuest {
+    display: table;
+}
+
+div#ajoutQuest{
+    display: table-row;
+}
+
+label.ajoutQuest, input.ajoutQuest {
+    display: table-cell;
+    margin-bottom: 10px;
+}
+
+label.ajoutQuest {
+    padding-right: 10px;
+}
+
+
+#ValidationOrdreQuestionnaire{
+    left:30%;
+    position:relative;
+}
+
+#ValidationAjoutQuestion{
+    left:60%;
+    position:relative;
+}
+#Validation{
+    margin: 4%;
+    left: 40%;
+    display: block;
+    position: relative;
+
+}

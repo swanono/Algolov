@@ -23,7 +23,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AlgoLov - Admin</title>
 
-    <link rel="stylesheet" href="../css/admin.css"/>
+    <link rel="stylesheet" href="../css/modifQuestion.css"/>
     <script type="text/javascript" src="../js/Admin.js" ></script>
     <h1>Administration - Modifier le questionnaire</h1>
     <button id = "Admin" class="bouton"> <a href="../html/Admin.html">Retour </a></button>
@@ -35,73 +35,85 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
             <li id="Qexist">
                 <div id = QuestionList>
                     <h3 id="TitreQexist">Liste question(s) existante(s)</h3>
-                    <h5>Partie intro</h5>
-                    <!--recuperer question d'intro-->
-                    <h5>Partie Drag&Drop</h5>
-                    <!--recuperer question drag&drop-->
-                    <h5>Partie finale </h5>
+                    <div id="debut">
+                        <input type="checkbox"> Afficher une question par page </input>
+                        <h5>Partie intro</h5>
+                        <!--recuperer question introduction-->
+                        
+                    </div>
+                    
+                    <div id="fin">
+                        <input type="checkbox" checked> Afficher une question par page </input>
+                        <h5>Partie finale </h5>
                     <!--recuperer question final form-->
                     
-                    
-                    
-                </div>
-                    
+                    </div> 
+                </div>     
             </li>
+            
+           
             <li id = "FormulaireModifQuestion">
                 <div id=formulaire>
                     <form action ="" methode="get" id=ajoutQuest>
-                        <div id=ajoutQuest>
-                            <label for="1"class=ajoutQuest >
-                                Emplacement dans le formulaire
-                            </label>
-                            <input type="select" id=1 class=ajoutQuest required>
-                                <option>Intro</option>
-                                <option>Drag&Drop</option>
-                                <option>Fin</option>
-                            </input>
-                        </div>
-                        <div id=ajoutQuest >   
-                            <label for="2"class=ajoutQuest>
-                                numéro de question:
-                            </label>
-                            <input type="select" id="2"class=ajoutQuest required>
-                            <!-- recuperer nombre de question +1-->
-                            <!-- peut etre adapter a chaque differente partie (3 pour intro, N+1 pour drag&drop, M+1 pour final-->
-                        </div>
+                        <!--nom question ?-->
                         <div id=ajoutQuest>
                             <label for="3" class=ajoutQuest>
                                 Question :
                             </label>
                             <input type="text" for ="3" class=ajoutQuest required>
                         </div>
+                        <!--recuperer choisir où mettre la question intro ou fin-->
+                        <div id=ajoutQuest>
+                            <label for="1"class=ajoutQuest >
+                                Emplacement dans le formulaire
+                            </label>
+                            <select name="1" class="choixPos" required>
+                                <option value="Intro">Intro</option>
+                                <option value="QuestionnaireFinal">Questionnaire Finale</option>
+                                
+                            </select>
+                        </div>
+                        
+                        
+                        <!--ajouter réponse attendues à la question (au moins une) + type de la réponse-->
+                        <div id=ajoutQuest>
+                            <label for="10" class = ajoutQuest>
+                                Type de réponse
+                            </label>
+                        </div>
+                        <select name="1" class="choixPos" required>
+                            <option value="Texte à insérer">Texte à insérer</option>
+                            <option value="Liste déroulante">Liste déroulante</option>
+                            <option value = "chackbox">checkbox</option>
+                            
+                        </select>
                         <div id=ajoutQuest>
                             <label for="4" class=ajoutQuest>
-                                Si cette question n'appartient pas à la Partie 2, indiquez les réponses à proposer :
+                                Indiquez les réponses à proposer :
                             </label>
+                            <input type="checkbox" checked>
                             <input type="text" id="4" class=ajoutQuest>
-
-                        </div>
-                        <div id=ajoutQuest>
-                            <label for="5" class=ajoutQuest>
-                                Sinon, indiquez le thème des features associées
-                            </label>
-                            <input type="checkbox" checked>
-                            <input type="select" id="5" class=ajoutQuest>
-                            <input type="checkbox" checked>
-                            <input type="text" id="5" class=ajoutQuest> Other</input>
-
+                            <input type="checkbox">
+                            <input type="text" id="4" disabled class=ajoutQuest,>
 
                         </div>
                         
+                        
                     </div>
                 </form>
-                <button id = "Validation" class="bouton" type= "submit"> <a href="../html/Admin.html">Valider </a></button>
+
+                
+               
         
                 
                 
             </li>
     
         </ol>
+
+        <button id = "ValidationOrdreQuestionnaire" class="bouton" type= "submit">Valider organisation du questionnaire</button> 
+        <button id = "ValidationAjoutQuestion" class="bouton" type= "submit">Valider ajout de cette question</button>      
+        <button id = "Validation" class="bouton" type= "submit"> <a href="../html/Admin.html">Valider les modifications </a></button>
 
     </body>
 </html>
