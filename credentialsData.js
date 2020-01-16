@@ -82,8 +82,8 @@ class CredentialManager {
         console.log(saltRounds);
         const daoAdmin = new daos.DAOAdmins(req.sessionID, () => {
             bcrypt.compare(req.body.exPassword, req.user.password)
-                .then( res => {
-                    if (res) {
+                .then( result => {
+                    if (result) {
                         bcrypt.hash(req.body.password, saltRounds)
                             .then( newPsw => {
                                 daoAdmin.updatePasswordByName(req.user.username, newPsw)

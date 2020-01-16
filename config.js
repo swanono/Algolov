@@ -45,6 +45,7 @@ module.exports = {
     pathPostLogin : '/user/login',
     pathPostRegister : '/admin/register',
     pathPostUpdate : '/admin/update',
+    pathLogOut : '/admin/logout',
     excelSheetNames: { descript: 'Descriptions', types: 'Types', features: 'Features' },
     blocLegends: {
         3: ['pas apprécié du tout', 'indifférent', 'très apprécié'],

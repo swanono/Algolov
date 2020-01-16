@@ -80,6 +80,11 @@ module.exports = (passport) => {
     app.post(config.pathPostUpdate, function (req, res) {
         CredentialManager.credentialUpdate(req, res);
     });
+
+    app.get(config.pathLogOut, function (req, res) {
+        req.logOut();
+        res.redirect(config.directoryPrefix + '/public/connexion/html/');
+    });
     
     
     return app;
