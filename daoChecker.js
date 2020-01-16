@@ -73,7 +73,7 @@ const userSchema = JsonValidator.object({
 });
 
 const adminSchema = JsonValidator.object({
-    name: JsonValidator.string(),
+    username: JsonValidator.string(),
     email: JsonValidator.string().email(),
     password: JsonValidator.string()
 });

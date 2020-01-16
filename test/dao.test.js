@@ -68,7 +68,7 @@ describe('Tests on DAO Admins', () => {
     });
 
     test('Successful find of an admin', async () => {
-        const tested = await dao.insert(consts.adminFind); // tested.ops[0]
-        return expect(dao.findByName(consts.adminFind.name)).resolves.toEqual(consts.adminFind);
+        const tested = await dao.insert(consts.adminFind);
+        return expect(dao.findByName(consts.adminFind.username)).resolves.toEqual(tested.ops[0]);
     });
 });
