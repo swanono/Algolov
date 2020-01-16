@@ -8,6 +8,7 @@
   ],
   "license": "GPLv3",
   "dependencies": {
+    "@hapi/joi": "^17.0.2",
     "@shopify/draggable": "^v1.0.0-beta.8",
     "bcrypt": "3.0.6",
     "body-parser": "^1.19.0",

@@ -134,10 +134,7 @@ class DAOUsers extends DAO {
                         ' in ' + self.collectionName);
                     resolve(result);
                 })
-                .catch(err => {
-                    console.error(err);
-                    reject(err);
-                });
+                .catch(err => reject(err));
         });
     }
 
@@ -151,10 +148,7 @@ class DAOUsers extends DAO {
                         ' in ' + self.collectionName);
                     resolve(result);
                 })
-                .catch(err => {
-                    console.error(err);
-                    reject(err);
-                });
+                .catch(err => reject(err));
         });
     }
 }
@@ -180,10 +174,7 @@ class DAOAdmins extends DAO {
                         ' in ' + self.collectionName);
                     resolve(result);
                 })
-                .catch(err => {
-                    console.error(err);
-                    reject(err);
-                });
+                .catch(err => reject(err));
         });
     }
 
@@ -230,10 +221,7 @@ class DAOAdmins extends DAO {
                     console.log(self.logId + 'Found 1 item in ' + self.collectionName);
                     resolve(result);
                 })
-                .catch(err => {
-                    console.error(err);
-                    reject(err);
-                });
+                .catch(err => reject(err));
         });
     }
 }

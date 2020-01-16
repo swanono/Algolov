@@ -156,9 +156,13 @@ class TraceStorage {
                 json += ', ';
         });
 
-        json += ']';
+        json += '],';
+        
+        json += '"terminated": ' + sessionStorage.getItem('terminated');
 
         json += ' }';
+
+        console.log(json);
 
         return json;
     }

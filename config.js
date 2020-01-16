@@ -33,7 +33,7 @@ module.exports = {
     directoryPrefix: _directoryPrefix,
     pathPostSurveyApi: '/survey',
     dbUrl: 'mongodb://localhost:' + _dbPort + '/',
-    dbName: 'db-algolov',
+    dbName: 'db_algolov',
     adminIdRegex: /[A-Za-z0-9-_]{3,}/,
     adminEmailRegex: /^[A-Za-z0-9._%+-]+@[a-z0-9-]+\\.[a-z]{2,}$/,
     adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})$/,
@@ -53,6 +53,6 @@ module.exports = {
         7: ['pas apprécié du tout', 'pas apprécié', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'apprécié', 'très apprécié']
     },
     queryBasicStats: {
-        
+        terminated: null
     }
 };

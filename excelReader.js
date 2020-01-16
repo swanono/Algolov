@@ -235,6 +235,7 @@ class ExcelReader {
             count = '' + (parseInt(count) + 1);
             fileName = fileName.substring(0, fileName.length - prevLen - ext.length) + count + ext;
         }
+        this.name = Path.basename(fileName);
         XLSX.writeFile(this.workbook, fileName);
     }
 

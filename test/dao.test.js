@@ -19,6 +19,8 @@ This module is used to launch unit tests with jest on the dao functions
 'use strict';
 
 const daos = require('../dao');
+const config = require('../config');
+const consts = require('./consts');
 
 describe('Test DAO Users Connexion', () => {
     let daoUsers;
@@ -26,7 +28,7 @@ describe('Test DAO Users Connexion', () => {
     beforeAll(async done => { daoUsers = new daos.DAOUsers(1, done, process.env.MONGO_URL); });
 
     test('DAO Users Connexion', () => {
-        expect(daoUsers.database.databaseName).toEqual('db-algolov');
+        expect(daoUsers.database.databaseName).toEqual(config.dbName);
         expect(daoUsers.sessionId).toEqual(1);
     });
 });
@@ -37,7 +39,7 @@ describe('Test DAO Admins Connexion', () => {
     beforeAll(async done => { daoAdmins = new daos.DAOAdmins(1, done, process.env.MONGO_URL); });
 
     test('DAO Users Connexion', () => {
-        expect(daoAdmins.database.databaseName).toEqual('db-algolov');
+        expect(daoAdmins.database.databaseName).toEqual(config.dbName);
         expect(daoAdmins.sessionId).toEqual(1);
     });
 });
@@ -50,7 +52,7 @@ describe('Tests on DAO Users', () => {
     afterEach(() => dao.closeConnexion());
 
     test('Successful insertion of one user', () => {
-        return expect(dao.insert({ name: 'test user', question: [1, 2, 3] })).resolves.toHaveProperty('insertedCount', 1);
+        return expect(dao.insert(consts.userInsert)).resolves.toHaveProperty('insertedCount', 1);
     });
 });
 
@@ -62,12 +64,11 @@ describe('Tests on DAO Admins', () => {
     afterEach(() => dao.closeConnexion());
     
     test('Successful insertion of one admin', () => {
-        return expect(dao.insert({ username: 'test admin', email: 'ulysse.guyon@gmail.com', password: 'TestTest123'})).resolves.toHaveProperty('insertedCount', 1);
+        return expect(dao.insert(consts.adminInsert)).resolves.toHaveProperty('insertedCount', 1);
     });
 
     test('Successful find of an admin', async () => {
-        const tested = { username: 'Test', email: 'ulysse.guyon@gmail.com', password: 'TestTest123' };
-        await dao.insert(tested);
-        return expect(dao.findByName(tested.username)).resolves.toEqual(tested);
+        const tested = await dao.insert(consts.adminFind); // tested.ops[0]
+        return expect(dao.findByName(consts.adminFind.name)).resolves.toEqual(consts.adminFind);
     });
 });
