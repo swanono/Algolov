@@ -76,13 +76,32 @@ h3 {
     margin: 0.5em;
 }
 
-.buttonAdmin {
-    float: right;
-    margin-right: 0.5em;
+#alert-message {
+    text-align: center;
+    margin: 1em;
+    border-radius: 15%;
+    font: bold;
+}
+.stop-fade-out {
+    visibility: visible;
+    opacity: 1;
+}
+.fade-out-message {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 5s, opacity 5s ease-in;
+}
+.success {
+    color: green;
+}
+.error {
+    color: red;
 }
 
 .retour {
-    float: left;
+    position: absolute;
+    left: 1em;
+    top: 1em;
 }
 
 .bouton {
@@ -147,76 +166,25 @@ h3 {
 
 
 
-
-/*sidebar*/
-#volet {
-    width: 250px;
-    height: 1000px;
-	padding: 10px;
-    background: lightgrey;
-    color: #fff;	
-    position: fixed;
-    left: -260px;
-    top: 0px;
-    z-index: 2;
-
-    -webkit-transition: all .5s ease-in;
-	transition: all .5s ease-in;
-}
-#volet * {
-    color: black;
-}
-#volet a.ouvrir {
-    padding: 10px 25px;
-	background: #555;
-	color: white;
-    text-decoration: none;
-    position: absolute;
-	right: -88px;
-    top: 150px;
-    -ms-transform: rotate(270deg);
-	-moz-transform: rotate(270deg);
-	-webkit-transform: rotate(270deg);
-	transform: rotate(270deg);
-
-	border-radius: 0 0 8px 8px;
+form#ajoutQuest {
+    display: table;
 }
 
-#volet:target {
-	left: 0;
+div#ajoutQuest{
+    display: table-row;
 }
 
-#volet_clos:target #volet {
-    left: -270px;
+label.ajoutQuest, input.ajoutQuest {
+    display: table-cell;
+    margin-bottom: 10px;
 }
 
+label.ajoutQuest {
+    padding-right: 10px;
+}
 
-#volet a.fermer {
-    display: none;
-    background-color: grey;
-    color:white;
+#formulaire{
+    border: solid grey 1px;
+    padding: 1em;
     text-align: center;
 }
-
-#volet:target a.ouvrir {
-	display: none;
-}
-#volet:target a.fermer {
-	display: block;
-}
-
-#tab-stats {
-    border-collapse: collapse;
-    width: 100%;
-    margin-bottom: 1em;
-}
-#tab-stats * {
-    text-align: center;
-    border: black 1px solid;
-}
-#tab-stats thead {
-    font-size: large;
-    font-weight: bold;
-}
-
-/* fin sidebar*/

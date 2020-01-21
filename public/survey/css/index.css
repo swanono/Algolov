@@ -26,11 +26,12 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 }
 
 body {
-    max-width: 1920px;
+    margin: auto;
+    width: 98%;
 }
 
 .presdiv {
-    padding-top: 150px;
+    padding-top: 100px;
     text-align: left;
 }
 
@@ -66,14 +67,15 @@ th, td {
     background-color: gray;
     max-height: 100%;
     max-width: 100%;
+    padding: 0.1em;
 }
 
 .nested-item {
     border: 1px solid;
-    width: 15vw;
-    height: 100px;
+    /*width: 15vw;
+    height: 100px;*/
     padding: 10px;
-    font-size: 1.2em;
+    font-size: 0.8em;
     box-shadow: 4px 4px 2px #888888;
     border-radius: 25px;
     background-color: white;
@@ -85,8 +87,8 @@ th, td {
 .nestable {
     border: 1px solid;
     text-align: center;
-    min-width: 130px;
-    min-height: 90px;
+    min-width: 8vw;
+    min-height: 10vh;
     height: 100%;
     border-radius: 15px;
     margin: 1px;
@@ -101,7 +103,6 @@ button {
 
 /*position bouton continuer*/
 #continuebutton {
-
     display: block;
     position: relative;
     margin-left: auto;
@@ -114,16 +115,25 @@ button {
 fieldset {
     border: 0;
     margin: 0px;
-    position:relative;
+    position: relative;
     margin-left: 10px; 
     margin-bottom: 50px;
- }
-
- input+label{
-    display: inline-flex;
-   
-    
 }
+
+.divQuest {
+    display: inline-block;
+}
+
+
+[type="text"] + label {
+    position: relative;
+	padding-left: 1.2em;
+	font-size: 1.05em;
+	line-height: 1.7;
+    top: -4px;
+    display: inline-flex;
+}
+
 
 /*radio bouton*/
 [type="radio"]:not(:checked) + label,
@@ -139,145 +149,120 @@ fieldset {
 /*checkbox*/
 [type="checkbox"]:not(:checked) + label,
 [type="checkbox"]:checked + label {
-	position: relative; 
+	position: relative;
+	padding-left: 1.2em;
 	font-size: 1.05em; 
     line-height: 1.7;
     display: inline-flex;
     top: -14.5px;
-    
 }
 
- #idQuest_1{
-     text-align:center;
- }
-
- #idQuest_2{
-    text-align:center;
+#idQuest_1 {
+    text-align: center;
 }
-#idInput_1_1+label{
+
+#idQuest_2 {
+    text-align: center;
+}
+#idInput_1_1 + label{
     display: inline-block;
     margin: 20px;
-    position:relative;
+    position: relative;
     margin-left: 0px; 
     margin-bottom: 10px;
     text-align: center;
     margin-right: 30px;
-  
-
 }
-#idInput_1_1{
-    top: -4px ;
-    text-align: center;
-    vertical-align: top;
-    /*margin:0px;*/
-}
-#idInput_1_2+label{
-    display: inline-block;
-    margin: 20px;
-    position:relative;
-    margin-left: 0px; 
-    margin-bottom: 10px;
-    text-align: center;
-    margin-right: 30px;
-    
-  
-
-}
-#idInput_1_2{
+#idInput_1_1 {
     top: -4px ;
     text-align: center;
     vertical-align: top;
 }
-#idInput_2_1+label{
+#idInput_1_2+label {
     display: inline-block;
     margin: 20px;
-    position:relative;
+    position: relative;
     margin-left: 0px; 
     margin-bottom: 10px;
     text-align: center;
     margin-right: 30px;
-    
 }
-#idInput_2_1{
+#idInput_1_2 {
+    top: -4px;
+    text-align: center;
+    vertical-align: top;
+}
+
+#idInput_2_1 + label {
+    display: inline-block;
+    margin: 20px;
+    position: relative;
+    margin-left: 0px; 
+    margin-bottom: 10px;
+    text-align: center;
+    margin-right: 30px;
+}
+#idInput_2_1 {
     top: -4px ;
     text-align: center;
     vertical-align: top;
 }
-#idInput_2_2+label{
+#idInput_2_2 + label {
     display: inline-block;
     margin: 20px;
-    position:relative;
+    position: relative;
     margin-left: 0px; 
     margin-bottom: 10px;
     text-align: center;
     margin-right: 30px;
 }
-#idInput_2_2{
+#idInput_2_2 {
     top: -4px ;
     text-align: center;
     vertical-align: top;
 }
 
 .classInput_3-container {
-    height:100vh;
+    height: 100vh;
     -webkit-column-count: 4;
-    -moz-column-count:4;
+    -moz-column-count: 4;
     column-count: 4;
 }
-
-
-/*.classInput_3-container {
-    height:100vh;
-    -webkit-column-count: 4;
-    -moz-column-count:4;
-    column-count: 4;
-}*/
-
 
 label[for=acceptButton] {
     position:relative;
-    
     text-align: center;
     margin-left: 40%;
     margin-right: auto;
-
 }
 
-input[name=acceptButton]{
-    margin-left:auto;
-    margin-right:10%;
-    position:relative;
-    width:20px;
-    left:0%;
-    top:20px;
-
+input[name=acceptButton] {
+    margin-left: auto;
+    margin-right: 10%;
+    position: relative;
+    width: 20px;
+    left: 0%;
+    top: 20px;
 }
-
-
-
 
 input {
-
-padding: 0;
-margin:0;
-vertical-align: bottom;
-position: relative;
-top: 10px;
-margin-bottom: 20px;
+    padding: 0;
+    margin: 0;
+    vertical-align: bottom;
+    position: relative;
+    top: 10px;
+    margin-bottom: 20px;
 }
 
-
-
-[type = "checkbox"]{
-    
+[type="checkbox"] {
     display: inline-block;
-    left:20%;
-    width:50%;
-    top:-3px;
-    
+    top: -3px;
 }
 
-.classInput4.label{
+.classInput4.label {
     display: block;
 }
 
+.heading_txt {
+    font-size: 1.5em;
+}

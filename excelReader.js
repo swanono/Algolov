@@ -48,6 +48,15 @@ class ExcelReader {
         this.newConfig.descriptions = [];
         this.newConfig.beginQCM = [];
         for (let row = range.s.r + 1; row <= range.e.r; row++) {
+            const validTypes = ExcelReader._detectInvalidTypes(this.descSheet, row, [
+                {num: 0, functorBool: isString},
+                {num: 1, functorBool: isString},
+                {num: 2, functorBool: isString},
+                {num: 3, functorBool: isString},
+                {num: 4, functorBool: isString}
+            ]);
+            if (!validTypes)
+                continue;
             const newDesc = {};
 
             newDesc.name = this.descSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].v.trim();
@@ -83,6 +92,14 @@ class ExcelReader {
 
         this.newConfig.blocThemes = [];
         for (let row = range.s.r + 1; row <= range.e.r; row++) {
+            const validTypes = ExcelReader._detectInvalidTypes(this.descSheet, row, [
+                {num: 0, functorBool: isString},
+                {num: 1, functorBool: (num) => !isNaN(num)},
+                {num: 2, functorBool: isString}
+            ]);
+            if (!validTypes)
+                continue;
+
             const newBloc = {};
 
             newBloc.blocId = row - range.s.r;
@@ -118,6 +135,14 @@ class ExcelReader {
 
         this.newConfig.features = [];
         for (let row = range.s.r + 1; row <= range.e.r; row++) {
+            const validTypes = ExcelReader._detectInvalidTypes(this.descSheet, row, [
+                {num: 0, functorBool: isString},
+                {num: 1, functorBool: isString},
+                {num: 2, functorBool: isString}
+            ]);
+            if (!validTypes)
+                continue;
+
             const feature = {};
 
             feature.id = row - range.s.r;
@@ -126,6 +151,14 @@ class ExcelReader {
             feature.type = this.featSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v.trim();
             feature.combin = [];
             for (let col = 2; col <= range.e.c; col++) {
+                const validTypes2 = ExcelReader._detectInvalidTypes(this.descSheet, 0, [
+                    {num: col, functorBool: isString}
+                ]) && ExcelReader._detectInvalidTypes(this.descSheet, row, [
+                    {num: col, functorBool: isString}
+                ]);
+                if (!validTypes2)
+                    continue;
+
                 const newCombin = {};
                 newCombin.descName = this.featSheet[XLSX.utils.encode_cell({ r: 0, c: col })].v.trim();
 
@@ -143,6 +176,30 @@ class ExcelReader {
 
             this.newConfig.features.push(feature);
         }
+    }
+
+    static _detectInvalidTypes (sheet, row, arrayCol) {
+        /**
+         arryCol = [{num, functorBool}, ...]
+        */
+        return true;
+        /*let isValid = true;
+        arrayCol.forEach((colObj) => {
+            const slot = sheet[XLSX.utils.encode_cell({ r: row, c: colObj.num })];
+            if (!slot) {
+                isValid = false;
+                return;
+            }
+            const value = sheet[XLSX.utils.encode_cell({ r: row, c: colObj.num })].v;
+            if (colObj.functorBool) {
+                if (!value || !colObj.functorBool(value))
+                    isValid = false;
+            } else {
+                if (!value)
+                    isValid = false;
+            }
+        });
+        return isValid;*/
     }
 
     validate () {
@@ -171,6 +228,7 @@ class ExcelReader {
         });
 
         const finalCount = featureCount[0].count;
+        this.newConfig.nbFeaturePerBloc = finalCount;
         const hasSameNbFeature = featureCount.reduce((perviousRes, count) => perviousRes && count.count === finalCount, true);
         if (!hasSameNbFeature)
             this.xlsErrors.push('Il n\'y a pas le même nombre de features entre chaque combinatoire');
@@ -201,6 +259,8 @@ class ExcelReader {
 
         config.surveyConfiguration.descNames = this.newConfig.descriptions;
         config.surveyConfiguration.blocThemes = this.newConfig.blocThemes;
+        config.surveyConfiguration.nbBlocPerDesc = this.newConfig.blocThemes.length;
+        config.surveyConfiguration.nbFeaturePerBloc = this.newConfig.nbFeaturePerBloc;
         config.features = this.newConfig.features;
 
         let count = 1;
@@ -233,6 +293,7 @@ class ExcelReader {
             count = '' + (parseInt(count) + 1);
             fileName = fileName.substring(0, fileName.length - prevLen - ext.length) + count + ext;
         }
+        this.name = Path.basename(fileName);
         XLSX.writeFile(this.workbook, fileName);
     }
 

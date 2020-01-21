@@ -21,17 +21,25 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AlgoLov</title>
+    <title>AlgoLov - Admin</title>
 
-    <script type="text/javascript" src="../js/Globals.js" ></script>
-    <script type="text/javascript" src="../js/TraceStorage.js" ></script>
-    <script type="text/javascript" src="../js/DOMGenerator.js" ></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/draggable.bundle.js" ></script>
-
-    <link rel="stylesheet" href="../css/index.css"/>
+    <link rel="stylesheet" href="../css/register.css"/>
+    
 </head>
-    <body onload="start()" onmousemove="TraceStorage.storeMousePositionData(event);" onscroll="TraceStorage.storeScrollingData(event);" onclick="TraceStorage.storeMouseClickData(event);">
-        <div id="main"></div>
-    </body>
-</html>
+<body>
+    <h1>Modifier son mot de passe :</h1>
+    <a id="buttonReturn" class="bouton" href="./Admin.html">
+        Retour
+    </a>
+    <form method="POST" action="/api/admin/update">
+        <div id="Name">
+            <label for="exPassword">Ancien mot de passe</label>
+            <input id="exPassword" name="exPassword" type="password" placeholder="Ancien mot de passe" required autofocus/>
+        </div>
+        <div id="Password">
+            <label for="password">Nouveau mot de passe</label>
+            <input id="password" name="password" type="password" placeholder="Nouveau mot de passe" required/>
+        </div>
+        <input type="submit" value="Modifier">
+    </form>
+</body>
