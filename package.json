@@ -31,7 +31,7 @@
   "scripts": {
     "start": "npm run deleteAdmin && npm run addAdmin && nodemon index.js",
     "servInst": "npm install --production",
-    "servStart": "node index.js",
+    "servStart": "npm run deleteAdmin && npm run addAdmin && node index.js",
     "lintjs": "./node_modules/.bin/eslint ./",
     "lintcss": "./node_modules/.bin/stylelint **/*.css",
     "linthtml": "./node_modules/.bin/html-linter --config .htmllinterrc.json",
