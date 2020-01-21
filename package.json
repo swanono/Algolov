@@ -30,7 +30,7 @@
     "xlsx": "^0.15.4"
   },
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "npm run deleteAdmin && npm run addAdmin && nodemon index.js",
     "servInst": "npm install --production",
     "lintjs": "./node_modules/.bin/eslint ./",
     "lintcss": "./node_modules/.bin/stylelint **/*.css",
