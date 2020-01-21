@@ -20,7 +20,6 @@ This module is used to launch unit tests with jest on the dao functions
 
 const config = require('../config');
 const daos = require('../dao');
-const config = require('../config');
 const consts = require('./consts');
 
 describe('Test DAO Users Connexion', () => {
