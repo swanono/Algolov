@@ -38,15 +38,20 @@ module.exports = {
     dbPort: _dbPort,
     directoryPrefix: _directoryPrefix,
     pathPostSurveyApi: '/survey',
-    pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
     dbUrl: _mongoURL,
     dbName: 'db_algolov',
     adminIdRegex: /[A-Za-z0-9-_]{3,}/,
-    adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})/,
+    adminEmailRegex: /^[A-Za-z0-9._%+-]+@[a-z0-9-]+\\.[a-z]{2,}$/,
+    adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})$/,
     pathPostChangeFeatures: '/admin/changeFeatures',
     pathGetHistoricFeatures: '/admin/historicFeatures',
     pathGetBasicStats: '/admin/basicStats',
     pathPostSelectFeatures: '/admin/selectFeatures',
+    pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
+    pathPostLogin : '/user/login',
+    pathPostRegister : '/admin/register',
+    pathPostUpdate : '/admin/update',
+    pathLogOut : '/admin/logout',
     excelSheetNames: { descript: 'Descriptions', types: 'Types', features: 'Features' },
     blocLegends: {
         3: ['pas apprécié du tout', 'indifférent', 'très apprécié'],
@@ -54,6 +59,6 @@ module.exports = {
         7: ['pas apprécié du tout', 'pas apprécié', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'apprécié', 'très apprécié']
     },
     queryBasicStats: {
-        
+        terminated: null
     }
 };

@@ -31,10 +31,12 @@ class DOMGenerator {
         const surveyConfig = window.config.surveyConfiguration;
         const descConfig = surveyConfig.descNames[Math.floor(blocState / surveyConfig.nbBlocPerDesc)];
         window.currentDescription = descConfig.name;
+        TraceStorage.storeNextStepEvent(window.state, 'desc_' + descConfig.name);
         DOMGenerator.generateStepPage(descConfig.presentation, 'Commencer', () => DOMGenerator.loadBloc());
     }
 
     static loadBloc () {
+        TraceStorage.storeNextStepEvent(window.state);
         const statesBeforeBloc = window.config.surveyConfiguration.nbStatesBeforeBloc;
         const blocState = window.state - statesBeforeBloc;
         const surveyConfig = window.config.surveyConfiguration;
@@ -86,6 +88,7 @@ class DOMGenerator {
             }
         });
 
+        window.blocCards = [];
         DOMGenerator.loadCards(usedFeatures);
 
         const stopButton = document.createElement('button');
@@ -93,6 +96,7 @@ class DOMGenerator {
         stopButton.appendChild(document.createTextNode('Arrêter le questionnaire'));
         stopButton.addEventListener('click', () => {
             TraceStorage.saveSortedBloc();
+            TraceStorage.appendToStorage('terminated', 'true');
             window.state = window.config.surveyConfiguration.descNames.length *
                             window.config.surveyConfiguration.nbBlocPerDesc +
                             window.config.surveyConfiguration.nbStatesBeforeBloc;
@@ -115,7 +119,7 @@ class DOMGenerator {
         const ranksRow = scale.insertRow(2);
         const containerRow = scale.insertRow(3);
 
-        headerRow.setAttribute('class', 'heading');
+        headerRow.setAttribute('class', 'heading_txt');
         scaleTextRow.setAttribute('class', 'heading');
 
         // insertion of the main text of the bloc in the header row
@@ -167,11 +171,48 @@ class DOMGenerator {
         parentNode.appendChild(container);
     }
 
+    static _saveOriginalScale () {
+        const bodyWidthPercentage = 98 / 100;
+        const rankMarginPaddin = 10;
+        const widthAdditionnalOffset = 55;
+        const cardHeightPartRank = 8;
+        const cardHeightPartOrigin = 6;
+        const nbRanks = document.getElementsByClassName('rank').length;
+        window.originalScale.maxInRankWidth = parseInt(((window.innerWidth * bodyWidthPercentage) - (rankMarginPaddin * nbRanks)) / nbRanks - widthAdditionnalOffset);
+        window.originalScale.maxInRankHeight = parseInt(window.innerHeight / cardHeightPartRank);
+        window.originalScale.originalWidth = parseInt(1.6 * window.innerWidth / window.config.surveyConfiguration.nbFeaturePerBloc);
+        window.originalScale.originalHeight = parseInt(window.innerHeight / cardHeightPartOrigin);
+        window.originalScale.fontSize = 1;
+        window.originalScale.minScaleTransition = window.originalScale.maxInRankWidth / window.originalScale.originalWidth;
+    }
+
+    static _applyScaleOnCard (card, scale = 1) {
+        card.style.width = Math.floor(window.originalScale.originalWidth * scale) + 'px';
+        card.style.height = Math.floor(window.originalScale.originalHeight * scale) + 'px';
+        card.style.fontSize = window.originalScale.fontSize * (scale + 1)/2 + 'em';
+        card.setAttribute(window.consts.CURRENT_CARD_SCALE, scale);
+    }
+    static _scalingAnimation (element, start, end, interval, duration) {
+        const speed = 1;
+        let acc = start;
+        const step = speed * (end - start) * interval / duration; 
+        const id = setInterval(() => {
+            acc += step;
+            if (acc >= end && step > 0 || acc <= end && step < 0 || step === 0) {
+                clearInterval(id);
+                acc = end;
+            }
+            DOMGenerator._applyScaleOnCard(element, acc);
+        }, speed * interval);
+    }
+
     static loadCards (features) {
         // class nested-item => is a card inside a container
         features = shuffleArray(features);
 
         const initCont = document.getElementById('initial_container');
+
+        DOMGenerator._saveOriginalScale();
 
         for (const feat of features) {
             const newCard = document.createElement('div');
@@ -179,10 +220,14 @@ class DOMGenerator {
             newCard.setAttribute('class', 'nested-item feature-card');
             newCard.setAttribute('location', initCont.getAttribute('id'));
 
+            DOMGenerator._applyScaleOnCard(newCard);
+
             if (feat.content === 'text')
                 newCard.appendChild(document.createTextNode(feat.data));
 
             initCont.appendChild(newCard);
+
+            window.blocCards.push(newCard);
         }
     }
 
@@ -230,8 +275,9 @@ class DOMGenerator {
 
         let usedFunctor = functor;
 
+        let questId = 'all';
         if (isFragmented) {
-            const questId = window.fragmentedQuestions.pop();
+            questId = window.fragmentedQuestions.pop();
             const quest = qcmArray.find((question) => question.id === questId);
             DOMGenerator._createQuestion(quest, form);
 
@@ -263,11 +309,16 @@ class DOMGenerator {
             DOMGenerator.loadContinueButton(buttontext, () => {});
         }
 
+        const realUsedFunctor = () => {
+            TraceStorage.storeNextStepEvent(window.state, 'quest_' + questId);
+            usedFunctor();
+        };
+
         document.getElementById(window.consts.CONTINUE_BUTTON_ID).setAttribute('type', 'submit');
         document.getElementById(window.consts.CONTINUE_BUTTON_ID).setAttribute('form', 'form-id');
         form.onsubmit = (event) => {
             event.preventDefault();
-            TraceStorage.saveForm(form, descQuest, usedFunctor);
+            TraceStorage.saveForm(form, descQuest, realUsedFunctor);
         };
 
         // This button is made to prevent user to validate the form by hitting enter, witch causes bugs
@@ -320,7 +371,12 @@ class DOMGenerator {
         textInput.setAttribute('name', textInput.getAttribute('class'));
         textInput.setAttribute('pattern', question.format);
         textInput.setAttribute('required', 'true');
-
+        textInput.addEventListener('focus', (event) => {
+            TraceStorage.storeFocusEvent(event);
+        });
+        textInput.addEventListener('keypress', (event) => {
+            TraceStorage.storeKeyEvent(event);
+        });
         return textInput;
     }
 
@@ -334,9 +390,12 @@ class DOMGenerator {
             input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
             input.setAttribute('value', input.getAttribute('id'));
             input.setAttribute('name', input.getAttribute('class'));
+            input.addEventListener('change', (event) => {
+                TraceStorage.storeOnChangeChoiceEvent(event);
+            });
+
             if(question.type !== 'checkbox')
                 input.setAttribute('required', 'true');
-
             if (question.descName) {
                 input.setAttribute('descName', question.descName);
                 input.setAttribute('descValue', choice.descValue);
@@ -348,6 +407,8 @@ class DOMGenerator {
 
             const containerDiv = document.createElement('div');
             containerDiv.setAttribute('id', window.consts.INPUT_DIV_ID + question.id + '_' + choice.choiceId);
+            if (window.state === 3)
+                containerDiv.setAttribute('class', 'divQuest');
             containerDiv.appendChild(input);
             containerDiv.appendChild(label);
 
@@ -361,14 +422,25 @@ class DOMGenerator {
             input.setAttribute('id', window.consts.INPUT_ID + question.id + '_' + idText);
             input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
             input.setAttribute('name', input.getAttribute('class'));
-
-            htmlTags.push(input);
+            input.addEventListener('focus', (event) => {
+                TraceStorage.storeFocusEvent(event);
+            });
+            input.addEventListener('keypress', (event) => {
+                TraceStorage.storeKeyEvent(event);
+            });
 
             const label = document.createElement('label');
             label.setAttribute('for', input.getAttribute('id'));
             label.appendChild(document.createTextNode('Autre'));
 
-            htmlTags.push(label);
+            const containerDiv = document.createElement('div');
+            containerDiv.setAttribute('id', window.consts.INPUT_DIV_ID + question.id + '_' + idText);
+            if (window.state === 3)
+                containerDiv.setAttribute('class', 'divQuest');
+            containerDiv.appendChild(input);
+            containerDiv.appendChild(label);
+            
+            htmlTags.push(containerDiv);
         }
 
         return htmlTags;
@@ -405,6 +477,7 @@ class DOMGenerator {
         
         main = document.createElement('div');
         main.id = 'main';
+        
         document.body.appendChild(main);
         return main;
     }
@@ -418,8 +491,13 @@ class DOMGenerator {
         const acceptButton = document.createElement('input');
         acceptButton.setAttribute('type', 'checkbox');
         acceptButton.setAttribute('name', 'acceptButton');
+        acceptButton.setAttribute('id', 'acceptButton');
+        acceptButton.setAttribute('value', 'rgpd_accept');
+        acceptButton.addEventListener('change', (event) => {
+            TraceStorage.storeOnChangeChoiceEvent(event);
+        });
 
-        label.innerHTML = checkboxText;
+        label.appendChild(document.createTextNode(checkboxText));
         label.setAttribute('for', 'acceptButton');
         divInput.appendChild(label);
         divInput.appendChild(acceptButton);
@@ -499,12 +577,10 @@ class DOMGenerator {
     }
 
     static _checkAllsorted () {
-        const cards = document.getElementsByClassName('feature-card');
 
         let isComplete = true;
-        for (const card of cards) {
-            if (!card.parentElement.getAttribute('class').includes(window.consts.RANK_CLASS) &&
-                !(card.getAttribute('class').includes('draggable--original') || card.getAttribute('class').includes('draggable-mirror')))
+        for (const card of window.blocCards) {
+            if (!card.getAttribute('location').includes(window.consts.RANK_CONTAINER_ID))
                 isComplete = false;
         }
 
@@ -526,8 +602,39 @@ class DOMGenerator {
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.newContainer;
 
+            const newScale =
+                newCont.getAttribute('class').includes(window.consts.RANK_CLASS)
+                    ? window.originalScale.minScaleTransition
+                    : 1;
+            DOMGenerator._scalingAnimation(dragged, 
+                1,
+                newScale,
+                window.consts.SCALING_INTERVAL,
+                window.consts.SCALING_DURATION);
+
             dragged.setAttribute('location', newCont.getAttribute('id'));
             DOMGenerator._checkAllsorted();
+            TraceStorage.storeDragEvent('end',dragged.getAttribute('id'), newCont.getAttribute('id'));
+            TraceStorage.storeDropEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
+        });
+
+        window.sortable.on('sortable:start', (event) => {
+            
+            const dragged = event.data.dragEvent.data.originalSource;
+            const newCont = event.data.dragEvent.data.sourceContainer;
+            const mirror = event.data.dragEvent.data.source;
+
+            DOMGenerator._applyScaleOnCard(mirror, 1);
+
+            dragged.setAttribute('location', newCont.getAttribute('id'));
+            TraceStorage.storeDragEvent('start',dragged.getAttribute('id'), newCont.getAttribute('id'));
+        });
+        window.sortable.on('sortable:sort', (event) => {
+            const dragged = event.data.dragEvent.data.originalSource;
+            const newCont = event.data.dragEvent.data.overContainer;
+
+            dragged.setAttribute('location', newCont.getAttribute('id'));
+            TraceStorage.storeDraggableEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
         });
     }
 }

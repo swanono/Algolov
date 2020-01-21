@@ -8,6 +8,7 @@
   ],
   "license": "GPLv3",
   "dependencies": {
+    "@hapi/joi": "^17.0.2",
     "@shopify/draggable": "^v1.0.0-beta.8",
     "bcrypt": "3.0.6",
     "body-parser": "^1.19.0",
@@ -34,7 +35,9 @@
     "lintjs": "./node_modules/.bin/eslint ./",
     "lintcss": "./node_modules/.bin/stylelint **/*.css",
     "linthtml": "./node_modules/.bin/html-linter --config .htmllinterrc.json",
-    "unitTest": "jest"
+    "unitTest": "jest",
+    "addAdmin": "node rootAdminManager.js addRootAdmin",
+    "deleteAdmin": "node rootAdminManager.js deleteRootAdmin"
   },
   "nodemonConfig": {
     "ignore": [

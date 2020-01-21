@@ -1,0 +1,22 @@
+#alert-message {
+    text-align: center;
+    margin: auto;
+    border-radius: 15%;
+    font: bold;
+    width: 25em;
+}
+.stop-fade-out {
+    visibility: visible;
+    opacity: 1;
+}
+.fade-out-message {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 5s, opacity 5s ease-in;
+}
+.success {
+    color: green;
+}
+.error {
+    color: red;
+}

@@ -1,4 +1,4 @@
-<!--
+/*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
 Copyright © 2019 Ulysse GUYON Sacha WANONO Eléa THUILIER
@@ -13,25 +13,25 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
--->
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AlgoLov</title>
+This module is used for the interactivity of the Admin page
+*/
+'use strict';
 
-    <script type="text/javascript" src="../js/Globals.js" ></script>
-    <script type="text/javascript" src="../js/TraceStorage.js" ></script>
-    <script type="text/javascript" src="../js/DOMGenerator.js" ></script>
+async function registerAdmin (formTag) {
+    const formData = new FormData(formTag);
+    const body = {};
+    for (const pair of formData)
+        body[pair[0]] = pair[1];
+    
+    const fetchRes = await fetch('/api/admin/register', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: new Headers({ 'Content-type': 'application/json' })
+    });
 
-    <script src="https://cdn.jsdelivr.net/npm/@shopify/draggable@1.0.0-beta.8/lib/draggable.bundle.js" ></script>
+    const res = await fetchRes.json();
 
-    <link rel="stylesheet" href="../css/index.css"/>
-</head>
-    <body onload="start()" onmousemove="TraceStorage.storeMousePositionData(event);" onscroll="TraceStorage.storeScrollingData(event);" onclick="TraceStorage.storeMouseClickData(event);">
-        <div id="main"></div>
-    </body>
-</html>
+    // eslint-disable-next-line no-undef
+    setAlertMessage(res.message, res.ok);
+}
