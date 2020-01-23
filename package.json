@@ -1,6 +1,6 @@
 {
   "name": "algolov",
-  "main": "server.js",
+  "main": "index.js",
   "authors": [
     "Ulysse GUYON",
     "Sacha WANONO",
