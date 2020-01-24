@@ -116,6 +116,10 @@ h3 {
     float: left;
 }
 
+.used-file {
+    /* TODO : modifier pour que ça soit plus joli */
+    background-color: lightgreen;
+}
 .arrow {
     height: max-content;
     font: 30px bold;
