@@ -26,6 +26,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <link rel="stylesheet" href="../css/admin.css"/>
     <link rel="stylesheet" href="../css/alertMessage.css"/>
 
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script type="text/javascript" src="../js/alertMessage.js" ></script>
     <script type="text/javascript" src="../js/Admin.js" ></script>
     
@@ -80,6 +81,13 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                 <h3> Documents de features utilisables</h3>
                 <div>
                     <form id="formFeatureFiles" method="POST" action="/api/admin/selectFeatures" onsubmit="event.preventDefault(); sendSelectFeatureDoc(event.target); stopFadeOut();">                      
+                        <div v-for="doc in featureFiles" class="download-bar-containe">
+                            <a class="download-bar bouton" :href="doc.path">
+                                <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
+                                <div>{{ doc.name }}</div>
+                            </a>
+                            <input :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" required :checked="doc.isUsed" />
+                        </div>
                     </form>
                 </div>
             </div>

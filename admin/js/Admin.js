@@ -17,6 +17,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
 This module is used for the interactivity of the Admin page
 */
+
+/* globals Vue */
 'use strict';
 
 async function sendSelectFeatureDoc (formTag) {
@@ -42,8 +44,40 @@ async function sendSelectFeatureDoc (formTag) {
         appendArrowToChecked();
 }
 
+/**********  VUE  *********/
+async function fillFeaturesForm () {
+    const fetchRes = await fetch('/api/admin/historicFeatures', { method: 'GET' });
+
+    if (!fetchRes.ok) {
+        console.error('Une erreur est survenue lors de la récupération des données : ' + fetchRes.statusText);
+        return;
+    }
+
+    const docs = await fetchRes.json();
+    if (!Array.isArray(docs)) {
+        console.error('le serveur a envoyé des informations incorrectes : ' + JSON.stringify(docs));
+        return;
+    }
+
+    const dataVue = docs.sort((d1, d2) => new Date(d2.modifDate) - new Date(d1.modifDate)).map((doc, i) => {
+        const asString = JSON.stringify(doc);
+        doc.index = i;
+        doc.asString = asString;
+        return doc;
+    });
+
+    const formVue = new Vue({
+        el: '#formFeatureFiles',
+        data: {
+            featureFiles: dataVue
+        }
+    });
+}
+/**********  FIN VUE  *********/
+
 function fillPage () {
-    fillFeatureDocForm();
+    fillFeaturesForm();
+    //fillFeatureDocForm();
     fillStats();
 }
 
