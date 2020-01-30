@@ -223,4 +223,62 @@ h3 {
     font-weight: bold;
 }
 
+
+
+#volet2 {
+    width: 250px;
+    height: 1000px;
+	padding: 10px;
+    background: lightgrey;
+    color: #fff;	
+    position: fixed;
+    left: -260px;
+    top: 0px;
+    z-index: 2;
+
+    -webkit-transition: all .5s ease-in;
+	transition: all .5s ease-in;
+}
+#volet2 * {
+    color: black;
+}
+#volet2 a.ouvrirVolet {
+    padding: 10px 25px;
+	background: #555;
+	color: white;
+    text-decoration: none;
+    position: absolute;
+	right: -88px;
+    top: 150px;
+    -ms-transform: rotate(270deg);
+	-moz-transform: rotate(270deg);
+	-webkit-transform: rotate(270deg);
+	transform: rotate(270deg);
+
+	border-radius: 0 0 8px 8px;
+}
+
+#volet2:target {
+	left: 0;
+}
+
+#volet2_clos:target #volet2 {
+    left: -270px;
+}
+
+
+#volet2 a.fermerVolet {
+    display: none;
+    background-color: grey;
+    color:white;
+    text-align: center;
+}
+
+#volet2:target a.ouvrirVolet {
+	display: none;
+}
+#volet2:target a.fermerVolet {
+	display: block;
+}
 /* fin sidebar*/
+

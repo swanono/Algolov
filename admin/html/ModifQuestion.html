@@ -21,99 +21,37 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AlgoLov - Admin</title>
+    <title>AlgoLov - Admin2</title>
 
-    <link rel="stylesheet" href="../css/modifQuestion.css"/>
-    <script type="text/javascript" src="../js/Admin.js" ></script>
-    <h1>Administration - Modifier le questionnaire</h1>
-    <button id = "Admin" class="bouton"> <a href="../html/Admin.html">Retour </a></button>
-                
+    <link rel="stylesheet" href="../css/admin.css"/>
+    <link rel="stylesheet" href="../css/alertMessage.css"/>
+
+    <script type="text/javascript" src="../js/alertMessage.js" ></script>
+    <script type="text/javascript" src="../js/ModifQuestion.js" ></script>
+
 </head>
     <body>
-
-        <ol>
-            <li id="Qexist">
-                <div id = QuestionList>
-                    <h3 id="TitreQexist">Liste question(s) existante(s)</h3>
-                    <div id="debut">
-                        <input type="checkbox"> Afficher une question par page </input>
-                        <h5>Partie intro</h5>
-                        <!--recuperer question introduction-->
-                        
-                    </div>
-                    
-                    <div id="fin">
-                        <input type="checkbox" checked> Afficher une question par page </input>
-                        <h5>Partie finale </h5>
-                    <!--recuperer question final form-->
-                    
-                    </div> 
-                </div>     
-            </li>
-            
-           
-            <li id = "FormulaireModifQuestion">
-                <div id=formulaire>
-                    <form action ="" methode="get" id=ajoutQuest>
-                        <!--nom question ?-->
-                        <div id=ajoutQuest>
-                            <label for="3" class=ajoutQuest>
-                                Question :
-                            </label>
-                            <input type="text" for ="3" class=ajoutQuest required>
-                        </div>
-                        <!--recuperer choisir où mettre la question intro ou fin-->
-                        <div id=ajoutQuest>
-                            <label for="1"class=ajoutQuest >
-                                Emplacement dans le formulaire
-                            </label>
-                            <select name="1" class="choixPos" required>
-                                <option value="Intro">Intro</option>
-                                <option value="QuestionnaireFinal">Questionnaire Finale</option>
-                                
-                            </select>
-                        </div>
-                        
-                        
-                        <!--ajouter réponse attendues à la question (au moins une) + type de la réponse-->
-                        <div id=ajoutQuest>
-                            <label for="10" class = ajoutQuest>
-                                Type de réponse
-                            </label>
-                        </div>
-                        <select name="1" class="choixPos" required>
-                            <option value="Texte à insérer">Texte à insérer</option>
-                            <option value="Liste déroulante">Liste déroulante</option>
-                            <option value = "chackbox">checkbox</option>
-                            
-                        </select>
-                        <div id=ajoutQuest>
-                            <label for="4" class=ajoutQuest>
-                                Indiquez les réponses à proposer :
-                            </label>
-                            <input type="checkbox" checked>
-                            <input type="text" id="4" class=ajoutQuest>
-                            <input type="checkbox">
-                            <input type="text" id="4" disabled class=ajoutQuest,>
-
-                        </div>
-                        
-                        
-                    </div>
-                </form>
-
-                
-               
+        <h1>Administration - Nouvelles Questions et contenus textuels</h1>
+        <a id="Admin" class="bouton retour" href="../html/Admin.html">
+            Retour
+        </a>
         
-                
-                
-            </li>
-    
-        </ol>
+        <div class="download-bar-container">
+            <a id="Template-Excel" class="download-bar bouton" href="../features_files/template/Template_Features.xlsx">
+                <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px"/>
+                <div>Télécharger le fichier Excel type pour le changement des questions</div>
+            </a>
+        </div>
 
-        <button id = "ValidationOrdreQuestionnaire" class="bouton" type= "submit">Valider organisation du questionnaire</button> 
-        <button id = "ValidationAjoutQuestion" class="bouton" type= "submit">Valider ajout de cette question</button>      
-        <button id = "Validation" class="bouton" type= "submit"> <a href="../html/Admin.html">Valider les modifications </a></button>
+        <div id="alert-message">
+
+        </div>
+
+        <form id="Upload-Form" action="/api/admin/changeQuestion" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewExcel(); stopFadeOut();">
+            <p>Cliquez sur le bouton ci-dessous pour charger un nouveau set de question :</p>
+            <input id="new-excel-input" type="file" name="Excel-Upload" accept=".xlsx , .xls" class="bouton">
+            <input type="submit" value="Envoyer" class="bouton">
+        </form>
 
     </body>
 </html>
