@@ -1219,7 +1219,7 @@
                 },
                 {
                     "id": 10,
-                    "question": "quel est votre numéro de téléphone ? (Format internationnal, commençant par +33 pour la France ou +41 pour la Suisse)",
+                    "question": "quel est votre numéro de téléphone ? (Format internationnal, commençant par +33 pour la France ou +41 pour la Suisse, sans espace)",
                     "type": "text",
                     "format": "^(\\+[0-9]{11,})$"
                 },
