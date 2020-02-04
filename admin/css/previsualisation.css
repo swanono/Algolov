@@ -1,34 +1,4 @@
-/*ul{
-    padding: 0px;
-    margin:0px;
-    list-style-type: none;
-    background-color: #333333;
-}
-
-li{
-    display: inline-block;
-    width:100px;
-    height:40px;
-    margin:0px;
-    padding:0px;
-    border-right: 1px solid #CCCCCC;
-    text-align: center;
-    line-height: 40px;
-}
-
-li a {
-    display:block;
-    text-decoration: none;
-    color:#FFFFFF;
-    
-}
-
-li :hover{
-    background-color: #3388BB;
-}
-
-*/
-
+/*MENU*/
 *{
     margin:0px;
     padding:0px;
@@ -112,4 +82,12 @@ nav > ul li:hover .sous{
 #questionnaire #combinatoire #pages > a::after {
     content: " ▼";
     font-size: 12px;
+}
+
+/*---------------------------------------------------------------------------------*/
+#boutonDroite{
+    background-image: image("flecheDroite3.jpg");
+}
+#boutonGauche{
+    background-image: image("flecheGauche3.jpg");
 }
