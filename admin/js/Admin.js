@@ -104,7 +104,7 @@ async function fillStatsTable () {
 
     const colspanMax = stats.desc.reduce(
         (prevDesc, descr) => Math.max(prevDesc, descr.combin.reduce(
-            (prevComb, comb) => prevComb + 1,
+            (prevComb, _) => prevComb + 1,
             0
         )),
         0

@@ -52,6 +52,11 @@ function createCombinList (descList) {
 }
 
 class PageCarac {
+    static get TYPE_UNCHANGABLE () { return 'else'; }
+    static get TYPE_QUEST_BEGIN () { return 'questBegin'; }
+    static get TYPE_BLOC () { return 'bloc'; }
+    static get TYPE_QUEST_END () { return 'questEnd'; }
+
     constructor (id, type, isActive, isShown, creator) {
         this.id = id;
         this.type = type;
@@ -64,29 +69,29 @@ class PageCarac {
 function createPageList (config) {
     const pageList = [];
     let i = 0;
-    pageList.push(new PageCarac(++i, 'else', true, true, () => {/* Create RGPD Page */}));
-    pageList.push(new PageCarac(++i, 'else', true, false, () => {/* Create Begin Page */}));
+    pageList.push(new PageCarac(++i, PageCarac.TYPE_UNCHANGABLE, true, true, () => {/* Create RGPD Page */}));
+    pageList.push(new PageCarac(++i, PageCarac.TYPE_UNCHANGABLE, true, false, () => {/* Create Begin Page */}));
     const questBegin = config.QCM.begin;
     const blocList = config.surveyConfiguration.blocThemes;
     const questEnd = config.QCM.end;
 
     if (questBegin.fragmented) {
         questBegin.list.forEach(question => pageList.push(
-            new PageCarac(++i, 'questBegin', false, false, () => {/* Create quest page with only [question] */})
+            new PageCarac(++i, PageCarac.TYPE_QUEST_BEGIN, false, false, () => {/* Create quest page with only [question] */})
         ));
     } else
-        pageList.push(new PageCarac(++i, 'questBegin', false, false, () => {/* Create quest page with questBegin.list */}));
+        pageList.push(new PageCarac(++i, PageCarac.TYPE_QUEST_BEGIN, false, false, () => {/* Create quest page with questBegin.list */}));
 
     blocList.forEach(bloc => {
-        pageList.push(new PageCarac(++i, 'bloc', false, false, () => {/* Create bloc with the right features */}));
+        pageList.push(new PageCarac(++i, PageCarac.TYPE_BLOC, false, false, () => {/* Create bloc with the right features */}));
     });
 
     if (questEnd.fragmented) {
         questEnd.list.forEach(question => pageList.push(
-            new PageCarac(++i, 'questEnd', false, false, () => {/* Create quest page with only [question] */})
+            new PageCarac(++i, PageCarac.TYPE_QUEST_END, false, false, () => {/* Create quest page with only [question] */})
         ));
     } else
-        pageList.push(new PageCarac(++i, 'questEnd', false, false, () => {/* Create quest page with questBegin.list */}));
+        pageList.push(new PageCarac(++i, PageCarac.TYPE_QUEST_END, false, false, () => {/* Create quest page with questBegin.list */}));
 
     return pageList;
 }
@@ -103,10 +108,31 @@ function setUpMenu (config) {
         el: '', // TODO get the right div
         data: {
             combinList: strCombinList,
-            selectCombin: strCombinList[0]
+            selectCombin: strCombinList[0],
+            showCombin: false
         },
         methods: {
-            
+            changeActive (targetCB) {
+                const typeToChange = targetCB.getAttribute('name');
+                bodyVue.$data.pageList.forEach((page, i, listPage) => {
+                    if (page.type === typeToChange && i !== 0)
+                        page.isActive = !page.isActive;
+                    
+                    if (page.isShown && !page.isActive) {
+                        page.isShown = false;
+                        listPage[0].isShown = true;
+                    }
+                });
+
+                // if we check the "bloc" checkbox, then change the disabled of the combinatories radios
+                if (typeToChange === PageCarac.TYPE_BLOC)
+                    this.showCombin = !this.showCombin;
+            },
+
+            goToPage (targetLink) {
+                const targetPageId = targetLink.getAttribute('target-page-id');
+                bodyVue.showPage(targetPageId);
+            }
         }
     });
 }
@@ -115,12 +141,26 @@ function setUpPreviz (config) {
     bodyVue = new Vue({
         el: '', // TODO get the right div
         data: {
-            pageList: createPageList(config)
+            pageList: createPageList(config),
+            shown: 0
         },
-        methods: {},
+        methods: {
+            showPage (pageId) {
+                pageList = pageList.map(page => {
+                    if (page.isShown)
+                        page.isShown = false;
+                    if (page.id === pageId)
+                        page.isShown = true;
+                    return page;
+                });
+
+                this.shown = pageList.filter(page => page.isShown).id;
+            }
+        },
         mounted () {
             this.$nextTick(() => {
-                // TODO Build pages here
+                // TODO pages here
+                this.pageList.forEach(page => page.create());
             });
         }
     });

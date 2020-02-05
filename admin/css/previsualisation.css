@@ -86,8 +86,8 @@ nav > ul li:hover .sous{
 
 /*---------------------------------------------------------------------------------*/
 #boutonDroite{
-    background-image: image("flecheDroite3.jpg");
+    background-image: image("../images/arrowRight.jpg");
 }
 #boutonGauche{
-    background-image: image("flecheGauche3.jpg");
+    background-image: image("../images/arrowLeft.jpg");
 }

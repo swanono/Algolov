@@ -20,22 +20,27 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="stylesheet" href="../css/previsualisation.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AlgoLov -Previsualisation </title>
+
+    <link rel="stylesheet" href="../css/previsualisation.css"/>
+    
+    <title>AlgoLov - Previsualisation </title>
 </head>
-    <body >
+    <body>
         <nav>
-            <ul class = "menu">
-                <li id = "questionnaire"><a>Questionnaires</a>
+            <ul class="menu">
+                <li id="questionnaire">
+                    <a>Questionnaires</a>
                     <ul class="sous">
                         <form>
-                            <li>
-                                <a>
-                                    <label for="Debut">Début</label>
-                                    <input id="Debut" name="checkdebut" type="checkbox"/>
-                                </a>
-                            </li>
+                            <label for="Debut">
+                                <li>
+                                    <a>
+                                        Début
+                                        <input id="Debut" name="checkdebut" type="checkbox"/>
+                                    </a>
+                                </li>
+                            </label>
                             <li>
                                 <a>
                                     <label for="Fin">Fin</label>
@@ -51,52 +56,55 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         </form>
                     </ul>
                 </li>
-                <li id = "combinatoire"><a>Combinatoire</a>
-                    <ul class = "sous">
+                <li id="combinatoire">
+                    <a>Combinatoire</a>
+                    <ul class="sous">
                         <form>
                             <li>
                                 <a>
                                     <label for="HF">H-F</label>
-                                    <input id="HF" name="checkHF" type="radio"/>
+                                    <input id="HF" name="combin" type="radio"/>
                                 </a>
                             </li>
                             <li>
                                 <a>
                                     <label for="HH">HH</label>
-                                    <input id="HH" name="checkHH" type="radio"/>
+                                    <input id="HH" name="combin" type="radio"/>
                                 </a>
                             </li>
                             <li>
                                 <a>
                                     <label for="FF">FF</label>
-                                    <input id="FF" name="checkFF" type="radio"/>
+                                    <input id="FF" name="combin" type="radio"/>
                                 </a>
                             </li>
                             <li>
                                 <a>
                                     <label for="FH">FH</label>
-                                    <input id="FH" name="checkFH" type="radio"/>
+                                    <input id="FH" name="combin" type="radio"/>
                                 </a>
                             </li>
-                            
                         </form>
                     </ul>
                 </li>
-                <li id = "pages"><a>Pages</a>
-                <ul class = "sous">
+                <li id="page-links">
+                    <a>Pages</a>
+                    <ul class="sous">
 
-                </ul>
-            </li>
-             </ul>
-     
-
+                    </ul>
+                </li>
+            </ul>
         </nav>
        
-        <input type="button" id = "boutonGauche">
-        <input type="button" id = "boutonDroite">
+        <a href="#" id="arrowLeft">
+            <img src="../images/arrowLeft.jpg" width="50px" height="70px" />
+        </a>
+        <a href="#" id="arrowRight">
+            <img src="../images/arrowRight.jpg" width="50px" height="70px" />
+        </a>
 
         
-        <div>
+        <div id="pages">
 
         </div>
     </body>
