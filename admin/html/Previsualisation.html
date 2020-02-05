@@ -24,11 +24,14 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
     <link rel="stylesheet" href="../css/previsualisation.css"/>
     
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script type="text/javascript" src="../js/Previz.js"></script>
+
     <title>AlgoLov - Previsualisation </title>
 </head>
     <body>
         <nav>
-            <ul class="menu">
+            <ul class="menu" id="menu">
                 <li id="questionnaire">
                     <a>Questionnaires</a>
                     <ul class="sous">
@@ -97,15 +100,52 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         </nav>
        
         <a href="#" id="arrowLeft">
-            <img src="../images/arrowLeft.jpg" width="50px" height="70px" />
+            <img src="../images/arrowLeft.png" width="50px" height="70px" />
         </a>
         <a href="#" id="arrowRight">
-            <img src="../images/arrowRight.jpg" width="50px" height="70px" />
+            <img src="../images/arrowRight.png" width="50px" height="70px" />
         </a>
 
         
         <div id="pages">
+            <div class="page" v-for="page in pageList" v-show="page.id == shown">
+                <!-- Unchangeable pages -->
+                <div class="page-unchangeable" v-if="page.type == 'else'">
+                    <div class="centered-text">{{ page.text }}</div>
+                    <button class="bouton">Continuer</button>
+                </div>
 
+                <!-- Questions pages -->
+                <div class="page-quest" v-if="page.type.includes('quest')">
+                    <form>
+                        <fieldset v-for="quest in page.questionList" :id="'idQuest_' + quest.id">
+                            <p>{{ quest.question }}</p>
+                            
+                            <!-- Text Input -->
+                            <input v-if="quest.type == 'text'" :type="quest.type" :id="'idInput_' + quest.id + '_1'"
+                                    :class="'classInput_' + quest.id" :name="'classInput_' + quest.id"
+                                    :pattern="quest.format || ''" required />
+                            
+                            <!-- Checkable Input -->
+                            <div v-if="quest.type == 'checkbox' || quest.type == 'radio'"
+                                    v-for="choice in quest.choices"
+                                    :id="'idDivInput_' + quest.id + '_' + choice.choiceId"
+                                    :class="page.type == questBegin ? 'divQuest' : null">
+
+                                <input :type="quest.type" :id="'idInput_' + quest.id + '_' + choice.choiceId"
+                                        :class="'classInput_' + quest.id" :value="'idInput_' + quest.id + '_' + choice.choiceId"
+                                        :name="'classInput_' + quest.id" :required="quest.type == 'checkbox'"
+                                        :descName="quest.descName" :descValue="quest.descValue" />
+                                
+                                <label :for="'idInput_' + quest.id + '_' + choice.choiceId">{{ choice.text }}</label>
+                            
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <!-- Blocs pages -->
+            </div>
         </div>
     </body>
 </html>

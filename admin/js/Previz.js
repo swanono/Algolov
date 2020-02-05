@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 /*
 -------------------------------------------------------------------------------------------------
 <Une ligne décrivant le nom du programme et ce qu’il fait>
@@ -17,6 +16,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
 This module is used for the interactivity of the previsualisation page
 */
+
+/* globals Vue */
 'use strict';
 
 const combinSepar = ' - ';
@@ -52,48 +53,103 @@ function createCombinList (descList) {
 }
 
 class PageCarac {
-    static get TYPE_UNCHANGABLE () { return 'else'; }
-    static get TYPE_QUEST_BEGIN () { return 'questBegin'; }
-    static get TYPE_BLOC () { return 'bloc'; }
-    static get TYPE_QUEST_END () { return 'questEnd'; }
-
-    constructor (id, type, isActive, isShown, creator) {
+    constructor (id, type, isActive = false, isShown = false) {
         this.id = id;
         this.type = type;
         this.isActive = isActive;
         this.isShown = isShown;
-        this.create = creator; // function to use in vue.mounted {this.$nextTick {**here**}}
+    }
+}
+
+class BlocCarac extends PageCarac {
+    static get TYPE () { return 'bloc'; }
+    constructor (id, bloc, featureList, isActive = false, isShown = false) {
+        super(id, BlocCarac.TYPE, isActive, isShown);
+        this.bloc = bloc;
+        this.featureList = featureList;
+    }
+}
+
+class QuestCarac extends PageCarac {
+    static get TYPE_BEGIN () { return 'questBegin'; }
+    static get TYPE_END () { return 'questEnd'; }
+    constructor (id, type, questionList, isActive = false, isShown = false) {
+        super(id, type, isActive, isShown);
+        this.questionList = questionList;
+    }
+}
+
+class UnchangeCarac extends PageCarac {
+    static get TYPE () { return 'else'; }
+    constructor (id, text, isActive = false, isShown = false) {
+        super(id, UnchangeCarac.TYPE, isActive, isShown);
+        this.text = text;
     }
 }
 
 function createPageList (config) {
     const pageList = [];
     let i = 0;
-    pageList.push(new PageCarac(++i, PageCarac.TYPE_UNCHANGABLE, true, true, () => {/* Create RGPD Page */}));
-    pageList.push(new PageCarac(++i, PageCarac.TYPE_UNCHANGABLE, true, false, () => {/* Create Begin Page */}));
+    pageList.push(new UnchangeCarac(++i, config.RGPDText, true, true));
+    pageList.push(new UnchangeCarac(++i, config.surveyExplain, true));
     const questBegin = config.QCM.begin;
     const blocList = config.surveyConfiguration.blocThemes;
     const questEnd = config.QCM.end;
 
     if (questBegin.fragmented) {
         questBegin.list.forEach(question => pageList.push(
-            new PageCarac(++i, PageCarac.TYPE_QUEST_BEGIN, false, false, () => {/* Create quest page with only [question] */})
+            new QuestCarac(++i, QuestCarac.TYPE_BEGIN, [question])
         ));
     } else
-        pageList.push(new PageCarac(++i, PageCarac.TYPE_QUEST_BEGIN, false, false, () => {/* Create quest page with questBegin.list */}));
+        pageList.push(new QuestCarac(++i, QuestCarac.TYPE_BEGIN, questBegin.list));
 
-    blocList.forEach(bloc => {
-        pageList.push(new PageCarac(++i, PageCarac.TYPE_BLOC, false, false, () => {/* Create bloc with the right features */}));
+    config.surveyConfiguration.descNames.forEach(desc => {
+        blocList.forEach(bloc => {
+            pageList.push(new BlocCarac(++i, bloc,
+                selectFeatures(bloc, { name: desc.name, choice: desc.combin[0] }, config.features)));
+        });
     });
 
     if (questEnd.fragmented) {
         questEnd.list.forEach(question => pageList.push(
-            new PageCarac(++i, PageCarac.TYPE_QUEST_END, false, false, () => {/* Create quest page with only [question] */})
+            new QuestCarac(++i, QuestCarac.TYPE_END, [question])
         ));
     } else
-        pageList.push(new PageCarac(++i, PageCarac.TYPE_QUEST_END, false, false, () => {/* Create quest page with questBegin.list */}));
+        pageList.push(new QuestCarac(++i, QuestCarac.TYPE_END, questBegin.list));
 
     return pageList;
+}
+
+/**
+ * 
+ * Function used to select the right features to shox in a bloc
+ * considering the blocs type and a chosed description
+ * 
+ * @param {Object} bloc An object containing the same key/values as the blocs stored in config.json
+ * @param {Object} description An object containing :
+ *      "name": Name of the description / "choice": Chosed description to be used for this name
+ * @param {Array} allFeatures A list of all the features to chose from,
+ *      with same format as the features stored in config.json
+ * @returns {Array} A list of the features selected to be in the bloc
+ * 
+ */
+function selectFeatures (bloc, description, allFeatures) {
+    const usedFeatures = [];
+
+    allFeatures.forEach((feature) => {
+        if (bloc.type === feature.type) {
+            // we search in the combinatory object if the current feature is compatible
+            const found = feature.combin.find(
+                f => description.name === f.descName && f[description.choice]
+            );
+
+            // if we found a combinatory that matched the description and bloc, we add the feature
+            if (found)
+                usedFeatures.push(feature);
+        }
+    });
+
+    return usedFeatures;
 }
 
 /* Créer tout le DOM d'un coup et ne l'afficher qu'en fonction des boutons cliqués */
@@ -105,7 +161,7 @@ function setUpMenu (config) {
     const strCombinList = createCombinList(config.surveyConfiguration.descNames);
 
     menuVue = new Vue({
-        el: '', // TODO get the right div
+        el: '#menu',
         data: {
             combinList: strCombinList,
             selectCombin: strCombinList[0],
@@ -139,14 +195,14 @@ function setUpMenu (config) {
 
 function setUpPreviz (config) {
     bodyVue = new Vue({
-        el: '', // TODO get the right div
+        el: '#pages',
         data: {
             pageList: createPageList(config),
             shown: 0
         },
         methods: {
             showPage (pageId) {
-                pageList = pageList.map(page => {
+                this.pageList = this.pageList.map(page => {
                     if (page.isShown)
                         page.isShown = false;
                     if (page.id === pageId)
@@ -154,7 +210,7 @@ function setUpPreviz (config) {
                     return page;
                 });
 
-                this.shown = pageList.filter(page => page.isShown).id;
+                this.shown = this.pageList.filter(page => page.isShown).id;
             }
         },
         mounted () {
