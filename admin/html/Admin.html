@@ -103,7 +103,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     
         <div id = QuestionList>
             
-            <h3 id="TitreQexist">Liste questionnaire(s) utilisable(s)</h3>
+            <h3 id="TitreQexist">Liste questionnaire(s) pour classification</h3>
             
            
             <div>
@@ -124,7 +124,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
         <!--MODIF FEATURES-->
         <div id="FeaturesList">
-            <h3> Documents de features utilisables</h3>
+            <h3> Documents de features</h3>
             <div>
                 <form id="formFeatureFiles" method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectFeatureDoc($event.target); stopFadeOut();">                      
                     <div v-for="doc in featureFiles" :class="'download-bar-container ' + doc.classAdd">
