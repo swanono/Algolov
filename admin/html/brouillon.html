@@ -93,67 +93,60 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         </ul>
 
     </nav>
-    <div id ="modif">
-<!--MODIF QUESTION-->
     
-        <div id = QuestionList>
+
+    
+   
+    
+
+    
+    <ol>
+        <li class = "modif" id="Qexist">
+            <div id = QuestionList>
             
-            <h3 id="TitreQexist">Liste questionnaire(s) utilisable(s)</h3>
-            
-           
-            <div>
-                <form id="formQuestionnaireFiles" method="POST" action="/api/admin/selectQuestionnaireDoc" @submit.prevent="sendSelectQuestionnaireDoc($event.target); stopFadeOut();">                      
-                    <div v-for="doc in QuestionFiles" :class="'download-bar-container ' + doc.classAdd">
-                        <a class="download-bar bouton" :href="doc.path">
-                            <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
-                            <div>{{ doc.name }}</div>
-                        </a>
-                        <input :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" :checked="doc.isUsed" v-model="featureSelect" required />
-                    </div>
-                </form>
+                <h3 id="TitreQexist">Liste question(s) existante(s)</h3>
+                
+                <p id="liste question"> q1 ... </p>
+                <p id="liste question"> q1 ... </p>
+                <p id="liste question"> q1 ... </p>
+                <p id="liste question"> q1 ... </p>
+                <p id="liste question"> q1 ... </p>
+                <p id="liste question"> q1 ... </p>
+                
+            </div>
+
+            <a id="modifierQuestionnaire" class="bouton" href="./ModifQuestion.html">
+                Modifier le Questionnaire
+            </a>
+        </li>
+        <li  class = "modif" id="Fexist">
+            <div id="FeaturesList">
+                <h3> Documents de features utilisables</h3>
+                <div>
+                    <form id="formFeatureFiles" method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectFeatureDoc($event.target); stopFadeOut();">                      
+                        <div v-for="doc in featureFiles" :class="'download-bar-container ' + doc.classAdd">
+                            <a class="download-bar bouton" :href="doc.path">
+                                <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
+                                <div>{{ doc.name }}</div>
+                            </a>
+                            <input :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" :checked="doc.isUsed" v-model="featureSelect" required />
+                        </div>
+                    </form>
+                </div>
             </div>
             
-        </div>
+            <button id="selectFeatureDoc" class="bouton" type="submit" form="formFeatureFiles">
+                Utiliser le document coché
+            </button>
 
-        
+            <a id="modifierFeature" class="bouton" href="./ModifFeature.html">
+                Ajouter un nouveau document
+            </a>
+        </li>
 
-        <!--MODIF FEATURES-->
-        <div id="FeaturesList">
-            <h3> Documents de features utilisables</h3>
-            <div>
-                <form id="formFeatureFiles" method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectFeatureDoc($event.target); stopFadeOut();">                      
-                    <div v-for="doc in featureFiles" :class="'download-bar-container ' + doc.classAdd">
-                        <a class="download-bar bouton" :href="doc.path">
-                            <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
-                            <div>{{ doc.name }}</div>
-                        </a>
-                        <input :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" :checked="doc.isUsed" v-model="featureSelect" required />
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        
-        
-
-    </div>
-    <a id="modifierQuestionnaire" class="bouton" href="./ModifQuestion.html">
-        Modifier le Questionnaire
-    </a>
-    <button id="selectQuestionnaireDoc" class="bouton" type="submit" form="formQuestionnaireFiles">
-        Utiliser le document coché
-    </button>
-    <button id="selectFeatureDoc" class="bouton" type="submit" form="formFeatureFiles">
-        Utiliser le document coché
-    </button>
-
-    <a id="modifierFeature" class="bouton" href="./ModifFeature.html">
-        Ajouter un nouveau document
-    </a>
-    
-    
-    <a id="buttonPrevisualisation" class="bouton buttonPrevisualisation" href="./Previsualisation.html">
+    </ol>
+    <!--<a id="buttonPrevisualisation" class="bouton buttonPrevisualisation" href="./AdminUpdate.html">
         Prévisualisation
-    </a>
+    </a>-->
 </body>
 </html>
