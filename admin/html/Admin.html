@@ -89,6 +89,11 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                 </ul>
 
             </li>
+            <li>
+                <a href="./UploadPDF.html">
+                    Uploader Nouveau PDF d'information
+                    </a>
+            </li>
            
         </ul>
 
@@ -108,7 +113,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                             <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
                             <div>{{ doc.name }}</div>
                         </a>
-                        <input :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" :checked="doc.isUsed" v-model="featureSelect" required />
+                        <input :id="'questionnaire_file_' + doc.index" type="radio" name="select_questionnaire_file" :value="doc.asString" :checked="doc.isUsed" v-model="questionaireSelect" required />
                     </div>
                 </form>
             </div>

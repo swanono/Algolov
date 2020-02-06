@@ -1,0 +1,57 @@
+<!--
+-------------------------------------------------------------------------------------------------
+<Une ligne décrivant le nom du programme et ce qu’il fait>
+Copyright © 2019 Ulysse GUYON Sacha WANONO Eléa THUILIER
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see < https://www.gnu.org/licenses/ >.
+-------------------------------------------------------------------------------------------------
+-->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AlgoLov - Admin2</title>
+
+    <link rel="stylesheet" href="../css/admin.css"/>
+    <link rel="stylesheet" href="../css/alertMessage.css"/>
+
+    <script type="text/javascript" src="../js/alertMessage.js" ></script>
+    <script type="text/javascript" src="../js/ModifFeature.js" ></script>
+
+</head>
+    <body>
+        <h1>Administration - PDF</h1>
+        <a id="Admin" class="bouton retour" href="../html/Admin.html">
+            Retour
+        </a>
+        
+        <div class="download-bar-container">
+            <a id="Template-Excel" class="download-bar bouton" href="PDF">
+               
+                <div>Télécharger PDF</div>
+            </a>
+        </div>
+
+        <div id="alert-message">
+
+        </div>
+
+        <form id="Upload-Form" action="/api/admin/changePDF" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewExcel(); stopFadeOut();">
+            <p>Cliquez sur le bouton ci-dessous pour charger un nouveau set de features :</p>
+            <input id="new-excel-input" type="file" name="Excel-Upload" accept=".xlsx , .xls" class="bouton">
+            <input type="submit" value="Envoyer" class="bouton">
+        </form>
+
+    </body>
+</html>
