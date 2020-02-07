@@ -32,6 +32,11 @@ const _mongoURL = _nodeEnv === 'dev' ?
     `mongodb://localhost:${_dbPort}/` :
     `mongodb://${_mongoUser}:${_mongoPassword}@db:${_dbPort}/`;
 
+console.log('DB_NAME : ' + process.env.DB_NAME);
+console.log('MONGO_INITDB_ROOT_USERNAME : ' + process.env.MONGO_INITDB_ROOT_USERNAME);
+console.log('MONGO_INITDB_ROOT_PASSWORD : ' + process.env.MONGO_INITDB_ROOT_PASSWORD);
+console.log('DB_PORT : ' + _dbPort);
+
 module.exports = {
     nodeEnv: _nodeEnv,
     port: process.env.PORT,
