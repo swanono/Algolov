@@ -26,8 +26,8 @@ const _nodeEnv = process.env.NODE_ENV;
 const _directoryPrefix = (_nodeEnv === 'dev' ? '' : '');
 const _dbPort = process.env.DB_PORT;
 
-const _mongoUser = (process.env.MONGO_INITDB_ROOT_USERNAME ? process.env.MONGO_INITDB_ROOT_USERNAME : '');
-const _mongoPassword = (process.env.MONGO_INITDB_ROOT_PASSWORD ? process.env.MONGO_INITDB_ROOT_PASSWORD : '');
+const _mongoUser = (process.env.MONGO_INITDB_ROOT_USERNAME || '');
+const _mongoPassword = (process.env.MONGO_INITDB_ROOT_PASSWORD || process.env.MONGODB_URI || '');
 const _mongoURL = _nodeEnv === 'dev' ?
     `mongodb://localhost:${_dbPort}/` :
     `mongodb://${_mongoUser}:${_mongoPassword}@db:${_dbPort}/`;
