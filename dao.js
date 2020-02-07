@@ -41,6 +41,8 @@ class DAO {
     constructor (collectionName, sessionId = 0, callback = () => {}, url = config.dbUrl, dbName = config.dbName) {
         this.collectionName = collectionName;
 
+        console.log(`Connection requested to dabtabase <${url}/${dbName}> for collection <${collectionName}> with sid <${sessionId}>`);
+
         mongo.connect(url, {
             useNewUrlParser: true,
             useUnifiedTopology: true
