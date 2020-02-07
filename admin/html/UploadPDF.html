@@ -37,7 +37,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         </a>
         
         <div class="download-bar-container">
-            <a id="Template-Excel" class="download-bar bouton" href="PDF">
+            <a id="Template-Excel" class="download-bar bouton" href="..\public\survey\study.pdf">
+            <img src="../images/logo-pdf.png" alt="logo excel" width="30px" height="30px"/>
                
                 <div>Télécharger PDF</div>
             </a>
@@ -48,8 +49,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         </div>
 
         <form id="Upload-Form" action="/api/admin/changePDF" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewExcel(); stopFadeOut();">
-            <p>Cliquez sur le bouton ci-dessous pour charger un nouveau set de features :</p>
-            <input id="new-excel-input" type="file" name="Excel-Upload" accept=".xlsx , .xls" class="bouton">
+            <p>Cliquez sur le bouton ci-dessous pour charger un nouveau pdf :</p>
+            <input id="new-excel-input" type="file" name="Excel-Upload" accept=".pdf" class="bouton">
             <input type="submit" value="Envoyer" class="bouton">
         </form>
 
