@@ -37,7 +37,8 @@
     "linthtml": "./node_modules/.bin/html-linter --config .htmllinterrc.json",
     "unitTest": "jest",
     "addAdmin": "node rootAdminManager.js addRootAdmin",
-    "deleteAdmin": "node rootAdminManager.js deleteRootAdmin"
+    "deleteAdmin": "node rootAdminManager.js deleteRootAdmin",
+    "deploy": "git push heroku Test/Heroku:master && heroku logs --tail"
   },
   "nodemonConfig": {
     "ignore": [
