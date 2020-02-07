@@ -29,9 +29,9 @@
     "xlsx": "^0.15.4"
   },
   "scripts": {
-    "start": "npm run deleteAdmin && npm run addAdmin && nodemon index.js",
+    "devStart": "npm run deleteAdmin && npm run addAdmin && nodemon index.js",
     "servInst": "npm install --production",
-    "servStart": "npm run deleteAdmin && npm run addAdmin && node index.js",
+    "start": "npm run deleteAdmin && npm run addAdmin && node index.js",
     "lintjs": "./node_modules/.bin/eslint ./",
     "lintcss": "./node_modules/.bin/stylelint **/*.css",
     "linthtml": "./node_modules/.bin/html-linter --config .htmllinterrc.json",
