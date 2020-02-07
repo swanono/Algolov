@@ -224,6 +224,15 @@ nav a {
     padding: 10px 0px;
 }
 
+.GestionCompte{
+    display:flex;
+    justify-content: flex-end;
+    margin-right:2%;
+    background-color:lightgrey;
+    margin-bottom:1%;
+    margin-top:1%;
+}
+
 .sous a{
     padding:10px;
     border-bottom: none;
