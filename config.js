@@ -36,6 +36,8 @@ console.log('DB_NAME : ' + process.env.DB_NAME);
 console.log('MONGO_INITDB_ROOT_USERNAME : ' + process.env.MONGO_INITDB_ROOT_USERNAME);
 console.log('MONGO_INITDB_ROOT_PASSWORD : ' + process.env.MONGO_INITDB_ROOT_PASSWORD);
 console.log('DB_PORT : ' + _dbPort);
+console.log('_mongoURL : ' + _mongoURL);
+console.log('MONGODB_URI : ' + process.env.MONGODB_URI);
 
 module.exports = {
     nodeEnv: _nodeEnv,
