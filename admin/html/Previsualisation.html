@@ -145,6 +145,32 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                 </div>
 
                 <!-- Blocs pages -->
+                <div :id="'bloc_' + page.bloc.blocId" class="bloc" :blocType="page.bloc.type">
+                    <table id="scale_tab" class="noselect">
+                        <!-- Header row -->
+                        <tr>
+                            <td :colspan="page.bloc.likertSize.length">
+                                {{ page.description.text }}
+                                <br />
+                                {{ page.bloc.question }}
+                            </td>
+                        </tr>
+                        <!-- Likert text row -->
+                        <tr class="heading_txt">
+                            <td v-for="(headTxt, i) in page.bloc.legends" :colspan="getColspan(page.bloc.legends.length, i, page.bloc.likertSize)">
+                                {{ headTxt }}
+                            </td>
+                        </tr>
+                        <!-- Likert sclae row -->
+                        <tr class="heading">
+
+                        </tr>
+                        <!-- Initial container row -->
+                        <tr>
+
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </body>

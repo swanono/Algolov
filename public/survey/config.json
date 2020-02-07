@@ -2,23 +2,21 @@
     "surveyConfiguration": {
         "descNames": [
             {
-                "name": "desc-1",
-                "presentation": "Présentation desc 1",
-                "text": "Debut question desc 1 /",
+                "name": "soi",
+                "presentation": "Premièrement, vous allez classer les caractéristiques qui vous définissent le plus.",
+                "text": "Concernant les caractéristiques qui vous décrivent,",
                 "combin": [
-                    "Alpha",
-                    "Beta",
-                    "Gamma"
+                    "Homme",
+                    "Femme"
                 ]
             },
             {
-                "name": "desc-2",
-                "presentation": "Présentation desc 2",
-                "text": "Debut question desc 2 /",
+                "name": "autre",
+                "presentation": "Maintenant, classez les caractéristiques d'une personne attractive pour vous.",
+                "text": "Concernant les caractéristiques qui décrivent les personnes que vous trouvez attirantes,",
                 "combin": [
-                    "Alpha",
-                    "Delta",
-                    "Beta"
+                    "Homme",
+                    "Femme"
                 ]
             }
         ],
@@ -28,7 +26,7 @@
         "blocThemes": [
             {
                 "blocId": 1,
-                "type": "type-1",
+                "type": "physique-1",
                 "likertSize": 7,
                 "legends": [
                     "pas apprécié du tout",
@@ -39,11 +37,11 @@
                     "apprécié",
                     "très apprécié"
                 ],
-                "question": "Question type 1 ?"
+                "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?"
             },
             {
                 "blocId": 2,
-                "type": "type-2",
+                "type": "physique-2",
                 "likertSize": 7,
                 "legends": [
                     "pas apprécié du tout",
@@ -54,11 +52,11 @@
                     "apprécié",
                     "très apprécié"
                 ],
-                "question": "Question type 2 ?"
+                "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?"
             },
             {
                 "blocId": 3,
-                "type": "type-3",
+                "type": "attitude",
                 "likertSize": 7,
                 "legends": [
                     "pas apprécié du tout",
@@ -69,11 +67,11 @@
                     "apprécié",
                     "très apprécié"
                 ],
-                "question": "Question type 3 ?"
+                "question": "Quelles sont les caractéristiques importantes pour vous ?"
             },
             {
                 "blocId": 4,
-                "type": "type-4",
+                "type": "autres",
                 "likertSize": 7,
                 "legends": [
                     "pas apprécié du tout",
@@ -84,7 +82,7 @@
                     "apprécié",
                     "très apprécié"
                 ],
-                "question": "Question type 4 ?"
+                "question": "Quelles sont les caractéristiques importantes pour vous ?"
             }
         ]
     },
@@ -92,860 +90,756 @@
         {
             "id": 1,
             "content": "text",
-            "data": "Feature 1 (A2)",
-            "type": "type-1",
+            "data": "Signes particuliers (grains de beauté, taches de rousseur, bronzage, tatouages, piercings...)",
+            "type": "physique-1",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Delta": false,
-                    "Beta": false
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 2,
             "content": "text",
-            "data": "Feature 2 (B2)",
-            "type": "type-1",
+            "data": "Sous-vêtements",
+            "type": "physique-1",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Beta": true,
-                    "Alpha": false,
-                    "Delta": false
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 3,
             "content": "text",
-            "data": "Feature 3 (D2)",
-            "type": "type-1",
+            "data": "Couleur des yeux",
+            "type": "physique-1",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Delta": true,
-                    "Alpha": false,
-                    "Beta": false
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 4,
             "content": "text",
-            "data": "Feature 4 (A2,B2)",
-            "type": "type-1",
+            "data": "Longueur des cheveux",
+            "type": "physique-1",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": false
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 5,
             "content": "text",
-            "data": "Feature 5 (A2,D2)",
-            "type": "type-1",
+            "data": "Couleur de cheveux",
+            "type": "physique-1",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Delta": true,
-                    "Beta": false
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 6,
             "content": "text",
-            "data": "Feature 6 (B2,D2)",
-            "type": "type-1",
+            "data": "Style de cheveux",
+            "type": "physique-1",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Beta": true,
-                    "Delta": true,
-                    "Alpha": false
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 7,
             "content": "text",
-            "data": "Feature 7",
-            "type": "type-1",
+            "data": "Silhouette (mince, sportif.ve, ronde, costaud, body builder…)",
+            "type": "physique-1",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 8,
             "content": "text",
-            "data": "Feature 8 (A1)",
-            "type": "type-1",
+            "data": "Origines",
+            "type": "physique-1",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": false,
-                    "Gamma": false
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 9,
             "content": "text",
-            "data": "Feature 9 (B1)",
-            "type": "type-1",
+            "data": "Taille",
+            "type": "physique-1",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Beta": true,
-                    "Alpha": false,
-                    "Gamma": false
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 10,
             "content": "text",
-            "data": "Feature 10 (G1)",
-            "type": "type-1",
+            "data": "Poids",
+            "type": "physique-1",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Gamma": true,
-                    "Alpha": false,
-                    "Beta": false
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 11,
             "content": "text",
-            "data": "Feature 11 (A1,B1)",
-            "type": "type-1",
+            "data": "Pilosité (rasé.e, imberbe, juste ce qu'il faut, ours...)",
+            "type": "physique-2",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": false
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 12,
             "content": "text",
-            "data": "Feature 12 (A1,G1)",
-            "type": "type-1",
+            "data": "Perception de l'aspect physique (très agréable à regarder, agréable à regarder, dans la moyenne…)",
+            "type": "physique-2",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Gamma": true,
-                    "Beta": false
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 13,
             "content": "text",
-            "data": "Feature 13 (B1,G1)",
-            "type": "type-1",
+            "data": "Taille du pénis",
+            "type": "physique-2",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Beta": true,
-                    "Gamma": true,
-                    "Alpha": false
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": false
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": false
                 }
             ]
         },
         {
             "id": 14,
             "content": "text",
-            "data": "Feature 14",
-            "type": "type-2",
+            "data": "Circoncision",
+            "type": "physique-2",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": false
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": false
                 }
             ]
         },
         {
             "id": 15,
             "content": "text",
-            "data": "Feature 15",
-            "type": "type-2",
+            "data": "Taille de la poitrine",
+            "type": "physique-2",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Femme": true,
+                    "Homme": false
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Femme": true,
+                    "Homme": false
                 }
             ]
         },
         {
             "id": 16,
             "content": "text",
-            "data": "Feature 16",
-            "type": "type-2",
+            "data": "Taille de bonnet (A, B, C, D, DD…)",
+            "type": "physique-2",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Femme": true,
+                    "Homme": false
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Femme": true,
+                    "Homme": false
                 }
             ]
         },
         {
             "id": 17,
             "content": "text",
-            "data": "Feature 17",
-            "type": "type-2",
+            "data": "Parties du corps considérées des zones érogènes",
+            "type": "physique-2",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 18,
             "content": "text",
-            "data": "Feature 18",
-            "type": "type-2",
+            "data": "Importance de la taille (hauteur)",
+            "type": "physique-2",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 19,
             "content": "text",
-            "data": "Feature 19",
-            "type": "type-2",
+            "data": "Sexe",
+            "type": "physique-2",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 20,
             "content": "text",
-            "data": "Feature 20",
-            "type": "type-2",
+            "data": "Age",
+            "type": "physique-2",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 21,
             "content": "text",
-            "data": "Feature 21",
-            "type": "type-2",
+            "data": "Style d'habillement du jour",
+            "type": "physique-2",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 22,
             "content": "text",
-            "data": "Feature 22",
-            "type": "type-2",
+            "data": "Style d'habillement du soir",
+            "type": "physique-2",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 23,
             "content": "text",
-            "data": "Feature 23",
-            "type": "type-2",
+            "data": "Style de vêtement en lien avec la personnalité (bab, cutester, BCBG, bohème, chic, classique, décontracté, electro, excentrique, fluo)",
+            "type": "attitude",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 24,
             "content": "text",
-            "data": "Feature 24",
-            "type": "type-3",
+            "data": "Consommation d'alcool et fréquence",
+            "type": "attitude",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 25,
             "content": "text",
-            "data": "Feature 25",
-            "type": "type-3",
+            "data": "Consommation du tabac et fréquence",
+            "type": "attitude",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 26,
             "content": "text",
-            "data": "Feature 26",
-            "type": "type-3",
+            "data": "Régime alimentaire, habitudes, plats préférés, importance accordée aux repas",
+            "type": "attitude",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 27,
             "content": "text",
-            "data": "Feature 27",
-            "type": "type-3",
+            "data": "S'exposer en photos",
+            "type": "attitude",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 28,
             "content": "text",
-            "data": "Feature 28",
-            "type": "type-3",
+            "data": "S'exposer en vidéos",
+            "type": "attitude",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 29,
             "content": "text",
-            "data": "Feature 29",
-            "type": "type-3",
+            "data": "Orientation sexuelle (hétéro, homo, bi, trans)",
+            "type": "attitude",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 30,
             "content": "text",
-            "data": "Feature 30",
-            "type": "type-3",
+            "data": "Fétichisme avec des vêtements (cuir, équipement de sports, skateur.se, caoutchouc, sous-vêtements, peaux et punks, bottes, lycra, uniforme, robe de soirée, raver, bas et bas, jeans, lingerie, travailleur)",
+            "type": "attitude",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 31,
             "content": "text",
-            "data": "Feature 31",
-            "type": "type-3",
+            "data": "Genre (agender, androgyne, asexué, bigender, cisgender, cisgender...)",
+            "type": "attitude",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 32,
             "content": "text",
-            "data": "Feature 32",
-            "type": "type-3",
+            "data": "Genre (agender, androgyne, asexué, bigender, cisgender, cisgender...)",
+            "type": "attitude",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 33,
             "content": "text",
-            "data": "Feature 33",
-            "type": "type-3",
+            "data": "Talents culinaires",
+            "type": "autres",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 34,
             "content": "text",
-            "data": "Feature 34",
-            "type": "type-4",
+            "data": "Statut VIH",
+            "type": "autres",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 35,
             "content": "text",
-            "data": "Feature 35",
-            "type": "type-4",
+            "data": "Lunettes ou lentilles de contact",
+            "type": "autres",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 36,
             "content": "text",
-            "data": "Feature 36",
-            "type": "type-4",
+            "data": "Maladies sexuellement transmissibles (Verrues génitales, Herpès type I, Herpès type II…)",
+            "type": "autres",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 37,
             "content": "text",
-            "data": "Feature 37",
-            "type": "type-4",
+            "data": "S'exposer en Webcam",
+            "type": "autres",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 38,
             "content": "text",
-            "data": "Feature 38",
-            "type": "type-4",
+            "data": "Mode et marques",
+            "type": "autres",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 39,
             "content": "text",
-            "data": "Feature 39",
-            "type": "type-4",
+            "data": "Sports préférés, sports pratiqués, fréquence de la pratique",
+            "type": "autres",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 40,
             "content": "text",
-            "data": "Feature 40",
-            "type": "type-4",
+            "data": "Satisfaction de l'apparence physique",
+            "type": "autres",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 41,
             "content": "text",
-            "data": "Feature 41",
-            "type": "type-4",
+            "data": "L'âge dans la tête",
+            "type": "autres",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         },
         {
             "id": 42,
             "content": "text",
-            "data": "Feature 42",
-            "type": "type-4",
+            "data": "Dates de rappels de pistage",
+            "type": "autres",
             "combin": [
                 {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
                 },
                 {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
-                }
-            ]
-        },
-        {
-            "id": 43,
-            "content": "text",
-            "data": "Feature 43",
-            "type": "type-4",
-            "combin": [
-                {
-                    "descName": "desc-1",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Gamma": true
-                },
-                {
-                    "descName": "desc-2",
-                    "Alpha": true,
-                    "Beta": true,
-                    "Delta": true
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
                 }
             ]
         }
@@ -960,47 +854,37 @@
             "list": [
                 {
                     "id": 1,
-                    "question": "Question 1 (desc-1)",
+                    "question": "quel est votre sexe ?",
                     "type": "radio",
-                    "descName": "desc-1",
+                    "descName": "soi",
                     "choices": [
                         {
                             "choiceId": 1,
-                            "text": "Alpha",
-                            "descValue": "Alpha"
+                            "text": "Homme",
+                            "descValue": "Homme"
                         },
                         {
                             "choiceId": 2,
-                            "text": "Beta",
-                            "descValue": "Beta"
-                        },
-                        {
-                            "choiceId": 3,
-                            "text": "Gamma",
-                            "descValue": "Gamma"
+                            "text": "Femme",
+                            "descValue": "Femme"
                         }
                     ]
                 },
                 {
                     "id": 2,
-                    "question": "Question 2 (desc-2)",
+                    "question": "quel est le sexe par lequel vous êtes attiré.e ?",
                     "type": "radio",
-                    "descName": "desc-2",
+                    "descName": "autre",
                     "choices": [
                         {
                             "choiceId": 1,
-                            "text": "Alpha",
-                            "descValue": "Alpha"
+                            "text": "Homme",
+                            "descValue": "Homme"
                         },
                         {
                             "choiceId": 2,
-                            "text": "Delta",
-                            "descValue": "Delta"
-                        },
-                        {
-                            "choiceId": 3,
-                            "text": "Beta",
-                            "descValue": "Beta"
+                            "text": "Femme",
+                            "descValue": "Femme"
                         }
                     ]
                 }

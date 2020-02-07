@@ -63,9 +63,10 @@ class PageCarac {
 
 class BlocCarac extends PageCarac {
     static get TYPE () { return 'bloc'; }
-    constructor (id, bloc, featureList, isActive = false, isShown = false) {
+    constructor (id, bloc, desc, featureList, isActive = false, isShown = false) {
         super(id, BlocCarac.TYPE, isActive, isShown);
         this.bloc = bloc;
+        this.description = desc;
         this.featureList = featureList;
     }
 }
@@ -105,7 +106,7 @@ function createPageList (config) {
 
     config.surveyConfiguration.descNames.forEach(desc => {
         blocList.forEach(bloc => {
-            pageList.push(new BlocCarac(++i, bloc,
+            pageList.push(new BlocCarac(++i, bloc, desc,
                 selectFeatures(bloc, { name: desc.name, choice: desc.combin[0] }, config.features)));
         });
     });
@@ -211,12 +212,46 @@ function setUpPreviz (config) {
                 });
 
                 this.shown = this.pageList.filter(page => page.isShown).id;
+            },
+            getColspan (nbCells, indexCell, scaleSize) {
+                const specialCase = (nbCells % 2 === 0 && scaleSize % 2 === 1);
+                if (nbCells > scaleSize)
+                    return undefined;
+                if (nbCells === 2 || nbCells === 3) {
+                    if (indexCell === 0 || indexCell === 2)
+                        return 1;
+                    else if (indexCell >= 3)
+                        return undefined;
+                    else
+                        return scaleSize - 2;
+                } 
+                if (indexCell >= nbCells + (specialCase ? 1 : 0))
+                    return undefined;
+                if (nbCells === scaleSize)
+                    return 1;
+                if (nbCells === 1)
+                    return scaleSize;
+                if (indexCell === 0)
+                    return 1;
+                if (specialCase && (indexCell === Math.floor(nbCells / 2) || indexCell === nbCells))
+                    return 1;
+                if (!specialCase && indexCell === nbCells - 1)
+                    return 1;
+        
+                const remainingRanks = scaleSize - 2 - (specialCase ? 1 : 0);
+                const remainingCells = nbCells - 2;
+                const adaptedIndex = indexCell - (indexCell > nbCells / 2 && specialCase ? 1 : 0);
+        
+                return Math.round((remainingRanks / remainingCells) * adaptedIndex) -
+                    Math.round((remainingRanks / remainingCells) * (adaptedIndex - 1));
             }
         },
         mounted () {
             this.$nextTick(() => {
                 // TODO pages here
                 this.pageList.forEach(page => page.create());
+                this.showPage(1);
+                
             });
         }
     });
