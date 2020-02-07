@@ -41,9 +41,9 @@ class DAO {
     constructor (collectionName, sessionId = 0, callback = () => {}, url = config.dbUrl, dbName = config.dbName) {
         this.collectionName = collectionName;
 
-        console.log(`Connection requested to dabtabase <${url}/${dbName}> for collection <${collectionName}> with sid <${sessionId}>`);
+        console.log(`Connection requested to dabtabase <${url}${dbName}> for collection <${collectionName}> with sid <${sessionId}>`);
 
-        mongo.connect(url, {
+        mongo.connect(url + dbName, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         }, (err, db) => {
@@ -53,7 +53,7 @@ class DAO {
             }
 
             this.clientConnexion = db;
-            this.database = db.db(dbName);
+            this.database = db.db(/*dbName*/);
 
             console.log('new connection to database "' + this.database.databaseName + '" established. ID : ' + sessionId);
 
