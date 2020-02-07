@@ -30,7 +30,7 @@ const _mongoUser = process.env.MONGO_INITDB_ROOT_USERNAME || '';
 const _mongoPassword = process.env.MONGO_INITDB_ROOT_PASSWORD || '';
 const _mongoURL = _nodeEnv === 'dev' ?
     `mongodb://localhost:${_dbPort}/` :
-    `mongodb://${_mongoUser}:${_mongoPassword}@db:${_dbPort}/`;
+    `mongodb://${_mongoUser}:${_mongoPassword}@${process.env.DB_DOMAIN}:${_dbPort}/`;
 
 console.log('DB_NAME : ' + process.env.DB_NAME);
 console.log('MONGO_INITDB_ROOT_USERNAME : ' + process.env.MONGO_INITDB_ROOT_USERNAME);
