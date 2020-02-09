@@ -40,7 +40,7 @@ function createCombinList (descList) {
     else {
         const recurRes = createCombinList(descList);
         const res = [];
-        if (recurRes === [])
+        if (recurRes.length === 0)
             firstDesc.combin.forEach((comb) => res.push(comb));
         else {
             for (const comb of firstDesc.combin) {
@@ -63,11 +63,12 @@ class PageCarac {
 
 class BlocCarac extends PageCarac {
     static get TYPE () { return 'bloc'; }
-    constructor (id, bloc, desc, featureList, isActive = false, isShown = false) {
+    constructor (id, bloc, desc, featureList, descChoice, isActive = false, isShown = false) {
         super(id, BlocCarac.TYPE, isActive, isShown);
         this.bloc = bloc;
         this.description = desc;
         this.featureList = featureList;
+        this.descChoice = descChoice;
     }
 }
 
@@ -107,7 +108,7 @@ function createPageList (config) {
     config.surveyConfiguration.descNames.forEach(desc => {
         blocList.forEach(bloc => {
             pageList.push(new BlocCarac(++i, bloc, desc,
-                selectFeatures(bloc, { name: desc.name, choice: desc.combin[0] }, config.features)));
+                selectFeatures(bloc, desc.name, config.features), desc.combin[0]));
         });
     });
 
@@ -134,15 +135,13 @@ function createPageList (config) {
  * @returns {Array} A list of the features selected to be in the bloc
  * 
  */
-function selectFeatures (bloc, description, allFeatures) {
+function selectFeatures (bloc, descriptionName, allFeatures) {
     const usedFeatures = [];
 
     allFeatures.forEach((feature) => {
         if (bloc.type === feature.type) {
             // we search in the combinatory object if the current feature is compatible
-            const found = feature.combin.find(
-                f => description.name === f.descName && f[description.choice]
-            );
+            const found = feature.combin.find(f => descriptionName === f.descName);
 
             // if we found a combinatory that matched the description and bloc, we add the feature
             if (found)
@@ -169,12 +168,13 @@ function setUpMenu (config) {
         data: {
             combinList: strCombinList,
             selectCombin: strCombinList[0],
-            showCombin: false
+            showCombin: false,
+            descNames: config.surveyConfiguration.descNames.map(desc => desc.name).join(combinSepar)
         },
         methods: {
             changeActive (targetCB) {
                 const typeToChange = targetCB.getAttribute('target-type');
-                bodyVue.pageList.forEach((page, i, listPage) => {
+                bodyVue.pageList.forEach((page, i) => {
                     if (page.type === typeToChange && i !== 0)
                         page.isActive = !page.isActive;
 
@@ -183,12 +183,15 @@ function setUpMenu (config) {
                 });
 
                 // if we check the "bloc" checkbox, then change the disabled of the combinatories radios
-                if (typeToChange === PageCarac.TYPE_BLOC)
+                if (typeToChange === BlocCarac.TYPE)
                     this.showCombin = !this.showCombin;
             },
             goToPage (targetLink) {
                 const targetPageId = targetLink.getAttribute('target-page-id');
                 bodyVue.showPage(targetPageId);
+            },
+            changeCombin (targetRadio) {
+                bodyVue.actuCombin(this.descNames.split(combinSepar), targetRadio.getAttribute('value').split(combinSepar));
             }
         }
     });
@@ -216,6 +219,15 @@ function setUpPreviz (config) {
                 }
 
                 this.shown = this.pageList.find(page => page.isShown).id;
+            },
+            actuCombin (tabDescNames, tabCombinChosed) {
+                this.pageList = this.pageList.map(page => {
+                    if (page.type === BlocCarac.TYPE) {
+                        const index = tabDescNames.findIndex(name => name === page.description.name);
+                        page.descChoice = tabCombinChosed[index];
+                    }
+                    return page;
+                });
             },
             showNext (step) {
                 let seeShown = false;

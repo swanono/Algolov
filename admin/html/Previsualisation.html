@@ -44,19 +44,19 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                                     </a>
                                 </li>
                             </label>
-                            <label for="Fin">
-                                <li>
-                                    <a>
-                                        Fin
-                                        <input id="Fin" name="checkfin" type="checkbox" target-type="questEnd" @change="changeActive($event.target);"/>
-                                    </a>
-                                </li>
-                            </label>
                             <label for="Classement">
                                 <li>
                                     <a>
                                         Classement
                                         <input id="Classement" name="checkclassement" type="checkbox" target-type="bloc" @change="changeActive($event.target);"/>
+                                    </a>
+                                </li>
+                            </label>
+                            <label for="Fin">
+                                <li>
+                                    <a>
+                                        Fin
+                                        <input id="Fin" name="checkfin" type="checkbox" target-type="questEnd" @change="changeActive($event.target);"/>
                                     </a>
                                 </li>
                             </label>
@@ -66,40 +66,24 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                 <li id="combinatoire">
                     <a>Combinatoire</a>
                     <ul class="sous">
-                        <form>
-                            <label for="HF">
+                        <form v-if="showCombin">
+                            <li>
+                                <p>
+                                    {{ descNames.toUpperCase() }}
+                                </p>
+                            </li>
+                            <label v-for="(combin, i) in combinList">
                                 <li>
                                     <a>
-                                        H-F
-                                        <input id="HF" name="combin" type="radio"/>
-                                    </a>
-                                </li>
-                            </label>
-                            <label for="HH">
-                                <li>
-                                    <a>
-                                        HH
-                                        <input id="HH" name="combin" type="radio"/>
-                                    </a>
-                                </li>
-                            </label>
-                            <label for="FF">
-                                <li>
-                                    <a>
-                                        FF
-                                        <input id="FF" name="combin" type="radio"/>
-                                    </a>
-                                </li>
-                            </label>
-                            <label for="FH">
-                                <li>
-                                    <a>
-                                        FH
-                                        <input id="FH" name="combin" type="radio"/>
+                                        {{ combin }}
+                                        <input :id="'input ' + combin" :value="combin" type="radio" name="combin" v-model="selectCombin" :checked="i == 0" @change="changeCombin($event.target)">
                                     </a>
                                 </li>
                             </label>
                         </form>
+                        <p v-else>
+                            Vous n'avez pas activé l'affichage des pages de classement.
+                        </p>
                     </ul>
                 </li>
                 <li id="page-links">
@@ -168,7 +152,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                     <table id="scale_tab" class="noselect">
                         <!-- Header row -->
                         <tr>
-                            <td :colspan="page.bloc.likertSize.length">
+                            <td :colspan="page.bloc.likertSize">
                                 {{ page.description.text }}
                                 <br />
                                 {{ page.bloc.question }}
@@ -190,10 +174,10 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         </tr>
                         <!-- Initial container row -->
                         <tr>
-                            <td>
+                            <td :colspan="page.bloc.likertSize">
                                 <div id="initial_container" class="nestable container" :colspan="page.bloc.likertSize">
                                     <div v-for="feat in page.featureList" :id="'feature_' + feat.id" class="nested-item feature-card" location="initial_container">
-                                        <div v-if="feat.content == 'text'">
+                                        <div v-if="feat.content == 'text'" v-show="feat.combin.find(c => c.descName == page.description.name)[page.descChoice]">
                                             {{ feat.data }}
                                         </div>
                                     </div>
