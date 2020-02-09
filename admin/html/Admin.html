@@ -70,7 +70,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
             <li>
                 <a href="./UploadPDF.html">
                     Uploader Nouveau PDF d'information
-                    </a>
+                </a>
             </li>
             <li id = "menuCompte">
                 <a>Menu compte</a>
@@ -90,23 +90,18 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         Modifier le mot de passe
                         </a>
                     </li>
-                    
                 </ul>
-
             </li>
-            
-           
         </ul>
 
     </nav>
     <div id ="modif">
-<!--MODIF QUESTION-->
-    
+
+        <!--MODIF QUESTION-->
         <div id = QuestionList>
-            
+
             <h3 id="TitreQexist">Liste des questionnaires pour la classification</h3>
-            
-           
+
             <div>
                 <form id="formQuestionnaireFiles" method="POST" action="/api/admin/selectQuestionnaireDoc" @submit.prevent="sendSelectQuestionnaireDoc($event.target); stopFadeOut();">                      
                     <div v-for="doc in QuestionFiles" :class="'download-bar-container ' + doc.classAdd">
