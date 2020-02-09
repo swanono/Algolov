@@ -163,13 +163,23 @@ function setUpMenu (config) {
     // need a deep copy to avoid the pop side effects in createCombinList
     const strCombinList = createCombinList(JSON.parse(JSON.stringify(config.surveyConfiguration.descNames)));
 
+    const questList = [
+        ...config.QCM.begin.list.map(q => {
+            return { id: q.id, text: q.question.substring(0, 21) + ' ...', fullText: q.question };
+        }),
+        ...config.QCM.end.list.map(q => {
+            return { id: q.id, text: q.question.substring(0, 21) + ' ...', fullText: q.question };
+        })
+    ];
+
     menuVue = new Vue({
         el: '#menu',
         data: {
             combinList: strCombinList,
             selectCombin: strCombinList[0],
             showCombin: false,
-            descNames: config.surveyConfiguration.descNames.map(desc => desc.name).join(combinSepar)
+            descNames: config.surveyConfiguration.descNames.map(desc => desc.name).join(combinSepar),
+            questList: questList
         },
         methods: {
             changeActive (targetCB) {
@@ -187,8 +197,14 @@ function setUpMenu (config) {
                     this.showCombin = !this.showCombin;
             },
             goToPage (targetLink) {
-                const targetPageId = targetLink.getAttribute('target-page-id');
-                bodyVue.showPage(targetPageId);
+                const targetQuestId = parseInt(targetLink.getAttribute('target-quest-id'));
+                const targetPageId =
+                    bodyVue.pageList
+                        .filter(page => page.type.includes('quest'))
+                        .find(page => page.questionList.find(q => q.id === targetQuestId))
+                        .id;
+                if (targetPageId)
+                    bodyVue.showPage(targetPageId);
             },
             changeCombin (targetRadio) {
                 bodyVue.actuCombin(this.descNames.split(combinSepar), targetRadio.getAttribute('value').split(combinSepar));

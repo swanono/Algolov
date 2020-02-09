@@ -89,7 +89,11 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                 <li id="page-links">
                     <a>Pages</a>
                     <ul class="sous">
-
+                        <li>
+                            <a v-for="quest in questList" href="#" :title="quest.fullText" :target-quest-id="quest.id" @click="goToPage($event.target)">
+                                {{ quest.text }}
+                            </a>
+                        </li>
                     </ul>
                 </li>
             </ul>
