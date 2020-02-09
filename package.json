@@ -35,6 +35,7 @@
     "lintjs": "./node_modules/.bin/eslint ./",
     "lintcss": "./node_modules/.bin/stylelint **/*.css",
     "linthtml": "./node_modules/.bin/html-linter --config .htmllinterrc.json",
+    "lint": "npm run lintjs & npm run lintcss & npm run linthtml",
     "unitTest": "jest",
     "addAdmin": "node rootAdminManager.js addRootAdmin",
     "deleteAdmin": "node rootAdminManager.js deleteRootAdmin"
