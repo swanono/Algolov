@@ -16,6 +16,8 @@ h1 {
 
 h3 {
     text-align: center;
+    margin-top:1%;
+    margin-bottom:1%;
 }
 
 
@@ -224,13 +226,22 @@ nav a {
     padding: 10px 0px;
 }
 
+.GestionCompte{
+    display:flex;
+    justify-content: flex-end;
+    margin-right:2%;
+    background-color:lightgrey;
+    margin-bottom:1%;
+    margin-top:1%;
+}
+
 .sous a{
     padding:10px;
     border-bottom: none;
 }
 nav a:hover{
-    color:rgba(221, 119, 17, 0.795);
-    border-bottom: 2px solid gold;
+    color:black;
+    border-bottom: 2px solid lightskyblue;
 }
 
 
