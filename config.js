@@ -44,6 +44,7 @@ module.exports = {
     adminEmailRegex: /^[A-Za-z0-9._%+-]+@[a-z0-9-]+\\.[a-z]{2,}$/,
     adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})$/,
     pathPostChangeFeatures: '/admin/changeFeatures',
+    pathPostChangePDF: '/admin/changePDF',
     pathGetHistoricFeatures: '/admin/historicFeatures',
     pathGetBasicStats: '/admin/basicStats',
     pathPostSelectFeatures: '/admin/selectFeatures',

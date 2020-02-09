@@ -163,14 +163,14 @@ function setUpMenu (config) {
     // need a deep copy to avoid the pop side effects in createCombinList
     const strCombinList = createCombinList(JSON.parse(JSON.stringify(config.surveyConfiguration.descNames)));
 
-    const questList = [
-        ...config.QCM.begin.list.map(q => {
-            return { id: q.id, text: q.question.substring(0, 21) + ' ...', fullText: q.question };
-        }),
-        ...config.QCM.end.list.map(q => {
-            return { id: q.id, text: q.question.substring(0, 21) + ' ...', fullText: q.question };
-        })
-    ];
+    const questList = 
+        ['begin', 'end']
+            .map(
+                n => config.QCM[n].list.map(
+                    q => { return { id: q.id, text: q.question.substring(0, 21) + ' ...', fullText: q.question }; }
+                )
+            )
+            .flat();
 
     menuVue = new Vue({
         el: '#menu',

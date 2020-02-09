@@ -25,6 +25,7 @@ const DataGetter = require('./pageData');
 const express = require('express');
 const FormHandler = require('formidable');
 const path = require('path');
+const fs = require('fs');
 const CredentialManager = require('./credentialsData');
 
 // BCrypt module
@@ -48,11 +49,24 @@ module.exports = (passport) => {
 
     app.post(config.pathPostChangeFeatures, function (req, res) {
         const form = new FormHandler.IncomingForm();
-        form.parse(req, function (err, fields, files) {
+        form.parse(req, function (err, _, files) {
             if (err)
                 res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
             else
                 loadExcel(files[Object.keys(files)[0]].path, true, req, res);
+        });
+    });
+    
+    app.post(config.pathPostChangePDF, function (req, res) {
+        const form = new FormHandler.IncomingForm();
+        form.parse(req, function (err, _, files) {
+            if (err)
+                res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
+            else {
+                fs.writeFileSync('./public/survey/study.pdf',
+                    fs.readFileSync(files[Object.keys(files)[0]].path));
+                res.json({ ok: true, message: 'Le PDF a été modifié avec succès !' });
+            }
         });
     });
 
@@ -87,7 +101,6 @@ module.exports = (passport) => {
         req.logOut();
         res.redirect(config.directoryPrefix + '/public/connexion/html/');
     });
-
 
     return app;
 
