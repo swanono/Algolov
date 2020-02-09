@@ -29,7 +29,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
     <title>AlgoLov - Previsualisation </title>
 </head>
-    <body>
+    <body onload="getConfig();">
         <nav>
             <ul class="menu" id="menu">
                 <li id="questionnaire">
@@ -40,22 +40,26 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                                 <li>
                                     <a>
                                         Début
-                                        <input id="Debut" name="checkdebut" type="checkbox"/>
+                                        <input id="Debut" name="checkdebut" type="checkbox" @change="changeActive($event.target);"/>
                                     </a>
                                 </li>
                             </label>
-                            <li>
-                                <a>
-                                    <label for="Fin">Fin</label>
-                                    <input id="Fin" name="checkfin" type="checkbox"/>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <label for="Classement">Classement</label>
-                                    <input id="Classement" name="checkclassement" type="checkbox"/>
-                                </a>
-                            </li>
+                            <label for="Fin">
+                                <li>
+                                    <a>
+                                        Fin
+                                        <input id="Fin" name="checkfin" type="checkbox" @change="changeActive($event.target);"/>
+                                    </a>
+                                </li>
+                            </label>
+                            <label for="Classement">
+                                <li>
+                                    <a>
+                                        Classement
+                                        <input id="Classement" name="checkclassement" type="checkbox" @change="changeActive($event.target);"/>
+                                    </a>
+                                </li>
+                            </label>
                         </form>
                     </ul>
                 </li>
@@ -63,30 +67,38 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                     <a>Combinatoire</a>
                     <ul class="sous">
                         <form>
-                            <li>
-                                <a>
-                                    <label for="HF">H-F</label>
-                                    <input id="HF" name="combin" type="radio"/>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <label for="HH">HH</label>
-                                    <input id="HH" name="combin" type="radio"/>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <label for="FF">FF</label>
-                                    <input id="FF" name="combin" type="radio"/>
-                                </a>
-                            </li>
-                            <li>
-                                <a>
-                                    <label for="FH">FH</label>
-                                    <input id="FH" name="combin" type="radio"/>
-                                </a>
-                            </li>
+                            <label for="HF">
+                                <li>
+                                    <a>
+                                        H-F
+                                        <input id="HF" name="combin" type="radio"/>
+                                    </a>
+                                </li>
+                            </label>
+                            <label for="HH">
+                                <li>
+                                    <a>
+                                        HH
+                                        <input id="HH" name="combin" type="radio"/>
+                                    </a>
+                                </li>
+                            </label>
+                            <label for="FF">
+                                <li>
+                                    <a>
+                                        FF
+                                        <input id="FF" name="combin" type="radio"/>
+                                    </a>
+                                </li>
+                            </label>
+                            <label for="FH">
+                                <li>
+                                    <a>
+                                        FH
+                                        <input id="FH" name="combin" type="radio"/>
+                                    </a>
+                                </li>
+                            </label>
                         </form>
                     </ul>
                 </li>
@@ -99,16 +111,16 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
             </ul>
         </nav>
        
-        <a href="#" id="arrowLeft">
+        <a href="#" id="arrowLeft" @click="addShow()">
             <img src="../images/arrowLeft.png" width="50px" height="70px" />
         </a>
-        <a href="#" id="arrowRight">
+        <a href="#" id="arrowRight" @click="addShow()">
             <img src="../images/arrowRight.png" width="50px" height="70px" />
         </a>
 
         
         <div id="pages">
-            <div class="page" v-for="page in pageList" v-show="page.id == shown">
+            <div class="page" v-for="page in pageList" v-show="page.isShown && page.isActive">
                 <!-- Unchangeable pages -->
                 <div class="page-unchangeable" v-if="page.type == 'else'">
                     <div class="centered-text">{{ page.text }}</div>
@@ -145,7 +157,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                 </div>
 
                 <!-- Blocs pages -->
-                <div :id="'bloc_' + page.bloc.blocId" class="bloc" :blocType="page.bloc.type">
+                <div v-if="page.type.includes('bloc')" :id="'bloc_' + page.bloc.blocId" class="bloc" :blocType="page.bloc.type">
                     <table id="scale_tab" class="noselect">
                         <!-- Header row -->
                         <tr>
@@ -161,13 +173,25 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                                 {{ headTxt }}
                             </td>
                         </tr>
-                        <!-- Likert sclae row -->
+                        <!-- Likert scale row -->
                         <tr class="heading">
-
+                            <td v-for="i in page.bloc.likertSize">
+                                <div :id="'rankContainer_' + (i - page.bloc.likertSize/2)" class="nestable container rank">
+                                    <!-- Empty features container -->
+                                </div>
+                            </td>
                         </tr>
                         <!-- Initial container row -->
                         <tr>
-
+                            <td>
+                                <div id="initial_container" class="nestable container" :colspan="page.bloc.likertSize">
+                                    <div v-for="feat in page.featureList" :id="'feature_' + feat.id" class="nested-item feature-card" location="initial_container">
+                                        <div v-if="feat.content == 'text'">
+                                            {{ feat.data }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                     </table>
                 </div>

@@ -157,6 +157,8 @@ function selectFeatures (bloc, description, allFeatures) {
 
 let menuVue = null;
 let bodyVue = null;
+let arrowLeft = null;
+let arrowRight = null;
 
 function setUpMenu (config) {
     const strCombinList = createCombinList(config.surveyConfiguration.descNames);
@@ -171,21 +173,23 @@ function setUpMenu (config) {
         methods: {
             changeActive (targetCB) {
                 const typeToChange = targetCB.getAttribute('name');
-                bodyVue.$data.pageList.forEach((page, i, listPage) => {
+                bodyVue.pageList.forEach((page, i, listPage) => {
                     if (page.type === typeToChange && i !== 0)
                         page.isActive = !page.isActive;
-                    
+
                     if (page.isShown && !page.isActive) {
                         page.isShown = false;
                         listPage[0].isShown = true;
                     }
+
+                    Vue.set(bodyVue.pageList, i, page);
+                    Vue.set(bodyVue.pageList, 0, listPage[0]);
                 });
 
                 // if we check the "bloc" checkbox, then change the disabled of the combinatories radios
                 if (typeToChange === PageCarac.TYPE_BLOC)
                     this.showCombin = !this.showCombin;
             },
-
             goToPage (targetLink) {
                 const targetPageId = targetLink.getAttribute('target-page-id');
                 bodyVue.showPage(targetPageId);
@@ -211,7 +215,7 @@ function setUpPreviz (config) {
                     return page;
                 });
 
-                this.shown = this.pageList.filter(page => page.isShown).id;
+                this.shown = this.pageList.find(page => page.isShown).id;
             },
             getColspan (nbCells, indexCell, scaleSize) {
                 const specialCase = (nbCells % 2 === 0 && scaleSize % 2 === 1);
@@ -247,12 +251,44 @@ function setUpPreviz (config) {
             }
         },
         mounted () {
-            this.$nextTick(() => {
-                // TODO pages here
-                this.pageList.forEach(page => page.create());
+            this.$nextTick(function () {
                 this.showPage(1);
-                
+
+                const blocIdDone = [];
+                this.pageList.forEach(page => {
+                    if (page.type === BlocCarac.TYPE && !blocIdDone.includes(page.bloc.blocId)
+                        && ((page.bloc.legends.length % 2 === 0 && page.bloc.likertSize % 2 === 1)
+                        || page.bloc.legends.length === 2)) {
+                        const rows = document.querySelectorAll(`#bloc_${page.bloc.blocId} tr.heading_txt`);
+                        for (const row of rows) {
+                            let td = row.firstElementChild;
+                            for (let i = 0; i + 1 < page.bloc.legends.length / 2; i++)
+                                td = td.nextElementSibling;
+                            td.after(document.createElement('td'));
+                        }
+                        blocIdDone.push(page.bloc.blocId);
+                    }
+                });
             });
+        }
+    });
+
+    arrowLeft = new Vue({
+        el: '#arrowLeft',
+        methods: {
+            addShow () {
+                if (bodyVue.shown > 1)
+                    bodyVue.showPage(bodyVue.shown - 1);
+            }
+        }
+    });
+    arrowRight = new Vue({
+        el: '#arrowRight',
+        methods: {
+            addShow () {
+                if (bodyVue.shown < bodyVue.pageList.length)
+                    bodyVue.showPage(bodyVue.shown + 1);
+            }
         }
     });
 }

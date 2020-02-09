@@ -22,6 +22,7 @@ This module is used for the interactivity of the Admin page
 'use strict';
 
 let formVue = null;
+let statsWindow = null;
 
 async function sendSelectFeatureDoc (formTag) {
     const formData = new FormData(formTag);
@@ -42,8 +43,10 @@ async function sendSelectFeatureDoc (formTag) {
     // eslint-disable-next-line no-undef
     setAlertMessage(innerHTML, res.ok);
 
-    if (res.ok)
+    if (res.ok) {
         formVue.update();
+        fillStatsTable();
+    }
 }
 
 /**********  VUE  *********/
@@ -110,13 +113,18 @@ async function fillStatsTable () {
         0
     );
 
-    const statsWindow = new Vue({
-        el: '#stats-div',
-        data: {
-            stats: stats,
-            statsColspan: colspanMax
-        }
-    });
+    if (!statsWindow) {
+        statsWindow = new Vue({
+            el: '#stats-div',
+            data: {
+                stats: stats,
+                statsColspan: colspanMax
+            }
+        });
+    } else {
+        statsWindow.stats = stats;
+        statsWindow.statsColspan = colspanMax;
+    }
 }
 /**********  FIN VUE  *********/
 
