@@ -105,7 +105,7 @@ function changeState () {
         DOMGenerator.addCheckBoxToSee(window.consts.CONTINUE_BUTTON_ID, 'Cochez la case si vous acceptez les conditions ci-dessus ');
     } else if (window.state === 2) {
         // The second step of the survey : Explaining how the survey works
-        DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => {
+        DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuer', () => {
             TraceStorage.storeNextStepEvent(window.state);
             changeState();
         });

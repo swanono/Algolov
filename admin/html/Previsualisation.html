@@ -40,7 +40,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                                 <li>
                                     <a>
                                         Début
-                                        <input id="Debut" name="checkdebut" type="checkbox" @change="changeActive($event.target);"/>
+                                        <input id="Debut" name="checkdebut" type="checkbox" target-type="questBegin" @change="changeActive($event.target);"/>
                                     </a>
                                 </li>
                             </label>
@@ -48,7 +48,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                                 <li>
                                     <a>
                                         Fin
-                                        <input id="Fin" name="checkfin" type="checkbox" @change="changeActive($event.target);"/>
+                                        <input id="Fin" name="checkfin" type="checkbox" target-type="questEnd" @change="changeActive($event.target);"/>
                                     </a>
                                 </li>
                             </label>
@@ -56,7 +56,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                                 <li>
                                     <a>
                                         Classement
-                                        <input id="Classement" name="checkclassement" type="checkbox" @change="changeActive($event.target);"/>
+                                        <input id="Classement" name="checkclassement" type="checkbox" target-type="bloc" @change="changeActive($event.target);"/>
                                     </a>
                                 </li>
                             </label>
@@ -129,7 +129,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
                 <!-- Questions pages -->
                 <div class="page-quest" v-if="page.type.includes('quest')">
-                    <form>
+                    <form id="form-id">
                         <fieldset v-for="quest in page.questionList" :id="'idQuest_' + quest.id">
                             <p>{{ quest.question }}</p>
                             
@@ -152,7 +152,14 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                                 <label :for="'idInput_' + quest.id + '_' + choice.choiceId">{{ choice.text }}</label>
                             
                             </div>
+
+                            <!-- Field "Other" when needed -->
+                            <div v-if="quest.other" class="divQuest">
+                                <input type="text" :id="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)" :class="'classInput_' + quest.id" :name="'classInput_' + quest.id" />
+                                <label for="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)">Autre</label>
+                            </div>
                         </fieldset>
+                        <button type="submit" form="form-id">Continuer</button>
                     </form>
                 </div>
 
@@ -194,6 +201,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                             </td>
                         </tr>
                     </table>
+                    <button id="stop-button">Arrêter le questionnaire</button>
+                    <button id="continuebutton">Continuer</button>
                 </div>
             </div>
         </div>

@@ -161,7 +161,8 @@ let arrowLeft = null;
 let arrowRight = null;
 
 function setUpMenu (config) {
-    const strCombinList = createCombinList(config.surveyConfiguration.descNames);
+    // need a deep copy to avoid the pop side effects in createCombinList
+    const strCombinList = createCombinList(JSON.parse(JSON.stringify(config.surveyConfiguration.descNames)));
 
     menuVue = new Vue({
         el: '#menu',
@@ -172,18 +173,13 @@ function setUpMenu (config) {
         },
         methods: {
             changeActive (targetCB) {
-                const typeToChange = targetCB.getAttribute('name');
+                const typeToChange = targetCB.getAttribute('target-type');
                 bodyVue.pageList.forEach((page, i, listPage) => {
                     if (page.type === typeToChange && i !== 0)
                         page.isActive = !page.isActive;
 
-                    if (page.isShown && !page.isActive) {
-                        page.isShown = false;
-                        listPage[0].isShown = true;
-                    }
-
-                    Vue.set(bodyVue.pageList, i, page);
-                    Vue.set(bodyVue.pageList, 0, listPage[0]);
+                    if (page.isShown && !page.isActive)
+                        bodyVue.showPage(1);
                 });
 
                 // if we check the "bloc" checkbox, then change the disabled of the combinatories radios
@@ -203,19 +199,44 @@ function setUpPreviz (config) {
         el: '#pages',
         data: {
             pageList: createPageList(config),
-            shown: 0
+            shown: 1
         },
         methods: {
             showPage (pageId) {
-                this.pageList = this.pageList.map(page => {
-                    if (page.isShown)
-                        page.isShown = false;
-                    if (page.id === pageId)
-                        page.isShown = true;
-                    return page;
-                });
+                const showable = this.pageList.find(page => page.id === pageId).isActive;
+
+                if (showable) {
+                    this.pageList = this.pageList.map(page => {
+                        if (page.isShown)
+                            page.isShown = false;
+                        if (page.id === pageId)
+                            page.isShown = true;
+                        return page;
+                    });
+                }
 
                 this.shown = this.pageList.find(page => page.isShown).id;
+            },
+            showNext (step) {
+                let seeShown = false;
+                let changeShown = true;
+                const self = this;
+                (step > 0 ? this.pageList : this.pageList.slice().reverse())
+                    .filter(page => {
+                        if (page.id === self.shown) {
+                            seeShown = true;
+                            return false;
+                        }
+                        if (seeShown)
+                            return true;
+                        return false;
+                    })
+                    .forEach(page => {
+                        if (page.isActive && changeShown) {
+                            self.showPage(page.id);
+                            changeShown = false;
+                        }
+                    });
             },
             getColspan (nbCells, indexCell, scaleSize) {
                 const specialCase = (nbCells % 2 === 0 && scaleSize % 2 === 1);
@@ -277,8 +298,7 @@ function setUpPreviz (config) {
         el: '#arrowLeft',
         methods: {
             addShow () {
-                if (bodyVue.shown > 1)
-                    bodyVue.showPage(bodyVue.shown - 1);
+                bodyVue.showNext(-1);
             }
         }
     });
@@ -286,8 +306,7 @@ function setUpPreviz (config) {
         el: '#arrowRight',
         methods: {
             addShow () {
-                if (bodyVue.shown < bodyVue.pageList.length)
-                    bodyVue.showPage(bodyVue.shown + 1);
+                bodyVue.showNext(+1);
             }
         }
     });
