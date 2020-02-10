@@ -46,6 +46,10 @@ nav a {
     padding:10px;
     border-bottom: none;
 }
+.sous p{
+    padding:10px;
+    border-bottom: none;
+}
 nav a:hover{
     color:orange;
     border-bottom: 2px solid gold;

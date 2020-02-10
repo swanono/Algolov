@@ -27,7 +27,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <link rel="stylesheet" href="../css/alertMessage.css"/>
 
     <script type="text/javascript" src="../js/alertMessage.js" ></script>
-    <script type="text/javascript" src="../js/ModifFeature.js" ></script>
+    <script type="text/javascript" src="../js/UploadPDF.js" ></script>
 
 </head>
     <body>
@@ -39,7 +39,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         <div class="download-bar-container">
             <a id="Template-PDF" class="download-bar bouton" href="../../public/survey/study.pdf" target="_blank">
                 <img src="../images/logo-pdf.png" alt="logo pdf" width="30px" height="30px"/>
-                <div>Télécharger le PDF visible en fin de questionnaire</div>
+                <div>Voir le PDF actif</div>
             </a>
         </div>
 
@@ -47,7 +47,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
         </div>
 
-        <form id="Upload-Form" action="/api/admin/changePDF" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewExcel(); stopFadeOut();">
+        <form id="Upload-Form" action="/api/admin/changePDF" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewPDF(); stopFadeOut();">
             <p>Cliquez sur le bouton ci-dessous pour charger un nouveau pdf :</p>
             <input id="new-pdf-input" type="file" name="Pdf-Upload" accept=".pdf" class="bouton">
             <input type="submit" value="Envoyer" class="bouton">
