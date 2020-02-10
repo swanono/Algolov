@@ -32,7 +32,7 @@ class DOMGenerator {
         const descConfig = surveyConfig.descNames[Math.floor(blocState / surveyConfig.nbBlocPerDesc)];
         window.currentDescription = descConfig.name;
         TraceStorage.storeNextStepEvent(window.state, 'desc_' + descConfig.name);
-        DOMGenerator.generateStepPage(descConfig.presentation, 'Commencer', () => DOMGenerator.loadBloc());
+        DOMGenerator.generateStepPage(descConfig.presentation, window.config.textButton.startSurvey, () => DOMGenerator.loadBloc());
     }
 
     static loadBloc () {
@@ -93,7 +93,7 @@ class DOMGenerator {
 
         const stopButton = document.createElement('button');
         stopButton.setAttribute('id', 'stop-button');
-        stopButton.appendChild(document.createTextNode('Arrêter le questionnaire'));
+        stopButton.appendChild(document.createTextNode(window.config.textButton.stopSurvey));
         stopButton.addEventListener('click', () => {
             TraceStorage.saveSortedBloc();
             TraceStorage.appendToStorage('terminated', 'true');
@@ -586,7 +586,7 @@ class DOMGenerator {
 
         const buttonExists = document.getElementById(window.consts.CONTINUE_BUTTON_ID);
         if (isComplete && !buttonExists) {
-            DOMGenerator.loadContinueButton('Continuer', () => {
+            DOMGenerator.loadContinueButton(window.config.textButton.continue, () => {
                 TraceStorage.saveSortedBloc();
                 changeState();
             });
