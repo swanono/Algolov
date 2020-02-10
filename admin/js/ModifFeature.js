@@ -28,8 +28,19 @@ async function sendNewExcel () {
         method: 'POST',
         body: formData
     });
+    
+    let error = false;
+    if (!fetchRes.ok) {
+        console.error('Une erreur est survenue lors de la récupération des données : ' + (fetchRes.statusText || fetchRes.message));
+        error = true;
+    }
 
     const res = await fetchRes.json();
+
+    if (error) {
+        res.message = 'Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).';
+        res.ok = false;
+    }
 
     const innerHTML = res.message.split('/').map((m) => m.trim()).join('<br/>');
 

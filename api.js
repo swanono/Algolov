@@ -51,8 +51,13 @@ module.exports = (passport) => {
         form.parse(req, function (err, fields, files) {
             if (err)
                 res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
-            else
-                loadExcel(files[Object.keys(files)[0]].path, true, req, res);
+            else {
+                try {
+                    loadExcel(files[Object.keys(files)[0]].path, true, req, res);
+                } catch (exception) {
+                    res.status(400).send(new Error('Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'));
+                }
+            }
         });
     });
 
@@ -74,7 +79,12 @@ module.exports = (passport) => {
 
     app.post(config.pathPostSelectFeatures, function (req, res) {
         const filePath = JSON.parse(req.body[Object.keys(req.body)[0]]);
-        loadExcel(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
+        try {
+            loadExcel(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
+        } catch (exception) {
+            console.log('coucou');
+            res.status(400).send(new Error('Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'));
+        }
     });
 
     app.post(config.pathPostLogin, function (req, res, next) {
