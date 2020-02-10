@@ -21,7 +21,7 @@ This module is used to handle client requests and redirect them to the right ana
 const daos = require('./dao');
 const config = require('./config.js');
 const ExcelReader = require('./excelReader');
-const DataGetter = require('./pageData');
+const { DataGetter, FeatureDataGetter, QuestionDataGetter } = require('./pageData');
 const express = require('express');
 const FormHandler = require('formidable');
 const path = require('path');
@@ -57,7 +57,13 @@ module.exports = (passport) => {
     });
 
     app.get(config.pathGetHistoricFeatures, function (req, res) {
-        res.json(DataGetter.getFeatureDocsHist());
+        const getter = new FeatureDataGetter();
+        res.json(getter.getDocsHist());
+    });
+
+    app.get(config.pathGetHistoricQuestions, function (req, res) {
+        const getter = new QuestionDataGetter();
+        res.json(getter.getDocsHist());
     });
 
     app.get(config.pathGetBasicStats, function (req, res) {

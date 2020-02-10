@@ -23,24 +23,24 @@ const daos = require('./dao');
 const config = require('./config');
 
 class DataGetter {
-    static getFeatureDocsHist () {
+    getDocsHist (directory = 'features_files', stringHistoric = 'lastFeatureFile') {
         const docs = [];
 
-        const basePath = './admin/features_files/historic';
+        const basePath = `./admin/${directory}/historic`;
 
         const featuresDir = fs.readdirSync(basePath);
 
-        const usedFile = JSON.parse(fs.readFileSync('./admin/historic.json')).lastFeatureFile;
+        const usedFile = JSON.parse(fs.readFileSync('./admin/historic.json'))[stringHistoric];
 
         featuresDir.forEach(featuresFile => {
             const newDoc = {};
 
-            newDoc.path = '../features_files/historic/' + featuresFile;
+            newDoc.path = `../${directory}/historic/` + featuresFile;
             newDoc.name = featuresFile;
             if (usedFile === featuresFile)
                 newDoc.isUsed = true;
             
-            newDoc.modifDate = fs.statSync(`${basePath}/${featuresFile}`).mtime;
+            newDoc.modifDate = fs.statSync(`${basePath}/${featuresFile}`).birthtime;
 
             docs.push(newDoc);
         });
@@ -89,4 +89,16 @@ class DataGetter {
     }
 }
 
-module.exports = DataGetter;
+class FeatureDataGetter extends DataGetter {
+    getDocsHist () {
+        return super.getDocsHist('features_files', 'lastFeatureFile');
+    }
+}
+
+class QuestionDataGetter extends DataGetter {
+    getDocsHist () {
+        return super.getDocsHist('questions_files', 'lastQuestionFile');
+    }
+}
+
+module.exports = { DataGetter, FeatureDataGetter, QuestionDataGetter };

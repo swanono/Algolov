@@ -21,71 +21,8 @@ This module is used for the interactivity of the Admin page
 /* globals Vue */
 'use strict';
 
-let formVue = null;
-
-async function sendSelectFeatureDoc (formTag) {
-    const formData = new FormData(formTag);
-    const body = {};
-    for (const pair of formData)
-        body[pair[0]] = pair[1];
-
-    const fetchRes = await fetch('/api/admin/selectFeatures', {
-        method: 'POST',
-        body: JSON.stringify(body),
-        headers: new Headers({ 'Content-type': 'application/json' })
-    });
-
-    const res = await fetchRes.json();
-
-    const innerHTML = res.message.split('/').map((m) => m.trim()).join('<br/>');
-
-    // eslint-disable-next-line no-undef
-    setAlertMessage(innerHTML, res.ok);
-
-    if (res.ok)
-        formVue.update();
-}
-
-/**********  VUE  *********/
-async function fillFeaturesForm () {
-    const fetchRes = await fetch('/api/admin/historicFeatures', { method: 'GET' });
-
-    if (!fetchRes.ok) {
-        console.error('Une erreur est survenue lors de la récupération des données : ' + fetchRes.statusText);
-        return;
-    }
-
-    const docs = await fetchRes.json();
-    if (!Array.isArray(docs)) {
-        console.error('le serveur a envoyé des informations incorrectes : ' + JSON.stringify(docs));
-        return;
-    }
-
-    const dataVue = docs.sort((d1, d2) => new Date(d2.modifDate) - new Date(d1.modifDate)).map((doc, i) => {
-        const asString = JSON.stringify(doc);
-        doc.index = i;
-        doc.asString = asString;
-        doc.classAdd = doc.isUsed ? 'used-file' : '';
-        return doc;
-    });
-
-    formVue = new Vue({
-        el: '#formFeatureFiles',
-        data: {
-            featureFiles: dataVue,
-            featureSelect: dataVue.find(doc => doc.isUsed).asString
-        },
-        methods: {
-            update () {
-                this.featureFiles.forEach(doc => {
-                    const isSelected = (doc.asString === this.featureSelect);
-                    doc.isUsed = isSelected;
-                    doc.classAdd = isSelected ? 'used-file' : '';
-                });
-            }
-        }
-    });
-}
+let featFormVue = null;
+let questFormVue = null;
 
 async function fillStatsTable () {
     const fetchRes = await fetch('/api/admin/basicStats', { method: 'GET' });
@@ -118,9 +55,77 @@ async function fillStatsTable () {
         }
     });
 }
-/**********  FIN VUE  *********/
 
-function fillPage () {
-    fillFeaturesForm();
+async function fillForm (id, path) {
+    const fetchRes = await fetch(path, { method: 'GET' });
+
+    if (!fetchRes.ok) {
+        console.error('Une erreur est survenue lors de la récupération des données : ' + fetchRes.statusText);
+        return;
+    }
+
+    const docs = await fetchRes.json();
+    if (!Array.isArray(docs)) {
+        console.error('le serveur a envoyé des informations incorrectes : ' + JSON.stringify(docs));
+        return;
+    }
+
+    const dataVue = docs.sort((d1, d2) => new Date(d2.modifDate) - new Date(d1.modifDate)).map((doc, i) => {
+        const asString = JSON.stringify(doc);
+        doc.index = i;
+        doc.asString = asString;
+        doc.classAdd = doc.isUsed ? 'used-file' : '';
+        return doc;
+    });
+
+    return new Vue({
+        el: id,
+        data: {
+            files: dataVue,
+            select: dataVue.find(doc => doc.isUsed).asString
+        },
+        methods: {
+            update () {
+                this.files.forEach(doc => {
+                    const isSelected = (doc.asString === this.select);
+                    doc.isUsed = isSelected;
+                    doc.classAdd = isSelected ? 'used-file' : '';
+                });
+            }
+        }
+    });
+}
+
+async function sendSelectDoc (formTag) {
+    const path = formTag.getAttribute('action');
+    const formData = new FormData(formTag);
+    const body = {};
+    for (const pair of formData)
+        body[pair[0]] = pair[1];
+
+    const fetchRes = await fetch(path, {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: new Headers({ 'Content-type': 'application/json' })
+    });
+
+    const res = await fetchRes.json();
+
+    const innerHTML = res.message.split('/').map((m) => m.trim()).join('<br/>');
+
+    // eslint-disable-next-line no-undef
+    setAlertMessage(innerHTML, res.ok);
+
+    if (res.ok) {
+        if (path.toLowerCase().includes('feature'))
+            featFormVue.update();
+        else
+            questFormVue.update();
+    }
+}
+
+async function fillPage () {
     fillStatsTable();
+    featFormVue = await fillForm('#formFeatureFiles', '/api/admin/historicFeatures');
+    featFormVue = await fillForm('#formQuestionFiles', '/api/admin/historicQuestions');
 }
