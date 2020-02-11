@@ -20,7 +20,7 @@ This module is used to handle client requests and redirect them to the right ana
 
 const daos = require('./dao');
 const config = require('./config.js');
-const ExcelReader = require('./excelReader');
+const FeaturesReader = require('./FeaturesReader');
 const DataGetter = require('./pageData');
 const express = require('express');
 const FormHandler = require('formidable');
@@ -52,7 +52,7 @@ module.exports = (passport) => {
             if (err)
                 res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
             else
-                loadExcel(files[Object.keys(files)[0]].path, true, req, res);
+                loadFeatures(files[Object.keys(files)[0]].path, true, req, res);
         });
     });
 
@@ -68,7 +68,7 @@ module.exports = (passport) => {
 
     app.post(config.pathPostSelectFeatures, function (req, res) {
         const filePath = JSON.parse(req.body[Object.keys(req.body)[0]]);
-        loadExcel(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
+        loadFeatures(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
     });
 
     app.post(config.pathPostLogin, function (req, res, next) {
@@ -93,8 +93,8 @@ module.exports = (passport) => {
 
 };
 
-function loadExcel (path, save, req, res) {
-    const reader = new ExcelReader(path);
+function loadFeatures (path, save, req, res) {
+    const reader = new FeaturesReader(path);
     const errors = reader.validate();
     if (errors.length === 0) {
         reader.applyToConfig();

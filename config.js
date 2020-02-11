@@ -52,7 +52,14 @@ module.exports = {
     pathPostRegister : '/admin/register',
     pathPostUpdate : '/admin/update',
     pathLogOut : '/admin/logout',
-    excelSheetNames: { descript: 'Descriptions', types: 'Types', features: 'Features' },
+    excelSheetNames: { 
+        descript: 'Descriptions', types: 'Types', features: 'Features',
+        textSheet: 'Textes', questSheet: 'Questions' 
+    },
+    typeDetail: { 
+        feature: { lastFile: 'lastFeatureFile', histPath: './admin/features_files/historic/Features_'},
+        question: { lastFile: 'lastQuestionFile', histPath: './admin/questions_files/historic/Questions_'}
+    },
     blocLegends: {
         3: ['pas apprécié du tout', 'indifférent', 'très apprécié'],
         5: ['pas apprécié du tout', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'très apprécié'],
