@@ -163,7 +163,7 @@ button {
     width: 150px;
     height: 50px;
 }
-.bouton, [type = "submit"] {
+.bouton, #continuebutton, [type = "submit"] {
     display: block;
     position: relative;
     margin-left: auto;
