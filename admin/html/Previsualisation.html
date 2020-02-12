@@ -157,20 +157,20 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                     <table id="scale_tab" class="noselect">
                         <!-- Header row -->
                         <tr>
-                            <td :colspan="page.bloc.likertSize">
+                            <td class="heading_txt" :colspan="page.bloc.likertSize">
                                 {{ page.description.text }}
                                 <br />
                                 {{ page.bloc.question }}
                             </td>
                         </tr>
                         <!-- Likert text row -->
-                        <tr class="heading_txt">
+                        <tr class="heading">
                             <td v-for="(headTxt, i) in page.bloc.legends" :colspan="getColspan(page.bloc.legends.length, i, page.bloc.likertSize)">
                                 {{ headTxt }}
                             </td>
                         </tr>
                         <!-- Likert scale row -->
-                        <tr class="heading">
+                        <tr>
                             <td v-for="i in page.bloc.likertSize">
                                 <div :id="'rankContainer_' + (i - page.bloc.likertSize/2)" class="nestable container rank">
                                     <!-- Empty features container -->
@@ -181,10 +181,9 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         <tr>
                             <td :colspan="page.bloc.likertSize">
                                 <div id="initial_container" class="nestable container" :colspan="page.bloc.likertSize">
-                                    <div v-for="feat in page.featureList" :id="'feature_' + feat.id" class="nested-item feature-card" location="initial_container">
-                                        <div v-if="feat.content == 'text'" v-show="feat.combin.find(c => c.descName == page.description.name)[page.descChoice]">
-                                            {{ feat.data }}
-                                        </div>
+                                    <div v-for="feat in page.featureList" :id="'feature_' + feat.id" class="nested-item feature-card" location="initial_container"
+                                        v-if="feat.content == 'text'" v-show="feat.combin.find(c => c.descName == page.description.name)[page.descChoice]">
+                                        {{ feat.data }}
                                     </div>
                                 </div>
                             </td>

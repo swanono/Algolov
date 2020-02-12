@@ -90,6 +90,10 @@ nav > ul li:hover .sous{
 }
 
 /*---------------------------------------------------------------------------------*/
+
+/* TODO : ça marche pas si j'enleve la balise img donc ne pas mettre
+l'image depuis le css mais peut-être ajuster sa taille */
+
 #boutonDroite{
     background-image: image("../images/arrowRight.jpg");
 }
@@ -109,6 +113,9 @@ nav > ul li:hover .sous{
     padding-left: 25%;
     padding-right: 25%;
     padding-bottom: 50px;
+}
+.heading_txt {
+    font-size: 1.5em;
 }
 .heading {
 	font-weight: bold;
