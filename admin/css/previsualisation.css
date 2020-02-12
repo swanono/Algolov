@@ -135,9 +135,10 @@ l'image depuis le css mais peut-être ajuster sa taille */
 
 .nested-item {
     border: 1px solid;
-    /*width: 15vw;
-    height: 100px;*/
+    width: 10em;
+    height:5em;
     padding: 10px;
+    margin:2px;
     font-size: 0.8em;
     box-shadow: 4px 4px 2px #888888;
     border-radius: 25px;
@@ -146,6 +147,8 @@ l'image depuis le css mais peut-être ajuster sa taille */
     overflow: hidden; /* required for text-overflow */
     display: inline-block;
 }
+
+
 
 .nestable {
     border: 1px solid;
