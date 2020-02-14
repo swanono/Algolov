@@ -138,14 +138,11 @@ h3 {
 .download-bar {
     display: flex;
     align-items: center;
-
-     padding:6px 0 6px 0;
-	
-    background:white;
-	color:#555;
-	
-	
-	border:1px solid #ccc;
+    padding:6px 0 6px 0;
+	background:white;
+    color:#555;
+    margin-right: 20px;
+    border:1px solid #ccc;
 	box-shadow:1px 1px 3px grey;
 }
 .download-bar * {
@@ -154,14 +151,9 @@ h3 {
     vertical-align: center;
 }
 
-
-
-.used-file {
-    /* TODO : modifier pour que ça soit plus joli */
+.used-file {  
     background-color: lightgreen;
-   
 }
-
 
 .arrow {
     height: max-content;
