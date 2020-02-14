@@ -100,7 +100,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                 <li id="bouton-retour">
                     <a href="./Admin.html">
                         Retour au Menu Admin
-                        </a>
+                    </a>
                 </li>
             </ul>
         </nav>
@@ -186,7 +186,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         <tr>
                             <td :colspan="page.bloc.likertSize">
                                 <div id="initial_container" class="nestable container" :colspan="page.bloc.likertSize">
-                                    <div v-for="feat in page.featureList" :id="'feature_' + feat.id" class="nested-item feature-card" location="initial_container"
+                                    <div v-for="feat in page.featureList" id="'feature_' + feat.id" class="nested-item feature-card" location="initial_container"
                                         v-if="feat.content == 'text'" v-show="feat.combin.find(c => c.descName == page.description.name)[page.descChoice]">
                                         {{ feat.data }}
                                     </div>
