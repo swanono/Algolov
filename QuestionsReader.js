@@ -244,4 +244,4 @@ class QuestionsReader extends ExcelReader {
 
 }
 
-module.exports = FeaturesReader;
+module.exports = QuestionsReader;
