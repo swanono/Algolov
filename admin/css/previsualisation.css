@@ -291,8 +291,10 @@ fieldset {
 
 #arrowLeft{
     float:left;
+    margin-top:15%;
 }
 
 #arrowRight{
     float:right;
+    margin-top:15%;
 }
