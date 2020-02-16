@@ -82,12 +82,17 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
             
                 <h3 id="TitreQexist">Liste question(s) existante(s)</h3>
                 
-                <p id="liste question"> q1 ... </p>
-                <p id="liste question"> q1 ... </p>
-                <p id="liste question"> q1 ... </p>
-                <p id="liste question"> q1 ... </p>
-                <p id="liste question"> q1 ... </p>
-                <p id="liste question"> q1 ... </p>
+                <div>
+                    <form id="formQuestionFiles" method="POST" action="/api/admin/selectQuestions" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">
+                        <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd">
+                            <a class="download-bar bouton" :href="doc.path">
+                                <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
+                                <div>{{ doc.name }}</div>
+                            </a>
+                            <input :id="'question_file_' + doc.index" type="radio" name="select_question_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
+                        </div>
+                    </form>
+                </div>
                 
             </div>
 
@@ -99,13 +104,13 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
             <div id="FeaturesList">
                 <h3> Documents de features utilisables</h3>
                 <div>
-                    <form id="formFeatureFiles" method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectFeatureDoc($event.target); stopFadeOut();">                      
-                        <div v-for="doc in featureFiles" :class="'download-bar-container ' + doc.classAdd">
+                    <form id="formFeatureFiles" method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">                      
+                        <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd">
                             <a class="download-bar bouton" :href="doc.path">
                                 <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
                                 <div>{{ doc.name }}</div>
                             </a>
-                            <input :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" :checked="doc.isUsed" v-model="featureSelect" required />
+                            <input :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
                         </div>
                     </form>
                 </div>

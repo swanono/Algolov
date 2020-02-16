@@ -20,8 +20,13 @@ This module is used to handle client requests and redirect them to the right ana
 
 const daos = require('./dao');
 const config = require('./config.js');
+<<<<<<< HEAD
 const FeaturesReader = require('./FeaturesReader');
 const DataGetter = require('./pageData');
+=======
+const ExcelReader = require('./excelReader');
+const { DataGetter, FeatureDataGetter, QuestionDataGetter } = require('./pageData');
+>>>>>>> f6665fa65ed25e168a248f3fa5dcbd35f3fa2e9a
 const express = require('express');
 const FormHandler = require('formidable');
 const path = require('path');
@@ -51,13 +56,24 @@ module.exports = (passport) => {
         form.parse(req, function (err, fields, files) {
             if (err)
                 res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
-            else
-                loadFeatures(files[Object.keys(files)[0]].path, true, req, res);
+            else {
+                try {
+                    loadExcel(files[Object.keys(files)[0]].path, true, req, res);
+                } catch (exception) {
+                    res.status(400).send(new Error('Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'));
+                }
+            }
         });
     });
 
     app.get(config.pathGetHistoricFeatures, function (req, res) {
-        res.json(DataGetter.getFeatureDocsHist());
+        const getter = new FeatureDataGetter();
+        res.json(getter.getDocsHist());
+    });
+
+    app.get(config.pathGetHistoricQuestions, function (req, res) {
+        const getter = new QuestionDataGetter();
+        res.json(getter.getDocsHist());
     });
 
     app.get(config.pathGetBasicStats, function (req, res) {
@@ -68,7 +84,16 @@ module.exports = (passport) => {
 
     app.post(config.pathPostSelectFeatures, function (req, res) {
         const filePath = JSON.parse(req.body[Object.keys(req.body)[0]]);
+<<<<<<< HEAD
         loadFeatures(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
+=======
+        try {
+            loadExcel(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
+        } catch (exception) {
+            console.log('coucou');
+            res.status(400).send(new Error('Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'));
+        }
+>>>>>>> f6665fa65ed25e168a248f3fa5dcbd35f3fa2e9a
     });
 
     app.post(config.pathPostLogin, function (req, res, next) {

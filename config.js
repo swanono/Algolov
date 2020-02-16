@@ -45,6 +45,7 @@ module.exports = {
     adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})$/,
     pathPostChangeFeatures: '/admin/changeFeatures',
     pathGetHistoricFeatures: '/admin/historicFeatures',
+    pathGetHistoricQuestions: '/admin/historicQuestions',
     pathGetBasicStats: '/admin/basicStats',
     pathPostSelectFeatures: '/admin/selectFeatures',
     pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
