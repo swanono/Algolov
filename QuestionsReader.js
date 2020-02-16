@@ -53,11 +53,16 @@ class QuestionsReader extends ExcelReader {
             if (!validTypes)
                 continue;
 
+            
+
             const question = {};
 
             question.id = row - range.s.r;
             question.question = this.questSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].v.trim();
-            question.type = this.questSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v.trim();
+            const type = this.questSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v.trim().split(',');
+            question.type = type[0];
+            if (type.length() >0 )
+                question.other = true;
             if (this.questSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v.trim() != '0'){
                 // Array of information for question and answer necessary to access at this question
                 const combin = this.questSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v.trim().split(',');
@@ -68,7 +73,7 @@ class QuestionsReader extends ExcelReader {
                     necessaryAnswers : combin.slice(1, combin.length())
                 });
 
-                // Managing the relation between column name et answers id
+                // Managing the relation between column name and answers id
                 for (let i = 0 ; i++ ; i< relatedQuestions.necessaryAnswers.length()) 
                     relatedQuestions.necessaryAnswers[i] = relatedQuestions.necessaryAnswers[i].toLowerCase().charCodeAt(0) - 99;
                 
@@ -84,24 +89,55 @@ class QuestionsReader extends ExcelReader {
                 ]);
                 if (!validTypes2)
                     continue;
-                // TODO : tout!!!
+                
                 const newChoice = {};
-                newChoice.descName = this.featSheet[XLSX.utils.encode_cell({ r: 0, c: col })].v.trim();
+                newChoice.choiceId = col;
+                newChoice.text = this.questSheet[XLSX.utils.encode_cell({ r: 0, c: col })].v.trim();
 
-                const combins = this.featSheet[XLSX.utils.encode_cell({ r: row, c: col })].v.split(',').map(c => c.trim());
-                combins.forEach(c => { newChoice[c] = true; });
-                this.newConfig
-                    .descriptions.find(d => d.name === newChoice.descName)
-                    .combin.forEach(c => {
-                        if (!combins.includes(c))
-                            newChoice[c] = false;
-                    });
-
-                feature.combin.push(newChoice);
+                question.choices.push(newChoice);
             }
 
-            this.newConfig.features.push(feature);
+            question.relatedQuestion = [];
+
+            this.newConfig.questions.push(question);
         }
+
+
+
+        range = XLSX.utils.decode_range(this.questSheet['!ref']);
+
+
+        this.newConfig.textButton = {};
+       
+        this.newConfig.textButton.continue = this.questSheet[XLSX.utils.encode_cell({ r: 0, c: 1 })].v.trim();
+        this.newConfig.textButton.confirm = this.questSheet[XLSX.utils.encode_cell({ r: 1, c: 1 })].v.trim();
+        this.newConfig.textButton.stopSurvey = this.questSheet[XLSX.utils.encode_cell({ r: 2, c: 1 })].v.trim();
+        this.newConfig.textButton.startSurvey = this.questSheet[XLSX.utils.encode_cell({ r: 3, c: 1 })].v.trim();
+
+
+        // Updating information about related question
+
+        for (let indexQuest = 0; indexQuest < relatedQuestions.length(); indexQuest++) {
+            const idQuest = relatedQuestions[indexQuest].necessaryQuestion;
+            const question = this.newConfig.questions.find( question => question.id === idQuest);
+            if (question !== undefined) {
+                const choices = Array.from(question.choices, choice => choice.choiceId);
+                const relQanswers = choices.filter(elem => !(relatedQuestions[indexQuest].necessaryAnswers).includes(elem));
+
+                const relQuest = question.relatedQuestion.find( question => question.triggerChoices === relQanswers);
+                if (relQuest === undefined) {
+                    question.relatedQuestion.add({
+                        "triggerChoices": relQanswers,
+                        "questionIds": [idQuest]
+                    });
+                } else 
+                    relQuest.questionIds.add(idQuest);
+                
+
+            }
+        }
+        
+
     }
 
     static _detectInvalidTypes (sheet, row, arrayCol) {
