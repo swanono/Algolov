@@ -16,6 +16,8 @@ nav{
     background-color: white;
     position: sticky;
     top:0px;
+    opacity: 1;
+    z-index: 1;
 }
 
 nav ul{
@@ -43,6 +45,7 @@ nav a {
     color:black;
     border-bottom: 2px solid transparent;
     padding: 10px 0px;
+    opacity: 1;
 }
 
 
@@ -92,22 +95,6 @@ nav > ul li:hover .sous{
     content: " ▼";
     font-size: 12px;
 }
-
-/*---------------------------------------------------------------------------------*/
-
-/* TODO : ça marche pas si j'enleve la balise img donc ne pas mettre
-l'image depuis le css mais peut-être ajuster sa taille */
-
-#boutonDroite{
-    background-image: image("../images/arrowRight.jpg");
-}
-#boutonGauche{
-    background-image: image("../images/arrowLeft.jpg");
-}
-
-/*---------------------------------------------------------------------------------*/
-
-
 
 /*position bouton continuer*/
 
@@ -290,11 +277,21 @@ fieldset {
 }
 
 #arrowLeft{
-    float:left;
-    margin-top:15%;
+    display: flex;
+    float: left;
+    justify-content: center;
+    position: relative;
+    margin-top: 15%;
+    
+    
 }
 
 #arrowRight{
+    display: flex;
     float:right;
-    margin-top:15%;
+    justify-content: center;
+    position: relative;
+    margin-top: 15%;
+    
+    
 }
