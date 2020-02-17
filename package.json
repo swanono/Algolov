@@ -42,8 +42,9 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "public/survey/*.json",
-      "admin/*.json"
+      "**/*.json",
+      "admin/**/*.js",
+      "public/**/*.js"
     ]
   },
   "devDependencies": {
@@ -65,6 +66,12 @@
     "stylelint-config-recommended": "^3.0.0"
   },
   "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/node_modules/**",
+      "!**/*.test.js"
+    ],
     "preset": "@shelf/jest-mongodb",
     "verbose": true
   }
