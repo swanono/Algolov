@@ -42,7 +42,7 @@ class QuestionsReader extends ExcelReader {
         let range = XLSX.utils.decode_range(this.questSheet['!ref']);
 
 
-        this.newConfig.list = [];
+        this.newConfig.questions = [];
         const relatedQuestions = [];
         const numLastBeginQuest = config.QCM.begin.list.length();
         for (let row = range.s.r + 1; row <= range.e.r; row++) {
@@ -70,7 +70,7 @@ class QuestionsReader extends ExcelReader {
 
                 relatedQuestions.add( {
                     conditionnalQuest: question.id,
-                    necessaryQuestion: numLastBeginQuest + parseInt(combin[0].trim()) - range.s.r, //TODO : check pq range.s.r et pas 1
+                    necessaryQuestion: numLastBeginQuest + parseInt(combin[0].trim()) - range.s.r, 
                     necessaryAnswers : combin.slice(1, combin.length())
                 });
 
@@ -115,13 +115,19 @@ class QuestionsReader extends ExcelReader {
         this.newConfig.textButton.stopSurvey = this.textSheet[XLSX.utils.encode_cell({ r: 2, c: 1 })].v.trim();
         this.newConfig.textButton.startSurvey = this.textSheet[XLSX.utils.encode_cell({ r: 3, c: 1 })].v.trim();
 
-        // TODO: ajouter RGPD et presentation
+        // RGPD and presentation
+
+        range = XLSX.utils.decode_range(this.introSheet['!ref']);
+
+        this.newConfig.RGPDText = this.introSheet[XLSX.utils.encode_cell({ r: 0, c: 1 })].v.trim();
+        this.newConfig.RGPDValidation = this.introSheet[XLSX.utils.encode_cell({ r: 1, c: 1 })].v.trim();
+        this.newConfig.surveyExplain = this.introSheet[XLSX.utils.encode_cell({ r: 2, c: 1 })].v.trim();
 
         // Updating information about related question
 
         for (let indexQuest = 0; indexQuest < relatedQuestions.length(); indexQuest++) {
             const idQuest = relatedQuestions[indexQuest].necessaryQuestion;
-            const question = this.newConfig.list.find( question => question.id === idQuest);
+            const question = this.newConfig.questions.find( question => question.id === idQuest);
             if (question !== undefined) {
                 const choices = Array.from(question.choices, choice => choice.choiceId);
                 const relQanswers = choices.filter(elem => !(relatedQuestions[indexQuest].necessaryAnswers).includes(elem));
@@ -139,6 +145,7 @@ class QuestionsReader extends ExcelReader {
             }
         }
         
+        // TODO : gérer les questions à texte
 
     }
 
@@ -181,53 +188,33 @@ class QuestionsReader extends ExcelReader {
         // TODO : check que les question de related question exist (et que les choix existe?)
 
 
-        const featureCount = [];
 
-        this.newConfig.list.forEach((desc, i) => {
-            if (!(isString(desc.name) && isString(desc.presentation) && isString(desc.text) &&
-                desc.combin.length > 0 && !desc.combin.find((comb) => !isString(comb))))
-                this.xlsErrors.push('La description n°' + i + ' a été mal formée');
-            else {
-                this.newConfig.blocThemes.forEach((bloc) => {
-                    const blocFeatures = this.newConfig.features.filter((feature) => feature.type === bloc.type);
+        this.newConfig.questions.forEach((quest, i) => {
+            if (!(isString(quest.text)))
+                this.xlsErrors.push('La description n°' + i + ' n\'a pas été défini');
+            else if (quest.relatedQuestion) {
 
-                    desc.combin.forEach((comb) => {
-                        const countObj = { count: 0 };
+                quest.relatedQuestion.forEach(relQuests => {
 
-                        blocFeatures.forEach((feature) => {
-                            if (feature.combin.find((featComb) => featComb.descName === desc.name)[comb])
-                                countObj.count++;
-                        });
+                    relQuests.questionIds.forEach((relQuestId,j) => {
+                        const relQuest = this.newConfig.questions.find( question => question.id === relQuestId);
+                        if (!relQuest) 
+                            this.xlsErrors.push('La question n°' + j + ' n\'a pas été défini');
+                        else if (relQuest.id < quest.id) 
+                            this.xlsErrors.push('La question ' + j + ' dépend d\'une réponse à une des questions suivantes (la question ' + i );
+                        else{
+                            
+                            relQuests.triggerChoices.forEach((trChoice,p) => {
+                                if (!relQuest.choices.find( choice => choice.choiceId === trChoice))
+                                    this.xlsErrors.push('Le choix n°' + p + 'de la question n°' + j + ' n\'a pas été défini');
+                            });
+                        }
 
-                        featureCount.push(countObj);
                     });
                 });
             }
         });
 
-        const finalCount = featureCount[0].count;
-        this.newConfig.nbFeaturePerBloc = finalCount;
-        const hasSameNbFeature = featureCount.reduce((perviousRes, count) => perviousRes && count.count === finalCount, true);
-        if (!hasSameNbFeature)
-            this.xlsErrors.push('Il n\'y a pas le même nombre de features entre chaque combinatoire');
-
-        this.newConfig.blocThemes.forEach((bloc, i) => {
-            if (!(isString(bloc.type) && isString(bloc.question) && !isNaN(bloc.likertSize)))
-                this.xlsErrors.push('Le bloc n°' + i + ' a été mal formé');
-        });
-
-        this.newConfig.features.forEach((feature, i) => {
-            if (!(isString(feature.data) && isString(feature.type) && feature.combin.length === this.newConfig.descriptions.length))
-                this.xlsErrors.push('La feature n°' + i + ' est mal formée');
-
-            if (!this.newConfig.blocThemes.find((bloc) => bloc.type === feature.type))
-                this.xlsErrors.push('Type de feature non renseigné dans la page de blocs : ' + feature.type);
-
-            feature.combin.forEach((combin) => {
-                if (!this.newConfig.descriptions.find((desc) => desc.name === combin.descName))
-                    this.xlsErrors.push('Une description n\'a pas été renseignée dans la feature "' + feature.data + '"');
-            });
-        });
 
         return this.xlsErrors;
     }
