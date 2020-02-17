@@ -41,7 +41,7 @@ class QuestionsReader extends ExcelReader {
         let range = XLSX.utils.decode_range(this.questSheet['!ref']);
 
 
-        this.newConfig.questions = [];
+        this.newConfig.list = [];
         const relatedQuestions = [];
         const numLastBeginQuest = config.QCM.begin.list.length();
         for (let row = range.s.r + 1; row <= range.e.r; row++) {
@@ -104,22 +104,23 @@ class QuestionsReader extends ExcelReader {
 
 
 
-        range = XLSX.utils.decode_range(this.questSheet['!ref']);
+        range = XLSX.utils.decode_range(this.textSheet['!ref']);
 
 
         this.newConfig.textButton = {};
        
-        this.newConfig.textButton.continue = this.questSheet[XLSX.utils.encode_cell({ r: 0, c: 1 })].v.trim();
-        this.newConfig.textButton.confirm = this.questSheet[XLSX.utils.encode_cell({ r: 1, c: 1 })].v.trim();
-        this.newConfig.textButton.stopSurvey = this.questSheet[XLSX.utils.encode_cell({ r: 2, c: 1 })].v.trim();
-        this.newConfig.textButton.startSurvey = this.questSheet[XLSX.utils.encode_cell({ r: 3, c: 1 })].v.trim();
+        this.newConfig.textButton.continue = this.textSheet[XLSX.utils.encode_cell({ r: 0, c: 1 })].v.trim();
+        this.newConfig.textButton.confirm = this.textSheet[XLSX.utils.encode_cell({ r: 1, c: 1 })].v.trim();
+        this.newConfig.textButton.stopSurvey = this.textSheet[XLSX.utils.encode_cell({ r: 2, c: 1 })].v.trim();
+        this.newConfig.textButton.startSurvey = this.textSheet[XLSX.utils.encode_cell({ r: 3, c: 1 })].v.trim();
 
+        // TODO: ajouter RGPD et presentation
 
         // Updating information about related question
 
         for (let indexQuest = 0; indexQuest < relatedQuestions.length(); indexQuest++) {
             const idQuest = relatedQuestions[indexQuest].necessaryQuestion;
-            const question = this.newConfig.questions.find( question => question.id === idQuest);
+            const question = this.newConfig.list.find( question => question.id === idQuest);
             if (question !== undefined) {
                 const choices = Array.from(question.choices, choice => choice.choiceId);
                 const relQanswers = choices.filter(elem => !(relatedQuestions[indexQuest].necessaryAnswers).includes(elem));
@@ -165,9 +166,16 @@ class QuestionsReader extends ExcelReader {
     }
 
     validate () {
+
+
+        // TODO : check les string de textbutton
+
+        // TODO : check que les question de related question exist (et que les choix existe?)
+
+
         const featureCount = [];
 
-        this.newConfig.descriptions.forEach((desc, i) => {
+        this.newConfig.list.forEach((desc, i) => {
             if (!(isString(desc.name) && isString(desc.presentation) && isString(desc.text) &&
                 desc.combin.length > 0 && !desc.combin.find((comb) => !isString(comb))))
                 this.xlsErrors.push('La description n°' + i + ' a été mal formée');
