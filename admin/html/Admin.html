@@ -34,7 +34,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 <body onload="fillPage();">
     <h1>Administration</h1>
     <div id="volet">
-        <p>Recuperer un rapport</p>
+        <p>Récuperer un rapport</p>
         <div id="stats-div">
             <span><u><b>Quelques statistiques :</b></u></span>
             <p>Age moyen des répondants : {{ stats.ageMean || 0 }} ans</p>
@@ -65,67 +65,92 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <div id="alert-message">
 
     </div>
+    <nav>
+        <ul class = "GestionCompte" id = "GestionCompte">
+            <li>
+                <a href="./UploadPDF.html">
+                    Uploader Nouveau PDF d'informations
+                </a>
+            </li>
+            <li id = "menuCompte">
+                <a>Menu compte</a>
+                <ul class = "sous">
+                    <li>
+                        <a  href="/api/admin/logout">
+                        Déconnexion
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./AdminRegister.html">
+                            Ajouter un Admin
+                        </a>
+                    </li>
+                    <li>
+                        <a href="./AdminUpdate.html">
+                        Modifier le mot de passe
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
 
-    <a id="buttonAddAdmin" class="bouton buttonAdmin" href="/api/admin/logout">
-        Deconnexion
-    </a>
-    <a id="buttonAddAdmin" class="bouton buttonAdmin" href="./AdminRegister.html">
-        Ajouter un Admin
-    </a>
-    <a id="buttonAddAdmin" class="bouton buttonAdmin" href="./AdminUpdate.html">
-        Modifier le mot de passe
-    </a>
+    </nav>
+    <div id ="modif">
 
-    <ol>
-        <li id="Qexist">
-            <div id = QuestionList>
+ 
+        <!--MODIF QUESTIONS-->
+        <div id="QuestionList">
+        
+            <h3 id="TitreQexist">Liste question(s) existante(s)</h3>
             
-                <h3 id="TitreQexist">Liste question(s) existante(s)</h3>
-                
-                <div>
-                    <form id="formQuestionFiles" method="POST" action="/api/admin/selectQuestions" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">
-                        <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd">
-                            <a class="download-bar bouton" :href="doc.path">
-                                <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
-                                <div>{{ doc.name }}</div>
-                            </a>
-                            <input :id="'question_file_' + doc.index" type="radio" name="select_question_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
-                        </div>
-                    </form>
-                </div>
-                
-            </div>
-
-            <a id="modifierQuestionnaire" class="bouton" href="./ModifQuestion.html">
-                Modifier le Questionnaire
-            </a>
-        </li>
-        <li id="Fexist">
-            <div id="FeaturesList">
-                <h3> Documents de features utilisables</h3>
-                <div>
-                    <form id="formFeatureFiles" method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">                      
-                        <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd">
-                            <a class="download-bar bouton" :href="doc.path">
-                                <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
-                                <div>{{ doc.name }}</div>
-                            </a>
-                            <input :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
-                        </div>
-                    </form>
-                </div>
+            <div>
+                <form id="formQuestionFiles" method="POST" action="/api/admin/selectQuestions" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">
+                    <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd">
+                        <a class="download-bar bouton" :href="doc.path">
+                            <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
+                            <div>{{ doc.name }}</div>
+                        </a>
+                        <input :id="'question_file_' + doc.index" type="radio" name="select_question_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
+                    </div>
+                </form>
             </div>
             
-            <button id="selectFeatureDoc" class="bouton" type="submit" form="formFeatureFiles">
-                Utiliser le document coché
-            </button>
+        </div>
 
-            <a id="modifierFeature" class="bouton" href="./ModifFeature.html">
-                Ajouter un nouveau document
-            </a>
-        </li>
+        <!--MODIF FEATURES-->
+        <div id="FeaturesList">
+            <h3> Documents de features utilisables</h3>
+            <div>
+                <form id="formFeatureFiles" method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">                      
+                    <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd">
+                        <a class="download-bar bouton" :href="doc.path">
+                            <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
+                            <div>{{ doc.name }}</div>
+                        </a>
+                        <input :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
+                    </div>
+                </form>
+            </div>
+        </div>
 
-    </ol>
+    </div>
+    <a id="modifierQuestionnaire" class="bouton" href="./ModifQuestion.html">
+        Modifier le questionnaire
+    </a>
+    <button id="selectQuestionnaireDoc" class="bouton" type="submit" form="formQuestionnaireFiles">
+        Utiliser le document coché
+    </button>
+    <button id="selectFeatureDoc" class="bouton" type="submit" form="formFeatureFiles">
+        Utiliser le document coché
+    </button>
 
+    <a id="modifierFeature" class="bouton" href="./ModifFeature.html">
+        Ajouter un nouveau document
+    </a>
+    
+    
+    <a id="buttonPrevisualisation" class="bouton buttonPrevisualisation" href="./Previsualisation.html">
+        Prévisualisation
+    </a>
 </body>
 </html>

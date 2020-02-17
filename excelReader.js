@@ -69,7 +69,7 @@ class ExcelReader {
         const ext = '.xlsx';
         let count = '1';
 
-        let fileName = config.typeDetail.type.histPath + thisDate.getDate() + '_' +
+        let fileName = config.typeDetail[this.type].histPath + thisDate.getDate() + '_' +
                                 (thisDate.getMonth() + 1) + '_' +
                                 thisDate.getFullYear() + '_' + count + ext;
 
@@ -85,7 +85,7 @@ class ExcelReader {
     makeCurentUsedFile () {
         const hist = JSON.parse(fs.readFileSync('./admin/historic.json'));
 
-        hist[config.typeDetail.type.lastFile] = this.name;
+        hist[config.typeDetail[this.type].lastFile] = this.name;
 
         fs.writeFileSync('./admin/historic.json', JSON.stringify(hist, null, 4));
     }

@@ -23,6 +23,7 @@ This module is used for the interactivity of the Admin page
 
 let featFormVue = null;
 let questFormVue = null;
+let statsWindow = null;
 
 async function fillStatsTable () {
     const fetchRes = await fetch('/api/admin/basicStats', { method: 'GET' });
@@ -41,19 +42,24 @@ async function fillStatsTable () {
 
     const colspanMax = stats.desc.reduce(
         (prevDesc, descr) => Math.max(prevDesc, descr.combin.reduce(
-            (prevComb, comb) => prevComb + 1,
+            (prevComb, _) => prevComb + 1,
             0
         )),
         0
     );
 
-    const statsWindow = new Vue({
-        el: '#stats-div',
-        data: {
-            stats: stats,
-            statsColspan: colspanMax
-        }
-    });
+    if (!statsWindow) {
+        statsWindow = new Vue({
+            el: '#stats-div',
+            data: {
+                stats: stats,
+                statsColspan: colspanMax
+            }
+        });
+    } else {
+        statsWindow.stats = stats;
+        statsWindow.statsColspan = colspanMax;
+    }
 }
 
 async function fillForm (id, path) {
@@ -127,5 +133,5 @@ async function sendSelectDoc (formTag) {
 async function fillPage () {
     fillStatsTable();
     featFormVue = await fillForm('#formFeatureFiles', '/api/admin/historicFeatures');
-    featFormVue = await fillForm('#formQuestionFiles', '/api/admin/historicQuestions');
+    questFormVue = await fillForm('#formQuestionFiles', '/api/admin/historicQuestions');
 }

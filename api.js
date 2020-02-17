@@ -26,6 +26,7 @@ const { DataGetter, FeatureDataGetter, QuestionDataGetter } = require('./pageDat
 const express = require('express');
 const FormHandler = require('formidable');
 const path = require('path');
+const fs = require('fs');
 const CredentialManager = require('./credentialsData');
 
 // BCrypt module
@@ -49,7 +50,7 @@ module.exports = (passport) => {
 
     app.post(config.pathPostChangeFeatures, function (req, res) {
         const form = new FormHandler.IncomingForm();
-        form.parse(req, function (err, fields, files) {
+        form.parse(req, function (err, _, files) {
             if (err)
                 res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
             else {
@@ -58,6 +59,19 @@ module.exports = (passport) => {
                 } catch (exception) {
                     res.status(400).send(new Error('Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'));
                 }
+            }
+        });
+    });
+    
+    app.post(config.pathPostChangePDF, function (req, res) {
+        const form = new FormHandler.IncomingForm();
+        form.parse(req, function (err, _, files) {
+            if (err)
+                res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
+            else {
+                fs.writeFileSync('./public/survey/study.pdf',
+                    fs.readFileSync(files[Object.keys(files)[0]].path));
+                res.json({ ok: true, message: 'Le PDF a été modifié avec succès !' });
             }
         });
     });
@@ -83,7 +97,7 @@ module.exports = (passport) => {
         try {
             loadFeatures(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
         } catch (exception) {
-            res.status(400).send(new Error('Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'));
+            res.status(400).json({ok: false, message: 'Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'});
         }
     });
     app.post(config.pathPostSelectQuestions, function (req, res) {
@@ -91,7 +105,7 @@ module.exports = (passport) => {
         try {
             loadQuestions(path.resolve('./admin/questions_files/historic/' + filePath.name), false, req, res);
         } catch (exception) {
-            res.status(400).send(new Error('Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'));
+            res.status(400).json({ok: false, message: 'Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'});
         }
     });
 
@@ -112,7 +126,6 @@ module.exports = (passport) => {
         res.redirect(config.directoryPrefix + '/public/connexion/html/');
     });
 
-
     return app;
 
 };
@@ -124,7 +137,7 @@ function loadExcel (reader, save, req, res) {
         if (save)
             reader.saveFile();
         reader.makeCurentUsedFile();
-        res.json({ ok: true, message: 'Le questionnaire a bien été mises à jour !' });
+        res.json({ ok: true, message: 'Le questionnaire a bien été mis à jour !' });
     } else
         res.json({ ok: false, message: 'Le fichier Excel fournit contient des erreurs : ' + errors.join(' / ') });
 }
