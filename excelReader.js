@@ -92,4 +92,4 @@ class ExcelReader {
 
 }
 
-module.exports = { ExcelReader };
+module.exports = ExcelReader;

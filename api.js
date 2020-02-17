@@ -21,6 +21,7 @@ This module is used to handle client requests and redirect them to the right ana
 const daos = require('./dao');
 const config = require('./config.js');
 const FeaturesReader = require('./FeaturesReader');
+const QuestionsReader = require('./QuestionsReader');
 const { DataGetter, FeatureDataGetter, QuestionDataGetter } = require('./pageData');
 const express = require('express');
 const FormHandler = require('formidable');
@@ -53,7 +54,7 @@ module.exports = (passport) => {
                 res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
             else {
                 try {
-                    loadExcel(files[Object.keys(files)[0]].path, true, req, res);
+                    loadFeatures(files[Object.keys(files)[0]].path, true, req, res);
                 } catch (exception) {
                     res.status(400).send(new Error('Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'));
                 }
@@ -80,9 +81,16 @@ module.exports = (passport) => {
     app.post(config.pathPostSelectFeatures, function (req, res) {
         const filePath = JSON.parse(req.body[Object.keys(req.body)[0]]);
         try {
-            loadExcel(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
+            loadFeatures(path.resolve('./admin/features_files/historic/' + filePath.name), false, req, res);
         } catch (exception) {
-            console.log('coucou');
+            res.status(400).send(new Error('Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'));
+        }
+    });
+    app.post(config.pathPostSelectQuestions, function (req, res) {
+        const filePath = JSON.parse(req.body[Object.keys(req.body)[0]]);
+        try {
+            loadQuestions(path.resolve('./admin/questions_files/historic/' + filePath.name), false, req, res);
+        } catch (exception) {
             res.status(400).send(new Error('Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'));
         }
     });
@@ -109,15 +117,23 @@ module.exports = (passport) => {
 
 };
 
-function loadFeatures (path, save, req, res) {
-    const reader = new FeaturesReader(path);
+function loadExcel (reader, save, req, res) {
     const errors = reader.validate();
     if (errors.length === 0) {
         reader.applyToConfig();
         if (save)
             reader.saveFile();
         reader.makeCurentUsedFile();
-        res.json({ ok: true, message: 'Les features du questionnaire ont bien été mises à jour !' });
+        res.json({ ok: true, message: 'Le questionnaire a bien été mises à jour !' });
     } else
         res.json({ ok: false, message: 'Le fichier Excel fournit contient des erreurs : ' + errors.join(' / ') });
 }
+function loadFeatures (path, save, req, res) {
+    const reader = new FeaturesReader(path);
+    loadExcel(reader, save, req, res);
+}
+function loadQuestions (path, save, req, res) {
+    const reader = new QuestionsReader(path);
+    loadExcel(reader, save, req, res);
+}
+
