@@ -1,3 +1,7 @@
+* {
+    padding: 0;
+    font-family: Verdana, sans-serif;
+}
 h1 {
     height : 15%;
     width: 100%;
@@ -5,9 +9,7 @@ h1 {
     background-color: white;
 }
 
-* {
-    padding: 0;
-}
+
 
 ol {
     position: relative;
@@ -119,6 +121,7 @@ h3 {
     text-decoration: none;
     color:#555;
 }
+
 
 .download-bar-container {
     display: flex;

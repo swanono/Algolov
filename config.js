@@ -45,6 +45,7 @@ module.exports = {
     adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})$/,
     pathPostChangeFeatures: '/admin/changeFeatures',
     pathPostChangeQuestions: '/admin/changeQuestions',
+    pathPostChangePDF: '/admin/changePDF',
     pathGetHistoricFeatures: '/admin/historicFeatures',
     pathGetHistoricQuestions: '/admin/historicQuestions',
     pathGetBasicStats: '/admin/basicStats',

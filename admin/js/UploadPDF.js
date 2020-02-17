@@ -14,34 +14,23 @@ You should have received a copy of the GNU General Public License
 along with this program. If not, see < https://www.gnu.org/licenses/ >.
 -------------------------------------------------------------------------------------------------
 
-This module is used for the interactivity of the Admin page
+This module is used for uploading a new pdf describing the study
 */
 'use strict';
 
-async function sendNewExcel () {
-    const file = document.getElementById('new-excel-input').files[0];
+async function sendNewPDF () {
+    const file = document.getElementById('new-pdf-input').files[0];
     const formData = new FormData();
     formData.append('file', file);
 
-    const fetchRes = await fetch('/api/admin/changeFeatures', {
+    const fetchRes = await fetch('/api/admin/changePDF', {
         method: 'POST',
         body: formData
     });
-    
-    let error = false;
-    if (!fetchRes.ok) {
-        console.error('Une erreur est survenue lors de la récupération des données : ' + (fetchRes.statusText || fetchRes.message));
-        error = true;
-    }
 
     const res = await fetchRes.json();
 
-    if (error) {
-        res.message = 'Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).';
-        res.ok = false;
-    }
-
-    const innerHTML = res.message.split('/').map((m) => m.trim()).join('<br/>');
+    const innerHTML = res.message;
 
     // eslint-disable-next-line no-undef
     setAlertMessage(innerHTML, res.ok);

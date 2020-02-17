@@ -1,0 +1,297 @@
+/*MENU*/
+/**{
+    margin:0px;
+    padding:0px;
+    font-family: Arial, Helvetica, sans-serif;
+}*/
+
+*{
+    
+    font-family: Verdana, sans-serif	;
+}
+
+nav{
+    width: 100%;
+    margin: 0 auto;
+    background-color: white;
+    position: sticky;
+    top:0px;
+    opacity: 1;
+    z-index: 1;
+}
+
+nav ul{
+    list-style-type: none;
+    background-color: white;
+}
+
+nav ul li{
+    float: left;
+    width:25%;
+    text-align: center;
+    position: relative;
+}
+
+nav ul::after{
+    content:"";
+    display: table;
+    clear: both;
+
+}
+
+nav a {
+    display:block;
+    text-decoration: none;
+    color:black;
+    border-bottom: 2px solid transparent;
+    padding: 10px 0px;
+    opacity: 1;
+}
+
+
+
+.sous a{
+    padding:10px;
+    border-bottom: none;
+}
+.sous p{
+    padding:10px;
+    border-bottom: none;
+}
+nav a:hover{
+    color:orange;
+    border-bottom: 2px solid gold;
+}
+
+.sous{
+    display:none;
+    box-shadow:0px 1px 2px #CCC;
+    background-color: white;
+    position: absolute;
+    width: 100%;
+    z-index: 1000;
+}
+
+nav > ul li:hover .sous{
+    display: block;
+}
+    
+.sous li{
+    float:none;
+    width:100%;
+    text-align: center;
+}
+
+
+
+.sous a:hover{
+    border-bottom: none;
+    background-color: RGBa(200,200,200,0.1);
+}
+
+
+
+#questionnaire #combinatoire #pages > a::after {
+    content: " ▼";
+    font-size: 12px;
+}
+
+/*position bouton continuer*/
+
+.centered-text {
+    text-align: center;
+    font-size: 1.3em;
+    padding-left: 25%;
+    padding-right: 25%;
+    padding-bottom: 50px;
+}
+.heading_txt {
+    font-size: 1.5em;
+}
+.heading {
+	font-weight: bold;
+    font-size: 1em;
+    border-radius: 10px;
+    border: 1px solid;
+}
+
+.container {
+    text-align: center;
+    font-size: 1.2em;
+    background-color: gray;
+    max-height: 100%;
+    max-width: 100%;
+    padding: 0.1em;
+}
+
+.nested-item {
+    border: 1px solid;
+    width: 10em;
+    height:5em;
+    padding: 10px;
+    margin:2px;
+    font-size: 0.8em;
+    box-shadow: 4px 4px 2px #888888;
+    border-radius: 25px;
+    background-color: white;
+    z-index: 1;
+    overflow: hidden; /* required for text-overflow */
+    display: inline-block;
+}
+
+
+
+.nestable {
+    border: 1px solid;
+    text-align: center;
+    min-width: 8vw;
+    min-height: 10vh;
+    height: 100%;
+    border-radius: 15px;
+    margin: 1px;
+    vertical-align: middle;
+}
+
+button {
+    top: 10px;
+    width: 150px;
+    height: 50px;
+}
+.bouton, #continuebutton, [type = "submit"] {
+    display: block;
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+th, td {
+    padding: 2px 2px !important;
+    vertical-align: top;
+    text-align: center;
+}
+
+
+fieldset {
+    border: 0;
+    margin: 0px;
+    position: relative;
+    margin-left: 10px; 
+    margin-bottom: 50px;
+}
+
+[type="radio"]:not(:checked) + label,
+[type="radio"]:checked + label {
+	position: relative; /* permet de positionner les pseudo-éléments */
+	padding-left: 1.2em; /* fait un peu d'espace pour notre case à venir */
+	font-size: 1.05em; /* Label un peu plus gros */
+	line-height: 1.7;
+    top: -30px;
+    display: flex;
+}
+
+[type="checkbox"]:not(:checked) + label,
+[type="checkbox"]:checked + label {
+	
+	padding-left: 1.2em;
+	font-size: 1.05em; 
+    line-height: 1.7;
+    display: inline-flex;
+    top: -14.5px;
+}
+
+#idQuest_1 {
+    text-align: center;
+}
+
+#idQuest_2 {
+    text-align: center;
+}
+#idInput_1_1 + label{
+    display: inline-block;
+    margin: 20px;
+    position: relative;
+    margin-left: 0px; 
+    margin-bottom: 10px;
+    text-align: center;
+    margin-right: 30px;
+}
+#idInput_1_1 {
+    top: -4px ;
+    text-align: center;
+    vertical-align: top;
+}
+#idInput_1_2+label {
+    display: inline-block;
+    margin: 20px;
+    position: relative;
+    margin-left: 0px; 
+    margin-bottom: 10px;
+    text-align: center;
+    margin-right: 30px;
+}
+#idInput_1_2 {
+    top: -4px;
+    text-align: center;
+    vertical-align: top;
+}
+
+#idInput_2_1 + label {
+    display: inline-block;
+    margin: 20px;
+    position: relative;
+    margin-left: 0px; 
+    margin-bottom: 10px;
+    text-align: center;
+    margin-right: 30px;
+}
+#idInput_2_1 {
+    top: -4px ;
+    text-align: center;
+    vertical-align: top;
+}
+#idInput_2_2 + label {
+    display: inline-block;
+    margin: 20px;
+    position: relative;
+    margin-left: 0px; 
+    margin-bottom: 10px;
+    text-align: center;
+    margin-right: 30px;
+}
+#idInput_2_2 {
+    top: -4px ;
+    text-align: center;
+    vertical-align: top;
+}
+
+.divQuest {
+    display: inline-block;
+}
+
+
+.classInput_3-container {
+    height: 100vh;
+    -webkit-column-count: 4;
+    -moz-column-count: 4;
+    column-count: 4;
+}
+
+#arrowLeft{
+    display: flex;
+    float: left;
+    justify-content: center;
+    position: relative;
+    margin-top: 15%;
+    
+    
+}
+
+#arrowRight{
+    display: flex;
+    float:right;
+    justify-content: center;
+    position: relative;
+    margin-top: 15%;
+    
+    
+}

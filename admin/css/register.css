@@ -1,3 +1,7 @@
+*{
+    
+    font-family: Verdana, sans-serif	;
+}
 body {
     top:20%;
     margin-top: 10%;
@@ -42,6 +46,16 @@ div#Name, div#Password, div#Email {
     margin: 0 30% 0;
 	width: 735px;
 }
+div#Password {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    margin: 0 30% 0;
+    width:730px;
+    
+}
 
 label {
     position: relative;
@@ -71,8 +85,16 @@ input {
 	font-size: 15px;
 }
 
+input#exPassword{
+    margin-left: 50px;
+}
+
 input#username{
-    margin-left: 40px;
+    margin-left: 50px;
+}
+
+input#email{
+    margin-left: 10px;
 }
 input[type="submit"]
 {
