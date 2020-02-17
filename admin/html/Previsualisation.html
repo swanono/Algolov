@@ -187,7 +187,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                             <td :colspan="page.bloc.likertSize">
                                 <div id="initial_container" class="nestable container" :colspan="page.bloc.likertSize">
                                     <div v-for="feat in page.featureList" id="'feature_' + feat.id" class="nested-item feature-card" location="initial_container"
-                                        v-if="feat.content == 'text'" v-show="feat.combin.find(c => c.descName == page.description.name)[page.descChoice]">
+                                         v-if="feat.content == 'text'" v-show="feat.combin.find(c => c.descName == page.description.name)[page.descChoice]">
                                         {{ feat.data }}
                                     </div>
                                 </div>
