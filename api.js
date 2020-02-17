@@ -52,12 +52,26 @@ module.exports = (passport) => {
         const form = new FormHandler.IncomingForm();
         form.parse(req, function (err, _, files) {
             if (err)
-                res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
+                res.status(400).json({ok: false, message: 'Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'});
             else {
                 try {
                     loadFeatures(files[Object.keys(files)[0]].path, true, req, res);
                 } catch (exception) {
-                    res.status(400).send(new Error('Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'));
+                    res.status(400).json({ok: false, message: 'Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'});
+                }
+            }
+        });
+    });
+    app.post(config.pathPostChangeQuestions, function (req, res) {
+        const form = new FormHandler.IncomingForm();
+        form.parse(req, function (err, _, files) {
+            if (err)
+                res.status(400).json({ok: false, message: 'Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'});
+            else {
+                try {
+                    loadQuestions(files[Object.keys(files)[0]].path, true, req, res);
+                } catch (exception) {
+                    res.status(400).json({ok: false, message: 'Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'});
                 }
             }
         });
@@ -67,7 +81,7 @@ module.exports = (passport) => {
         const form = new FormHandler.IncomingForm();
         form.parse(req, function (err, _, files) {
             if (err)
-                res.status(400).send(new Error('Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'));
+                res.status(400).json({ok: false, message: 'Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'});
             else {
                 fs.writeFileSync('./public/survey/study.pdf',
                     fs.readFileSync(files[Object.keys(files)[0]].path));
