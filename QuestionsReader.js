@@ -33,6 +33,7 @@ class QuestionsReader extends ExcelReader {
         super(filePath, 'question');
         this.questSheet = this.workbook.Sheets[config.excelSheetNames.questSheet];
         this.textSheet = this.workbook.Sheets[config.excelSheetNames.textSheet];
+        this.introSheet = this.workbook.Sheets[config.excelSheetNames.introSheet];
         this._init();
     }
 
@@ -169,6 +170,13 @@ class QuestionsReader extends ExcelReader {
 
 
         // TODO : check les string de textbutton
+
+        const boolContinue = !(isString(this.newConfig.textButton.continue) && this.newConfig.textButton.continue !== '');
+        const boolConfirm = !(isString(this.newConfig.textButton.confirm) && this.newConfig.textButton.confirm !== '');
+        const boolStopSurvey = !(isString(this.newConfig.textButton.stopSurvey) && this.newConfig.textButton.stopSurvey === '');
+        const boolStartSurvey = !(isString(this.newConfig.textButton.startSurvey) && this.newConfig.textButton.startSurvey === '');
+        if (boolContinue || boolConfirm || boolStopSurvey || boolStartSurvey)
+            this.xlsErrors.push('Un des textes n\'a pas été défini');
 
         // TODO : check que les question de related question exist (et que les choix existe?)
 
