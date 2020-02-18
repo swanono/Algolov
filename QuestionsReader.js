@@ -61,7 +61,7 @@ class QuestionsReader extends ExcelReader {
             question.id = row - range.s.r;
             question.question = this.questSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].v.trim();
             const type = this.questSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v.trim().split(',');
-            question.type = type[0];
+            question.type = type[0].toLowerCase();
             if (type.length() >0 )
                 question.other = true;
             if (this.questSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v.trim() != '0'){
@@ -80,22 +80,24 @@ class QuestionsReader extends ExcelReader {
                 
             }
 
-            question.choices = [];
-            for (let col = 3; col <= range.e.c; col++) {
-                // TODO: Voir si il faut pas adapter ??? 
-                const validTypes2 = ExcelReader._detectInvalidTypes(this.questSheet, 0, [
-                    {num: col, functorBool: isString}
-                ]) && ExcelReader._detectInvalidTypes(this.questSheet, row, [
-                    {num: col, functorBool: isString}
-                ]);
-                if (!validTypes2)
-                    continue;
-                
-                const newChoice = {};
-                newChoice.choiceId = col;
-                newChoice.text = this.questSheet[XLSX.utils.encode_cell({ r: 0, c: col })].v.trim();
+            if (question.type == 'checkbox' || question.type == 'radio') {
+                question.choices = [];
+                for (let col = 3; col <= range.e.c; col++) {
+                    // TODO: Voir si il faut pas adapter ??? 
+                    const validTypes2 = ExcelReader._detectInvalidTypes(this.questSheet, 0, [
+                        {num: col, functorBool: isString}
+                    ]) && ExcelReader._detectInvalidTypes(this.questSheet, row, [
+                        {num: col, functorBool: isString}
+                    ]);
+                    if (!validTypes2)
+                        continue;
+                    
+                    const newChoice = {};
+                    newChoice.choiceId = col;
+                    newChoice.text = this.questSheet[XLSX.utils.encode_cell({ r: 0, c: col })].v.trim();
 
-                question.choices.push(newChoice);
+                    question.choices.push(newChoice);
+                }
             }
 
             question.relatedQuestion = [];
@@ -145,7 +147,7 @@ class QuestionsReader extends ExcelReader {
             }
         }
         
-        // TODO : gérer les questions à texte
+        
 
     }
 
@@ -223,24 +225,13 @@ class QuestionsReader extends ExcelReader {
     applyToConfig () {
         const config = JSON.parse(fs.readFileSync('./public/survey/config.json'));
 
-        config.surveyConfiguration.descNames = this.newConfig.descriptions;
-        config.surveyConfiguration.blocThemes = this.newConfig.blocThemes;
-        config.surveyConfiguration.nbBlocPerDesc = this.newConfig.blocThemes.length;
-        config.surveyConfiguration.nbFeaturePerBloc = this.newConfig.nbFeaturePerBloc;
-        config.features = this.newConfig.features;
+        config.textButton = this.newConfig.textButton;
 
-        let count = 1;
-        config.QCM.begin.list = this.newConfig.beginQCM.map((quest) => {
-            quest.id = count;
-            count++;
-            return quest;
-        });
-        config.QCM.begin.isDescriptionLinked = true;
-        config.QCM.end.list = config.QCM.end.list.map((quest) => {
-            quest.id = count;
-            count++;
-            return quest;
-        });
+        config.RGPDText = this.newConfig.RGPDText;
+        config.RGPDValidation = this.newConfig.RGPDValidation;
+        config.surveyExplain = this.newConfig.surveyExplain;
+
+        config.QCM.end.list = this.newConfig.questions;
 
         fs.writeFileSync('./public/survey/config.json', JSON.stringify(config, null, 4));
     }
