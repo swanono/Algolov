@@ -119,7 +119,9 @@ module.exports = (passport) => {
         try {
             loadQuestions(path.resolve('./admin/questions_files/historic/' + filePath.name), false, req, res);
         } catch (exception) {
+            console.error(exception);
             res.status(400).json({ok: false, message: 'Le fichier Excel est mal formatté (Le serveur n\'a pas pu détecter où).'});
+
         }
     });
 

@@ -87,9 +87,9 @@
         ]
     },
     "textButton": {
-        "continue": "Continuer",
         "confirm": "Valider",
         "stopSurvey": "Arrêter le questionnaire",
+        "continue": "Continuer",
         "startSurvey": "Démarrer"
     },
     "features": [
@@ -851,7 +851,7 @@
         }
     ],
     "RGPDText": "Ce questionnaire effectue une récolte de vos données personnelles (caractéristiques physiques, goûts, coordonnées notamment) ainsi que de données sur la manière dont vous le remplissez (vitesse, hésitations, changements, etc.). Ces données seront utilisées à des fins de recherches dans le cadre des travaux de Mme Jessica Pidoux. Pour toute demande concernant la gestion des données personnelles, envoyer un mail à l'adresse 'jessica.pidoux@epfl.ch'",
-    "RGPDValidation": "Cochez la case si vous acceptez les conditions ci-dessus",
+    "RGPDValidation": "Cochez la case si vous acceptez les conditions ci-dessus",
     "surveyExplain": "Le questionnaire est divisé en plusieurs phases : une phase de questions de départ sur votre sexe et votre orientation sexuelle, plusieurs phases de classement, une phase de questions supplémentaires à la fin. Lors des phases de classement, vous devrez déplacer avec la souris des descriptions de caractéristiques vers une échelle d'importance.",
     "wrongStatementFormatMessage": "mauvais fichier config.json récupéré",
     "QCM": {
@@ -903,20 +903,20 @@
             "list": [
                 {
                     "id": 3,
-                    "question": "avez-vous utilisé une application de rencontres dans le passé ou utilisez-vous actuellement une application de rencontres ?",
+                    "question": "Avez-vous utilisé une application de rencontres dans le passé ou utilisez-vous actuellement une application de rencontres ?",
                     "type": "radio",
                     "choices": [
                         {
                             "choiceId": 1,
-                            "text": "oui, j'en ai utilisé par le passé mais je n'en utilise plus"
+                            "text": "Oui, j'en ai utilisé par le passé mais je n'en utilise plus"
                         },
                         {
                             "choiceId": 2,
-                            "text": "oui, j'utilise actuellement des applications de rencontres"
+                            "text": "Oui, j'utilise actuellement des applications de rencontres"
                         },
                         {
                             "choiceId": 3,
-                            "text": "non, je n'ai jamais utilisé d'applications de rencontres"
+                            "text": "Non, je n'ai jamais utilisé d'applications de rencontres"
                         }
                     ],
                     "relatedQuestion": [
@@ -934,8 +934,9 @@
                 },
                 {
                     "id": 4,
-                    "question": "quelles applications de rencontres avez-vous déjà utilisé ou utilisez-vous actuellement ?",
+                    "question": "Quelles applications de rencontres avez-vous déjà utilisé ou utilisez-vous actuellement ?",
                     "type": "checkbox",
+                    "other": true,
                     "choices": [
                         {
                             "choiceId": 1,
@@ -1021,73 +1022,71 @@
                             "choiceId": 21,
                             "text": "Unitedmen"
                         }
-                    ],
-                    "other": true
+                    ]
                 },
                 {
                     "id": 5,
-                    "question": "quand était votre première inscription à un application de rencontres ? (format MM/AAAA)",
-                    "type": "text",
-                    "format": "^[0-1][0-9]/[1-2][09][0-9]{2}$"
+                    "question": "Quand était votre première inscription à un application de rencontres ? (format MM/AAAA)",
+                    "type": "text"
                 },
                 {
                     "id": 6,
-                    "question": "avec quelle frequence utilisiez ou utilisez-vous des applications de rencontres ?",
+                    "question": "Avec quelle frequence utilisiez ou utilisez-vous des applications de rencontres ?",
                     "type": "radio",
                     "choices": [
                         {
                             "choiceId": 1,
-                            "text": "plusieurs fois par jour"
+                            "text": "Plusieurs fois par jour"
                         },
                         {
                             "choiceId": 2,
-                            "text": "une fois par jour"
+                            "text": "Une fois par jour"
                         },
                         {
                             "choiceId": 3,
-                            "text": "deux ou trois fois par semaine"
+                            "text": "Deux ou trois fois par semaine"
                         },
                         {
                             "choiceId": 4,
-                            "text": "une fois par semaine"
+                            "text": "Une fois par semaine"
                         },
                         {
                             "choiceId": 5,
-                            "text": "rarement"
+                            "text": "Rarement"
                         }
                     ]
                 },
                 {
                     "id": 7,
-                    "question": "avez-vous eu dans le passé ou avez-vous actuellement une relation à long terme (petit.e ami.e, conjoint.e) ou à court terme (rencontre sexuelle) ?",
+                    "question": "Avez-vous eu dans le passé ou avez-vous actuellement une relation à long terme (petit.e ami.e, conjoint.e) ou à court terme (rencontre sexuelle) ?",
                     "type": "radio",
                     "choices": [
                         {
                             "choiceId": 1,
-                            "text": "oui, j'ai eu des expériences dans le passé et je suis actuellement dans une relation"
+                            "text": "Oui, j'ai eu des expériences dans le passé et je suis actuellement dans une relation"
                         },
                         {
                             "choiceId": 2,
-                            "text": "je suis actuellement dans ma première relation"
+                            "text": "Je suis actuellement dans ma première relation"
                         },
                         {
                             "choiceId": 3,
-                            "text": "non, je n'ai aucune experience dans les relations (amoureuse ou sexuelle)"
+                            "text": "Non, je n'ai aucune experience dans les relations (amoureuse ou sexuelle)"
                         }
                     ]
                 },
                 {
                     "id": 8,
-                    "question": "pourrions-nous vous contacter plus tard pour participer à un entretien d'environ 45min afin d'approfondir l'étude quantitative à laquelle vous participez actuellement ?",
+                    "question": "Pourrions-nous vous contacter plus tard pour participer à un entretien d'environ 45min afin d'approfondir l'étude quantitative à laquelle vous participez actuellement ?",
                     "type": "radio",
                     "choices": [
                         {
                             "choiceId": 1,
-                            "text": "oui"
+                            "text": "Oui"
                         },
                         {
                             "choiceId": 2,
-                            "text": "non"
+                            "text": "Non"
                         }
                     ],
                     "relatedQuestion": [
@@ -1104,21 +1103,18 @@
                 },
                 {
                     "id": 9,
-                    "question": "quelle est votre adresse mail ?",
-                    "type": "text",
-                    "format": "^[A-Za-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,3}$"
+                    "question": "Quelle est votre adresse mail ?",
+                    "type": "text"
                 },
                 {
                     "id": 10,
-                    "question": "quel est votre numéro de téléphone ? (Format internationnal, commençant par +33 pour la France ou +41 pour la Suisse, sans espace)",
-                    "type": "text",
-                    "format": "^(\\+[0-9]{11,})$"
+                    "question": "Quel est votre numéro de téléphone ? (Format internationnal, commençant par +33 pour la France ou +41 pour la Suisse, sans espace)",
+                    "type": "text"
                 },
                 {
                     "id": 11,
-                    "question": "quel est votre age ?",
-                    "type": "text",
-                    "format": "^([0-9]{2,3})$"
+                    "question": "Quel est votre age ?",
+                    "type": "text"
                 }
             ]
         }
