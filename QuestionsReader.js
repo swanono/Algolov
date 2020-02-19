@@ -62,9 +62,21 @@ class QuestionsReader extends ExcelReader {
             const question = {};
 
             question.id = numLastBeginQuest + row - range.s.r;
-            question.question = this.questSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].v.trim();
+            question.question = this.questSheet[XLSX.utils.encode_cell({ r: row, c: 0 })].v.trim(); 
             const type = this.questSheet[XLSX.utils.encode_cell({ r: row, c: 1 })].v.trim().split(',');
-            question.type = type[0].toLowerCase();
+
+            if (type[0].toLowerCase() === 'date') {
+                question.type = 'text';
+                question.format = '^(\\+[0-9]{11,})$';
+            } else if (['email','number','checkbox','radio','text'].includes(type[0]))
+                question.type = type[0].toLowerCase();
+            else if (type[0] === 'age') {
+                question.type = 'text';
+                question.format = '^([0-9]{2,3})$';
+            }
+            else {
+
+            }
             if (type.length > 1 )
                 question.other = true;
             
@@ -164,10 +176,8 @@ class QuestionsReader extends ExcelReader {
                         "triggerChoices": relQanswers, //pas bon
                         "questionIds": [relatedQuestions[indexQuest].conditionnalQuest]
                     });
-                } else if (!relQuest.questionIds.includes(idQuest)){
-                    console.log();
+                } else if (!relQuest.questionIds.includes(idQuest))
                     relQuest.questionIds.push(relatedQuestions[indexQuest].conditionnalQuest);
-                }
 
             }
         }
