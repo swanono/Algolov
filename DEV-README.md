@@ -59,6 +59,28 @@ show dbs
 db.<collection>.findOne()
 ```
 
+## Commandes Heroku
+
+### Créer un serveur heroku du projet
+```bash
+heroku create
+```
+
+### Ajouter un addon MongoDB
+```bash
+heroku addons:create mongolab
+```
+
+### Relancer serveur Heroku
+```bash
+heroku restart
+```
+
+### Déployer sur Heroku
+```bash
+git push heroku Test/Heroku:master ; heroku logs --tail
+```
+
 ## Licence
 
 ### A mettre à chaque début de fichier de code
