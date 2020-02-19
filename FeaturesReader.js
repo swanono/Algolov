@@ -22,7 +22,7 @@ const config = require('./config');
 const XLSX = require('xlsx');
 const fs = require('fs');
 const Path = require('path');
-const ExcelReader = require('./ExcelReader');
+const ExcelReader = require('./excelReader');
 
 function isString (v) {
     return Object.prototype.toString.call(v) === '[object String]';
