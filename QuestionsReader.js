@@ -67,14 +67,14 @@ class QuestionsReader extends ExcelReader {
 
             if (type[0].toLowerCase() === 'date') {
                 question.type = 'text';
-                question.format = '^(\\+[0-9]{11,})$';
+                question.format = '^(((0[1-9])|(1[0-9]))\\/((19[89][0-9])|(20[0-9]{2})))$';
             } else if (['email','number','checkbox','radio','text'].includes(type[0]))
                 question.type = type[0].toLowerCase();
             else if (type[0] === 'age') {
                 question.type = 'text';
                 question.format = '^([0-9]{2,3})$';
-            } else if (type[0]=== 'tel') {
-                question.type = 'text';
+            } else if (type[0] === 'tel') {
+                question.type = 'tel';
                 question.format = '^((\\+\\d{1,3}(-| )?\\(?\\d\\)?(-| )?\\d{1,5})|(\\(?\\d{2,6}\\)?))(-| )?(\\d{3,4})(-| )?(\\d{4})(( x| ext)\\d{1,5}){0,1}$';
             } else {
                 console.error('Type de question non accepté à la ligne ' + row);
@@ -265,9 +265,9 @@ class QuestionsReader extends ExcelReader {
 
         oldConfig.textButton = this.newConfig.textButton;
 
-        oldConfig.RGPDText = this.newConfig.RGPDText.replace('\n', '<br/>');
+        oldConfig.RGPDText = this.newConfig.RGPDText.replace(/(?:\r\n|\r|\n)/g, '<br/>');
         oldConfig.RGPDValidation = this.newConfig.RGPDValidation;
-        oldConfig.surveyExplain = this.newConfig.surveyExplain.replace('\n', '<br/>');
+        oldConfig.surveyExplain = this.newConfig.surveyExplain.replace(/(?:\r\n|\r|\n)/g, '<br/>');
 
         oldConfig.QCM.end.list = this.newConfig.questions;
 
