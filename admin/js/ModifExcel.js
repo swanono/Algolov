@@ -41,7 +41,7 @@ async function sendNewExcel (formTag) {
         res.ok = false;
     }
 
-    const innerHTML = res.message.split('/').map((m) => m.trim()).join('<br/>');
+    const innerHTML = res.message.replace('/', '<br/>');
 
     // eslint-disable-next-line no-undef
     setAlertMessage(innerHTML, res.ok);

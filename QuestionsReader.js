@@ -250,9 +250,9 @@ class QuestionsReader extends ExcelReader {
 
         oldConfig.textButton = this.newConfig.textButton;
 
-        oldConfig.RGPDText = this.newConfig.RGPDText;
+        oldConfig.RGPDText = this.newConfig.RGPDText.replace('\n', '<br/>');
         oldConfig.RGPDValidation = this.newConfig.RGPDValidation;
-        oldConfig.surveyExplain = this.newConfig.surveyExplain;
+        oldConfig.surveyExplain = this.newConfig.surveyExplain.replace('\n', '<br/>');
 
         oldConfig.QCM.end.list = this.newConfig.questions;
 
