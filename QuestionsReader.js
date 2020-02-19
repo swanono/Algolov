@@ -164,10 +164,8 @@ class QuestionsReader extends ExcelReader {
                         "triggerChoices": relQanswers, //pas bon
                         "questionIds": [relatedQuestions[indexQuest].conditionnalQuest]
                     });
-                } else if (!relQuest.questionIds.includes(idQuest)){
-                    console.log();
+                } else if (!relQuest.questionIds.includes(idQuest))
                     relQuest.questionIds.push(relatedQuestions[indexQuest].conditionnalQuest);
-                }
 
             }
         }
@@ -223,9 +221,6 @@ class QuestionsReader extends ExcelReader {
 
                 quest.relatedQuestion.forEach(relQuests => {
                     
-                    console.log(quest.relatedQuestion);
-                    console.log(relQuests);
-                    //relQuests.forEach((relQuestId,j) => {
                     const relQuest = this.newConfig.questions.find( question => relQuests.questionIds.includes(question.id));
                     
                     
@@ -233,9 +228,7 @@ class QuestionsReader extends ExcelReader {
                         this.xlsErrors.push('La question n°' + relQuests.questionIds + ' n\'a pas été défini');
                     else if (relQuests.questionIds < quest.id) 
                         this.xlsErrors.push('La question ' + relQuests.questionIds + ' dépend d\'une réponse à une des questions suivantes (la question ' + quest.id );
-                    
 
-                    //});
 
                     relQuests.triggerChoices.forEach((trChoice,p) => {
                         if (!quest.choices.find( choice => choice.choiceId === trChoice))
