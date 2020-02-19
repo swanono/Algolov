@@ -75,7 +75,8 @@ class QuestionsReader extends ExcelReader {
                 question.format = '^([0-9]{2,3})$';
             }
             else {
-
+                console.error('Type de question non accepté à la ligne ' + row);
+                break;
             }
             if (type.length > 1 )
                 question.other = true;

@@ -37,11 +37,11 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         <p>Récuperer un rapport</p>
         <div id="stats-div">
             <span><u><b>Quelques statistiques :</b></u></span>
-            <p>Age moyen des répondants : {{ stats.ageMean || 0 }} ans</p>
+            <p>Âge moyen : {{ stats.ageMean || 0 }} ans</p>
             <table id="tab-stats">
                 <thead>
                     <tr>
-                        <td :colspan="statsColspan">Répondants</td>
+                        <td :colspan="statsColspan">Nombre total de personnes par sexe </td>
                     </tr>
                 </thead>
                 <tbody v-for="descr in stats.desc">
@@ -82,12 +82,12 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                     </li>
                     <li>
                         <a href="./AdminRegister.html">
-                            Ajouter un Admin
+                            Ajouter Accès Admin 
                         </a>
                     </li>
                     <li>
                         <a href="./AdminUpdate.html">
-                        Modifier le mot de passe
+                            Mot de passe 
                         </a>
                     </li>
                 </ul>
@@ -101,7 +101,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         <!--MODIF QUESTIONS-->
         <div id="QuestionList">
         
-            <h3 id="TitreQexist">Liste question(s) existante(s)</h3>
+            <h3 id="TitreQexist">Liste des questions existantes </h3>
             
             <div>
                 <form id="formQuestionFiles" method="POST" action="/api/admin/selectQuestions" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">
@@ -119,7 +119,9 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
         <!--MODIF FEATURES-->
         <div id="FeaturesList">
-            <h3> Documents de features utilisables</h3>
+            <h3> Liste des documents contenant les variables pour la tâche de classement. <br />
+                Chaque variable dans le fichier sera affichée dans une case à classifier. 
+            </h3>
             <div>
                 <form id="formFeatureFiles" method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">                      
                     <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd">
@@ -135,17 +137,17 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
     </div>
     <a id="modifierQuestionnaire" class="bouton" href="./ModifQuestion.html">
-        Modifier le questionnaire
+        Modifier Questionnaire 
     </a>
     <button id="selectQuestionnaireDoc" class="bouton" type="submit" form="formQuestionFiles">
-        Utiliser le document coché
+        Utiliser Document coché 
     </button>
     <button id="selectFeatureDoc" class="bouton" type="submit" form="formFeatureFiles">
-        Utiliser le document coché
+        Utiliser Document coché 
     </button>
 
     <a id="modifierFeature" class="bouton" href="./ModifFeature.html">
-        Ajouter un nouveau document
+        Ajouter Nouveau Document 
     </a>
     
     

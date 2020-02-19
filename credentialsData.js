@@ -58,7 +58,7 @@ class CredentialManager {
             daoAdmin.findByName(req.body.username)
                 .then( function (user) {
                     if (user) 
-                        res.send({success: false, message: 'username already exists'});
+                        res.send({success: false, message: 'L’identifiant, ou l’adresse mail, existe déjà dans le système. Essayez de modifier les informations. '});
                     else {
                         bcrypt.hash(req.body.password, saltRounds)
                             .then( psw => {
@@ -69,7 +69,7 @@ class CredentialManager {
                                 })
                                     .then(() => {
                                         daoAdmin.closeConnexion();
-                                        res.json({ok: true, message: 'Inscription validée'});
+                                        res.json({ok: true, message: 'Nouvel accès créé.'});
                                     })
                                     .catch(err => {console.error(err); res.json(err);});
                             })
