@@ -369,7 +369,7 @@ class DOMGenerator {
         textInput.setAttribute('id', window.consts.INPUT_ID + question.id + '_1');
         textInput.setAttribute('class', window.consts.INPUT_CLASS + question.id);
         textInput.setAttribute('name', textInput.getAttribute('class'));
-        textInput.setAttribute('pattern', question.format);
+        textInput.setAttribute('pattern', question.format || '^.*$');
         textInput.setAttribute('required', 'true');
         textInput.addEventListener('focus', (event) => {
             TraceStorage.storeFocusEvent(event);

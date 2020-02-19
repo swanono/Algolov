@@ -18,12 +18,12 @@ This module is used for the interactivity of the Admin page
 */
 'use strict';
 
-async function sendNewExcel () {
+async function sendNewExcel (formTag) {
     const file = document.getElementById('new-excel-input').files[0];
     const formData = new FormData();
     formData.append('file', file);
 
-    const fetchRes = await fetch('/api/admin/changeFeatures', {
+    const fetchRes = await fetch(formTag.getAttribute('action'), {
         method: 'POST',
         body: formData
     });
@@ -41,7 +41,7 @@ async function sendNewExcel () {
         res.ok = false;
     }
 
-    const innerHTML = res.message.split('/').map((m) => m.trim()).join('<br/>');
+    const innerHTML = res.message.replace('/', '<br/>');
 
     // eslint-disable-next-line no-undef
     setAlertMessage(innerHTML, res.ok);

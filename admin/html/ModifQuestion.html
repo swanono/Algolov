@@ -27,7 +27,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <link rel="stylesheet" href="../css/alertMessage.css"/>
 
     <script type="text/javascript" src="../js/alertMessage.js" ></script>
-    <script type="text/javascript" src="../js/ModifQuestion.js" ></script>
+    <script type="text/javascript" src="../js/ModifExcel.js" ></script>
 
 </head>
     <body>
@@ -47,7 +47,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
         </div>
 
-        <form id="Upload-Form" action="/api/admin/changeQuestions" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewExcel(); stopFadeOut();">
+        <form id="Upload-Form" action="/api/admin/changeQuestions" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewExcel(event.target); stopFadeOut();">
             <p>Cliquez sur le bouton ci-dessous pour charger un nouveau set de question :</p>
             <input id="new-excel-input" type="file" name="Excel-Upload" accept=".xlsx , .xls" class="bouton">
             <input type="submit" value="Envoyer" class="bouton">

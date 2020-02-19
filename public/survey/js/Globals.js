@@ -102,7 +102,7 @@ function changeState () {
             TraceStorage.storeNextStepEvent(window.state);
             changeState(); 
         });
-        DOMGenerator.addCheckBoxToSee(window.consts.CONTINUE_BUTTON_ID, 'Cochez la case si vous acceptez les conditions ci-dessus ');
+        DOMGenerator.addCheckBoxToSee(window.consts.CONTINUE_BUTTON_ID, window.config.RGPDValidation);
     } else if (window.state === 2) {
         // The second step of the survey : Explaining how the survey works
         DOMGenerator.generateStepPage(window.config.surveyExplain, window.config.textButton.continue, () => {

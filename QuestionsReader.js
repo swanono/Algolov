@@ -233,9 +233,6 @@ class QuestionsReader extends ExcelReader {
 
                 quest.relatedQuestion.forEach(relQuests => {
                     
-                    console.log(quest.relatedQuestion);
-                    console.log(relQuests);
-                    //relQuests.forEach((relQuestId,j) => {
                     const relQuest = this.newConfig.questions.find( question => relQuests.questionIds.includes(question.id));
                     
                     
@@ -243,9 +240,7 @@ class QuestionsReader extends ExcelReader {
                         this.xlsErrors.push('La question n°' + relQuests.questionIds + ' n\'a pas été défini');
                     else if (relQuests.questionIds < quest.id) 
                         this.xlsErrors.push('La question ' + relQuests.questionIds + ' dépend d\'une réponse à une des questions suivantes (la question ' + quest.id );
-                    
 
-                    //});
 
                     relQuests.triggerChoices.forEach((trChoice,p) => {
                         if (!quest.choices.find( choice => choice.choiceId === trChoice))
@@ -267,9 +262,9 @@ class QuestionsReader extends ExcelReader {
 
         oldConfig.textButton = this.newConfig.textButton;
 
-        oldConfig.RGPDText = this.newConfig.RGPDText;
+        oldConfig.RGPDText = this.newConfig.RGPDText.replace('\n', '<br/>');
         oldConfig.RGPDValidation = this.newConfig.RGPDValidation;
-        oldConfig.surveyExplain = this.newConfig.surveyExplain;
+        oldConfig.surveyExplain = this.newConfig.surveyExplain.replace('\n', '<br/>');
 
         oldConfig.QCM.end.list = this.newConfig.questions;
 
