@@ -117,7 +117,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
             <div class="page" v-for="page in pageList" v-show="page.isShown && page.isActive">
                 <!-- Unchangeable pages -->
                 <div class="page-unchangeable" v-if="page.type == 'else'">
-                    <div class="centered-text">{{ page.text }}</div>
+                    <div class="centered-text" v-html="page.text"></div>
                     <button class="bouton">Continuer</button>
                 </div>
 
