@@ -44,15 +44,26 @@ module.exports = {
     adminEmailRegex: /^[A-Za-z0-9._%+-]+@[a-z0-9-]+\\.[a-z]{2,}$/,
     adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})$/,
     pathPostChangeFeatures: '/admin/changeFeatures',
+    pathPostChangeQuestions: '/admin/changeQuestions',
+    pathPostChangePDF: '/admin/changePDF',
     pathGetHistoricFeatures: '/admin/historicFeatures',
+    pathGetHistoricQuestions: '/admin/historicQuestions',
     pathGetBasicStats: '/admin/basicStats',
     pathPostSelectFeatures: '/admin/selectFeatures',
+    pathPostSelectQuestions: '/admin/selectQuestions',
     pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
     pathPostLogin : '/user/login',
     pathPostRegister : '/admin/register',
     pathPostUpdate : '/admin/update',
     pathLogOut : '/admin/logout',
-    excelSheetNames: { descript: 'Descriptions', types: 'Types', features: 'Features' },
+    excelSheetNames: { 
+        descript: 'Descriptions', types: 'Types', features: 'Features',
+        textSheet: 'Textes', questSheet: 'Questions', introSheet: 'Introduction'
+    },
+    typeDetail: { 
+        feature: { lastFile: 'lastFeatureFile', histPath: './admin/features_files/historic/Features_'},
+        question: { lastFile: 'lastQuestionFile', histPath: './admin/questions_files/historic/Questions_'}
+    },
     blocLegends: {
         3: ['pas apprécié du tout', 'indifférent', 'très apprécié'],
         5: ['pas apprécié du tout', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'très apprécié'],

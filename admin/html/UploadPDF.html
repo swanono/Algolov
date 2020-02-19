@@ -21,25 +21,25 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>AlgoLov - Admin2</title>
+    <title>AlgoLov - Admin</title>
 
     <link rel="stylesheet" href="../css/admin.css"/>
     <link rel="stylesheet" href="../css/alertMessage.css"/>
 
     <script type="text/javascript" src="../js/alertMessage.js" ></script>
-    <script type="text/javascript" src="../js/ModifExcel.js" ></script>
+    <script type="text/javascript" src="../js/UploadPDF.js" ></script>
 
 </head>
     <body>
-        <h1>Administration - Nouvelles Questions et contenus textuels</h1>
+        <h1>Administration - PDF</h1>
         <a id="Admin" class="bouton retour" href="../html/Admin.html">
             Retour
         </a>
         
         <div class="download-bar-container">
-            <a id="Template-Excel" class="download-bar bouton" href="../questions_files/template/Template_Questions.xlsx">
-                <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px"/>
-                <div>Télécharger le fichier Excel type pour le changement des questions</div>
+            <a id="Template-PDF" class="download-bar bouton" href="../../public/survey/study.pdf" target="_blank">
+                <img src="../images/logo-pdf.png" alt="logo pdf" width="30px" height="30px"/>
+                <div>Voir le PDF actif</div>
             </a>
         </div>
 
@@ -47,9 +47,9 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
         </div>
 
-        <form id="Upload-Form" action="/api/admin/changeQuestions" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewExcel(event.target); stopFadeOut();">
-            <p>Cliquez sur le bouton ci-dessous pour charger un nouveau set de question :</p>
-            <input id="new-excel-input" type="file" name="Excel-Upload" accept=".xlsx , .xls" class="bouton">
+        <form id="Upload-Form" action="/api/admin/changePDF" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewPDF(); stopFadeOut();">
+            <p>Cliquez sur le bouton ci-dessous pour charger un nouveau pdf :</p>
+            <input id="new-pdf-input" type="file" name="Pdf-Upload" accept=".pdf" class="bouton">
             <input type="submit" value="Envoyer" class="bouton">
         </form>
 

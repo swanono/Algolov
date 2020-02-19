@@ -35,6 +35,7 @@
     "lintjs": "./node_modules/.bin/eslint ./",
     "lintcss": "./node_modules/.bin/stylelint **/*.css",
     "linthtml": "./node_modules/.bin/html-linter --config .htmllinterrc.json",
+    "lint": "npm run lintjs & npm run lintcss & npm run linthtml",
     "unitTest": "jest",
     "addAdmin": "node rootAdminManager.js addRootAdmin",
     "deleteAdmin": "node rootAdminManager.js deleteRootAdmin",
@@ -42,8 +43,9 @@
   },
   "nodemonConfig": {
     "ignore": [
-      "public/survey/*.json",
-      "admin/*.json"
+      "**/*.json",
+      "admin/**/*.js",
+      "public/**/*.js"
     ]
   },
   "devDependencies": {
@@ -65,6 +67,12 @@
     "stylelint-config-recommended": "^3.0.0"
   },
   "jest": {
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.js",
+      "!**/node_modules/**",
+      "!**/*.test.js"
+    ],
     "preset": "@shelf/jest-mongodb",
     "verbose": true
   }

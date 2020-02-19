@@ -96,16 +96,16 @@ function changeState () {
     if (window.state === 1) {
         // The first step of the survey : show RGPD requirements
 
-        DOMGenerator.generateStepPage(window.config.RGPDText, 'Démarrer', () => {
+        DOMGenerator.generateStepPage(window.config.RGPDText, window.config.textButton.startSurvey, () => {
             resetReferenceTime();
             TraceStorage.storeWindowSize();
             TraceStorage.storeNextStepEvent(window.state);
             changeState(); 
         });
-        DOMGenerator.addCheckBoxToSee(window.consts.CONTINUE_BUTTON_ID, 'Cochez la case si vous acceptez les conditions ci-dessus ');
+        DOMGenerator.addCheckBoxToSee(window.consts.CONTINUE_BUTTON_ID, window.config.RGPDValidation);
     } else if (window.state === 2) {
         // The second step of the survey : Explaining how the survey works
-        DOMGenerator.generateStepPage(window.config.surveyExplain, 'Continuez', () => {
+        DOMGenerator.generateStepPage(window.config.surveyExplain, window.config.textButton.continue, () => {
             TraceStorage.storeNextStepEvent(window.state);
             changeState();
         });
@@ -115,7 +115,7 @@ function changeState () {
         if (qcm.fragmented)
             _loadFragmentedQCM(qcm.list);
 
-        DOMGenerator.generateStepQCMPage('Questions préliminaires', 'Continuer', changeState, qcm);
+        DOMGenerator.generateStepQCMPage('Questions préliminaires', window.config.textButton.continue, changeState, qcm);
     } else if (window.state > statesBeforeBloc && window.state <= window.config.surveyConfiguration.descNames.length * window.config.surveyConfiguration.nbBlocPerDesc + statesBeforeBloc) {
         // The blocs steps where the user can sort features
 
@@ -130,7 +130,7 @@ function changeState () {
         if (qcm.fragmented)
             _loadFragmentedQCM(qcm.list);
 
-        DOMGenerator.generateStepQCMPage('Questions Finales', 'Valider', () => sendJSON(), qcm);
+        DOMGenerator.generateStepQCMPage('Questions Finales', window.config.textButton.confirm, () => sendJSON(), qcm);
     } else
         console.error("This state doesn't exist : " + window.state);
 }
