@@ -73,8 +73,10 @@ class QuestionsReader extends ExcelReader {
             else if (type[0] === 'age') {
                 question.type = 'text';
                 question.format = '^([0-9]{2,3})$';
-            }
-            else {
+            } else if (type[0]=== 'tel') {
+                question.type = 'text';
+                question.format = '^((\\+\\d{1,3}(-| )?\\(?\\d\\)?(-| )?\\d{1,5})|(\\(?\\d{2,6}\\)?))(-| )?(\\d{3,4})(-| )?(\\d{4})(( x| ext)\\d{1,5}){0,1}$';
+            } else {
                 console.error('Type de question non accepté à la ligne ' + row);
                 break;
             }

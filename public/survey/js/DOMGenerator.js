@@ -347,6 +347,8 @@ class DOMGenerator {
         * in order for the storage to work
         */
         switch (questionData.type) {
+        case 'email':
+            
         case 'text':
             fieldset.appendChild(DOMGenerator._createTextInput(questionData));
             break;
