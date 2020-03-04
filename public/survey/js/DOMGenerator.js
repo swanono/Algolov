@@ -233,47 +233,40 @@ class DOMGenerator {
 
     static loadContinueButton (text, functor) {
 
-        //const nbOfElt = DOMGenerator.getMain().getElementsByClassName('presdiv')[0].getElementsByClassName('row').length + 1;
-        const divRow = document.createElement('div');
-        divRow.className ='row';
+        const button_row = document.createElement('div');
+        button_row.className ='row continueButton';
 
         const button = document.createElement('button');
         button.setAttribute('id', window.consts.CONTINUE_BUTTON_ID);
-        button.setAttribute('class','btn blue');
-
-        const span= document.createElement('span');
-        span.appendChild(document.createTextNode(text));
-
-        button.appendChild(span);
+        button.setAttribute('class','btn btn-primary btn-lg');
+        button.appendChild(document.createTextNode(text));
         button.addEventListener('click', () => functor());
 
-        divRow.appendChild(button);
-        DOMGenerator.getMain().childNodes[1].appendChild(divRow);
+        button_row.appendChild(button);
+        DOMGenerator.getMain().childNodes[1].appendChild(button_row);
     }
 
     static generateStepPage (contentpage, buttontext, functor, jokers) {
         DOMGenerator.cleanMain(jokers);
-        const divRow0 = document.createElement('div');
-        divRow0.className ='row blockContainer';
+        const blockContainer = document.createElement('div');
+        blockContainer.className ='row blockContainer';
 
-        const divRow = document.createElement('div');
-        divRow.className ='row';
+        const presdiv = document.createElement('div');
+        presdiv.className ='row presdiv';
 
-        const divRowIntern = document.createElement('div');
-        divRowIntern.className ='row';
+        const prestext = document.createElement('div');
+        prestext.className ='row prestext noselect';
 
-        const div = document.createElement('div');
-        div.className = 'presdiv  col-lg-11';
-        const text = document.createElement('div');
-        text.className = 'prestext noselect  col-lg-11';
-        text.innerHTML = contentpage;
+        const prestext_col = document.createElement('div');
+        prestext_col.className = 'col-lg-11';
+        prestext_col.innerHTML = contentpage;
 
-        divRow0.appendChild(divRowIntern);
-        divRowIntern.appendChild(divRow);
-        divRow.appendChild(div);
-        div.appendChild(text);
+        
+        blockContainer.appendChild(presdiv);
+        presdiv.appendChild(prestext);
+        prestext.appendChild(prestext_col);
 
-        DOMGenerator.getMain().appendChild(divRow0);
+        DOMGenerator.getMain().appendChild(blockContainer);
 
         DOMGenerator.loadContinueButton(buttontext, functor);
     }
@@ -553,44 +546,61 @@ class DOMGenerator {
     }
 
     static addCheckBoxToSee (idItemTohide, checkboxText) {
-        const div = DOMGenerator.getMain().childNodes[1].childNodes[0];
+        const presdiv = DOMGenerator.getMain().childNodes[1].childNodes[0];
         const startButton = document.getElementById(idItemTohide);
 
-        const divRow = document.createElement('div');
-        divRow.className ='row';
-        const divform = document.createElement('div');
-        divform.className =' col-lg-8';
+        const checkboxAndText_row = document.createElement('div');
+        checkboxAndText_row.className ='form-group row';
 
-        const divInput = document.createElement('div');
-        divInput.setAttribute('class','divInput custom-control custom-checkbox');
+        const checkboxAndText_col = document.createElement('div');
+        checkboxAndText_col.setAttribute('class','divInput custom-control custom-checkbox col-lg-11');
+
+        const checkbox = document.createElement('input');
+        checkbox.setAttribute('class','custom-control-input');
+        checkbox.setAttribute('type', 'checkbox');
+        checkbox.setAttribute('name', 'acceptButton');
+        checkbox.setAttribute('id', 'acceptButton');
+        checkbox.setAttribute('value', 'rgpd_accept');
+        checkbox.addEventListener('change', (event) => {
+            TraceStorage.storeOnChangeChoiceEvent(event);
+        });
+
 
         const label = document.createElement('label');
-        label.setAttribute('class','col-lg-9 acceptButton custom-control-label');
+        label.setAttribute('class','acceptButton custom-control-label');
 
-        const acceptButton = document.createElement('input');
+        /*const acceptButton = document.createElement('input');
         acceptButton.setAttribute('type', 'checkbox');
         acceptButton.setAttribute('name', 'acceptButton');
         acceptButton.setAttribute('id', 'acceptButton');
         acceptButton.setAttribute('value', 'rgpd_accept');
         acceptButton.setAttribute('class','custom-control-input');
         //acceptButton.setAttribute('class','col-lg-2');
+
         acceptButton.addEventListener('change', (event) => {
             TraceStorage.storeOnChangeChoiceEvent(event);
-        });
+        });*/
+
+        /*const divRow = document.createElement('div');
+        divRow.className ='row';
+        const divform = document.createElement('div');
+        divform.className =' col-lg-8';*/
 
         label.appendChild(document.createTextNode(checkboxText));
         label.setAttribute('for', 'acceptButton');
-        divInput.appendChild(acceptButton);
-        divInput.appendChild(label);
-
+        checkboxAndText_col.appendChild(checkbox);
+        checkboxAndText_col.appendChild(label);
+        checkboxAndText_row.appendChild(checkboxAndText_col);
         
-        //divInput.setAttribute('class', ' col-lg-10');
+        presdiv.appendChild(checkboxAndText_row);
+
+        /*//divInput.setAttribute('class', ' col-lg-10');
         divRow.appendChild(divform);
         divform.appendChild(divInput);
-        div.appendChild(divRow);
+        div.appendChild(divRow);*/
 
         startButton.style.display = 'none';
-        acceptButton.addEventListener('change', function () {
+        checkbox.addEventListener('change', function () {
             const _displayButton = this.checked ? '' : 'none';
             startButton.style.display = _displayButton;
         });
