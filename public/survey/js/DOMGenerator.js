@@ -232,29 +232,57 @@ class DOMGenerator {
     }
 
     static loadContinueButton (text, functor) {
+
+        //const nbOfElt = DOMGenerator.getMain().getElementsByClassName('presdiv')[0].getElementsByClassName('row').length + 1;
+        const divRow = document.createElement('div');
+        divRow.className ='row';
+
         const button = document.createElement('button');
         button.setAttribute('id', window.consts.CONTINUE_BUTTON_ID);
-        button.appendChild(document.createTextNode(text));
+        button.setAttribute('class','btn blue');
+
+        const span= document.createElement('span');
+        span.appendChild(document.createTextNode(text));
+
+        button.appendChild(span);
         button.addEventListener('click', () => functor());
-        DOMGenerator.getMain().appendChild(button);
+
+        divRow.appendChild(button);
+        DOMGenerator.getMain().childNodes[1].appendChild(divRow);
     }
 
     static generateStepPage (contentpage, buttontext, functor, jokers) {
         DOMGenerator.cleanMain(jokers);
+        const divRow0 = document.createElement('div');
+        divRow0.className ='row blockContainer';
+
+        const divRow = document.createElement('div');
+        divRow.className ='row';
+
+        const divRowIntern = document.createElement('div');
+        divRowIntern.className ='row';
+
         const div = document.createElement('div');
-        div.className = 'presdiv';
+        div.className = 'presdiv  col-lg-11';
         const text = document.createElement('div');
-        text.className = 'prestext noselect';
+        text.className = 'prestext noselect  col-lg-11';
         text.innerHTML = contentpage;
 
+        divRow0.appendChild(divRowIntern);
+        divRowIntern.appendChild(divRow);
+        divRow.appendChild(div);
         div.appendChild(text);
-        DOMGenerator.getMain().appendChild(div);
+
+        DOMGenerator.getMain().appendChild(divRow0);
 
         DOMGenerator.loadContinueButton(buttontext, functor);
     }
 
     static generateStepQCMPage (contentpage, buttontext, functor, qcm, jokers) {
         DOMGenerator.cleanMain(jokers);
+        DOMGenerator.cleanMain(jokers);
+        const divRow = document.createElement('div');
+        divRow.className ='row';
 
         const qcmArray = qcm.list;
         const descQuest = qcm.isDescriptionLinked; // false if there is no description information in the question
@@ -265,7 +293,8 @@ class DOMGenerator {
         text.className = 'prestext noselect';
         text.innerHTML = contentpage;
 
-        div.appendChild(text);
+        div.appendChild(divRow);
+        divRow.appendChild(text);
 
         const main = DOMGenerator.getMain();
         main.appendChild(div);
@@ -365,6 +394,7 @@ class DOMGenerator {
     }
 
     static _createTextInput (question) {
+        
         const textInput = document.createElement('input');
 
         textInput.setAttribute('type', question.type);
@@ -384,6 +414,9 @@ class DOMGenerator {
 
     static _createCheckableInputs (question) {
         const htmlTags = [];
+
+        const divRow = document.createElement('div');
+        divRow.className ='row';
 
         question.choices.forEach((choice) => {
             const input = document.createElement('input');
@@ -414,7 +447,9 @@ class DOMGenerator {
             containerDiv.appendChild(input);
             containerDiv.appendChild(label);
 
-            htmlTags.push(containerDiv);
+            divRow.appendChild(containerDiv);
+
+            htmlTags.push(divRow);
         });
 
         if (question.other) {
@@ -442,7 +477,9 @@ class DOMGenerator {
             containerDiv.appendChild(input);
             containerDiv.appendChild(label);
             
-            htmlTags.push(containerDiv);
+            divRow.appendChild(containerDiv);
+
+            htmlTags.push(divRow);
         }
 
         return htmlTags;
@@ -469,6 +506,21 @@ class DOMGenerator {
         } else {
             while (main.firstChild) 
                 main.removeChild(main.firstChild);
+            
+            const header = document.createElement('div');
+            header.setAttribute('class','row');
+        
+            const div = document.createElement('div');
+            //div.setAttribute('class','col-lg-offset-2');
+        
+            const title = document.createElement('h1');
+            const titleText = document.createTextNode('ALGOLOV');
+            title.appendChild(titleText);
+            
+                
+            header.appendChild(div);
+            div.appendChild(title);
+            main.appendChild(header);
         }
     }
 
@@ -478,33 +530,64 @@ class DOMGenerator {
             return main;
         
         main = document.createElement('div');
+        main.setAttribute('class','container');
         main.id = 'main';
+
+        const header = document.createElement('div');
+        header.setAttribute('class','row');
+
+        const div = document.createElement('div');
+        //div.setAttribute('class','col-lg-offset-2');
+
+        const title = document.createElement('h1');
+        const titleText = document.createTextNode('ALGOLOV');
+        title.appendChild(titleText);
         
+        
+        header.appendChild(div);
+        div.appendChild(title);
+        main.appendChild(header);
         document.body.appendChild(main);
+        
         return main;
     }
 
     static addCheckBoxToSee (idItemTohide, checkboxText) {
-        const div = DOMGenerator.getMain().firstChild;
+        const div = DOMGenerator.getMain().childNodes[1].childNodes[0];
         const startButton = document.getElementById(idItemTohide);
 
+        const divRow = document.createElement('div');
+        divRow.className ='row';
+        const divform = document.createElement('div');
+        divform.className =' col-lg-8';
+
         const divInput = document.createElement('div');
+        divInput.setAttribute('class','divInput custom-control custom-checkbox');
+
         const label = document.createElement('label');
+        label.setAttribute('class','col-lg-9 acceptButton custom-control-label');
+
         const acceptButton = document.createElement('input');
         acceptButton.setAttribute('type', 'checkbox');
         acceptButton.setAttribute('name', 'acceptButton');
         acceptButton.setAttribute('id', 'acceptButton');
         acceptButton.setAttribute('value', 'rgpd_accept');
+        acceptButton.setAttribute('class','custom-control-input');
+        //acceptButton.setAttribute('class','col-lg-2');
         acceptButton.addEventListener('change', (event) => {
             TraceStorage.storeOnChangeChoiceEvent(event);
         });
 
         label.appendChild(document.createTextNode(checkboxText));
         label.setAttribute('for', 'acceptButton');
-        divInput.appendChild(label);
         divInput.appendChild(acceptButton);
+        divInput.appendChild(label);
+
         
-        div.appendChild(divInput);
+        //divInput.setAttribute('class', ' col-lg-10');
+        divRow.appendChild(divform);
+        divform.appendChild(divInput);
+        div.appendChild(divRow);
 
         startButton.style.display = 'none';
         acceptButton.addEventListener('change', function () {

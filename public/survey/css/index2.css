@@ -1,0 +1,30 @@
+* {
+    font-family: Lato;
+}
+
+.blockContainer {
+    border-radius: 6px;
+    border-style: solid;
+    border-color: #D0D0D0;
+    box-shadow: 3px 5px 8px #00000084;
+    padding: 2em;
+    height: 80%;
+}
+
+label .acceptButton {
+    width: 60%;
+    display: inline-block;
+}
+
+.divInput {
+    margin-top: 2em;
+}
+
+
+.divInput label #text{
+    margin-left: 1em;
+}
+
+.divInput {
+    margin-top: 1em;
+}
