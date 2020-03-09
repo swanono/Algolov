@@ -274,26 +274,42 @@ class DOMGenerator {
     static generateStepQCMPage (contentpage, buttontext, functor, qcm, jokers) {
         DOMGenerator.cleanMain(jokers);
         DOMGenerator.cleanMain(jokers);
-        const divRow = document.createElement('div');
-        divRow.className ='row';
+
 
         const qcmArray = qcm.list;
         const descQuest = qcm.isDescriptionLinked; // false if there is no description information in the question
         const isFragmented = qcm.fragmented;
-        const div = document.createElement('div');
-        div.className = 'presdiv';
-        const text = document.createElement('div');
-        text.className = 'prestext noselect';
-        text.innerHTML = contentpage;
+        
+        const blockContainer = document.createElement('div');
+        blockContainer.className ='row blockContainer';
 
-        div.appendChild(divRow);
-        divRow.appendChild(text);
+        const presdiv = document.createElement('div');
+        presdiv.className ='presdiv';
+
+        const prestext = document.createElement('div');
+        prestext.className ='prestext noselect';
+
+        const h2Prestext = document.createElement('h2');
+        h2Prestext.innerHTML = contentpage;
+
+        prestext.appendChild(h2Prestext);
+
+        blockContainer.appendChild(presdiv);
+        presdiv.appendChild(prestext);
+
 
         const main = DOMGenerator.getMain();
-        main.appendChild(div);
+        main.appendChild(blockContainer);
+
+        const form_row = document.createElement('div');
+        form_row.setAttribute('class','row form-group');
 
         const form = document.createElement('form');
         form.setAttribute('id', 'form-id');
+        form.setAttribute('class','col-lg-12');
+
+        
+
 
         let usedFunctor = functor;
 
@@ -350,7 +366,8 @@ class DOMGenerator {
         falseButton.setAttribute('style', 'display: none;');
         form.appendChild(falseButton);
 
-        div.appendChild(form);
+        form_row.appendChild(form);
+        presdiv.appendChild(form_row);
 
         if (!isFragmented)
             DOMGenerator._setDisabled(qcmArray);
@@ -359,9 +376,11 @@ class DOMGenerator {
     static _createQuestion (questionData, formTag) {
         const fieldset = document.createElement('fieldset');
         fieldset.setAttribute('id', window.consts.QUESTION_ID + questionData.id);
+        fieldset.setAttribute('class','form-group');
 
-        const legend = document.createElement('p');
+        const legend = document.createElement('div');
         legend.appendChild(document.createTextNode(questionData.question));
+        legend.setAttribute('class','legend');
         fieldset.appendChild(legend);
 
         /* 
@@ -392,7 +411,7 @@ class DOMGenerator {
 
         textInput.setAttribute('type', question.type);
         textInput.setAttribute('id', window.consts.INPUT_ID + question.id + '_1');
-        textInput.setAttribute('class', window.consts.INPUT_CLASS + question.id);
+        textInput.setAttribute('class', 'form-control ' + window.consts.INPUT_CLASS + question.id);
         textInput.setAttribute('name', textInput.getAttribute('class'));
         textInput.setAttribute('pattern', question.format || '^.*$');
         textInput.setAttribute('required', 'true');
@@ -409,21 +428,28 @@ class DOMGenerator {
         const htmlTags = [];
 
         const divRow = document.createElement('div');
-        divRow.className ='row';
+        divRow.className ='form-row';
 
         question.choices.forEach((choice) => {
             const input = document.createElement('input');
             input.setAttribute('type', question.type);
             input.setAttribute('id', window.consts.INPUT_ID + question.id + '_' + choice.choiceId);
-            input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
+            input.setAttribute('class', 'custom-control-input ' + window.consts.INPUT_CLASS + question.id);
             input.setAttribute('value', input.getAttribute('id'));
             input.setAttribute('name', input.getAttribute('class'));
             input.addEventListener('change', (event) => {
                 TraceStorage.storeOnChangeChoiceEvent(event);
             });
 
-            if(question.type !== 'checkbox')
+            const containerDiv = document.createElement('div');
+            containerDiv.setAttribute('id', window.consts.INPUT_DIV_ID + question.id + '_' + choice.choiceId);
+
+            if(question.type !== 'checkbox') {
                 input.setAttribute('required', 'true');
+                containerDiv.setAttribute('class','custom-radio col-lg-6 ');
+            }
+            else
+                containerDiv.setAttribute('class','custom-checkbox col-lg-6 ');
             if (question.descName) {
                 input.setAttribute('descName', question.descName);
                 input.setAttribute('descValue', choice.descValue);
@@ -431,12 +457,13 @@ class DOMGenerator {
 
             const label = document.createElement('label');
             label.setAttribute('for', input.getAttribute('id'));
+            label.setAttribute('class','custom-control-label QCMLabel');
             label.appendChild(document.createTextNode(choice.text));
+            
 
-            const containerDiv = document.createElement('div');
-            containerDiv.setAttribute('id', window.consts.INPUT_DIV_ID + question.id + '_' + choice.choiceId);
+            
             if (window.state === 3)
-                containerDiv.setAttribute('class', 'divQuest');
+                containerDiv.classList.add('divQuest');
             containerDiv.appendChild(input);
             containerDiv.appendChild(label);
 
@@ -450,8 +477,9 @@ class DOMGenerator {
             const input = document.createElement('input');
             input.setAttribute('type', 'text');
             input.setAttribute('id', window.consts.INPUT_ID + question.id + '_' + idText);
-            input.setAttribute('class', window.consts.INPUT_CLASS + question.id);
+            input.setAttribute('class', 'form-control ' +window.consts.INPUT_CLASS + question.id);
             input.setAttribute('name', input.getAttribute('class'));
+            input.setAttribute('placeholder','Autre');
             input.addEventListener('focus', (event) => {
                 TraceStorage.storeFocusEvent(event);
             });
@@ -459,16 +487,16 @@ class DOMGenerator {
                 TraceStorage.storeKeyEvent(event);
             });
 
-            const label = document.createElement('label');
+            /*const label = document.createElement('label');
             label.setAttribute('for', input.getAttribute('id'));
-            label.appendChild(document.createTextNode('Autre'));
+            label.appendChild(document.createTextNode('Autre'));*/
 
             const containerDiv = document.createElement('div');
             containerDiv.setAttribute('id', window.consts.INPUT_DIV_ID + question.id + '_' + idText);
             if (window.state === 3)
                 containerDiv.setAttribute('class', 'divQuest');
             containerDiv.appendChild(input);
-            containerDiv.appendChild(label);
+            //containerDiv.appendChild(label);
             
             divRow.appendChild(containerDiv);
 

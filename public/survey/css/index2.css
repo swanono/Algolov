@@ -1,5 +1,6 @@
 * {
     font-family: Lato;
+    
 }
 
 .blockContainer {
@@ -21,6 +22,10 @@ label .acceptButton {
     display: inline-block;
 }
 
+label .QCMLabel {
+    margin-left: 15px;
+
+}
 .divInput {
     margin-top: 2em;
     margin-left: 15px;
@@ -35,13 +40,42 @@ label .acceptButton {
     margin-top: 1em;
 }
 
+h2 .prestext {
+    font-weight: bold;
+    font-size: 1.2em;
+}
+
 #continuebutton.btn {
     box-shadow: 3px 5px 8px #00000051;
     border-radius: 50px;
     font-weight: bold;
+    margin-top: 1em;
 }
 
 .row.continueButton {
-    margin-top: 1em;
+    
     margin: auto;
+    display: block !important;
+    text-align: center;
+}
+.row {
+    display: block !important;
+}
+
+#form-id {
+    margin-top: 1em;
+    
+}
+
+.form-row {
+    margin-left: 15px;
+}
+
+.form-control{
+    width: auto ;
+}
+
+.legend {
+    font-size: 1.1em;
+    font-weight: bold;
 }
