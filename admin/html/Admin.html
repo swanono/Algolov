@@ -106,6 +106,9 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
             <div>
                 <form id="formQuestionFiles" method="POST" action="/api/admin/selectQuestions" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">
                     <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd">
+                        <a class="delete-file danger" @click="sendDeleteDoc(doc.name, 'questions')">
+                            <img src="../images/trash.png" alt="logo trash" width="30px" height="30px" />
+                        </a>
                         <a class="download-bar bouton" :href="doc.path">
                             <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
                             <div>{{ doc.name }}</div>
@@ -125,6 +128,9 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
             <div>
                 <form id="formFeatureFiles" method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">                      
                     <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd">
+                        <a class="delete-file danger" @click="sendDeleteDoc(doc.name, 'features')">
+                            <img src="../images/trash.png" alt="logo trash" width="30px" height="30px" />
+                        </a>
                         <a class="download-bar bouton" :href="doc.path">
                             <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
                             <div>{{ doc.name }}</div>

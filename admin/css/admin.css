@@ -150,6 +150,10 @@ h3 {
     float: left;
     vertical-align: center;
 }
+.delete-file {
+    border: black solid 1px;
+    margin-right: 2em;
+}
 
 .used-file {  
     background-color: lightgreen;

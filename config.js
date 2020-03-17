@@ -51,6 +51,7 @@ module.exports = {
     pathGetBasicStats: '/admin/basicStats',
     pathPostSelectFeatures: '/admin/selectFeatures',
     pathPostSelectQuestions: '/admin/selectQuestions',
+    pathDeleteExcel: '/admin/deleteExcel/:type/:fileName',
     pathGetThanksAbs: _directoryPrefix + '/public/survey/html/thanks.html',
     pathPostLogin : '/user/login',
     pathPostRegister : '/admin/register',

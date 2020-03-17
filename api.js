@@ -29,10 +29,6 @@ const path = require('path');
 const fs = require('fs');
 const CredentialManager = require('./credentialsData');
 
-// BCrypt module
-const bcrypt = require('bcrypt');
-const saltRounds = 11;
-
 module.exports = (passport) => {
     const app = express();
 
@@ -88,6 +84,22 @@ module.exports = (passport) => {
                 res.json({ ok: true, message: 'Le PDF a été modifié avec succès !' });
             }
         });
+    });
+
+    app.delete(config.pathDeleteExcel, function (req, res) {
+        const type = req.params.type;
+        const fileName = req.params.fileName;
+        const filePath = `./admin/${type}_files/historic/${fileName}`;
+        const hist = JSON.parse(fs.readFileSync('./admin/historic.json'));
+        const keyLast = type === 'features' ? 'lastFeatureFile' : 'lastQuestionFile';
+        if (!fs.existsSync(filePath))
+            res.status(400).json({ ok: false, message: 'Le fichier demandé n\'existe pas' });
+        else if (hist[keyLast] === fileName)
+            res.status(403).json({ ok: false, message: 'Vous ne pouvez pas supprimer le fichier actuellement utilisé' });
+        else {
+            fs.unlinkSync(filePath);
+            res.json({ ok: true, message: 'Le fichier a été supprimé' });
+        } 
     });
 
     app.get(config.pathGetHistoricFeatures, function (req, res) {
