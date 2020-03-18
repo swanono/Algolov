@@ -46,6 +46,7 @@ module.exports = {
     pathPostChangeFeatures: '/admin/changeFeatures',
     pathPostChangeQuestions: '/admin/changeQuestions',
     pathPostChangePDF: '/admin/changePDF',
+    pathActivPDF: '/admin/activatePDF',
     pathGetHistoricFeatures: '/admin/historicFeatures',
     pathGetHistoricQuestions: '/admin/historicQuestions',
     pathGetBasicStats: '/admin/basicStats',

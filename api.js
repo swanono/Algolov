@@ -41,7 +41,11 @@ module.exports = (passport) => {
 
         // TODO : envoyer le mail ici
 
-        res.redirect(config.pathGetThanksAbs);
+        const usePDF = JSON.parse(fs.readFileSync('./admin/historic.json')).usePDF;
+
+        const params = usePDF ? '?pdf=1' : '';
+
+        res.redirect(config.pathGetThanksAbs + params);
     });
 
     app.post(config.pathPostChangeFeatures, function (req, res) {
@@ -84,6 +88,19 @@ module.exports = (passport) => {
                 res.json({ ok: true, message: 'Le PDF a été modifié avec succès !' });
             }
         });
+    });
+
+    app.get(config.pathActivPDF, function (req, res) {
+        res.json(JSON.parse(fs.readFileSync('./admin/historic.json')).usePDF);
+    });
+    app.post(config.pathActivPDF, function (req, res) {
+        const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
+
+        historic.usePDF = req.body.activPDF === 'on';
+
+        fs.writeFileSync('./admin/historic.json', JSON.stringify(historic, null, 4));
+
+        res.json({ ok: true, message: `Le PDF est ${historic.usePDF ? 'activé' : 'inactivé'}` });
     });
 
     app.delete(config.pathDeleteExcel, function (req, res) {

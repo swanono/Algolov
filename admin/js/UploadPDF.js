@@ -30,8 +30,43 @@ async function sendNewPDF () {
 
     const res = await fetchRes.json();
 
-    const innerHTML = res.message;
+    // eslint-disable-next-line no-undef
+    setAlertMessage(res.message, res.ok);
+}
+
+async function getActivState () {
+    const fetchRes = await fetch('/api/admin/activatePDF', {
+        method: 'GET',
+        headers: new Headers({ 'Content-type': 'application/json' })
+    });
+
+    const res = await fetchRes.json();
+
+    const cb = document.getElementById('activ-pdf-cb');
+    cb.checked = res;
+    cb.setAttribute('checked', res);
+
+    const divState = document.getElementById('div-pdf-state');
+    divState.textContent = res ? 'Actif' : 'Inactif';
+}
+
+async function activatePDF (formTag) {
+    const formData = new FormData(formTag);
+
+    const body = {};
+    for (const [key, value] of formData.entries())
+        body[key] = value;
+
+    const fetchRes = await fetch(formTag.action, {
+        method: 'POST',
+        headers: new Headers({ 'Content-type': 'application/json' }),
+        body: JSON.stringify(body)
+    });
+
+    const res = await fetchRes.json();
 
     // eslint-disable-next-line no-undef
-    setAlertMessage(innerHTML, res.ok);
+    setAlertMessage(res.message, res.ok);
+
+    getActivState();
 }

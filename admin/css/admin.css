@@ -348,9 +348,14 @@ nav > ul li:hover .sous{
 
 /* fin sidebar*/
 
-
-
-
+#activ-pdf {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#activ-pdf * {
+    margin: 0 0.5em;
+}
 
 /* page ajouterQuestion */
 

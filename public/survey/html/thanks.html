@@ -23,23 +23,26 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AlgoLov</title>
 
+    <script src="../js/thanks.js"></script>
     <link rel="stylesheet" href="../css/index.css"/>
 </head>
-    <body>
-        <div id="main" class="presdiv">
-            <p class="prestext">
-                Merci d’avoir participé à cette étude.
-                <br />
-                <br />
+<body onload="deletePDF()">
+    <div id="main" class="presdiv">
+        <p class="prestext">
+            Merci d’avoir participé à cette étude.
+            <br />
+            <br />
+            <div class="prestext pdf-related">
                 Vous pouvez ci-dessous télécharger un document informatif sur cette recherche, 
                 comment contacter la chercheuse Jessica Pidoux, et vos droits concernant les données ici récoltées :
-            </p>
-            <div  class="download-bar-container ">
-                <a class="download-bar bouton" href="../documents/study.pdf" target="_blank">
-                    <img src="../images/logo-pdf.png" alt="logo pdf" width="30px" height="30px" />
-                    <div>Document d'information sur l'étude</div>
-                </a>
             </div>
+        </p>
+        <div class="download-bar-container pdf-related">
+            <a class="download-bar bouton" href="../documents/study.pdf" target="_blank">
+                <img src="../images/logo-pdf.png" alt="logo pdf" width="30px" height="30px" />
+                <div>Document d'information sur l'étude</div>
+            </a>
         </div>
-    </body>
+    </div>
+</body onload="deletePDF()">
 </html>
