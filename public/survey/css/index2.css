@@ -107,7 +107,7 @@ label .QCMLabel {
     padding: 0.1em;
     margin-left: 0.2em;
     margin-right: 0.2em;
-    margin-bottom: 1em;
+    margin-top: 0em;
     box-shadow: inset 3px 5px 8px #00000051;
     
 }
@@ -159,7 +159,9 @@ label .QCMLabel {
 }
 
 .scaleRow_container {
-    align-items: flex-start;
+    align-items: flex-start !important;
+    min-height: 6rem;
+    margin-bottom: 0.5em;
 
 }
 
