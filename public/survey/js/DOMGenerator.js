@@ -55,12 +55,12 @@ class DOMGenerator {
         const newBlocConfig = surveyConfig.blocThemes[blocIndex];
 
         // creation of the div containing all this bloc
-        const bloc = document.createElement('div');
-        bloc.setAttribute('id', window.consts.BLOC_ID + newBlocConfig.blocId);
-        bloc.setAttribute('blocType', newBlocConfig.type);
-        bloc.setAttribute('class', 'bloc');
+        const blockContainer = document.createElement('div');
+        blockContainer.setAttribute('id', window.consts.BLOC_ID + newBlocConfig.blocId);
+        blockContainer.setAttribute('blocType', newBlocConfig.type);
+        blockContainer.setAttribute('class', 'bloc blockContainer');
 
-        DOMGenerator.getMain().appendChild(bloc);
+        DOMGenerator.getMain().appendChild(blockContainer);
 
         // creation of the scale table and the containers inside of the div of this bloc
         DOMGenerator.loadScale(newBlocConfig.question, newBlocConfig.likertSize, newBlocConfig.legends);
@@ -91,8 +91,18 @@ class DOMGenerator {
         window.blocCards = [];
         DOMGenerator.loadCards(usedFeatures);
 
+        //const blockContainer = document.createElement('div');
+        //blockContainer.setAttribute('class','row blockContainer');
+
+        const button_row = document.createElement('div');
+        button_row.setAttribute('class','row');
+
+        const button_col_left = document.createElement('div');
+        button_col_left.setAttribute('class','col-lg-3');
+
         const stopButton = document.createElement('button');
         stopButton.setAttribute('id', 'stop-button');
+        stopButton.setAttribute('class','btn btn-danger btn-lg');
         stopButton.appendChild(document.createTextNode(window.config.textButton.stopSurvey));
         stopButton.addEventListener('click', () => {
             TraceStorage.saveSortedBloc();
@@ -102,62 +112,122 @@ class DOMGenerator {
                             window.config.surveyConfiguration.nbStatesBeforeBloc;
             changeState();
         });
-        DOMGenerator.getMain().appendChild(stopButton);
+
+        button_col_left.appendChild(stopButton);
+        button_row.appendChild(button_col_left);
+        blockContainer.appendChild(button_row);
+
+        //DOMGenerator.getMain().appendChild(blockContainer);
 
         DOMGenerator._makeSortable();
     }
 	
     static loadScale (question, likertSize, legends) {
-        const bloc = document.querySelector('.bloc');
+        const blockContainer = document.querySelector('.blockContainer');
         
         // creation of the table and its rows for organising the page
+        /*
         const scale = document.createElement('table');
         scale.setAttribute('id', 'scale_tab');
         scale.setAttribute('class', 'noselect');
         const headerRow = scale.insertRow(0);
         const scaleTextRow = scale.insertRow(1);
         const ranksRow = scale.insertRow(2);
-        const containerRow = scale.insertRow(3);
-
+        const containerRow = scale.insertRow(3); 
+        
+        
         headerRow.setAttribute('class', 'heading_txt');
         scaleTextRow.setAttribute('class', 'heading');
+        */
+
+
+        // all the content without the buttons
+        const presdiv = document.createElement('div');
+        presdiv.setAttribute('class','row presdiv');
+
+
+        // header
+        const prestext = document.createElement('div');
+        prestext.setAttribute('class','row prestext');
+        const prestext_col = document.createElement('div');
+        prestext_col.setAttribute('class','col');
 
         // insertion of the main text of the bloc in the header row
-        const headerCell = headerRow.insertCell();
-        headerCell.appendChild(document.createTextNode(
+
+        const desc_title = document.createElement('h2');
+
+        desc_title.appendChild(document.createTextNode(
             window.config.surveyConfiguration.descNames.find(
                 desc => desc.name === window.currentDescription
             ).text
         ));
-        headerCell.appendChild(document.createElement('br'));
-        headerCell.appendChild(document.createTextNode(question));
-        headerCell.setAttribute('colspan', `${likertSize}`);
+        prestext_col.appendChild(desc_title);
+
+        prestext_col.appendChild(document.createElement('br'));
+
+        const quest_title = document.createElement('h3');
+        quest_title.appendChild(document.createTextNode(question));
+        prestext_col.appendChild(quest_title);
+        
+        prestext.appendChild(prestext_col);
+        presdiv.appendChild(prestext);
+        
+        // Row scale text and classment
+        const scaleRow = document.createElement('div');
+        scaleRow.setAttribute('class','row scaleRow');
+        
+        const scaleRow_col = document.createElement('div');
+        scaleRow.setAttribute('class','col-lg-12 align-items-start');
+
+
+        const scaleRow_legend = document.createElement('div');
+        scaleRow_legend.setAttribute('class','row scaleRow_legend');
+
         
         // insertion of the scale indications in the following row
         legends.forEach((scaleText, i) => {
-            const newCell = scaleTextRow.insertCell();
+            const newCell = document.createElement('div');
+            newCell.setAttribute('class','col');
             newCell.appendChild(document.createTextNode(scaleText));
-            newCell.setAttribute('colspan', DOMGenerator._getColSpan(legends.length, i, likertSize));
+            scaleRow_legend.appendChild(newCell);
+            //newCell.setAttribute('colspan', DOMGenerator._getColSpan(legends.length, i, likertSize)); inutile?
 
-            if (((legends.length % 2 === 0 && likertSize % 2 === 1) || legends.length === 2) && i + 1 === legends.length / 2)
-                scaleTextRow.insertCell();
-            // TODO : changer le style des cellules headers
+
+            
+
         });
+
+        scaleRow_col.appendChild(scaleRow_legend);
+
+        const scaleRow_container = document.createElement('div');
+        scaleRow_container.setAttribute('class','row scaleRow_container align-items-start');
 
         // insertion of the rank containers in the following row (from -3 to 3 for example)
         const indexOffset = Math.floor(likertSize / 2);
         for (let i = -indexOffset; i < likertSize - indexOffset; i++) {
-            const cellRank = ranksRow.insertCell();
-            DOMGenerator.loadContainer(cellRank, window.consts.RANK_CONTAINER_ID + i, window.consts.RANK_CLASS);
+            //const cellRank = ranksRow.insertCell();
+            DOMGenerator.loadContainer(scaleRow_container, window.consts.RANK_CONTAINER_ID + i, window.consts.RANK_CLASS + ' col h-50 justify-content-center');
         }
 
-        // insertion of the initial container for the features
-        const initalContainerCell = containerRow.insertCell();
-        DOMGenerator.loadContainer(initalContainerCell, window.consts.INIT_CONTAINER_ID);
-        initalContainerCell.setAttribute('colspan', `${likertSize}`);
+        scaleRow_col.appendChild(scaleRow_container);
+        scaleRow.appendChild(scaleRow_col);
 
-        bloc.appendChild(scale);
-        DOMGenerator.getMain().appendChild(bloc);
+        presdiv.appendChild(scaleRow);
+
+
+
+        // container row
+        //const containerRow = document.createElement('div');
+        //containerRow.setAttribute('class','row');
+
+        // insertion of the initial container for the features
+        // const initalContainerCell = containerRow.insertCell();
+        DOMGenerator.loadContainer(presdiv, window.consts.INIT_CONTAINER_ID,' row justify-content-center');
+        //initalContainerCell.setAttribute('colspan', `${likertSize}`);
+
+        //bloc.appendChild(scale);
+        //DOMGenerator.getMain().appendChild(blockContainer);
+        blockContainer.appendChild(presdiv);
     }
 
     static loadContainer (parentNode, containerId, additionnalClass) {
@@ -171,6 +241,7 @@ class DOMGenerator {
         parentNode.appendChild(container);
     }
 
+    
     static _saveOriginalScale () {
         const bodyWidthPercentage = 98 / 100;
         const rankMarginPaddin = 10;
@@ -205,7 +276,7 @@ class DOMGenerator {
             DOMGenerator._applyScaleOnCard(element, acc);
         }, speed * interval);
     }
-
+    
     static loadCards (features) {
         // class nested-item => is a card inside a container
         features = shuffleArray(features);
@@ -217,7 +288,7 @@ class DOMGenerator {
         for (const feat of features) {
             const newCard = document.createElement('div');
             newCard.setAttribute('id', 'feature_' + feat.id);
-            newCard.setAttribute('class', 'nested-item feature-card');
+            newCard.setAttribute('class', 'nested-item feature-card ');
             newCard.setAttribute('location', initCont.getAttribute('id'));
 
             DOMGenerator._applyScaleOnCard(newCard);
@@ -234,22 +305,28 @@ class DOMGenerator {
     static loadContinueButton (text, functor) {
 
         const button_row = document.createElement('div');
-        button_row.className ='row continueButton';
+        button_row.className ='col continueButton';
 
         const button = document.createElement('button');
         button.setAttribute('id', window.consts.CONTINUE_BUTTON_ID);
-        button.setAttribute('class','btn btn-primary btn-lg');
+        button.setAttribute('class','btn btn-primary btn-lg'); //<---
         button.appendChild(document.createTextNode(text));
         button.addEventListener('click', () => functor());
 
         button_row.appendChild(button);
-        DOMGenerator.getMain().childNodes[1].appendChild(button_row);
+        if (DOMGenerator.getMain().childNodes[1])
+            DOMGenerator.getMain().childNodes[1].appendChild(button_row);
+        else
+            DOMGenerator.getMain().firstChild.childNodes[1].appendChild(button_row);
     }
 
     static generateStepPage (contentpage, buttontext, functor, jokers) {
         DOMGenerator.cleanMain(jokers);
         const blockContainer = document.createElement('div');
         blockContainer.className ='row blockContainer';
+
+        const blockContainer_col = document.createElement('div');
+        blockContainer_col.className ='col-lg-12';
 
         const presdiv = document.createElement('div');
         presdiv.className ='row presdiv';
@@ -258,11 +335,12 @@ class DOMGenerator {
         prestext.className ='row prestext noselect';
 
         const prestext_col = document.createElement('div');
-        prestext_col.className = 'col-lg-11';
+        prestext_col.className = 'col-lg-12';
         prestext_col.innerHTML = contentpage;
 
+        blockContainer_col.appendChild(presdiv);
+        blockContainer.appendChild(blockContainer_col);
         
-        blockContainer.appendChild(presdiv);
         presdiv.appendChild(prestext);
         prestext.appendChild(prestext_col);
 
@@ -284,7 +362,7 @@ class DOMGenerator {
         blockContainer.className ='row blockContainer';
 
         const presdiv = document.createElement('div');
-        presdiv.className ='presdiv';
+        presdiv.className ='presdiv col-lg-12';
 
         const prestext = document.createElement('div');
         prestext.className ='prestext noselect';
@@ -431,6 +509,8 @@ class DOMGenerator {
         divRow.className ='form-row';
 
         question.choices.forEach((choice) => {
+            
+
             const input = document.createElement('input');
             input.setAttribute('type', question.type);
             input.setAttribute('id', window.consts.INPUT_ID + question.id + '_' + choice.choiceId);
@@ -446,10 +526,10 @@ class DOMGenerator {
 
             if(question.type !== 'checkbox') {
                 input.setAttribute('required', 'true');
-                containerDiv.setAttribute('class','custom-radio col-lg-6 ');
+                containerDiv.setAttribute('class','custom-radio col-lg-6 col-sm-12');
             }
             else
-                containerDiv.setAttribute('class','custom-checkbox col-lg-6 ');
+                containerDiv.setAttribute('class','custom-checkbox col-lg-4 col-sm-6');
             if (question.descName) {
                 input.setAttribute('descName', question.descName);
                 input.setAttribute('descValue', choice.descValue);
@@ -466,6 +546,7 @@ class DOMGenerator {
                 containerDiv.classList.add('divQuest');
             containerDiv.appendChild(input);
             containerDiv.appendChild(label);
+            
 
             divRow.appendChild(containerDiv);
 
@@ -524,6 +605,22 @@ class DOMGenerator {
                 } else 
                     main.childNodes[iterator].style.display = 'none';
             }
+
+            const header = document.createElement('div');
+            header.setAttribute('class','row');
+                
+            const div = document.createElement('div');
+            //div.setAttribute('class','col-lg-offset-2');
+                
+            const title = document.createElement('h1');
+            const titleText = document.createTextNode('ALGOLOV');
+            title.appendChild(titleText);
+                    
+                        
+            header.appendChild(div);
+            div.appendChild(title);
+            main.appendChild(header);
+            
         } else {
             while (main.firstChild) 
                 main.removeChild(main.firstChild);
