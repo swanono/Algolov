@@ -1,5 +1,5 @@
 * {
-    font-family: Roboto, Lato;
+    font-family: Roboto, Lato, Arial, Helvetica, sans-serif;
     
 }
 
@@ -36,9 +36,6 @@ label .QCMLabel {
     margin-left: 1em;
 }
 
-.divInput {
-    margin-top: 1em;
-}
 
 
 .prestext {
@@ -114,11 +111,11 @@ label .QCMLabel {
 
 .nested-item {
     border: 1px solid #D0D0D0;
-    height: fit-content;
+    height: max-content;
+    width: max-content;
     max-height: initial;
     padding: 0.5em;
     font-size: 0.8em;
-    height: auto;
     box-shadow: 3px 5px 8px #00000051;
     border-radius: 6px;
     background-color: white;
@@ -131,12 +128,13 @@ label .QCMLabel {
 #initial_container {
     padding-top: 1em;
     padding-bottom: 1em;
+    padding-left: 0.1em;
+    padding-right: 0.1em;
     text-align: center;
     background-color: #EFEFEF;
     min-height: 5em;
     max-height: 100%;
     max-width: 100%;
-    padding: 0.1em;
     box-shadow: inset 3px 5px 8px #00000051;
     margin-bottom: 1em;
 
