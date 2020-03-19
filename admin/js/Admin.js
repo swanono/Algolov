@@ -62,6 +62,16 @@ async function fillStatsTable () {
     }
 }
 
+function parseDataFiles (docsFetch) {
+    return docsFetch.sort((d1, d2) => new Date(d2.modifDate) - new Date(d1.modifDate)).map((doc, i) => {
+        const asString = JSON.stringify(doc);
+        doc.index = i;
+        doc.asString = asString;
+        doc.classAdd = doc.isUsed ? 'used-file' : '';
+        return doc;
+    });
+}
+
 async function fillForm (id, path) {
     const fetchRes = await fetch(path, { method: 'GET' });
 
@@ -76,13 +86,7 @@ async function fillForm (id, path) {
         return;
     }
 
-    const dataVue = docs.sort((d1, d2) => new Date(d2.modifDate) - new Date(d1.modifDate)).map((doc, i) => {
-        const asString = JSON.stringify(doc);
-        doc.index = i;
-        doc.asString = asString;
-        doc.classAdd = doc.isUsed ? 'used-file' : '';
-        return doc;
-    });
+    const dataVue = parseDataFiles(docs);
 
     return new Vue({
         el: id,
@@ -97,6 +101,22 @@ async function fillForm (id, path) {
                     doc.isUsed = isSelected;
                     doc.classAdd = isSelected ? 'used-file' : '';
                 });
+            },
+            async updateFileList () {
+                const fetchRes = await fetch(path, { method: 'GET' });
+            
+                if (!fetchRes.ok) {
+                    console.error('Une erreur est survenue lors de la récupération des données : ' + fetchRes.statusText);
+                    return;
+                }
+            
+                const docs = await fetchRes.json();
+                if (!Array.isArray(docs)) {
+                    console.error('le serveur a envoyé des informations incorrectes : ' + JSON.stringify(docs));
+                    return;
+                }
+            
+                this.files = parseDataFiles(docs);
             }
         }
     });
@@ -127,6 +147,25 @@ async function sendSelectDoc (formTag) {
             featFormVue.update();
         else
             questFormVue.update();
+    }
+}
+
+async function sendDeleteDoc (fileName, dirName) {
+    const fetchRes = await fetch(`/api/admin/deleteExcel/${dirName}/${fileName}`, {
+        method: 'DELETE',
+        headers: new Headers({ 'Content-type': 'application/json' })
+    });
+    
+    const res = await fetchRes.json();
+
+    // eslint-disable-next-line no-undef
+    setAlertMessage(res.message, res.ok);
+
+    if (res.ok) {
+        if (dirName === 'features')
+            featFormVue.updateFileList();
+        else
+            questFormVue.updateFileList();
     }
 }
 
