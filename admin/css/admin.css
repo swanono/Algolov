@@ -150,6 +150,10 @@ h3 {
     float: left;
     vertical-align: center;
 }
+.delete-file {
+    border: black solid 1px;
+    margin-right: 2em;
+}
 
 .used-file {  
     background-color: lightgreen;
@@ -344,9 +348,14 @@ nav > ul li:hover .sous{
 
 /* fin sidebar*/
 
-
-
-
+#activ-pdf {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#activ-pdf * {
+    margin: 0 0.5em;
+}
 
 /* page ajouterQuestion */
 

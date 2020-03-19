@@ -30,7 +30,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <script type="text/javascript" src="../js/UploadPDF.js" ></script>
 
 </head>
-    <body>
+    <body onload="getActivState()">
         <h1>Administration - PDF</h1>
         <a id="Admin" class="bouton retour" href="../html/Admin.html">
             Retour
@@ -41,10 +41,23 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                 <img src="../images/logo-pdf.png" alt="logo pdf" width="30px" height="30px"/>
                 <div>Voir le PDF actif</div>
             </a>
+            <div id="div-pdf-state">
+
+            </div>
         </div>
 
         <div id="alert-message">
 
+        </div>
+
+        <div id="activ-pdf">
+            <div class="inline-div">
+                Montrer le PDF en fin de questionnaire :
+            </div>
+            <form method="POST" action="/api/admin/activatePDF" onsubmit="event.preventDefault(); activatePDF(event.target); stopFadeOut();">
+                <input type="checkbox" name="activPDF" id="activ-pdf-cb" />
+                <button class="bouton" type="submit">Enregistrer</button>
+            </form>
         </div>
 
         <form id="Upload-Form" action="/api/admin/changePDF" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewPDF(); stopFadeOut();">
