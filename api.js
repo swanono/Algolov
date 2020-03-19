@@ -29,10 +29,6 @@ const path = require('path');
 const fs = require('fs');
 const CredentialManager = require('./credentialsData');
 
-// BCrypt module
-const bcrypt = require('bcrypt');
-const saltRounds = 11;
-
 module.exports = (passport) => {
     const app = express();
 
@@ -45,7 +41,11 @@ module.exports = (passport) => {
 
         // TODO : envoyer le mail ici
 
-        res.redirect(config.pathGetThanksAbs);
+        const usePDF = JSON.parse(fs.readFileSync('./admin/historic.json')).usePDF;
+
+        const params = usePDF ? '?pdf=1' : '';
+
+        res.redirect(config.pathGetThanksAbs + params);
     });
 
     app.post(config.pathPostChangeFeatures, function (req, res) {
@@ -88,6 +88,35 @@ module.exports = (passport) => {
                 res.json({ ok: true, message: 'Le PDF a été modifié avec succès !' });
             }
         });
+    });
+
+    app.get(config.pathActivPDF, function (req, res) {
+        res.json(JSON.parse(fs.readFileSync('./admin/historic.json')).usePDF);
+    });
+    app.post(config.pathActivPDF, function (req, res) {
+        const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
+
+        historic.usePDF = req.body.activPDF === 'on';
+
+        fs.writeFileSync('./admin/historic.json', JSON.stringify(historic, null, 4));
+
+        res.json({ ok: true, message: `Le PDF est ${historic.usePDF ? 'activé' : 'inactivé'}` });
+    });
+
+    app.delete(config.pathDeleteExcel, function (req, res) {
+        const type = req.params.type;
+        const fileName = req.params.fileName;
+        const filePath = `./admin/${type}_files/historic/${fileName}`;
+        const hist = JSON.parse(fs.readFileSync('./admin/historic.json'));
+        const keyLast = type === 'features' ? 'lastFeatureFile' : 'lastQuestionFile';
+        if (!fs.existsSync(filePath))
+            res.status(400).json({ ok: false, message: 'Le fichier demandé n\'existe pas' });
+        else if (hist[keyLast] === fileName)
+            res.status(403).json({ ok: false, message: 'Vous ne pouvez pas supprimer le fichier actuellement utilisé' });
+        else {
+            fs.unlinkSync(filePath);
+            res.json({ ok: true, message: 'Le fichier a été supprimé' });
+        } 
     });
 
     app.get(config.pathGetHistoricFeatures, function (req, res) {
