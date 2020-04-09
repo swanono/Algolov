@@ -1,9 +1,10 @@
 
 #TitreFexist{
-    font-size: 1,5em;
+    font-size: 1em;
+    text-align: center;
 }
 
-
+/*
 ol {
     position: relative;
     margin: 0 10%; 
@@ -14,39 +15,20 @@ ul {
     list-style: inside;
     border: black;
 }
+*/
 
-h3 {
-    text-align: center;
-}
-
-
-#Qexist {
-    top: 20%;
-    position: fixed;
-    height: 500px;
-    width: 500px;
-    margin-bottom: 100%;
-    border-color: black;
-}
-
-#Fexist {
-    width: 500px;
-    top: 20%;
-    left: 50%;
-    position: fixed;  
-    height: 500px;
-    text-align: center;
-}
 
 
 #FeaturesList {
-    border: solid grey 1px;
+    margin-right:3%;
+    border: rgb(201, 199, 199) 1px;
+    border-style: outset;
     padding: 1em;
-    text-align: center;
-    overflow-y:scroll;
-    height: 400px;
+    /*important*/
+    overflow-y: scroll;
     
 }
+/*
 #modifierQuestionnaire {
     position: absolute;
     right: 5%;
@@ -62,8 +44,21 @@ h3 {
     position: absolute;
     right: 5%;
     margin: 0.5em;
+}*/
+#basboitefeatures{
+    
+    border: rgb(201, 199, 199) 1px;
+    border-style: outset;
+    padding:0em;
+    padding-bottom: 2em;
+    margin:0;
+    margin-left: 0em;
+    margin-right:2em;
+    vertical-align: middle;
+    
+    
+    
 }
-
 #alert-message {
     text-align: center;
     margin: 1em;
@@ -107,8 +102,8 @@ h3 {
     text-decoration: none;
     color:#555;
 }
-*/
 
+*/
 .download-bar-container {
     display: flex;
     justify-content: center;
@@ -139,41 +134,4 @@ h3 {
     margin: 0.5em;
 }
 
-/* page ajouterQuestion */
 
-#FormulaireModifQuestion {
-    position: fixed;
-    
-    text-align: center;
-    top: 20%;
-    width: 500px;
-    
-    left: 50%;
-    
-    height: 500px;
-}
-
-
-
-form#ajoutQuest {
-    display: table;
-}
-
-div#ajoutQuest{
-    display: table-row;
-}
-
-label.ajoutQuest, input.ajoutQuest {
-    display: table-cell;
-    margin-bottom: 10px;
-}
-
-label.ajoutQuest {
-    padding-right: 10px;
-}
-
-#formulaire{
-    border: solid grey 1px;
-    padding: 1em;
-    text-align: center;
-}
