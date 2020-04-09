@@ -4,19 +4,6 @@
     text-align: center;
 }
 
-/*
-ol {
-    position: relative;
-    margin: 0 10%; 
-    list-style: none;
-}
-
-ul {
-    list-style: inside;
-    border: black;
-}
-*/
-
 
 
 #FeaturesList {
@@ -28,23 +15,7 @@ ul {
     overflow-y: scroll;
     
 }
-/*
-#modifierQuestionnaire {
-    position: absolute;
-    right: 5%;
-    margin: 0.5em;
-}
-#selectFeatureDoc {
-    position: absolute;
-    left: 5%;
-    margin: 0.5em;
-}
 
-#modifierFeature {
-    position: absolute;
-    right: 5%;
-    margin: 0.5em;
-}*/
 #basboitefeatures{
     
     border: rgb(201, 199, 199) 1px;
@@ -86,7 +57,7 @@ ul {
     left: 1em;
     top: 1em;
 }
-/*
+
 .bouton {
     padding: 6px 10px;
 	
@@ -103,7 +74,20 @@ ul {
     color:#555;
 }
 
-*/
+.bouton:hover{
+    box-shadow:0 0 4px grey;
+}
+
+.menuBoutons .bouton{
+    background-color:rgb(12, 85, 12);
+    color: white;
+}
+
+input:hover{
+    box-shadow:0 0 4px grey;
+    border-radius: 50%;
+}
+
 .download-bar-container {
     display: flex;
     justify-content: center;
