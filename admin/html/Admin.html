@@ -23,8 +23,10 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AlgoLov - Admin</title>
 
-    <link rel="stylesheet" href="../css/admin.css"/>
+    <link rel="stylesheet" href="../css/admindesign.css"/>
     <link rel="stylesheet" href="../css/alertMessage.css"/>
+
+    <link rel="stylesheet" href="../bootstrap-4.4.1-dist/css/bootstrap.min.css"/>
 
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script type="text/javascript" src="../js/alertMessage.js" ></script>
@@ -32,7 +34,11 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     
 </head>
 <body onload="fillPage();">
-    <h1>Administration</h1>
+    <!--titre-->
+    <h1 id = titre >Administration</h1>
+
+    <!--volet-->
+    <!--
     <div id="volet">
         <p>Récuperer un rapport</p>
         <div id="stats-div">
@@ -62,10 +68,17 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         <a href="#volet_clos" class="fermer" aria-hidden="false">Fermer</a>
     </div>
 
+-->
+    <!--fin du volet-->
+
     <div id="alert-message">
 
     </div>
+
+    <!--menu-->
+
     <nav>
+        <!--gestion de compte-->
         <ul class = "GestionCompte" id = "GestionCompte">
             <li>
                 <a href="../Notice-Administration-AlgoLov.pdf" target="_blank">
@@ -98,6 +111,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                 </ul>
             </li>
         </ul>
+         <!--gestion de compte-->
 
     </nav>
     <div id ="modif">

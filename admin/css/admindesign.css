@@ -1,0 +1,227 @@
+/*Nouveau design*/
+
+@media screen and (min-width: 900px) { 
+    /* Nous définirons ici le style de notre menu pour les grands écrans (>900px) */ 
+
+    /*MENU*/
+    header{
+        
+        text-align:center;
+        
+        font-size:24pt;
+        width:100%;
+        position:absolute;
+        top:0;
+        left:0;
+        padding:10px 0px 10px 0px;
+    }
+
+    ul{
+        display:inline-flex; /* Aligne la liste horizontalement */
+        list-style-type:none; /* Retire les puces devant les éléments de liste */
+        margin:0px;
+        padding:0px;
+    }
+        
+    ul li{
+        margin-left:50px;
+    }
+
+
+    .GestionCompte{
+        display:flex;
+        justify-content: flex-end;
+       
+        
+    }
+
+    nav ul li{
+        float: left;
+        width:25%;
+        text-align: center;
+        position: relative;
+
+        background-color: lightskyblue;
+        padding : 2%;
+        border-color: black;
+        border-radius: 50px;
+    }
+
+    
+
+    .sous a{
+        padding:10px;
+        border-bottom: none;
+    }
+    nav a:hover{
+        color:black;
+        border-bottom: 2px solid lightskyblue;
+    }
+    
+    
+    .sous{
+        display:none;
+        box-shadow:0px 1px 2px #CCC;
+        background-color: white;
+        position: absolute;
+        width: 100%;
+        z-index: -1;
+        margin-top: 4%;
+        margin-right:5%;
+    }
+    
+    nav > ul li:hover .sous{
+        display: block;
+    }
+        
+    .sous li{
+        float:none;
+        width:70%;
+        text-align: center;
+        border-radius: 0px;
+        background-color: white;
+        margin-top:4%;
+        
+    }
+    .sous a:hover{
+        border-bottom: none;
+        background-color: RGBa(200,200,200,0.1);
+    }
+
+    #menuCompte > a::after {
+        content: " ▼";
+        font-size: 12px;
+    }
+
+/*FIN MENU*/
+
+    
+
+}
+@media screen and (max-width: 900px) { 
+    /* Ici, nous redéfinirons le css pour les plus petits écrans (<900px) */
+
+
+    /* MENU*/
+    header{
+        
+        text-align:center;
+        font-size:24pt;
+        width:100%;
+        position:absolute;
+        top:0;
+        left:0;
+        height:40px;
+        padding:10px 0px 10px 0px;
+    }
+
+    ul{
+        display:inline-flex; /* Aligne la liste horizontalement */
+        list-style-type:none; /* Retire les puces devant les éléments de liste */
+        margin:0px;
+        
+    }
+    header ul{
+        margin:10px auto;
+        
+        display:block;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 1s linear;
+    }
+
+       
+    header ul li{
+        
+        border-bottom:solid 2px #555;
+        
+    }
+
+    nav ul li{
+        float: left;
+        width:25%;
+        text-align: center;
+        position: relative;
+
+        background-color: lightskyblue;
+        padding : 2%;
+        border-color: black;
+        border-radius: 50px;
+    }
+
+    .sous li{
+        float:none;
+        width:70%;
+        text-align: center;
+        border-radius: 0px;
+        background-color: white;
+        margin-top:4%;
+        
+    }
+    header ul li:hover{
+        
+        color:white;
+        cursor:pointer;
+        
+    }
+        
+    header:hover ul{
+        visibility: visible;
+        opacity: 1;
+    }
+
+        
+        
+
+    .GestionCompte{
+        display:block;
+        
+        text-align: center;
+            
+    }
+    
+      
+    
+    .sous a{
+        padding:10px;
+        border-bottom: none;
+    }
+    nav a:hover{
+        color:black;
+        border-bottom: 2px solid lightskyblue;
+    }
+        
+        
+    .sous{
+        display:none;
+        box-shadow:0px 1px 2px #CCC;
+        background-color: white;
+        position: absolute;
+        width: 100%;
+        z-index: -1;
+        margin-top: 4%;
+        margin-right:5%;
+    }
+    
+    nav > ul li:hover .sous{
+        display: block;
+    }
+            
+        
+    .sous a:hover{
+        border-bottom: none;
+        background-color: RGBa(200,200,200,0.1);
+    }
+
+    #menuCompte > a::after {
+        content: " ▼";
+        font-size: 12px;
+    }
+    
+    /*fin menu*/
+
+        
+
+}
+
+
