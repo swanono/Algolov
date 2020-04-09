@@ -1,14 +1,7 @@
-* {
-    padding: 0;
-    font-family: Verdana, sans-serif;
-}
-h1 {
-    height : 15%;
-    width: 100%;
-    text-align: center;
-    background-color: white;
-}
 
+#TitreFexist{
+    font-size: 1,5em;
+}
 
 
 ol {
@@ -45,13 +38,6 @@ h3 {
     text-align: center;
 }
 
-#QuestionList {
-    border: solid grey 1px;
-    padding: 1em;
-    text-align: center;
-    overflow-y:scroll;
-    height: 400px;
-}
 
 #FeaturesList {
     border: solid grey 1px;
@@ -105,7 +91,7 @@ h3 {
     left: 1em;
     top: 1em;
 }
-
+/*
 .bouton {
     padding: 6px 10px;
 	
@@ -121,7 +107,7 @@ h3 {
     text-decoration: none;
     color:#555;
 }
-
+*/
 
 .download-bar-container {
     display: flex;

@@ -2,20 +2,24 @@
     font-family: Verdana, sans-serif;
     
 }
-h1{
-    text-align: center;
+
+#TitreQexist{
+    font-size: 1,5em;
 }
+
 
 li{display: inline-block;
 }
+
 
 label{
     display:block;
     float:left;
     width:150px;
 }
-   
 
+/*BOUTON*/
+/*
 .bouton {
     padding: 6px 10px;
 	
@@ -32,37 +36,39 @@ label{
     color:#555;
     
 }
+
+
+
+*/
 input{
     float: left;
 }
-#Qexist{
-    
-    width:30%;
-    height:500px;
-    margin-right:5%;
-    margin-left: 5%;
-    border: solid rgb(201, 199, 199);
-    padding:4%;
-    overflow-y: scroll;
-}
+
+
+/*FIN BOUTON*/
+
 
 
 #QuestionList{
-    text-align: center;
+    margin-right:3%;
+    border: rgb(201, 199, 199) 1px;
+    border-style: outset;
+    padding: 1em;
+    /*important*/
+    overflow-y: scroll;
 }
 
-#formulaire{
-    
-    width: 30%;
-    height:500px;
-    margin-right:5%;
-    top:118px;
-    border: solid rgb(201, 199, 199);
-    padding:4%;
-    position: fixed;
+#basboitequestion{
+    border: rgb(201, 199, 199) 1px;
+    border-style: outset;
+    margin:0;
+    padding-bottom: 1em;
+    padding-top: 1em;
 }
 
 
+
+/*
 form#ajoutQuest {
     display: table;
 }
@@ -79,17 +85,10 @@ label.ajoutQuest, input.ajoutQuest {
 label.ajoutQuest {
     padding-right: 10px;
 }
+*/
 
+/*BOUTON*/
 
-#ValidationOrdreQuestionnaire{
-    left:30%;
-    position:relative;
-}
-
-#ValidationAjoutQuestion{
-    left:60%;
-    position:relative;
-}
 #Validation{
     margin: 4%;
     left: 40%;
