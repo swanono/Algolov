@@ -13,7 +13,7 @@
     "@shopify/draggable": "^v1.0.0-beta.8",
     "bcrypt": "3.0.6",
     "body-parser": "^1.19.0",
-    "chart.js": "^2.9.3",
+    "canvas": "^2.6.1",
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.4",
     "docx": "^5.0.0-rc7",
@@ -21,13 +21,15 @@
     "express": "^4.16.4",
     "express-session": "^1.16.1",
     "formidable": "^1.2.1",
+    "highcharts-export-server": "^2.0.24",
     "mathjax": "^2.7.7",
     "mathjax-node": "^2.1.1",
     "mathjax-node-svg2png": "^2.0.0",
     "mongodb": "^3.3.4",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "xlsx": "^0.15.4"
+    "xlsx": "^0.15.4",
+    "zingchart": "^2.8.9"
   },
   "scripts": {
     "start": "npm run deleteAdmin && npm run addAdmin && nodemon index.js",
