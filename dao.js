@@ -224,6 +224,15 @@ class DAOAdmins extends DAO {
                 .catch(err => reject(err));
         });
     }
+
+    findRoot () {
+        const self = this;
+        return new Promise(function (resolve, reject) {
+            self._find({ username: 'root' })
+                .then(result => resolve(result))
+                .catch(err => reject(err));
+        });
+    }
 }
 
 module.exports = {

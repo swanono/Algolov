@@ -33,16 +33,14 @@
   "scripts": {
     "autoinstall": "export ACCEPT_HIGHCHARTS_LICENSE=YES || set ACCEPT_HIGHCHARTS_LICENSE=YES && npm install",
     "servAutoinstall": "export ACCEPT_HIGHCHARTS_LICENSE=YES || set ACCEPT_HIGHCHARTS_LICENSE=YES && npm install",
-    "start": "npm run deleteAdmin && npm run addAdmin && nodemon index.js",
+    "start": "nodemon index.js",
     "servInst": "npm install --production",
-    "servStart": "npm run deleteAdmin && npm run addAdmin && node index.js",
+    "servStart": "node index.js",
     "lintjs": "./node_modules/.bin/eslint ./",
     "lintcss": "./node_modules/.bin/stylelint **/*.css",
     "linthtml": "./node_modules/.bin/html-linter --config .htmllinterrc.json",
     "lint": "npm run lintjs & npm run lintcss & npm run linthtml",
-    "unitTest": "jest",
-    "addAdmin": "node rootAdminManager.js addRootAdmin",
-    "deleteAdmin": "node rootAdminManager.js deleteRootAdmin"
+    "unitTest": "jest"
   },
   "engines": {
     "node": "12"
