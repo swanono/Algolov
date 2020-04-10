@@ -29,6 +29,7 @@ const path = require('path');
 const fs = require('fs');
 const CredentialManager = require('./credentialsData');
 const ReportGen = require('./ReportGen');
+const { Indicator, getIndicList } = require('./Indicator_v1.js');
 
 module.exports = (passport) => {
     const app = express();
@@ -48,19 +49,16 @@ module.exports = (passport) => {
 
         // Generate report file
         const doc = new ReportGen();
-        doc.addIndic('Test Titre Indic', null, ['Paragraphe 1', 'Paragraphe 2'])
-            .then(() => fs.readdirSync('./tmp')
-                .forEach(file => !file.includes('gitkeep') ? fs.unlinkSync(`./tmp/${file}`) : null))
-            .then(() => doc.saveFile())
+        doc.addIndics(getIndicList());
+        fs.readdirSync('./tmp')
+            .forEach(file => !file.includes('gitkeep') ? fs.unlinkSync(`./tmp/${file}`) : null);
+        doc.saveFile()
             .then(pathToDoc => {
                 const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
                 historic.lastReportFile = pathToDoc;
                 fs.writeFileSync('./admin/historic.json', JSON.stringify(historic, null, 4));
             })
-            .catch(err => {
-                console.error(err);
-                res.status(500).json(err);
-            });
+            .catch(err => console.error(err)); // Don't use res here
 
         res.redirect(config.pathGetThanksAbs + params);
     });

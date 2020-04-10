@@ -27,31 +27,53 @@ class ReportGen {
 
     constructor (docName = `Rapport-${(new Date()).toDateString().split(' ').join('-')}.docx`) {
         this.docName = docName;
-        this.doc = new docx.Document();
+        this.doc = new docx.Document({
+            creator: 'Algolov',
+            title: 'Rapport d\'indicateurs statistiques',
+            description: 'Rapport permettant l\'analyse des statistiques tirées des données des questionnaires',
+            styles: {
+                paragraphStyles: [
+                    {
+                        id: 'IndicTitle',
+                        name: 'Indicator Title',
+                        basedOn: 'Title 2',
+                        next: 'Normal',
+                        run: { bold: true },
+                        paragraph: {
+                            spacing: {
+                                before: 120,
+                                after: 240
+                            }
+                        }
+                    },
+                    {
+                        id: 'Legend',
+                        name: 'Legend',
+                        basedOn: 'Normal',
+                        next: 'Normal',
+                        quickFormat: true,
+                        run: {
+                            size: 10,
+                            italics: true,
+                            color: 'grey'
+                        },
+                        paragraph: {
+                            spacing: {
+                                after: 120
+                            }
+                        }
+                    }
+                ]
+            }
+        });
     }
 
     /**
      * 
-     * @param {string} title Title of the indicator
-     * @param {} graphs 
-     * @param {Array<string>} descriptions List of the description paragraphs to put under the graphs
+     * @param {Array<Indicator>} indicList 
      */
-    addIndic (title, graphs, descriptions) {
-        return createGraphBar('Test', [1, 1, 1]).then(pathToPng => {
-            this.doc.addSection({
-                children: [
-                    new docx.Paragraph({
-                        text: title,
-                        heading: docx.HeadingLevel.TITLE
-                    }),
-                    new docx.Paragraph(docx.Media.addImage(this.doc, fs.readFileSync(pathToPng))),
-                    ...descriptions.map(descript => new docx.Paragraph({
-                        text: descript,
-                        alignment: docx.AlignmentType.JUSTIFIED
-                    }))
-                ]
-            });
-        });
+    addIndics (indicList) {
+        indicList.forEach(indic => this.doc.addSection(indic.asSection(this.doc)));
     }
 
     saveFile () {
