@@ -28,10 +28,11 @@
     "mongodb": "^3.3.4",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "xlsx": "^0.15.4",
-    "zingchart": "^2.8.9"
+    "xlsx": "^0.15.4"
   },
   "scripts": {
+    "autoinstall": "export ACCEPT_HIGHCHARTS_LICENSE=YES || set ACCEPT_HIGHCHARTS_LICENSE=YES && npm install",
+    "servAutoinstall": "export ACCEPT_HIGHCHARTS_LICENSE=YES || set ACCEPT_HIGHCHARTS_LICENSE=YES && npm install",
     "start": "npm run deleteAdmin && npm run addAdmin && nodemon index.js",
     "servInst": "npm install --production",
     "servStart": "npm run deleteAdmin && npm run addAdmin && node index.js",
@@ -42,6 +43,9 @@
     "unitTest": "jest",
     "addAdmin": "node rootAdminManager.js addRootAdmin",
     "deleteAdmin": "node rootAdminManager.js deleteRootAdmin"
+  },
+  "engines": {
+    "node": "12"
   },
   "nodemonConfig": {
     "ignore": [
