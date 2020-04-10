@@ -3,6 +3,10 @@
 @media screen and (min-width: 900px) { 
     /* Nous définirons ici le style de notre menu pour les grands écrans (>900px) */ 
 
+    *{
+        color:black;
+        
+    }
     /*MENU*/
     header{
         
@@ -16,6 +20,10 @@
         padding:10px 0px 10px 0px;
     }
 
+    a{
+        text-decoration: none;
+        color:black;
+    }
     ul{
         display:inline-flex; /* Aligne la liste horizontalement */
         list-style-type:none; /* Retire les puces devant les éléments de liste */
@@ -42,9 +50,10 @@
         position: relative;
 
         background-color: lightskyblue;
-        padding : 2%;
-        border-color: black;
-        border-radius: 50px;
+        padding : 1%; 
+       
+        border-radius: 25px;
+        
     }
 
     

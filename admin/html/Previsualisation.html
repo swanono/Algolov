@@ -23,6 +23,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="stylesheet" href="../css/previsualisation.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
     
     
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
@@ -31,173 +33,182 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <title>AlgoLov - Prévisualisation </title>
 </head>
     <body onload="getConfig();">
-        <nav>
-            <ul class="menu" id="menu">
-                <li id="questionnaire">
-                    <a>Questionnaires</a>
-                    <ul class="sous">
-                        <form>
-                            <label for="Debut">
-                                <li>
-                                    <a>
-                                        Début
-                                        <input id="Debut" name="checkdebut" type="checkbox" target-type="questBegin" @change="changeActive($event.target);"/>
-                                    </a>
-                                </li>
-                            </label>
-                            <label for="Classement">
-                                <li>
-                                    <a>
-                                        Classement
-                                        <input id="Classement" name="checkclassement" type="checkbox" target-type="bloc" @change="changeActive($event.target);"/>
-                                    </a>
-                                </li>
-                            </label>
-                            <label for="Fin">
-                                <li>
-                                    <a>
-                                        Fin
-                                        <input id="Fin" name="checkfin" type="checkbox" target-type="questEnd" @change="changeActive($event.target);"/>
-                                    </a>
-                                </li>
-                            </label>
-                        </form>
-                    </ul>
-                </li>
-                <li id="combinatoire">
-                    <a>Combinatoire</a>
-                    <ul class="sous">
-                        <form v-if="showCombin">
-                            <li>
-                                <p>
-                                    {{ descNames.toUpperCase() }}
+        <div class="row">
+            <div class="col-offset-1">
+        
+                <nav>
+                    <ul class="menu" id="menu">
+                        <li id="questionnaire">
+                            <a>Questionnaires</a>
+                            <ul class="sous">
+                                <form>
+                                    <label for="Debut">
+                                        <li>
+                                            <a>
+                                                Début
+                                                <input id="Debut" name="checkdebut" type="checkbox" target-type="questBegin" @change="changeActive($event.target);"/>
+                                            </a>
+                                        </li>
+                                    </label>
+                                    <label for="Classement">
+                                        <li>
+                                            <a>
+                                                Classement
+                                                <input id="Classement" name="checkclassement" type="checkbox" target-type="bloc" @change="changeActive($event.target);"/>
+                                            </a>
+                                        </li>
+                                    </label>
+                                    <label for="Fin">
+                                        <li>
+                                            <a>
+                                                Fin
+                                                <input id="Fin" name="checkfin" type="checkbox" target-type="questEnd" @change="changeActive($event.target);"/>
+                                            </a>
+                                        </li>
+                                    </label>
+                                </form>
+                            </ul>
+                        </li>
+                        <li id="combinatoire">
+                            <a>Combinatoire</a>
+                            <ul class="sous">
+                                <form v-if="showCombin">
+                                    <li>
+                                        <p>
+                                            {{ descNames.toUpperCase() }}
+                                        </p>
+                                    </li>
+                                    <label v-for="(combin, i) in combinList">
+                                        <li>
+                                            <a>
+                                                {{ combin }}
+                                                <input :id="'input ' + combin" :value="combin" type="radio" name="combin" v-model="selectCombin" :checked="i == 0" @change="changeCombin($event.target)">
+                                            </a>
+                                        </li>
+                                    </label>
+                                </form>
+                                <p v-else>
+                                    Vous n'avez pas activé l'affichage des pages de classement.
                                 </p>
-                            </li>
-                            <label v-for="(combin, i) in combinList">
+                            </ul>
+                        </li>
+                        <li id="page-links">
+                            <a>Pages</a>
+                            <ul class="sous">
                                 <li>
-                                    <a>
-                                        {{ combin }}
-                                        <input :id="'input ' + combin" :value="combin" type="radio" name="combin" v-model="selectCombin" :checked="i == 0" @change="changeCombin($event.target)">
+                                    <a v-for="quest in questList" href="#" :title="quest.fullText" :target-quest-id="quest.id" @click="goToPage($event.target)">
+                                        {{ quest.text }}
                                     </a>
                                 </li>
-                            </label>
-                        </form>
-                        <p v-else>
-                            Vous n'avez pas activé l'affichage des pages de classement.
-                        </p>
-                    </ul>
-                </li>
-                <li id="page-links">
-                    <a>Pages</a>
-                    <ul class="sous">
-                        <li>
-                            <a v-for="quest in questList" href="#" :title="quest.fullText" :target-quest-id="quest.id" @click="goToPage($event.target)">
-                                {{ quest.text }}
+                            </ul>
+                        </li>
+                        <li id="bouton-retour">
+                            <a href="./Admin.html">
+                                Retour au Menu Admin
                             </a>
                         </li>
                     </ul>
-                </li>
-                <li id="bouton-retour">
-                    <a href="./Admin.html">
-                        Retour au Menu Admin
-                    </a>
-                </li>
-            </ul>
-        </nav>
-       
-        <a href="#" id="arrowLeft" @click="addShow()">
-            <img src="../images/arrowLeft.png" width="50px" height="70px" />
-        </a>
-        <a href="#" id="arrowRight" @click="addShow()">
-            <img src="../images/arrowRight.png" width="50px" height="70px" />
-        </a>
+                </nav>
+            
+                <a href="#" id="arrowLeft" @click="addShow()">
+                    <img src="../images/arrowLeft.png" width="50px" height="70px" />
+                </a>
+                <a href="#" id="arrowRight" @click="addShow()">
+                    <img src="../images/arrowRight.png" width="50px" height="70px" />
+                </a>
 
-        
-        <div id="pages">
-            <div class="page" v-for="page in pageList" v-show="page.isShown && page.isActive">
-                <!-- Unchangeable pages -->
-                <div class="page-unchangeable" v-if="page.type == 'else'">
-                    <div class="centered-text" v-html="page.text"></div>
-                    <button class="bouton">Continuer</button>
-                </div>
+                
+                <div id="pages">
+                    <div class="page" v-for="page in pageList" v-show="page.isShown && page.isActive">
+                        <!-- Unchangeable pages -->
+                        <div class="page-unchangeable" v-if="page.type == 'else'">
+                            <div class="centered-text" v-html="page.text"></div>
+                            <button class="bouton">Continuer</button>
+                        </div>
 
-                <!-- Questions pages -->
-                <div class="page-quest" v-if="page.type.includes('quest')">
-                    <form id="form-id">
-                        <fieldset v-for="quest in page.questionList" :id="'idQuest_' + quest.id">
-                            <p>{{ quest.question }}</p>
-                            
-                            <!-- Text Input -->
-                            <input v-if="quest.type == 'text'" :type="quest.type" :id="'idInput_' + quest.id + '_1'"
-                                   :class="'classInput_' + quest.id" :name="'classInput_' + quest.id"
-                                   :pattern="quest.format || ''" required />
-                            
-                            <!-- Checkable Input -->
-                            <div v-if="quest.type == 'checkbox' || quest.type == 'radio'"
-                                 v-for="choice in quest.choices"
-                                 :id="'idDivInput_' + quest.id + '_' + choice.choiceId"
-                                 :class="page.type == 'questBegin' ? 'divQuest' : null">
+                        <!-- Questions pages -->
+                        <div class="page-quest" v-if="page.type.includes('quest')">
+                            <form id="form-id">
+                                <fieldset v-for="quest in page.questionList" :id="'idQuest_' + quest.id">
+                                    <p>{{ quest.question }}</p>
+                                    
+                                    <!-- Text Input -->
+                                    <input v-if="quest.type == 'text'" :type="quest.type" :id="'idInput_' + quest.id + '_1'"
+                                        :class="'classInput_' + quest.id" :name="'classInput_' + quest.id"
+                                        :pattern="quest.format || ''" required />
+                                    
+                                    <!-- Checkable Input -->
+                                    <div v-if="quest.type == 'checkbox' || quest.type == 'radio'"
+                                        v-for="choice in quest.choices"
+                                        :id="'idDivInput_' + quest.id + '_' + choice.choiceId"
+                                        :class="page.type == 'questBegin' ? 'divQuest' : null">
 
-                                <input :type="quest.type" :id="'idInput_' + quest.id + '_' + choice.choiceId"
-                                       :class="'classInput_' + quest.id" :value="'idInput_' + quest.id + '_' + choice.choiceId"
-                                       :name="'classInput_' + quest.id" :required="quest.type == 'checkbox'"
-                                       :descName="quest.descName" :descValue="quest.descValue" />
-                                
-                                <label :for="'idInput_' + quest.id + '_' + choice.choiceId">{{ choice.text }}</label>
-                            
-                            </div>
-
-                            <!-- Field "Other" when needed -->
-                            <div v-if="quest.other" class="divQuest">
-                                <input type="text" :id="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)" :class="'classInput_' + quest.id" :name="'classInput_' + quest.id" />
-                                <label for="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)">Autre</label>
-                            </div>
-                        </fieldset>
-                        <button type="submit" form="form-id">Continuer</button>
-                    </form>
-                </div>
-
-                <!-- Blocs pages -->
-                <div v-if="page.type.includes('bloc')" :id="'bloc_' + page.bloc.blocId" class="bloc" :blocType="page.bloc.type">
-                    <table id="scale_tab" class="noselect">
-                        <!-- Header row -->
-                        <tr>
-                            <td class="heading_txt" :colspan="page.bloc.likertSize">
-                                {{ page.description.text }}
-                                <br />
-                                {{ page.bloc.question }}
-                            </td>
-                        </tr>
-                        <!-- Likert text row -->
-                        <tr class="heading">
-                            <td v-for="(headTxt, i) in page.bloc.legends" :colspan="getColspan(page.bloc.legends.length, i, page.bloc.likertSize)">
-                                {{ headTxt }}
-                            </td>
-                        </tr>
-                        <!-- Likert scale row -->
-                        <tr>
-                            <td v-for="i in page.bloc.likertSize">
-                                <div :id="'rankContainer_' + (i - page.bloc.likertSize/2)" class="nestable container rank">
-                                    <!-- Empty features container -->
-                                </div>
-                            </td>
-                        </tr>
-                        <!-- Initial container row -->
-                        <tr>
-                            <td :colspan="page.bloc.likertSize">
-                                <div id="initial_container" class="nestable container" :colspan="page.bloc.likertSize">
-                                    <div v-for="feat in page.featureList" id="'feature_' + feat.id" class="nested-item feature-card" location="initial_container"
-                                         v-if="feat.content == 'text'" v-show="feat.combin.find(c => c.descName == page.description.name)[page.descChoice]">
-                                        {{ feat.data }}
+                                        <input :type="quest.type" :id="'idInput_' + quest.id + '_' + choice.choiceId"
+                                            :class="'classInput_' + quest.id" :value="'idInput_' + quest.id + '_' + choice.choiceId"
+                                            :name="'classInput_' + quest.id" :required="quest.type == 'checkbox'"
+                                            :descName="quest.descName" :descValue="quest.descValue" />
+                                        
+                                        <label :for="'idInput_' + quest.id + '_' + choice.choiceId">{{ choice.text }}</label>
+                                    
                                     </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </table>
-                    <button id="stop-button">Arrêter le questionnaire</button>
-                    <button id="continuebutton">Continuer</button>
+
+                                    <!-- Field "Other" when needed -->
+                                    <div v-if="quest.other" class="divQuest">
+                                        <input type="text" :id="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)" :class="'classInput_' + quest.id" :name="'classInput_' + quest.id" />
+                                        <label for="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)">Autre</label>
+                                    </div>
+                                </fieldset>
+                                <button type="submit" form="form-id">Continuer</button>
+                            </form>
+                        </div>
+
+                        <!-- Blocs pages -->
+                        <div v-if="page.type.includes('bloc')" :id="'bloc_' + page.bloc.blocId" class="bloc" :blocType="page.bloc.type">
+                            <table id="scale_tab" class="noselect">
+                                <!-- Header row -->
+                                <tr>
+                                    <td class="heading_txt" :colspan="page.bloc.likertSize">
+                                        {{ page.description.text }}
+                                        <br />
+                                        {{ page.bloc.question }}
+                                    </td>
+                                </tr>
+                                <!-- Likert text row -->
+                                <tr class="heading">
+                                    <td v-for="(headTxt, i) in page.bloc.legends" :colspan="getColspan(page.bloc.legends.length, i, page.bloc.likertSize)">
+                                        {{ headTxt }}
+                                    </td>
+                                </tr>
+                                <!-- Likert scale row -->
+                                <tr>
+                                    <td v-for="i in page.bloc.likertSize">
+                                        <div :id="'rankContainer_' + (i - page.bloc.likertSize/2)" class="nestable container rank">
+                                            <!-- Empty features container -->
+                                        </div>
+                                    </td>
+                                </tr>
+                                <!-- Initial container row -->
+                                <tr>
+                                    <td :colspan="page.bloc.likertSize">
+                                        <div id="initial_container" class="nestable container" :colspan="page.bloc.likertSize">
+                                            <div v-for="feat in page.featureList" id="'feature_' + feat.id" class="nested-item feature-card" location="initial_container"
+                                                v-if="feat.content == 'text'" v-show="feat.combin.find(c => c.descName == page.description.name)[page.descChoice]">
+                                                {{ feat.data }}
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <button id="stop-button">Arrêter le questionnaire</button>
+                            <button id="continuebutton">Continuer</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  
     </body>
 </html>
