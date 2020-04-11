@@ -22,33 +22,36 @@ const path = require('path');
 const chartExporter = require('highcharts-export-server');
 const fs = require('fs');
 
-/**
- * 
- * @param {Array<number>} data 
- */
-function createGraphBar (title, data) {
-    data = [12, 19, 3, 5, 2, 3];
-    const labels = ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
+class SerieBar {
+    constructor (name, data) {
+        this.name = name;
+        this.data = data;
+    }
 
+    toObj () {
+        return {
+            name: this.name,
+            data: this.data
+        };
+    }
+}
+
+function createGraph (chartOptions, title = 'graph-image') {
     return new Promise(function (resolve, reject) {
         chartExporter.initPool();
-    
-        chartExporter.export({
-            type: 'png',
-            options: {
-                chart: { type: 'column' },
-                title: { text: 'Fréquence d\'apparition d\'une couleur' },
-                subtitle: { text: 'Source : moi' },
-                xAxis: { categories: labels, title: { text: 'Couleurs' } },
-                yAxis: { min: 0, title: { text: 'Fréquence' } },
-                series: [
-                    {
-                        data: data
-                    }
-                ]
+        chartExporter.export(chartOptions, (err, res) => {
+            if (err) { reject(err); return; }
+
+            // Search for existing files with the same name, and change it if necessary
+            const tryPath = () => path.resolve(`./tmp/${title}-${suffix}.png`);
+            let suffix = 1;
+            let pathToPng = tryPath();
+            while (fs.existsSync(pathToPng)) {
+                suffix++;
+                pathToPng = tryPath();
             }
-        }, (err, res) => {
-            const pathToPng = path.resolve(`./tmp/${title}.png`);
+
+            // When we have the good name, write the file and return its path
             fs.writeFileSync(pathToPng, res.data, 'base64');
             chartExporter.killPool();
             resolve(pathToPng);
@@ -56,6 +59,33 @@ function createGraphBar (title, data) {
     });
 }
 
+function createGraphBar (series, labels, xName, yName, title, subTitle) {
+
+    if (series.reduce((prev, curr) => prev || (curr.data.length !== labels.length), false))
+        return Promise.reject(new Error(`A serie of data doesn't have the same length as the labels (here : ${labels.length})`));
+
+    const chartOptions = {
+        type: 'png',
+        options: {
+            chart: { type: 'column' },
+            title: { text: title },
+            subtitle: { text: subTitle },
+            xAxis: { categories: labels, title: { text: xName } },
+            yAxis: { min: 0, title: { text: yName } },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: series.map(serie => serie.toObj())
+        }
+    };
+
+    return createGraph(chartOptions, `graph-bar-${title}`);
+}
+
 module.exports = {
+    SerieBar,
     createGraphBar
 };

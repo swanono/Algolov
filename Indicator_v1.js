@@ -24,8 +24,9 @@ const path = require('path');
 const imgSize = require('image-size');
 
 const daos = require('./dao');
+const { SerieBar, createGraphBar } = require('./graphGen');
 
-const DOC_WIDTH_MAX = 800;
+const DOC_WIDTH_MAX = 600;
 
 class Indicator {
     constructor (title) {
@@ -66,7 +67,7 @@ class Indicator {
             let visualAdded;
             if (this.imageIndexes.includes(i)) {
                 // Process a chart image
-                const fileName = path.resolve(`./tmp/${visual}`);
+                const fileName = path.resolve(visual);
                 const fileDim = imgSize.imageSize(fileName);
                 const factor = DOC_WIDTH_MAX / fileDim.width;
 
@@ -76,14 +77,14 @@ class Indicator {
                         fs.readFileSync(fileName),
                         DOC_WIDTH_MAX,
                         factor * fileDim.height,
-                        {
+                        /*{
                             floating: {
                                 horizontalPosition: {
                                     relative: docx.HorizontalPositionRelativeFrom.PAGE,
                                     align: docx.HorizontalPositionAlign.CENTER
                                 }
                             }
-                        }
+                        }*/
                     )
                 );
             } else if (this.paraIndexes.includes(i)) {
@@ -105,7 +106,41 @@ function getFinalRankings () {
 
     /* TODO : Get data from Mongo and fill the indicator */
 
-    return indic;
+    const labels = ['silhouette', 'yeux', 'cheveux', 'nez'];
+    const series = [
+        new SerieBar('-3', [2, 10, 13, 5]),
+        new SerieBar('-2', [10, 5, 1, 2]),
+        new SerieBar('-1', [12, 2, 5, 4]),
+        new SerieBar('0', [5, 4, 10, 1]),
+        new SerieBar('1', [2, 5, 2, 6]),
+        new SerieBar('2', [4, 2, 4, 15]),
+        new SerieBar('3', [5, 12, 5, 7])
+    ];
+
+    return createGraphBar(
+        series,
+        labels,
+        'Nom des features',
+        'Fréquence d\'apparition sur chaque rang',
+        'Fréquence de classement des features sur chaque rang',
+        'Est Homme aime Femme'
+    )
+        .then(pathToPng => {
+            const splittedPath = pathToPng.split('/');
+            indic.addImage(splittedPath[splittedPath.length - 1]);
+
+            indic.addPara({
+                text: 'Histogramme des classements à la fin du bloc 1, pour Homme aime Femme',
+                style: 'Legend'
+            });
+            indic.addPara({
+                text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.',
+                style: 'IndicText'
+            });
+
+            return indic;
+        })
+        .catch(err => Promise.reject(err));
 }
 
 function getIndicList () {
@@ -113,7 +148,7 @@ function getIndicList () {
 
     indicList.push(getFinalRankings());
 
-    return indicList;
+    return Promise.all(indicList);
 }
 
 module.exports = {

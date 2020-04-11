@@ -38,11 +38,29 @@ class ReportGen {
                         name: 'Indicator Title',
                         basedOn: 'Title 2',
                         next: 'Normal',
-                        run: { bold: true },
+                        run: {
+                            size: 40,
+                            bold: true
+                        },
                         paragraph: {
                             spacing: {
                                 before: 120,
                                 after: 240
+                            }
+                        }
+                    },
+                    {
+                        id: 'IndicText',
+                        name: 'Indicator Paragraph',
+                        basedOn: 'Normal',
+                        next: 'Normal',
+                        run: {
+                            size: 28,
+                            bold: true
+                        },
+                        paragraph: {
+                            spacing: {
+                                after: 120
                             }
                         }
                     },
@@ -53,9 +71,9 @@ class ReportGen {
                         next: 'Normal',
                         quickFormat: true,
                         run: {
-                            size: 10,
+                            size: 20,
                             italics: true,
-                            color: 'grey'
+                            color: '999999'
                         },
                         paragraph: {
                             spacing: {
@@ -65,6 +83,16 @@ class ReportGen {
                     }
                 ]
             }
+        });
+
+        this.doc.addSection({
+            children: [
+                new docx.Paragraph({
+                    text: 'Rapport d\'Indicateurs Statistiques',
+                    heading: docx.HeadingLevel.TITLE,
+                    alignment: docx.AlignmentType.CENTER
+                })
+            ]
         });
     }
 

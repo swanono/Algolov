@@ -49,10 +49,11 @@ module.exports = (passport) => {
 
         // Generate report file
         const doc = new ReportGen();
-        doc.addIndics(getIndicList());
-        fs.readdirSync('./tmp')
-            .forEach(file => !file.includes('gitkeep') ? fs.unlinkSync(`./tmp/${file}`) : null);
-        doc.saveFile()
+        getIndicList()
+            .then(indicList => doc.addIndics(indicList))
+            .then(() => fs.readdirSync('./tmp')
+                .forEach(file => !file.includes('gitkeep') ? fs.unlinkSync(`./tmp/${file}`) : null))
+            .then(() => doc.saveFile())
             .then(pathToDoc => {
                 const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
                 historic.lastReportFile = pathToDoc;
