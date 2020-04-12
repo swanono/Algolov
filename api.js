@@ -35,31 +35,27 @@ module.exports = (passport) => {
     const app = express();
 
     app.post(config.pathPostSurveyApi, function (req, res) {
+        const doc = new ReportGen();
         const daoUser = new daos.DAOUsers(req.sessionID, () => {
             daoUser.insert(req.body)
-                .then(() => daoUser.closeConnexion())
-                .catch(err => console.error(err));
+                .then(() => getIndicList())
+                .then(indicList => doc.addIndics(indicList))
+                .then(() => doc.saveFile())
+                .then(pathToDoc => {
+                    const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
+                    historic.lastReportFile = pathToDoc;
+                    fs.writeFileSync('./admin/historic.json', JSON.stringify(historic, null, 4));
+                })
+                .catch(err => console.error(err))
+                .finally(() => daoUser.closeConnexion())
+                .then(() => fs.readdirSync('./tmp')
+                    .forEach(file => !file.includes('gitkeep') ? fs.unlinkSync(`./tmp/${file}`) : null));
         });
-
-        // TODO : envoyer le mail ici
 
         const usePDF = JSON.parse(fs.readFileSync('./admin/historic.json')).usePDF;
 
         const params = usePDF ? '?pdf=1' : '';
 
-        // Generate report file
-        const doc = new ReportGen();
-        getIndicList()
-            .then(indicList => doc.addIndics(indicList))
-            .then(() => fs.readdirSync('./tmp')
-                .forEach(file => !file.includes('gitkeep') ? fs.unlinkSync(`./tmp/${file}`) : null))
-            .then(() => doc.saveFile())
-            .then(pathToDoc => {
-                const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
-                historic.lastReportFile = pathToDoc;
-                fs.writeFileSync('./admin/historic.json', JSON.stringify(historic, null, 4));
-            })
-            .catch(err => console.error(err)); // Don't use res here
 
         res.redirect(config.pathGetThanksAbs + params);
     });

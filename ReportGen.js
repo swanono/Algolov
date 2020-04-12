@@ -55,8 +55,7 @@ class ReportGen {
                         basedOn: 'Normal',
                         next: 'Normal',
                         run: {
-                            size: 28,
-                            bold: true
+                            size: 28
                         },
                         paragraph: {
                             spacing: {

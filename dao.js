@@ -71,13 +71,13 @@ class DAO {
 
     _insert (data) { return this.database.collection(this.collectionName).insertOne(data); }
 
-    _find (query, one = true) {
+    _find (query, one = true, projection) {
         let resPromise;
 
         if (one)
             resPromise = this.database.collection(this.collectionName).findOne(query);
         else
-            resPromise = this.database.collection(this.collectionName).find(query);
+            resPromise = this.database.collection(this.collectionName).find(query, projection);
 
         return resPromise;
     }
@@ -138,11 +138,11 @@ class DAOUsers extends DAO {
         });
     }
 
-    findAllByQuery (query) {
+    findAllByQuery (query, projection) {
         const self = this;
 
         return new Promise(function (resolve, reject) {
-            self._find(query, false).toArray()
+            self._find(query, false, projection).toArray()
                 .then(result => {
                     console.log(self.logId + 'Found ' + result.length +
                         ' in ' + self.collectionName);

@@ -22,6 +22,13 @@ const path = require('path');
 const chartExporter = require('highcharts-export-server');
 const fs = require('fs');
 
+process.setMaxListeners(0);
+
+chartExporter.initPool({
+    queueSize: 25,
+    timeoutThreshold: 5000
+});
+
 class SerieBar {
     constructor (name, data) {
         this.name = name;
@@ -30,36 +37,54 @@ class SerieBar {
 
     toObj () {
         return {
-            name: this.name,
+            name: this.name.substring(0, 20),
             data: this.data
         };
     }
 }
 
-function createGraph (chartOptions, title = 'graph-image') {
+function createGraph (chartOptions, title = 'graph image', reverse = false) {
+
+    if (reverse) {
+        const newLabels = chartOptions.options.series.map(s => s.name);
+        const newSeries = chartOptions.options.xAxis.categories.map((label, iLabel) => {
+            return {
+                name: label.substring(0, 20),
+                data: chartOptions.options.series.map(s => s.data[iLabel])
+            };
+        });
+
+        chartOptions.options.series = newSeries;
+        chartOptions.options.xAxis.categories = newLabels;
+    }
+
     return new Promise(function (resolve, reject) {
-        chartExporter.initPool();
         chartExporter.export(chartOptions, (err, res) => {
+            if (err) {
+                console.log('ERROR : ', err);
+                console.log('-----------');
+                console.log('combin :', chartOptions.options.subtitle.text);
+                console.log('type :', chartOptions.options.xAxis.title.text);
+            }
+
             if (err) { reject(err); return; }
 
             // Search for existing files with the same name, and change it if necessary
-            const tryPath = () => path.resolve(`./tmp/${title}-${suffix}.png`);
             let suffix = 1;
+            const tryPath = () => path.resolve(`./tmp/${title} ${suffix}.png`);
             let pathToPng = tryPath();
             while (fs.existsSync(pathToPng)) {
                 suffix++;
                 pathToPng = tryPath();
             }
-
             // When we have the good name, write the file and return its path
             fs.writeFileSync(pathToPng, res.data, 'base64');
-            chartExporter.killPool();
             resolve(pathToPng);
         });
     });
 }
 
-function createGraphBar (series, labels, xName, yName, title, subTitle) {
+function createGraphBar (series, labels, xName, yName, title, subTitle, reverse) {
 
     if (series.reduce((prev, curr) => prev || (curr.data.length !== labels.length), false))
         return Promise.reject(new Error(`A serie of data doesn't have the same length as the labels (here : ${labels.length})`));
@@ -82,7 +107,7 @@ function createGraphBar (series, labels, xName, yName, title, subTitle) {
         }
     };
 
-    return createGraph(chartOptions, `graph-bar-${title}`);
+    return createGraph(chartOptions, `graph bar ${title}`, reverse);
 }
 
 module.exports = {

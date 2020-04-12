@@ -77,14 +77,6 @@ class Indicator {
                         fs.readFileSync(fileName),
                         DOC_WIDTH_MAX,
                         factor * fileDim.height,
-                        /*{
-                            floating: {
-                                horizontalPosition: {
-                                    relative: docx.HorizontalPositionRelativeFrom.PAGE,
-                                    align: docx.HorizontalPositionAlign.CENTER
-                                }
-                            }
-                        }*/
                     )
                 );
             } else if (this.paraIndexes.includes(i)) {
@@ -101,46 +93,124 @@ class Indicator {
     }
 }
 
+function createCombinList (descList) {
+    const firstDesc = descList.pop();
+    if (!firstDesc)
+        return [{}];
+    else {
+        const recurList = createCombinList(descList);
+        let res = [];
+
+        for (let i = 0; i < recurList.length * firstDesc.combin.length; i++)
+            res.push(JSON.parse(JSON.stringify(recurList[i % recurList.length])));
+        
+        res = res.map((combin, i) => {
+            combin[firstDesc.name] = firstDesc.combin[Math.floor(i / recurList.length)];
+            return combin;
+        });
+
+        return res;
+    }
+}
+
 function getFinalRankings () {
     const indic = new Indicator('Classements finaux - Fréquence d\'apparition');
 
     /* TODO : Get data from Mongo and fill the indicator */
+    const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/config.json')));
 
-    const labels = ['silhouette', 'yeux', 'cheveux', 'nez'];
-    const series = [
-        new SerieBar('-3', [2, 10, 13, 5]),
-        new SerieBar('-2', [10, 5, 1, 2]),
-        new SerieBar('-1', [12, 2, 5, 4]),
-        new SerieBar('0', [5, 4, 10, 1]),
-        new SerieBar('1', [2, 5, 2, 6]),
-        new SerieBar('2', [4, 2, 4, 15]),
-        new SerieBar('3', [5, 12, 5, 7])
-    ];
+    const fullCombinList = createCombinList(JSON.parse(JSON.stringify(surveyConfig.surveyConfiguration.descNames)));
 
-    return createGraphBar(
-        series,
-        labels,
-        'Nom des features',
-        'Fréquence d\'apparition sur chaque rang',
-        'Fréquence de classement des features sur chaque rang',
-        'Est Homme aime Femme'
-    )
-        .then(pathToPng => {
-            const splittedPath = pathToPng.split('/');
-            indic.addImage(splittedPath[splittedPath.length - 1]);
+    const query = { terminated: null };
+    const projection = { projection: { _id: 0, rankingResult: 1, beginQuestions: 1 } };
 
-            indic.addPara({
-                text: 'Histogramme des classements à la fin du bloc 1, pour Homme aime Femme',
-                style: 'Legend'
-            });
-            indic.addPara({
-                text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.',
-                style: 'IndicText'
-            });
+    return new Promise(function (resolve, reject) {
+        const userDAO = new daos.DAOUsers(1, () => {
+            userDAO.findAllByQuery(query, projection)
+                .then(userList => {
+                    const promises = [];
+                    fullCombinList.forEach(combinFocus => {
+                        surveyConfig.surveyConfiguration.descNames.forEach((desc, iDesc) => {
+                            surveyConfig.surveyConfiguration.blocThemes.forEach((bloc, iBloc) => {
+                                const currentFeatures = surveyConfig
+                                    .features
+                                    .filter(feature => feature.type === bloc.type && feature.combin.find(c => c.descName === desc.name)[combinFocus[desc.name]])
+                                    .map(feature => new Object({ id: feature.id, text : feature.data }));
+                            
+                                const labels = currentFeatures.map(f => f.text);
+                                const series = [];
+                                const indexOffset = Math.floor(bloc.likertSize / 2);
+                                for (let i = -indexOffset; i < bloc.likertSize - indexOffset; i++)
+                                    series.push(new SerieBar(`${i}`, labels.map(() => 0)));
 
-            return indic;
-        })
-        .catch(err => Promise.reject(err));
+                                userList.forEach(user => {
+                                    for (const [key, value] of Object.entries(combinFocus)) {
+                                        if (!user.beginQuestions.find(q => q.descName === key && q.choice === value))
+                                            return;
+                                    }
+                                    
+                                    for (const [rank, classedF] of Object.entries(user.rankingResult[iDesc * iBloc].ranks)) {
+                                        const serieIndex = series.findIndex(s => s.name === rank);
+                                        if (serieIndex != -1) {
+                                            classedF.forEach(feat => {
+                                                const dataIndex = currentFeatures.findIndex(f => f.id === feat.id);
+                                                if (dataIndex != -1)
+                                                    series[serieIndex].data[dataIndex]++;
+                                            });
+                                        }
+                                    }
+                                });
+
+                                let combinString = '';
+                                for (const [key, value] of Object.entries(combinFocus))
+                                    combinString += `${key} = ${value} / `;
+                                combinString = combinString.substring(0, combinString.length - 3);
+
+                                promises.push(
+                                    createGraphBar(
+                                        series,
+                                        labels,
+                                        `Numéros des rangs`,
+                                        `Fréquence de classement d'une feature (type : ${bloc.type})`,
+                                        'Fréquence de classements finaux des features sur chaque rang',
+                                        `Combinatoire : ${combinString}`,
+                                        true
+                                    )
+                                );
+                            });
+                        });
+                    });
+
+                    return Promise.all(promises);
+                })
+                .then(pngPathList => {
+                    pngPathList.forEach(pathToPng => {
+                        const splittedPath = pathToPng.split('/');
+                        indic.addImage(splittedPath[splittedPath.length - 1]);
+                    });
+                    indic.addPara({
+                        text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
+                        Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed,
+                        dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper
+                        congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est
+                        eleifend mi, non fermentum diam nisl sit amet erat. Duis semper.
+                        Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim.
+                        Pellentesque congue. Ut in risus volutpat libero pharetra tempor.
+                        Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit 
+                        odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante
+                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
+                        Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas
+                        adipiscing ante non diam sodales hendrerit.`,
+                        style: 'IndicText'
+                    });
+
+                    return indic;
+                })
+                .then(indic => resolve(indic))
+                .catch(err => reject(err))
+                .finally(() => userDAO.closeConnexion());
+        });
+    });
 }
 
 function getIndicList () {
