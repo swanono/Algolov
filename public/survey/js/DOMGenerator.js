@@ -95,7 +95,7 @@ class DOMGenerator {
         //blockContainer.setAttribute('class','row blockContainer');
 
         const button_row = document.createElement('div');
-        button_row.setAttribute('class','row');
+        button_row.setAttribute('class','row rowButton');
 
         const button_col_left = document.createElement('div');
         button_col_left.setAttribute('class','col-lg-3');
@@ -316,7 +316,10 @@ class DOMGenerator {
         button.addEventListener('click', () => functor());
 
         button_row.appendChild(button);
-        if (DOMGenerator.getMain().childNodes[1])
+        
+        if (document.getElementsByClassName('row rowButton').length === 1) 
+            document.getElementsByClassName('row rowButton')[0].appendChild(button_row);
+        else if (DOMGenerator.getMain().childNodes[1])
             DOMGenerator.getMain().childNodes[1].appendChild(button_row);
         else
             DOMGenerator.getMain().firstChild.childNodes[1].appendChild(button_row);
@@ -855,7 +858,6 @@ class DOMGenerator {
             const newCont = event.data.dragEvent.data.sourceContainer;
             const mirror = event.data.dragEvent.data.source;
             mirror.width = 'initial';
-            console.log(mirror);
             /*
             if (newCont.getAttribute('id') === 'initial_container' ) {
                 mirror.setAttribute('class','nested-item feature-card');

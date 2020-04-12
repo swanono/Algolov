@@ -118,7 +118,8 @@ label .QCMLabel {
 }
 
 .rank .draggable-mirror {
-    max-width: fit-content !important;
+    max-width: max-content !important;
+    min-width: fit-content !important;
 }
 
 #initial_container .nested-item.draggable-source--is-dragging, #initial_container .draggable-mirror {
