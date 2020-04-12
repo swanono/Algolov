@@ -290,7 +290,7 @@ class DOMGenerator {
         for (const feat of features) {
             const newCard = document.createElement('div');
             newCard.setAttribute('id', 'feature_' + feat.id);
-            newCard.setAttribute('class', 'nested-item feature-card ');
+            newCard.setAttribute('class', 'nested-item feature-card noselect');
             newCard.setAttribute('location', initCont.getAttribute('id'));
 
             DOMGenerator._applyScaleOnCard(newCard);
@@ -316,7 +316,7 @@ class DOMGenerator {
         button.addEventListener('click', () => functor());
 
         button_row.appendChild(button);
-        
+
         if (document.getElementsByClassName('row rowButton').length === 1) 
             document.getElementsByClassName('row rowButton')[0].appendChild(button_row);
         else if (DOMGenerator.getMain().childNodes[1])
