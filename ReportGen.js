@@ -27,6 +27,7 @@ class ReportGen {
 
     constructor (docName = `Rapport-${(new Date()).toDateString().split(' ').join('-')}.docx`) {
         this.docName = docName;
+        this.annexList = [];
         this.doc = new docx.Document({
             creator: 'Algolov',
             title: 'Rapport d\'indicateurs statistiques',
@@ -50,12 +51,28 @@ class ReportGen {
                         }
                     },
                     {
+                        id: 'AnnexTitle',
+                        name: 'Indicator Annex Title',
+                        basedOn: 'Title 3',
+                        next: 'Normal',
+                        run: {
+                            size: 30,
+                            bold: true
+                        },
+                        paragraph: {
+                            spacing: {
+                                before: 120,
+                                after: 240
+                            }
+                        }
+                    },
+                    {
                         id: 'IndicText',
                         name: 'Indicator Paragraph',
                         basedOn: 'Normal',
                         next: 'Normal',
                         run: {
-                            size: 28
+                            size: 24
                         },
                         paragraph: {
                             spacing: {
@@ -76,7 +93,7 @@ class ReportGen {
                         },
                         paragraph: {
                             spacing: {
-                                after: 120
+                                after: 240
                             }
                         }
                     }
@@ -100,10 +117,25 @@ class ReportGen {
      * @param {Array<Indicator>} indicList 
      */
     addIndics (indicList) {
-        indicList.forEach(indic => this.doc.addSection(indic.asSection(this.doc)));
+        indicList.forEach(indic => {
+            const [section, annex] = indic.asSection(this.doc);
+            this.doc.addSection(section);
+            this.annexList.push(annex);
+        });
     }
 
     saveFile () {
+        this.doc.addSection({
+            children: [
+                new docx.Paragraph({
+                    text: 'Annexes',
+                    heading: docx.HeadingLevel.HEADING_1,
+                    alignment: docx.AlignmentType.CENTER
+                })
+            ]
+        });
+        this.annexList.forEach(annex => this.doc.addSection(annex));
+
         fs.readdirSync(path.resolve('./admin/report_files'))
             .forEach(file => fs.unlinkSync(path.resolve(`./admin/report_files/${file}`)));
         return docx.Packer.toBuffer(this.doc).then(buffer => {

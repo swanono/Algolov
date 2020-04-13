@@ -84,7 +84,7 @@ function createGraph (chartOptions, title = 'graph image', reverse = false) {
     });
 }
 
-function createGraphBar (series, labels, xName, yName, title, subTitle, reverse) {
+function createGraphBar (series, labels, xName, yName, title, subTitle, decimals, reverse) {
 
     if (series.reduce((prev, curr) => prev || (curr.data.length !== labels.length), false))
         return Promise.reject(new Error(`A serie of data doesn't have the same length as the labels (here : ${labels.length})`));
@@ -96,7 +96,7 @@ function createGraphBar (series, labels, xName, yName, title, subTitle, reverse)
             title: { text: title },
             subtitle: { text: subTitle },
             xAxis: { categories: labels, title: { text: xName } },
-            yAxis: { min: 0, title: { text: yName } },
+            yAxis: { min: 0, title: { text: yName }, allowDecimals: decimals },
             plotOptions: {
                 column: {
                     pointPadding: 0.2,

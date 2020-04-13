@@ -28,6 +28,9 @@ const { SerieBar, createGraphBar } = require('./graphGen');
 
 const DOC_WIDTH_MAX = 600;
 
+// We can have this as a global variable because the report will not likely be generated multiple times at the same time
+let figureCount = 0;
+
 class Indicator {
     constructor (title) {
         this.title = title;
@@ -35,13 +38,18 @@ class Indicator {
         this.visualList = [];
         this.imageIndexes = [];
         this.paraIndexes = [];
+        this.annexIndexes = [];
+        this.constrIndexes = [];
     }
 
     /**
      * 
      * @param {string} imageName The name of the image file stored in tmp
+     * @param {boolean} isAnnex Boolean telling if the image must appear in annex or not
      */
-    addImage (imageName) {
+    addImage (imageName, isAnnex) {
+        if (isAnnex)
+            this.annexIndexes.push(this.visualList.length);
         this.imageIndexes.push(this.visualList.length);
         this.visualList.push(imageName);
     }
@@ -49,48 +57,136 @@ class Indicator {
     /**
      * 
      * @param {Record<string, any>} paraTexts The paragraph content and config
+     * @param {boolean} isAnnex Boolean telling if the paragraph must appear in annex or not
      */
-    addPara (paraTexts) {
+    addPara (paraTexts, isAnnex) {
+        if (isAnnex)
+            this.annexIndexes.push(this.visualList.length);
         this.paraIndexes.push(this.visualList.length);
         this.visualList.push(paraTexts);
     }
 
+    addConstructed (options, isAnnex) {
+        if (isAnnex)
+            this.annexIndexes.push(this.visualList.length);
+        this.constrIndexes.push(this.visualList.length);
+        this.visualList.push(options);
+    }
+
+    getDocxImagePara (doc, visual) {
+        const fileName = path.resolve(visual);
+        const fileDim = imgSize.imageSize(fileName);
+        const factor = DOC_WIDTH_MAX / fileDim.width;
+
+        return new docx.Paragraph(
+            docx.Media.addImage(
+                doc,
+                fs.readFileSync(fileName),
+                DOC_WIDTH_MAX,
+                factor * fileDim.height,
+            )
+        );
+    }
+
+    getDocxTextPara (visual) {
+        return new docx.Paragraph({
+            text: visual.text,
+            style: visual.style
+        });
+    }
+
     asSection (doc) {
         const section = {
-            children: [new docx.Paragraph({
-                text: this.title,
-                style: 'IndicTitle'
-            })]
+            children: [
+                new docx.Paragraph({
+                    text: this.title,
+                    style: 'IndicTitle'
+                })
+            ]
+        };
+
+        const annex = {
+            children: [
+                new docx.Paragraph({
+                    text: `Annexe Indicateur ${this.title}`,
+                    style: 'AnnexTitle'
+                })
+            ]
         };
 
         this.visualList.forEach((visual, i) => {
             let visualAdded;
-            if (this.imageIndexes.includes(i)) {
-                // Process a chart image
-                const fileName = path.resolve(visual);
-                const fileDim = imgSize.imageSize(fileName);
-                const factor = DOC_WIDTH_MAX / fileDim.width;
+            if (this.imageIndexes.includes(i))
+                visualAdded = [this.getDocxImagePara(doc, visual)];
+            else if (this.paraIndexes.includes(i))
+                visualAdded = [this.getDocxTextPara(visual)];
+            else if (this.constrIndexes.includes(i))
+                visualAdded = visual;
 
-                visualAdded = new docx.Paragraph(
-                    docx.Media.addImage(
-                        doc,
-                        fs.readFileSync(fileName),
-                        DOC_WIDTH_MAX,
-                        factor * fileDim.height,
-                    )
-                );
-            } else if (this.paraIndexes.includes(i)) {
-                visualAdded = new docx.Paragraph({
-                    text: visual.text,
-                    style: visual.style
-                });
-            }
-
-            section.children.push(visualAdded);
+            if (this.annexIndexes.includes(i))
+                annex.children.push(...visualAdded);
+            else
+                section.children.push(...visualAdded);
         });
 
-        return section;
+        return [section, annex];
     }
+}
+
+/**
+ * 
+ * @param {Array<{name: number; data: number}>} dataList The list for wich we want the mean, name is the value, data is the frequency
+ */
+function getMean (dataList) {
+    if (!dataList.length)
+        return 0;
+    const dividend = dataList.reduce((prev, curr) => prev + curr.data, 0);
+    if (!dividend)
+        return 0;
+    return dataList.reduce((prev, curr) => prev + (curr.name * curr.data), 0) / dividend;
+}
+
+/**
+ * 
+ * @param {Array<{name: number; data: number}>} dataList The list for wich we want the standard deviation, name is the value, data is the frequency
+ */
+function getSigma (dataList) {
+    if (!dataList.length)
+        return 0;
+    const mean = getMean(dataList);
+
+    const squareSum = dataList.reduce((prev, curr) => prev + curr.data * Math.pow(curr.name - mean, 2), 0);
+    const dividend = dataList.reduce((prev, curr) => prev + curr.data, 0);
+    
+    if (dividend === 0)
+        return 0;
+
+    return Math.sqrt(squareSum / dividend);
+}
+
+function normalize (dataList) {
+    const mean = getMean(dataList);
+    const std = getSigma(dataList);
+
+    return dataList.map(data => {
+        let newName = data.name;
+        if (!isNaN(std) && std != 0)
+            newName = (parseInt(data.name) - mean) / std;
+        return new Object({
+            name: newName,
+            data: data.data
+        });
+    });
+}
+
+/**
+ * 
+ * @param {number} data the data that we want to know if it's representative
+ * @param {number} mean the mean of the data list
+ * @param {number} sigma the standard deviation of the data list
+ */
+function compare2Sigma (data, mean, sigma) {
+    return data <= mean - 2 * sigma || mean + 2 * sigma <= data;
 }
 
 function createCombinList (descList) {
@@ -116,7 +212,6 @@ function createCombinList (descList) {
 function getFinalRankings () {
     const indic = new Indicator('Classements finaux - Fréquence d\'apparition');
 
-    /* TODO : Get data from Mongo and fill the indicator */
     const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/config.json')));
 
     const fullCombinList = createCombinList(JSON.parse(JSON.stringify(surveyConfig.surveyConfiguration.descNames)));
@@ -130,6 +225,20 @@ function getFinalRankings () {
                 .then(userList => {
                     const promises = [];
                     fullCombinList.forEach(combinFocus => {
+
+                        let combinString = '';
+                        for (const [key, value] of Object.entries(combinFocus))
+                            combinString += `${key} = ${value} / `;
+                        combinString = combinString.substring(0, combinString.length - 3);
+
+                        const explainParaOpt = [
+                            new docx.Paragraph({
+                                text: `Pour la combinatoire "${combinString}" :`,
+                                style: 'IndicText'
+                            })
+                        ];
+                        let addDefaultExplain = true;
+
                         surveyConfig.surveyConfiguration.descNames.forEach((desc, iDesc) => {
                             surveyConfig.surveyConfiguration.blocThemes.forEach((bloc, iBloc) => {
                                 const currentFeatures = surveyConfig
@@ -161,47 +270,101 @@ function getFinalRankings () {
                                     }
                                 });
 
-                                let combinString = '';
-                                for (const [key, value] of Object.entries(combinFocus))
-                                    combinString += `${key} = ${value} / `;
-                                combinString = combinString.substring(0, combinString.length - 3);
+                                /* Here we calculate for each feature if it is remarkable statistically */
+                                let showInAnnex = true;
+                                labels.forEach((label, i) => {
+
+                                    const dataListLabel = [];
+                                    series.forEach(s => dataListLabel.push({ name: parseInt(s.name), data: s.data[i] }));
+                                    const dataListNorm = normalize(dataListLabel);
+                                    const meanLabel = getMean(dataListNorm);
+
+                                    if (compare2Sigma(meanLabel, 0, 1)) {
+                                        // Here we found some data that is "outside the box"
+                                        // We should highlight it and show the chart of these data
+                                        showInAnnex = false;
+                                        addDefaultExplain = false;
+                                        
+                                        explainParaOpt.push(new docx.Paragraph({
+                                            children: [
+                                                new docx.TextRun('Pour la description '),
+                                                new docx.TextRun({ text: `${desc.name}`, bold: true }),
+                                                new docx.TextRun(', la feature '),
+                                                new docx.TextRun({ text: `${label}`, bold: true }),
+                                                new docx.TextRun(' de type '),
+                                                new docx.TextRun({ text: `${bloc.type}`, bold: true }),
+                                                new docx.TextRun(` apparait statistiquement plus souvent dans les rangs extrêmes (précisément vers ${meanLabel}) (p = 0.0455 sous l'hypothèse d'une distribution normale).`)
+                                            ],
+                                            style: 'IndicText',
+                                            bullet: {
+                                                level: 0
+                                            }
+                                        }));
+                                    }
+                                });
 
                                 promises.push(
-                                    createGraphBar(
-                                        series,
-                                        labels,
-                                        `Numéros des rangs`,
-                                        `Fréquence de classement d'une feature (type : ${bloc.type})`,
-                                        'Fréquence de classements finaux des features sur chaque rang',
-                                        `Combinatoire : ${combinString}`,
-                                        true
-                                    )
+                                    new Promise(function (resolve, reject) {
+                                        createGraphBar(
+                                            series,
+                                            labels,
+                                            `Numéros des rangs`,
+                                            `Fréquence de classement d'une feature (type : ${bloc.type})`,
+                                            'Fréquence de classements finaux des features sur chaque rang',
+                                            `Combinatoire : ${combinString} | Description de ${desc.name}`,
+                                            false,
+                                            true
+                                        )
+                                            .then(pathToPng => {
+                                                figureCount++;
+                                                resolve([
+                                                    pathToPng, // string for png path
+                                                    `Figure ${figureCount}`, // string for chart legend
+                                                    showInAnnex // boolean telling if the graphs should be in annex
+                                                    /*,
+                                                    Add description ?
+                                                    */
+                                                ]);
+                                            })
+                                            .catch(err => reject(err));
+                                    })
                                 );
                             });
                         });
+                        if (addDefaultExplain) {
+                            explainParaOpt.push(new docx.Paragraph({
+                                text: 'Il n\'y a aucune feature qui est statistiquement différente des autres.',
+                                style: 'IndicText'
+                            }));
+                        }
+
+                        promises.push({ isBullet: true, opt: explainParaOpt });
+                        // promises.push({ isText: true, text: explainText });
                     });
 
                     return Promise.all(promises);
                 })
-                .then(pngPathList => {
-                    pngPathList.forEach(pathToPng => {
-                        const splittedPath = pathToPng.split('/');
-                        indic.addImage(splittedPath[splittedPath.length - 1]);
-                    });
+                .then(resList => {
                     indic.addPara({
-                        text: `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus.
-                        Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed,
-                        dolor. Cras elementum ultrices diam. Maecenas ligula massa, varius a, semper
-                        congue, euismod non, mi. Proin porttitor, orci nec nonummy molestie, enim est
-                        eleifend mi, non fermentum diam nisl sit amet erat. Duis semper.
-                        Duis arcu massa, scelerisque vitae, consequat in, pretium a, enim.
-                        Pellentesque congue. Ut in risus volutpat libero pharetra tempor.
-                        Cras vestibulum bibendum augue. Praesent egestas leo in pede. Praesent blandit 
-                        odio eu enim. Pellentesque sed dui ut augue blandit sodales. Vestibulum ante
-                        ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae;
-                        Aliquam nibh. Mauris ac mauris sed pede pellentesque fermentum. Maecenas
-                        adipiscing ante non diam sodales hendrerit.`,
+                        text: `Cet indicateur permet de voir quelles features se détachent du lot à l'interieur d'un même bloc`,
                         style: 'IndicText'
+                    });
+                    resList.forEach(res => {
+                        if (res.isText) {
+                            indic.addPara({
+                                text: res.text,
+                                style: 'IndicText'
+                            });
+                        } else if (res.isBullet)
+                            indic.addConstructed(res.opt);
+                        else {
+                            const splittedPath = res[0].split('/');
+                            indic.addImage(splittedPath[splittedPath.length - 1], res[2]);
+                            indic.addPara({
+                                text: res[1],
+                                style: 'Legend'
+                            }, res[2]);
+                        }
                     });
 
                     return indic;
@@ -215,6 +378,8 @@ function getFinalRankings () {
 
 function getIndicList () {
     const indicList = [];
+
+    figureCount = 0;
 
     indicList.push(getFinalRankings());
 
