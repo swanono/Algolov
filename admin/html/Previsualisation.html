@@ -118,48 +118,84 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                 </a>
 
                 
-                <div id="pages">
-                    <div class="page" v-for="page in pageList" v-show="page.isShown && page.isActive">
+                <div id="pages" class="main container">
+                    <div>
+                        <h1>ALGOLOV</h1>
+                    </div>
+
+                    <div class="page main container" v-for="page in pageList" v-show="page.isShown && page.isActive">
                         <!-- Unchangeable pages -->
                         <div class="page-unchangeable" v-if="page.type == 'else'">
-                            <div class="centered-text" v-html="page.text"></div>
-                            <button class="bouton">Continuer</button>
+                            <div>
+                                <h1>ALGOLOV</h1>
+                            </div>
+
+                            <div class="row blockContainer">
+                                <div class="col-lg-12">
+                                    <div class="row presdiv">
+                                        <div class="row prestext noselect">
+                                            <div class="centered-text col-lg-12" v-html="page.text">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="col continueButton"><button id="continuebutton" class="btn btn-primary btn-lg" style="">Démarrer</button></div>
+                                    </div>
+                                </div>
+                            </div> 
+                            <!-- TODO : place this button inside <button class="bouton">Continuer</button>-->
                         </div>
 
                         <!-- Questions pages -->
                         <div class="page-quest" v-if="page.type.includes('quest')">
-                            <form id="form-id">
-                                <fieldset v-for="quest in page.questionList" :id="'idQuest_' + quest.id">
-                                    <p>{{ quest.question }}</p>
-                                    
-                                    <!-- Text Input -->
-                                    <input v-if="quest.type == 'text'" :type="quest.type" :id="'idInput_' + quest.id + '_1'"
-                                        :class="'classInput_' + quest.id" :name="'classInput_' + quest.id"
-                                        :pattern="quest.format || ''" required />
-                                    
-                                    <!-- Checkable Input -->
-                                    <div v-if="quest.type == 'checkbox' || quest.type == 'radio'"
-                                        v-for="choice in quest.choices"
-                                        :id="'idDivInput_' + quest.id + '_' + choice.choiceId"
-                                        :class="page.type == 'questBegin' ? 'divQuest' : null">
 
-                                        <input :type="quest.type" :id="'idInput_' + quest.id + '_' + choice.choiceId"
-                                            :class="'classInput_' + quest.id" :value="'idInput_' + quest.id + '_' + choice.choiceId"
-                                            :name="'classInput_' + quest.id" :required="quest.type == 'checkbox'"
-                                            :descName="quest.descName" :descValue="quest.descValue" />
-                                        
-                                        <label :for="'idInput_' + quest.id + '_' + choice.choiceId">{{ choice.text }}</label>
-                                    
-                                    </div>
+                            <div>
+                                <h1>ALGOLOV</h1>
+                            </div>
 
-                                    <!-- Field "Other" when needed -->
-                                    <div v-if="quest.other" class="divQuest">
-                                        <input type="text" :id="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)" :class="'classInput_' + quest.id" :name="'classInput_' + quest.id" />
-                                        <label for="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)">Autre</label>
+                            <div class="row blockContainer">
+                                <div class="presdiv col-lg-12">
+                                    <div class="prestext noselect">
+                                        <h2>Questions préliminaires/finaux</h2>
                                     </div>
-                                </fieldset>
-                                <button type="submit" form="form-id">Continuer</button>
-                            </form>
+                                    
+                                    <div class="row form-group">
+                                        <form id="form-id" class="col-lg-12">
+                                            <fieldset class="form-group" v-for="quest in page.questionList" :id="'idQuest_' + quest.id">
+                                                <div class="legend">{{ quest.question }}</div>
+                                                
+                                                <!-- Text Input -->
+                                                <input v-if="quest.type == 'text'" :type="quest.type" :id="'idInput_' + quest.id + '_1'"
+                                                    :class="'classInput_' + quest.id" :name="'classInput_' + quest.id"
+                                                    :pattern="quest.format || ''" required />
+                                                
+                                                <!-- Checkable Input -->
+                                                <div class="form-row" v-if="quest.type == 'checkbox' || quest.type == 'radio'"
+                                                    v-for="choice in quest.choices"
+                                                    :id="'idDivInput_' + quest.id + '_' + choice.choiceId"
+                                                    :class="page.type == 'questBegin' ? 'divQuest' : null">
+                                                    <div class="custom-radio col-lg-6 col-sm-12 divQuest">
+                                                        <input :type="quest.type" :id="'idInput_' + quest.id + '_' + choice.choiceId"
+                                                            :class="'custom-control-input classInput_' + quest.id" :value="'idInput_' + quest.id + '_' + choice.choiceId"
+                                                            :name="'custom-control-input classInput_' + quest.id" :required="quest.type == 'checkbox'"
+                                                            :descName="quest.descName" :descValue="quest.descValue" />
+                                                        
+                                                        <label class="custom-control-label QCMLabel" :for="'idInput_' + quest.id + '_' + choice.choiceId">{{ choice.text }}</label>
+                                                    </div>
+                                                    
+                                                </div>
+
+                                                <!-- Field "Other" when needed -->
+                                                <div v-if="quest.other" class="divQuest">
+                                                    <input type="text" :id="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)" :class="'classInput_' + quest.id" :name="'classInput_' + quest.id" />
+                                                    <label for="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)">Autre</label>
+                                                </div>
+                                            </fieldset>
+                                            <button type="submit" form="form-id">Continuer</button>
+                                        </form>
+                                    </div>  
+                                </div>  
+                            </div>  
                         </div>
 
                         <!-- Blocs pages -->

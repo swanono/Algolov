@@ -182,6 +182,13 @@ label .QCMLabel {
 
 /*DESIGN CLASSEMENT*/
 
+.btn {
+    box-shadow: 3px 5px 8px #00000051;
+    border-radius: 50px !important; 
+    font-weight: bold;
+    margin-top: 1em;
+}
+
 
 .noselect {
     -webkit-touch-callout: none; /* iOS Safari */
