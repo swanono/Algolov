@@ -112,7 +112,8 @@ function main () {
                 email: 'ulysse.guyon@gmail.com'
             }))
             .catch(err => err)
-            .finally(() => {
+            .finally(() => root.closeConnexion())
+            .then(() => {
                 server = app.listen(envPort, function () {
                     const port = server.address().port;
                     const addr = server.address().address === '::' ? 'localhost' : server.address().address;

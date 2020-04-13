@@ -23,6 +23,7 @@
     "formidable": "^1.2.1",
     "highcharts-export-server": "^2.0.24",
     "image-size": "^0.8.3",
+    "jstat": "^1.9.2",
     "mathjax": "^2.7.7",
     "mathjax-node": "^2.1.1",
     "mathjax-node-svg2png": "^2.0.0",

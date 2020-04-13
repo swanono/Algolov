@@ -22,14 +22,17 @@ const docx = require('docx');
 const fs = require('fs');
 const path = require('path');
 const imgSize = require('image-size');
+const jstat = require('jstat');
 
 const daos = require('./dao');
 const { SerieBar, createGraphBar } = require('./graphGen');
 
 const DOC_WIDTH_MAX = 600;
 
+const P_VALUE = 0.05;
+
 // We can have this as a global variable because the report will not likely be generated multiple times at the same time
-let figureCount = 0;
+let figureGeneratorCount = 0;
 
 class Indicator {
     constructor (title) {
@@ -146,11 +149,11 @@ function getMean (dataList) {
     return dataList.reduce((prev, curr) => prev + (curr.name * curr.data), 0) / dividend;
 }
 
-/**
+/*
  * 
  * @param {Array<{name: number; data: number}>} dataList The list for wich we want the standard deviation, name is the value, data is the frequency
  */
-function getSigma (dataList) {
+/*function getSigma (dataList) {
     if (!dataList.length)
         return 0;
     const mean = getMean(dataList);
@@ -162,9 +165,9 @@ function getSigma (dataList) {
         return 0;
 
     return Math.sqrt(squareSum / dividend);
-}
+}*/
 
-function normalize (dataList) {
+/*function normalize (dataList) {
     const mean = getMean(dataList);
     const std = getSigma(dataList);
 
@@ -177,17 +180,38 @@ function normalize (dataList) {
             data: data.data
         });
     });
+}*/
+
+function getChiSquareCDF (dataListObs, theoricalLaw) {
+    let dataListTheo = [];
+
+    const effectif = dataListObs.reduce((prev, curr) => prev + curr.data, 0);
+    if (effectif === 0)
+        return 0;
+
+    switch (theoricalLaw) {
+    case 'uniform':
+        dataListObs.forEach(() => dataListTheo.push(effectif / dataListObs.length));
+        break;
+    default:
+        return 0;
+    }
+
+    const dof = dataListTheo.reduce((prev) => prev + 1, 0) - 1;
+    const chi2 = dataListObs.reduce((prev, curr, i) => prev + Math.pow(curr.data - dataListTheo[i], 2) / dataListTheo[i], 0);
+
+    return jstat.chisquare.cdf(chi2, dof);
 }
 
-/**
+/*
  * 
  * @param {number} data the data that we want to know if it's representative
  * @param {number} mean the mean of the data list
  * @param {number} sigma the standard deviation of the data list
  */
-function compare2Sigma (data, mean, sigma) {
+/*function compare2Sigma (data, mean, sigma) {
     return data <= mean - 2 * sigma || mean + 2 * sigma <= data;
-}
+}*/
 
 function createCombinList (descList) {
     const firstDesc = descList.pop();
@@ -209,8 +233,18 @@ function createCombinList (descList) {
     }
 }
 
+/********************************/
+/* BEGIN OF INDICATOR FUNCTIONS */
+/********************************/
+
+/**
+ * Function for indicator #1 : Final rankings of each feature (without trace)
+ */
 function getFinalRankings () {
     const indic = new Indicator('Classements finaux - Fréquence d\'apparition');
+
+    figureGeneratorCount++;
+    const thisFigureCount = figureGeneratorCount;
 
     const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/config.json')));
 
@@ -224,7 +258,7 @@ function getFinalRankings () {
             userDAO.findAllByQuery(query, projection)
                 .then(userList => {
                     const promises = [];
-                    fullCombinList.forEach(combinFocus => {
+                    fullCombinList.forEach((combinFocus, iComb) => {
 
                         let combinString = '';
                         for (const [key, value] of Object.entries(combinFocus))
@@ -241,6 +275,8 @@ function getFinalRankings () {
 
                         surveyConfig.surveyConfiguration.descNames.forEach((desc, iDesc) => {
                             surveyConfig.surveyConfiguration.blocThemes.forEach((bloc, iBloc) => {
+                                const figureNum = (iComb + 1) * (iDesc + 1) * (iBloc + 1);
+
                                 const currentFeatures = surveyConfig
                                     .features
                                     .filter(feature => feature.type === bloc.type && feature.combin.find(c => c.descName === desc.name)[combinFocus[desc.name]])
@@ -276,10 +312,12 @@ function getFinalRankings () {
 
                                     const dataListLabel = [];
                                     series.forEach(s => dataListLabel.push({ name: parseInt(s.name), data: s.data[i] }));
-                                    const dataListNorm = normalize(dataListLabel);
-                                    const meanLabel = getMean(dataListNorm);
 
-                                    if (compare2Sigma(meanLabel, 0, 1)) {
+                                    const chiCDF = getChiSquareCDF(dataListLabel, 'uniform');
+                                    
+                                    const meanLabel = getMean(dataListLabel);
+
+                                    if (1 - P_VALUE <= chiCDF) {
                                         // Here we found some data that is "outside the box"
                                         // We should highlight it and show the chart of these data
                                         showInAnnex = false;
@@ -293,7 +331,9 @@ function getFinalRankings () {
                                                 new docx.TextRun({ text: `${label}`, bold: true }),
                                                 new docx.TextRun(' de type '),
                                                 new docx.TextRun({ text: `${bloc.type}`, bold: true }),
-                                                new docx.TextRun(` apparait statistiquement plus souvent dans les rangs extrêmes (précisément vers ${meanLabel}) (p = 0.0455 sous l'hypothèse d'une distribution normale).`)
+                                                new docx.TextRun(` n'apparait pas de manière uniforme sur tous les rangs, en moyenne elle tend vers ${meanLabel}. (cf. `),
+                                                new docx.TextRun({ text: `Figure ${thisFigureCount}-${figureNum}`, italics: true }),
+                                                new docx.TextRun(`) (p-value : ${P_VALUE})`)
                                             ],
                                             style: 'IndicText',
                                             bullet: {
@@ -316,10 +356,9 @@ function getFinalRankings () {
                                             true
                                         )
                                             .then(pathToPng => {
-                                                figureCount++;
                                                 resolve([
                                                     pathToPng, // string for png path
-                                                    `Figure ${figureCount}`, // string for chart legend
+                                                    `Figure ${thisFigureCount}-${figureNum}`, // string for chart legend
                                                     showInAnnex // boolean telling if the graphs should be in annex
                                                     /*,
                                                     Add description ?
@@ -339,7 +378,6 @@ function getFinalRankings () {
                         }
 
                         promises.push({ isBullet: true, opt: explainParaOpt });
-                        // promises.push({ isText: true, text: explainText });
                     });
 
                     return Promise.all(promises);
@@ -350,12 +388,7 @@ function getFinalRankings () {
                         style: 'IndicText'
                     });
                     resList.forEach(res => {
-                        if (res.isText) {
-                            indic.addPara({
-                                text: res.text,
-                                style: 'IndicText'
-                            });
-                        } else if (res.isBullet)
+                        if (res.isBullet)
                             indic.addConstructed(res.opt);
                         else {
                             const splittedPath = res[0].split('/');
@@ -376,10 +409,14 @@ function getFinalRankings () {
     });
 }
 
+/******************************/
+/* END OF INDICATOR FUNCTIONS */
+/******************************/
+
 function getIndicList () {
     const indicList = [];
 
-    figureCount = 0;
+    figureGeneratorCount = 0;
 
     indicList.push(getFinalRankings());
 
