@@ -63,18 +63,12 @@
 
 .bouton {
     padding: 6px 10px;
-	
-	
 	background-color: transparent;
 	border-radius: 50px;
-    
     width: max-content;
-
     cursor: pointer;
-
-	font: 15px bold;
     text-decoration: none;
-    color:#555;
+    
 }
 
 .bouton:hover{
