@@ -40,7 +40,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <h1 id = titre >Administration</h1>
 
     <!--volet-->
-    <!--
+
     <div id="volet">
         <p>Récuperer un rapport</p>
         <div id="stats-div">
@@ -70,7 +70,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         <a href="#volet_clos" class="fermer" aria-hidden="false">Fermer</a>
     </div>
 
--->
+
     <!--fin du volet-->
 
     <div id="alert-message">
@@ -86,19 +86,26 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                     <ul class = "GestionCompte" id = "GestionCompte">
                         <li id=menu1>
                             <a href="../Notice-Administration-AlgoLov.pdf" target="_blank">
-                                <img src="../images/info.png" alt="logo notice" width="20px" height="20px" />
-                                Notice Admin
+                                <button  id="not" class="bouton" type="button" href="./Notice-Administration-AlgoLov.html">
+                                    <img src="../images/info.png" alt="logo notice" width="20px" height="20px" />
+                                    Notice Admin
+                                </button>
+                                
                             </a>
                         </li>
                         <li>
                             <a href="./Previsualisation.html">
-                                <img src="../images/eye.png" alt="logo prev" width="20px" height="20px" />
+                                <button id="prev" class="bouton" type="button" href="./Previsualisation.html">
+                                    <img src="../images/eye.png" alt="logo prev" width="20px" height="20px" />
                                 Prévisualisation
+
+                                </button>
+                                
                             </a>
                         </li>
                         <li id = menu2>
                             <a href="./UploadPDF.html">
-                                <button id="modifierQuestionnaire" class="bouton" type="button" href="./UploadPDF.html">
+                                <button id="up" class="bouton" type="button" href="./UploadPDF.html">
                                     <img src="../images/acrobat.png" id="upload" alt="logo notice" width="20px" height="20px" />
                                     PDF d'informations
 
@@ -109,8 +116,12 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         
                         <li id = "menuCompte">
                             <a>
-                                <img src="../images/user.png" alt="logo user" width="20px" height="20px" />
-                                Menu compte
+                                <button class= "bouton">
+                                    <img src="../images/user.png" alt="logo user" width="20px" height="20px" />
+                                    Menu compte
+
+                                </button>
+                               
                             </a>
                             <ul class = "sous">
                                 <li>
@@ -168,7 +179,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                                     </a>
                                     
                                     <a class="delete-file danger" @click="sendDeleteDoc(doc.name, 'questions')">
-                                        <img src="../images/trash.png" alt="logo trash" width="30px" height="30px" />
+                                        <img src="../images/bin.png" alt="logo trash" width="20px" height="20px" />
                                     </a>
                                 </div>
                             </form>
@@ -196,7 +207,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                                     <div>{{ doc.name }}</div>
                                 </a>
                                 <a class="delete-file danger" @click="sendDeleteDoc(doc.name, 'features')">
-                                    <img src="../images/trash.png" alt="logo trash" width="30px" height="30px" />
+                                    <img src="../images/bin.png" alt="logo trash" width="20px" height="20px" />
                                 </a>
                             </div>
                         </form>

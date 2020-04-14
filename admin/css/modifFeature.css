@@ -67,8 +67,7 @@
 	border-radius: 50px;
     width: max-content;
     cursor: pointer;
-    text-decoration: none;
-    
+    text-decoration: none;    
 }
 
 .bouton:hover{
@@ -76,6 +75,9 @@
 }
 
 .menuBoutons .bouton{
+    padding: 6px 10px !important;
+    width: auto !important;
+    text-align: center !important;
     background-color:rgb(12, 85, 12);
     color: white;
     margin-top: 10%;
