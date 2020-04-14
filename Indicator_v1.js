@@ -636,6 +636,13 @@ function getRankingTimePerFeature () {
                                     new Promise(function (resolve, reject) {
                                         const boxList = [];
                                         const scatterList = [];
+
+                                        series.forEach((serie, i) => {
+                                            const [box, scattered] = calculateBox(serie.data);
+                                            boxList.push(box);
+                                            scatterList.push(...scattered.map(scat => [i, scat]));
+                                        });
+
                                         createGraphBox(
                                             boxList,
                                             scatterList,
