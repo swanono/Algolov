@@ -22,7 +22,7 @@
 #volet a.ouvrir {
     padding: 10px 25px;
 	background: #555;
-	color: white;
+	color: white !important;
     text-decoration: none;
     position: absolute;
 	right: -130px;
