@@ -110,7 +110,57 @@ function createGraphBar (series, labels, xName, yName, title, subTitle, decimals
     return createGraph(chartOptions, `graph bar ${title}`, reverse);
 }
 
+function createGraphBox (boxes, scattered, labels, xName, yName, title, subTitle, globalMean, globalMeanTitle) {
+    if (boxes.length !== labels.length || boxes.reduce((prev, curr) => prev || curr.length !== 5, false))
+        return Promise.reject(new Error(`The serie of data doesn't have the same length as the labels (here : ${labels.length}) or is not a box`));
+
+    const chartOptions = {
+        type: 'png',
+        options: {
+            chart: { type: 'boxplot' },
+            title: { text: title },
+            subtitle: { text: subTitle },
+            xAxis: { categorie: labels, title: { text: xName } },
+            yAxis: {
+                title: { text: yName },
+                plotLines: [
+                    {
+                        value: globalMean,
+                        color: 'red',
+                        width: 1,
+                        label: {
+                            text: globalMeanTitle,
+                            align: 'center',
+                            style: { color: 'gray' }
+                        }
+                    }
+                ]
+            },
+            series: [
+                {
+                    // Plot the boxes
+                    name: 'Observations',
+                    data: boxes
+                },
+                {
+                    // Plot the points outside the boxes
+                    name: 'Outliers',
+                    type: 'scatter',
+                    data: scattered,
+                    marker: {
+                        fillColor: 'white',
+                        lineWidth: 1
+                    }
+                }
+            ]
+        }
+    };
+
+    return createGraph(chartOptions, `graph box ${title}`);
+}
+
 module.exports = {
     SerieBar,
-    createGraphBar
+    createGraphBar,
+    createGraphBox
 };
