@@ -64,10 +64,10 @@
 .bouton {
     padding: 6px 10px;
 	
-	background:#f5f5f5;
 	
-	border-radius: 2px;
-    border: 1px solid #ccc;
+	background-color: transparent;
+	border-radius: 50px;
+    
     width: max-content;
 
     cursor: pointer;
@@ -106,6 +106,8 @@ input:hover{
     padding: 2px 5px;
     float: left;
 }
+
+
 /*
 .arrow {
     height: max-content;
