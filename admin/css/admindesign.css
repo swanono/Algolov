@@ -22,7 +22,7 @@
 
     a{
         text-decoration: none;
-        color:black;
+        color:black !important;
     }
     ul{
         display:inline-flex; /* Aligne la liste horizontalement */
@@ -63,7 +63,7 @@
         border-bottom: none;
     }
     nav a:hover{
-        color:black;
+        color:black !important;
         border-bottom: 2px solid lightskyblue;
     }
     
@@ -74,7 +74,7 @@
         background-color: white;
         position: absolute;
         width: 100%;
-        z-index: -1;
+        z-index: 1;
         margin-top: 4%;
         margin-right:5%;
     }
@@ -105,7 +105,10 @@
     /*FIN MENU*/
 
 
-
+input{
+    margin-right:3% !important;
+    vertical-align: auto;
+}
     
 
 }

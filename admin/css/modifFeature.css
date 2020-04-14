@@ -7,8 +7,10 @@
 
 
 #FeaturesList {
+    
     margin-right:3%;
     border: rgb(201, 199, 199) 1px;
+    border-bottom:none !important;
     border-style: outset;
     padding: 1em;
     /*important*/
@@ -19,6 +21,7 @@
 #basboitefeatures{
     
     border: rgb(201, 199, 199) 1px;
+    border-top:none !important;
     border-style: outset;
     padding:0em;
     padding-bottom: 2em;
@@ -81,6 +84,7 @@
 .menuBoutons .bouton{
     background-color:rgb(12, 85, 12);
     color: white;
+    margin-top: 10%;
 }
 
 input:hover{

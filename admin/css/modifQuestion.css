@@ -4,6 +4,7 @@
 }
 
 #TitreQexist{
+    
     font-size: 1.1em;
     text-align: center;
 }
@@ -51,11 +52,12 @@ input{
 
 
 #QuestionList{
+    
     margin-right:3%;
     border: rgb(201, 199, 199) 1px;
     border-style: outset;
     padding: 1em;
-    
+    border-bottom:none !important;
     /*important*/
     overflow-y: scroll;
 }
@@ -63,6 +65,7 @@ input{
 #basboitequestion{
     float:left;
     border: rgb(201, 199, 199) 1px;
+    border-top:none !important;
     border-style: outset;
     padding:0em;
     padding-bottom: 2em;
