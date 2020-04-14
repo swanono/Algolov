@@ -25,7 +25,7 @@ const imgSize = require('image-size');
 const jstat = require('jstat');
 
 const daos = require('./dao');
-const { SerieBar, createGraphBar, createGraphBox } = require('./graphGen');
+const { SerieBar, createGraphBar, createGraphBox } = require('./GraphGen');
 
 const DOC_WIDTH_MAX = 600;
 
