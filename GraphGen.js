@@ -84,7 +84,42 @@ function createGraph (chartOptions, title = 'graph image', reverse = false) {
     });
 }
 
-function createGraphBar (series, labels, xName, yName, title, subTitle, decimals, reverse) {
+/**
+ * 
+ * @param {Array<number>} highlights List of label indexes to highlight
+ * 
+ * @return {Array<any>} The list of Highcharts band plot to use
+ */
+function calculatePlotBandBounds (highlights, bandColor = '#FCFFC5') {
+    if (!highlights)
+        return [];
+
+    highlights = highlights.sort();
+
+    const res = [];
+
+    highlights.forEach((h, i) => {
+        const lastIndex = res.length - 1;
+        if (i === 0) {
+            res.push({
+                color: bandColor,
+                from: h - 0.5
+            });
+        } else if (i === highlights.length - 1)
+            res[lastIndex].to = h + 0.5;
+        else if (h > highlights[i - 1]) {
+            res[lastIndex].to = highlights[i - 1] + 0.5;
+            res.push({
+                color: bandColor,
+                from: h - 0.5
+            });
+        }
+    });
+
+    return res;
+}
+
+function createGraphBar (series, labels, xName, yName, title, subTitle, decimals, reverse, highlights) {
 
     if (series.reduce((prev, curr) => prev || (curr.data.length !== labels.length), false))
         return Promise.reject(new Error(`A serie of data doesn't have the same length as the labels (here : ${labels.length})`));
@@ -95,7 +130,11 @@ function createGraphBar (series, labels, xName, yName, title, subTitle, decimals
             chart: { type: 'column' },
             title: { text: title },
             subtitle: { text: subTitle },
-            xAxis: { categories: labels, title: { text: xName } },
+            xAxis: {
+                categories: labels,
+                title: { text: xName },
+                plotBands: calculatePlotBandBounds(highlights)
+            },
             yAxis: { min: 0, title: { text: yName }, allowDecimals: decimals },
             plotOptions: {
                 column: {
@@ -110,9 +149,9 @@ function createGraphBar (series, labels, xName, yName, title, subTitle, decimals
     return createGraph(chartOptions, `graph bar ${title}`, reverse);
 }
 
-function createGraphBox (boxes, scattered, labels, xName, yName, title, subTitle, globalMean, globalMeanTitle) {
+function createGraphBox (boxes, scattered, labels, xName, yName, title, subTitle, globalMean, globalMeanTitle, highlights) {
     if (boxes.length !== labels.length || boxes.reduce((prev, curr) => prev || curr.length !== 5, false))
-        return Promise.reject(new Error(`The serie of data doesn't have the same length as the labels (here : ${labels.length}) or is not a box`));
+        return Promise.reject(new Error(`The serie of data doesn't have the same length as the labels (here : ${labels.length}) or is not a box : ${boxes}`));
 
     const chartOptions = {
         type: 'png',
@@ -120,7 +159,12 @@ function createGraphBox (boxes, scattered, labels, xName, yName, title, subTitle
             chart: { type: 'boxplot' },
             title: { text: title },
             subtitle: { text: subTitle },
-            xAxis: { categorie: labels, title: { text: xName } },
+            legend: { enabled: false },
+            xAxis: {
+                categories: labels,
+                title: { text: xName },
+                plotBands: calculatePlotBandBounds(highlights)
+            },
             yAxis: {
                 title: { text: yName },
                 plotLines: [
@@ -132,7 +176,8 @@ function createGraphBox (boxes, scattered, labels, xName, yName, title, subTitle
                             text: globalMeanTitle,
                             align: 'center',
                             style: { color: 'gray' }
-                        }
+                        },
+                        zIndex: 5
                     }
                 ]
             },
@@ -145,11 +190,13 @@ function createGraphBox (boxes, scattered, labels, xName, yName, title, subTitle
                 {
                     // Plot the points outside the boxes
                     name: 'Outliers',
+                    color: 'black',
                     type: 'scatter',
                     data: scattered,
                     marker: {
                         fillColor: 'white',
-                        lineWidth: 1
+                        lineWidth: 1,
+                        lineColor: 'black'
                     }
                 }
             ]

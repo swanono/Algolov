@@ -35,6 +35,14 @@ module.exports = (passport) => {
     const app = express();
 
     app.post(config.pathPostSurveyApi, function (req, res) {
+        /*let counter = 1;
+        let pathToJSON = path.resolve(`./surveyRes/result-${counter}.json`);
+        while (fs.existsSync(pathToJSON)) {
+            counter++;
+            pathToJSON = path.resolve(`./surveyRes/result-${counter}.json`);
+        }
+        fs.writeFileSync(pathToJSON, JSON.stringify(req.body));*/
+
         const doc = new ReportGen();
         const daoUser = new daos.DAOUsers(req.sessionID, () => {
             daoUser.insert(req.body)

@@ -340,7 +340,7 @@ function calculateBox (dataList) {
         if (Number.isInteger(indexListFloat))
             res = (sortedDataList[indexListFloat] + sortedDataList[indexListFloat + 1]) / 2;
         else
-            res = Math.ceil(sortedDataList[indexListFloat]);
+            res = sortedDataList[Math.ceil(indexListFloat)];
 
         resBox[i + 1] = res;
     });
@@ -351,9 +351,16 @@ function calculateBox (dataList) {
     for (indexList = 0; sortedDataList[indexList] < resBox[1] - whiskerLength; indexList++);
     resBox[0] = sortedDataList[indexList];
     for (indexList = 0; sortedDataList[indexList] < resBox[3] + whiskerLength && indexList < sortedDataList.length - 1; indexList++);
-    resBox[5] = sortedDataList[indexList];
+    resBox[4] = sortedDataList[indexList];
 
-    scattered.push(...sortedDataList.filter(data => data < resBox[0] || data > resBox[5]));
+    scattered.push(...sortedDataList.filter(data => data < resBox[0] || data > resBox[4]));
+
+    if (scattered.length) {
+        console.log('------------');
+        console.log('data : ', sortedDataList);
+        console.log('resBox : ', resBox);
+        console.log('scattered : ', scattered);
+    }
 
     return [resBox, scattered];
 }
@@ -388,6 +395,7 @@ function getFinalRankings () {
             userDAO.findAllByQuery(query, projection)
                 .then(userList => {
                     const promises = [];
+                    let figureNum = 0;
                     fullCombinList.forEach((combinFocus, iComb) => {
 
                         let combinString = '';
@@ -405,7 +413,8 @@ function getFinalRankings () {
 
                         surveyConfig.surveyConfiguration.descNames.forEach((desc, iDesc) => {
                             surveyConfig.surveyConfiguration.blocThemes.forEach((bloc, iBloc) => {
-                                const figureNum = (iComb + 1) * (iDesc + 1) * (iBloc + 1);
+                                figureNum++;
+                                const currentFigureNum = figureNum;
 
                                 const currentFeatures = surveyConfig
                                     .features
@@ -437,6 +446,7 @@ function getFinalRankings () {
                                 });
 
                                 /* Here we calculate for each feature if it is remarkable statistically */
+                                const highlights = [];
                                 let showInAnnex = true;
                                 labels.forEach((label, i) => {
 
@@ -452,6 +462,8 @@ function getFinalRankings () {
                                         // We should highlight it and show the chart of these data
                                         showInAnnex = false;
                                         addDefaultExplain = false;
+
+                                        highlights.push(i);
                                         
                                         explainParaOpt.push(new docx.Paragraph({
                                             children: [
@@ -461,8 +473,8 @@ function getFinalRankings () {
                                                 new docx.TextRun({ text: `${label}`, bold: true }),
                                                 new docx.TextRun(' de type '),
                                                 new docx.TextRun({ text: `${bloc.type}`, bold: true }),
-                                                new docx.TextRun(` n'apparait pas de manière uniforme sur tous les rangs, en moyenne elle tend vers ${meanLabel}. (cf. `),
-                                                new docx.TextRun({ text: `Figure ${thisFigureCount}-${figureNum}`, italics: true }),
+                                                new docx.TextRun(` n'apparait pas de manière uniforme sur tous les rangs, en moyenne elle tend vers ${meanLabel.toFixed(3)}. (cf. `),
+                                                new docx.TextRun({ text: `Figure ${thisFigureCount}-${currentFigureNum}`, italics: true }),
                                                 new docx.TextRun(`) (p-value : ${P_VALUE})`)
                                             ],
                                             style: 'IndicText',
@@ -483,12 +495,13 @@ function getFinalRankings () {
                                             'Fréquence de classements finaux des features sur chaque rang',
                                             `Combinatoire : ${combinString} | Description de ${desc.name}`,
                                             false,
-                                            true
+                                            true/*,
+                                            highlights*/
                                         )
                                             .then(pathToPng => {
                                                 resolve([
                                                     pathToPng, // string for png path
-                                                    `Figure ${thisFigureCount}-${figureNum}`, // string for chart legend
+                                                    `Figure ${thisFigureCount}-${currentFigureNum}`, // string for chart legend
                                                     showInAnnex // boolean telling if the graphs should be in annex
                                                     /*,
                                                     Add description ?
@@ -560,6 +573,7 @@ function getRankingTimePerFeature () {
             userDAO.findAllByQuery(query, projection)
                 .then(userList => {
                     const promises = [];
+                    let figureNum = 0;
                     fullCombinList.forEach((combinFocus, iComb) => {
                         
                         let combinString = '';
@@ -577,7 +591,8 @@ function getRankingTimePerFeature () {
 
                         surveyConfig.surveyConfiguration.descNames.forEach((desc, iDesc) => {
                             surveyConfig.surveyConfiguration.blocThemes.forEach((bloc, iBloc) => {
-                                const figureNum = (iComb + 1) * (iDesc + 1) * (iBloc + 1);
+                                figureNum++;
+                                const currentFigureNum = figureNum;
 
                                 const currentFeatures = surveyConfig
                                     .features
@@ -598,6 +613,7 @@ function getRankingTimePerFeature () {
                                 });
 
                                 let showInAnnex = true;
+                                const highlights = [];
                                 series.forEach((serie, currentIndex) => {
                                     const globalSerie = series.reduce((prev, curr, i) => {
                                         if (i !== currentIndex)
@@ -607,21 +623,23 @@ function getRankingTimePerFeature () {
 
                                     /* TODO : Use a Mann-Whitney test instead of normal cdf when data length is < 30 */
                                     const normCDF = getIndependentMeanCDF(serie.data, globalSerie);
-
+                                    
                                     if (1 - P_VALUE <= normCDF) {
                                         showInAnnex = false;
                                         addDefaultExplain = false;
+
+                                        highlights.push(currentIndex);
 
                                         explainParaOpt.push(new docx.Paragraph({
                                             children: [
                                                 new docx.TextRun('Pour la description '),
                                                 new docx.TextRun({ text: `${desc.name}`, bold: true }),
                                                 new docx.TextRun(', la feature '),
-                                                new docx.TextRun({ text: `${currentFeatures.find(f => f.id === serie.id).text}`, bold: true }),
+                                                new docx.TextRun({ text: `${currentFeatures.find(f => f.id == serie.name).text}`, bold: true }),
                                                 new docx.TextRun(' de type '),
                                                 new docx.TextRun({ text: `${bloc.type}`, bold: true }),
-                                                new docx.TextRun(` a un temps moyen de classement significativement différent du reste des features de ce type (temps moyen de la feature : ${getMean(serie.data)}) (cf. `),
-                                                new docx.TextRun({ text: `Figure ${thisFigureCount}-${figureNum}`, italics: true }),
+                                                new docx.TextRun(` a un temps moyen de classement significativement différent du reste des features de ce type (temps moyen de la feature : ${getMean(serie.data).toFixed(3)}) (cf. `),
+                                                new docx.TextRun({ text: `Figure ${thisFigureCount}-${currentFigureNum}`, italics: true }),
                                                 new docx.TextRun(`) (p-value : ${P_VALUE})`)
                                             ],
                                             style: 'IndicText',
@@ -643,6 +661,8 @@ function getRankingTimePerFeature () {
                                             scatterList.push(...scattered.map(scat => [i, scat]));
                                         });
 
+                                        const globalMean = getMean(series.reduce((prev, curr) => { prev.push(...curr.data); return prev; }, []));
+
                                         createGraphBox(
                                             boxList,
                                             scatterList,
@@ -651,13 +671,14 @@ function getRankingTimePerFeature () {
                                             `Répartition des temps de classement d'une feature (en secondes)`,
                                             `Comparaison des temps de classements des features`,
                                             `Combinatoire : ${combinString} | Description : ${desc.name}`,
-                                            getMean(series.reduce((prev, curr) => { prev.push(...curr.data); return prev; }, [])),
-                                            `Moyenne globale des temps de classement`
+                                            globalMean,
+                                            `Moyenne globale des temps de classement : ${globalMean}`,
+                                            highlights
                                         )
                                             .then(pathToPng => {
                                                 resolve([
                                                     pathToPng, // string for png path
-                                                    `Figure ${thisFigureCount}-${figureNum}`, // string for chart legend
+                                                    `Figure ${thisFigureCount}-${currentFigureNum}`, // string for chart legend
                                                     showInAnnex // boolean telling if the graphs should be in annex
                                                     /*,
                                                     Add description ?
@@ -703,7 +724,7 @@ function getRankingTimePerFeature () {
                 })
                 .then(indic => resolve(indic))
                 .catch(err => reject(err))
-                .finally(() => userDAO.closeSonnexion());
+                .finally(() => userDAO.closeConnexion());
         });
     });
 }
@@ -717,10 +738,18 @@ function getIndicList () {
 
     figureGeneratorCount = 0;
 
-    indicList.push(getFinalRankings());
-    indicList.push(getRankingTimePerFeature());
-
-    return Promise.all(indicList);
+    return new Promise(function (resolve, reject) {
+        getFinalRankings()
+            .then(indicRank => {
+                indicList.push(indicRank);
+                return getRankingTimePerFeature();
+            })
+            .then(indicTimeClass => {
+                indicList.push(indicTimeClass);
+            })
+            .then(() => resolve(indicList))
+            .catch(err => reject(err));
+    });
 }
 
 module.exports = {
