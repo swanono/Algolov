@@ -28,24 +28,49 @@ const FormHandler = require('formidable');
 const path = require('path');
 const fs = require('fs');
 const CredentialManager = require('./credentialsData');
+const ReportGen = require('./ReportGen');
+const { Indicator, getIndicList } = require('./Indicator_v1.js');
 
 module.exports = (passport) => {
     const app = express();
 
     app.post(config.pathPostSurveyApi, function (req, res) {
+        /*let counter = 1;
+        let pathToJSON = path.resolve(`./surveyRes/result-${counter}.json`);
+        while (fs.existsSync(pathToJSON)) {
+            counter++;
+            pathToJSON = path.resolve(`./surveyRes/result-${counter}.json`);
+        }
+        fs.writeFileSync(pathToJSON, JSON.stringify(req.body));*/
+
+        const doc = new ReportGen();
         const daoUser = new daos.DAOUsers(req.sessionID, () => {
             daoUser.insert(req.body)
-                .then(() => daoUser.closeConnexion())
-                .catch(err => console.error(err));
+                .then(() => getIndicList())
+                .then(indicList => doc.addIndics(indicList))
+                .then(() => doc.saveFile())
+                .then(pathToDoc => {
+                    const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
+                    historic.lastReportFile = pathToDoc;
+                    fs.writeFileSync('./admin/historic.json', JSON.stringify(historic, null, 4));
+                })
+                .catch(err => console.error(err))
+                .finally(() => daoUser.closeConnexion())
+                .then(() => fs.readdirSync('./tmp')
+                    .forEach(file => !file.includes('gitkeep') ? fs.unlinkSync(`./tmp/${file}`) : null));
         });
-
-        // TODO : envoyer le mail ici
 
         const usePDF = JSON.parse(fs.readFileSync('./admin/historic.json')).usePDF;
 
         const params = usePDF ? '?pdf=1' : '';
 
+
         res.redirect(config.pathGetThanksAbs + params);
+    });
+
+    app.get(config.pathGetReport, function (req, res) {
+        const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
+        res.sendFile(path.resolve(`./admin/report_files/${historic.lastReportFile}`));
     });
 
     app.post(config.pathPostChangeFeatures, function (req, res) {
