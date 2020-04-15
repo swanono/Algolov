@@ -284,6 +284,27 @@ function getTraceData (traceName, traces) {
     return obj.data;
 }
 
+function getStepTimeBounds (stepsArray, nameDesc, idBloc) {
+    let stepCounter = 0;
+    let indexStep = 0;
+    while (stepCounter < idBloc) {
+        if (stepCounter === 0) {
+            if (stepsArray[indexStep].e && stepsArray[indexStep].e.split('_')[1] === nameDesc)
+                stepCounter++;
+            else
+                indexStep++;
+        } else
+            stepCounter++;
+    }
+    const beginStep = stepsArray[indexStep + stepCounter].t;
+
+    let endStep = stepsArray[indexStep + stepCounter + 1].t;
+    if (!endStep)
+        endStep = Number.MAX_SAFE_INTEGER;
+
+    return [beginStep, endStep];
+}
+
 /**
  * Function used to determine how much time in millisec the user took to classify a feature
  * in a given bloc. The time is determined from the timestamp of the begining of the bloc to the
@@ -300,24 +321,41 @@ function getClassifTimeFromTrace (traces, nameDesc, idBloc, idFeature, factor) {
     const stepsArray = getTraceData('steps', traces);
     const dropArray = getTraceData('drop', traces);
 
-    let stepCounter = 0;
-    let indexStep = 0;
-    while (stepCounter < idBloc) {
-        if (stepCounter === 0) {
-            if (stepsArray[indexStep].e && stepsArray[indexStep].e.split('_')[1] === nameDesc)
-                stepCounter++;
-            else
-                indexStep++;
-        } else
-            stepCounter++;
-    }
-    const timestampBegin = stepsArray[indexStep + stepCounter].t;
+    const [timestampBegin, endStep] = getStepTimeBounds(stepsArray, nameDesc, idBloc);
+
 
     const timestampEnd = dropArray
-        .filter(dropObj => parseInt(dropObj.id.split('_')[1]) === idFeature)
+        .filter(dropObj => parseInt(dropObj.id.split('_')[1]) === idFeature &&
+            dropObj.t >= timestampBegin &&
+            dropObj.t <= endStep)
         .reduce((prev, curr) => Math.max(prev, curr.t), 0);
 
     return (timestampEnd - timestampBegin) / factor;
+}
+
+function getClassifChangeFromTrace (traces, nameDesc, idBloc, idFeature) {
+    const stepsArray = getTraceData('steps', traces);
+    const dragArray = getTraceData('drag', traces);
+
+    const [beginStep, endStep] = getStepTimeBounds(stepsArray, nameDesc, idBloc);
+
+    const dragHistory = dragArray.filter(dragObj =>
+        parseInt(dragObj.id.split('_')[1]) === idFeature &&
+        dragObj.t >= beginStep &&
+        dragObj.t <= endStep);
+
+    let counter = 0;
+    let i = 0;
+    while (i + 1 < dragHistory.length) {
+        if (dragHistory[i].ty !== 'start')
+            return -1;
+        if (dragHistory[i].parentId !== dragHistory[i + 1].parentId)
+            counter++;
+        
+        i += 2;
+    }
+
+    return counter;
 }
 
 /**
@@ -325,7 +363,7 @@ function getClassifTimeFromTrace (traces, nameDesc, idBloc, idFeature, factor) {
  * @param {Array<number>} dataList The array containing the data of wich we want the box limits
  */
 function calculateBox (dataList) {
-    const sortedDataList = dataList.sort();
+    const sortedDataList = dataList.sort((a, b) => a - b);
 
     const resBox = [0, 0, 0, 0, 0];
     const scattered = [];
@@ -336,6 +374,8 @@ function calculateBox (dataList) {
     // For every quartile
     [sortedDataList.length / 4, sortedDataList.length / 2, 3 * sortedDataList.length / 4].forEach((indexListFloat, i) => {
         let res;
+
+        indexListFloat--;
 
         if (Number.isInteger(indexListFloat))
             res = (sortedDataList[indexListFloat] + sortedDataList[indexListFloat + 1]) / 2;
@@ -354,13 +394,6 @@ function calculateBox (dataList) {
     resBox[4] = sortedDataList[indexList];
 
     scattered.push(...sortedDataList.filter(data => data < resBox[0] || data > resBox[4]));
-
-    if (scattered.length) {
-        console.log('------------');
-        console.log('data : ', sortedDataList);
-        console.log('resBox : ', resBox);
-        console.log('scattered : ', scattered);
-    }
 
     return [resBox, scattered];
 }
@@ -396,7 +429,7 @@ function getFinalRankings () {
                 .then(userList => {
                     const promises = [];
                     let figureNum = 0;
-                    fullCombinList.forEach((combinFocus, iComb) => {
+                    fullCombinList.forEach((combinFocus) => {
 
                         let combinString = '';
                         for (const [key, value] of Object.entries(combinFocus))
@@ -405,7 +438,7 @@ function getFinalRankings () {
 
                         const explainParaOpt = [
                             new docx.Paragraph({
-                                text: `Pour la combinatoire "${combinString}" :`,
+                                text: `Pour la combinatoire "${combinString}", `,
                                 style: 'IndicText'
                             })
                         ];
@@ -473,9 +506,9 @@ function getFinalRankings () {
                                                 new docx.TextRun({ text: `${label}`, bold: true }),
                                                 new docx.TextRun(' de type '),
                                                 new docx.TextRun({ text: `${bloc.type}`, bold: true }),
-                                                new docx.TextRun(` n'apparait pas de manière uniforme sur tous les rangs, en moyenne elle tend vers ${meanLabel.toFixed(3)}. (cf. `),
+                                                new docx.TextRun(` (tend vers ${meanLabel.toFixed(3)}). (cf. `),
                                                 new docx.TextRun({ text: `Figure ${thisFigureCount}-${currentFigureNum}`, italics: true }),
-                                                new docx.TextRun(`) (p-value : ${P_VALUE})`)
+                                                new docx.TextRun(`)`)
                                             ],
                                             style: 'IndicText',
                                             bullet: {
@@ -518,7 +551,8 @@ function getFinalRankings () {
                                 text: 'Il n\'y a aucune feature qui est statistiquement différente des autres.',
                                 style: 'IndicText'
                             }));
-                        }
+                        } else
+                            explainParaOpt[0].addChildElement(new docx.TextRun(`les features suivantes n'apparaissent pas de manière uniforme sur tous les rangs de leurs blocs respectifs (p-value : ${P_VALUE}) :`));
 
                         promises.push({ isBullet: true, opt: explainParaOpt });
                     });
@@ -566,7 +600,7 @@ function getRankingTimePerFeature () {
     const fullCombinList = createCombinList(JSON.parse(JSON.stringify(surveyConfig.surveyConfiguration.descNames)));
 
     const query = { terminated: null };
-    const projection = { projection: { _id: 0, traces: 1, rankingResult: 1, beginQuestions: 1 } };
+    const projection = { projection: { _id: 0, traces: 1, beginQuestions: 1 } };
 
     return new Promise(function (resolve, reject) {
         const userDAO = new daos.DAOUsers(thisFigureCount, () => {
@@ -574,7 +608,7 @@ function getRankingTimePerFeature () {
                 .then(userList => {
                     const promises = [];
                     let figureNum = 0;
-                    fullCombinList.forEach((combinFocus, iComb) => {
+                    fullCombinList.forEach((combinFocus) => {
                         
                         let combinString = '';
                         for (const [key, value] of Object.entries(combinFocus))
@@ -583,14 +617,14 @@ function getRankingTimePerFeature () {
 
                         const explainParaOpt = [
                             new docx.Paragraph({
-                                text: `Pour la combinatoire "${combinString}" :`,
+                                text: `Pour la combinatoire "${combinString}", `,
                                 style: 'IndicText'
                             })
                         ];
                         let addDefaultExplain = true;
 
-                        surveyConfig.surveyConfiguration.descNames.forEach((desc, iDesc) => {
-                            surveyConfig.surveyConfiguration.blocThemes.forEach((bloc, iBloc) => {
+                        surveyConfig.surveyConfiguration.descNames.forEach((desc) => {
+                            surveyConfig.surveyConfiguration.blocThemes.forEach((bloc) => {
                                 figureNum++;
                                 const currentFigureNum = figureNum;
 
@@ -609,7 +643,7 @@ function getRankingTimePerFeature () {
                                             return;
                                     }
 
-                                    series.forEach(serie => serie.data.push(getClassifTimeFromTrace(user.traces, desc.name, bloc.id, serie.name, 1000)));
+                                    series.forEach(serie => serie.data.push(getClassifTimeFromTrace(user.traces, desc.name, bloc.blocId, serie.name, 1000)));
                                 });
 
                                 let showInAnnex = true;
@@ -638,9 +672,9 @@ function getRankingTimePerFeature () {
                                                 new docx.TextRun({ text: `${currentFeatures.find(f => f.id == serie.name).text}`, bold: true }),
                                                 new docx.TextRun(' de type '),
                                                 new docx.TextRun({ text: `${bloc.type}`, bold: true }),
-                                                new docx.TextRun(` a un temps moyen de classement significativement différent du reste des features de ce type (temps moyen de la feature : ${getMean(serie.data).toFixed(3)}) (cf. `),
+                                                new docx.TextRun(` (temps moyen : ${getMean(serie.data).toFixed(3)}) (cf. `),
                                                 new docx.TextRun({ text: `Figure ${thisFigureCount}-${currentFigureNum}`, italics: true }),
-                                                new docx.TextRun(`) (p-value : ${P_VALUE})`)
+                                                new docx.TextRun(`)`)
                                             ],
                                             style: 'IndicText',
                                             bullet: {
@@ -695,7 +729,8 @@ function getRankingTimePerFeature () {
                                 text: 'Il n\'y a aucune feature qui est statistiquement différente des autres.',
                                 style: 'IndicText'
                             }));
-                        }
+                        } else
+                            explainParaOpt[0].addChildElement(new docx.TextRun(`les features suivantes ont un temps moyen de classement significativement différent du reste des features de ce type (p-value : ${P_VALUE}) :`));
 
                         promises.push({ isBullet: true, opt: explainParaOpt });
                     });
@@ -705,6 +740,184 @@ function getRankingTimePerFeature () {
                 .then(resList => {
                     indic.addPara({
                         text: `Cet indicateur permet de voir quelles features ont un temps de classement différent des autres à l'interieur dun même bloc.`,
+                        style: 'IndicText'
+                    });
+                    resList.forEach(res => {
+                        if (res.isBullet)
+                            indic.addConstructed(res.opt);
+                        else {
+                            const splittedPath = res[0].split('/');
+                            indic.addImage(splittedPath[splittedPath.length - 1], res[2]);
+                            indic.addPara({
+                                text: res[1],
+                                style: 'Legend'
+                            }, res[2]);
+                        }
+                    });
+
+                    return indic;
+                })
+                .then(indic => resolve(indic))
+                .catch(err => reject(err))
+                .finally(() => userDAO.closeConnexion());
+        });
+    });
+}
+
+/**
+ * Function for indicator #3 : Calculate the number of times each feature has been moved from a container to another
+ */
+function getRankingChanges () {
+    const indic = new Indicator('Nombre de changement de classement par feature');
+
+    figureGeneratorCount++;
+    const thisFigureCount = figureGeneratorCount;
+    
+    const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/config.json')));
+
+    const fullCombinList = createCombinList(JSON.parse(JSON.stringify(surveyConfig.surveyConfiguration.descNames)));
+
+    const query = { terminated: null };
+    const projection = { projection: { _id: 0, traces: 1, beginQuestions: 1 } };
+
+    return new Promise(function (resolve, reject) {
+        const userDAO = new daos.DAOUsers(thisFigureCount, () => {
+            userDAO.findAllByQuery(query, projection)
+                .then(userList => {
+                    const promises = [];
+                    let figureNum = 0;
+                    fullCombinList.forEach((combinFocus) => {
+                        
+                        let combinString = '';
+                        for (const [key, value] of Object.entries(combinFocus))
+                            combinString += `${key} = ${value} / `;
+                        combinString = combinString.substring(0, combinString.length - 3);
+
+                        const explainParaOpt = [
+                            new docx.Paragraph({
+                                text: `Pour la combinatoire "${combinString}", `,
+                                style: 'IndicText'
+                            })
+                        ];
+                        let addDefaultExplain = true;
+
+                        surveyConfig.surveyConfiguration.descNames.forEach((desc) => {
+                            surveyConfig.surveyConfiguration.blocThemes.forEach((bloc) => {
+                                figureNum++;
+                                const currentFigureNum = figureNum;
+
+                                const currentFeatures = surveyConfig
+                                    .features
+                                    .filter(feature => feature.type === bloc.type && feature.combin.find(c => c.descName === desc.name)[combinFocus[desc.name]])
+                                    .map(feature => new Object({ id: feature.id, text : feature.data }));
+
+                                const labels = currentFeatures.map(f => f.text);
+                                const series = currentFeatures.map(f => new SerieBar(f.id, []));
+
+                                
+                                userList.forEach(user => {
+                                    for (const [key, value] of Object.entries(combinFocus)) {
+                                        if (!user.beginQuestions.find(q => q.descName === key && q.choice === value))
+                                            return;
+                                    }
+
+                                    series.forEach(serie => serie.data.push(getClassifChangeFromTrace(user.traces, desc.name, bloc.blocId, serie.name)));
+                                });
+
+                                let showInAnnex = true;
+                                const highlights = [];
+                                series.forEach((serie, currentIndex) => {
+                                    const globalSerie = series.reduce((prev, curr, i) => {
+                                        if (i !== currentIndex)
+                                            prev.push(...curr.data);
+                                        return prev;
+                                    }, []);
+
+                                    /* TODO : Use a Mann-Whitney test instead of normal cdf when data length is < 30 */
+                                    const normCDF = getIndependentMeanCDF(serie.data, globalSerie);
+                                    
+                                    if (1 - P_VALUE <= normCDF) {
+                                        showInAnnex = false;
+                                        addDefaultExplain = false;
+
+                                        highlights.push(currentIndex);
+
+                                        explainParaOpt.push(new docx.Paragraph({
+                                            children: [
+                                                new docx.TextRun('Pour la description '),
+                                                new docx.TextRun({ text: `${desc.name}`, bold: true }),
+                                                new docx.TextRun(', la feature '),
+                                                new docx.TextRun({ text: `${currentFeatures.find(f => f.id == serie.name).text}`, bold: true }),
+                                                new docx.TextRun(' de type '),
+                                                new docx.TextRun({ text: `${bloc.type}`, bold: true }),
+                                                new docx.TextRun(` (nombre de changements moyen : ${getMean(serie.data).toFixed(3)}) (cf. `),
+                                                new docx.TextRun({ text: `Figure ${thisFigureCount}-${currentFigureNum}`, italics: true }),
+                                                new docx.TextRun(`)`)
+                                            ],
+                                            style: 'IndicText',
+                                            bullet: {
+                                                level: 0
+                                            }
+                                        }));
+                                    }
+                                });
+
+                                promises.push(
+                                    new Promise(function (resolve, reject) {
+                                        const boxList = [];
+                                        const scatterList = [];
+
+                                        series.forEach((serie, i) => {
+                                            const [box, scattered] = calculateBox(serie.data);
+                                            boxList.push(box);
+                                            scatterList.push(...scattered.map(scat => [i, scat]));
+                                        });
+
+                                        const globalMean = getMean(series.reduce((prev, curr) => { prev.push(...curr.data); return prev; }, []));
+
+                                        createGraphBox(
+                                            boxList,
+                                            scatterList,
+                                            labels,
+                                            `Noms des features (type ${bloc.type})`,
+                                            `Répartition du nombre de changement de rang d'une feature`,
+                                            `Comparaison des changements de rangs par feature`,
+                                            `Combinatoire : ${combinString} | Description : ${desc.name}`,
+                                            globalMean,
+                                            `Moyenne globale des temps de classement : ${globalMean}`,
+                                            highlights
+                                        )
+                                            .then(pathToPng => {
+                                                resolve([
+                                                    pathToPng, // string for png path
+                                                    `Figure ${thisFigureCount}-${currentFigureNum}`, // string for chart legend
+                                                    showInAnnex // boolean telling if the graphs should be in annex
+                                                    /*,
+                                                    Add description ?
+                                                    */
+                                                ]);
+                                            })
+                                            .catch(err => reject(err));
+                                    })
+                                );
+                            });
+                        });
+                        if (addDefaultExplain) {
+                            explainParaOpt.push(new docx.Paragraph({
+                                text: 'Il n\'y a aucune feature qui est statistiquement différente des autres.',
+                                style: 'IndicText'
+                            }));
+                        } else
+                            explainParaOpt[0].addChildElement(new docx.TextRun(`les features suivantes ont un nombre moyen de changement de rangs significativement différent du reste des features de ce type (p-value : ${P_VALUE}) :`));
+
+                        promises.push({ isBullet: true, opt: explainParaOpt });
+                    });
+
+                    return Promise.all(promises);
+                })
+                .then(resList => {
+                    indic.addPara({
+                        text: `Cet indicateur permet de voir quelles features sont déplacées plus ou moins souvent que les autres.`,
                         style: 'IndicText'
                     });
                     resList.forEach(res => {
@@ -746,6 +959,10 @@ function getIndicList () {
             })
             .then(indicTimeClass => {
                 indicList.push(indicTimeClass);
+                return getRankingChanges();
+            })
+            .then(indicChange => {
+                indicList.push(indicChange);
             })
             .then(() => resolve(indicList))
             .catch(err => reject(err));
