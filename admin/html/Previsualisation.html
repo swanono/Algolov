@@ -37,80 +37,96 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <body onload="getConfig();">
         <div class="container-fluid">
             <div class="row">
-        
-                <nav>
-                    <ul class="menu" id="menu">
-                        <li id="questionnaire">
-                            <a>Questionnaires</a>
-                            <ul class="sous">
+
+                <nav role="navigation" class="navMenu">
+                    <ul class="nav nav-pills menu" id="menu" >
+                        <li class="nav-item dropdown" id="questionnaire">
+                            <a data-toggle="dropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Questionnaires</a>
+                            
+                            <ul class="dropdown-menu sous">
                                 <form>
-                                    <label for="Debut">
-                                        <li>
-                                            <a>
-                                                Début
-                                                <input id="Debut" name="checkdebut" type="checkbox" target-type="questBegin" @change="changeActive($event.target);"/>
-                                            </a>
-                                        </li>
-                                    </label>
-                                    <label for="Classement">
-                                        <li>
-                                            <a>
-                                                Classement
-                                                <input id="Classement" name="checkclassement" type="checkbox" target-type="bloc" @change="changeActive($event.target);"/>
-                                            </a>
-                                        </li>
-                                    </label>
-                                    <label for="Fin">
-                                        <li>
-                                            <a>
-                                                Fin
-                                                <input id="Fin" name="checkfin" type="checkbox" target-type="questEnd" @change="changeActive($event.target);"/>
-                                            </a>
-                                        </li>
-                                    </label>
+                                    <li>
+                                        <div class="checkbox">
+                                            <label class="dropdown-item" for="Debut">
+                                                <input id="Debut" name="checkdebut" type="checkbox" target-type="questBegin" @change="changeActive($event.target);">Début
+                                            </label>
+                                        </div>
+                                    </li>
+                                    
+                                    <li >
+                                        <div class="checkbox ">
+                                            <label class="dropdown-item" for="Classement">
+                                                <input  id="Classement" name="checkclassement" type="checkbox" target-type="bloc" @change="changeActive($event.target);">Classement
+                                            </label>
+                                        </div>
+                                    </li>
+
+                                    <li >
+                                        <div class="checkbox ">
+                                            <label class="dropdown-item" for="Fin">
+                                                <input id="Fin" name="checkfin" type="checkbox" target-type="questEnd" @change="changeActive($event.target);">Fin
+                                            </label>
+                                        </div>
+                                    </li>
                                 </form>
                             </ul>
                         </li>
-                        <li id="combinatoire">
-                            <a>Combinatoire</a>
-                            <ul class="sous">
+
+                        <li class="nav-item dropdown" id="combinatoire">
+                            <a data-toggle="dropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Combinatoire</a>
+                            
+                            <ul class="dropdown-menu sous">
                                 <form v-if="showCombin">
                                     <li>
-                                        <p>
+                                        <p class="dropdown-item disabled">
                                             {{ descNames.toUpperCase() }}
                                         </p>
                                     </li>
-                                    <label v-for="(combin, i) in combinList">
-                                        <li>
-                                            <a>
-                                                {{ combin }}
-                                                <input :id="'input ' + combin" :value="combin" type="radio" name="combin" v-model="selectCombin" :checked="i == 0" @change="changeCombin($event.target)">
-                                            </a>
-                                        </li>
-                                    </label>
+
+                                    <li v-for="(combin, i) in combinList">
+                                        <div class="checkbox">
+                                            <label class="dropdown-item">
+                                                <input :id="'input ' + combin" :value="combin" type="radio" name="combin" v-model="selectCombin" :checked="i == 0" @change="changeCombin($event.target)"> {{ combin }}
+                                            </label>
+                                        </div>
+                                    </li>
+                                    
                                 </form>
-                                <p v-else>
-                                    Vous n'avez pas activé l'affichage des pages de classement.
-                                </p>
+
+                                <li v-else> 
+                                    <p class="dropdown-item disabled">
+                                        Vous n'avez pas activé l'affichage des pages de classement.
+                                    </p>
+                                </li>
+
+
                             </ul>
                         </li>
-                        <li id="page-links">
-                            <a>Pages</a>
-                            <ul class="sous">
-                                <li>
-                                    <a v-for="quest in questList" href="#" :title="quest.fullText" :target-quest-id="quest.id" @click="goToPage($event.target)">
+
+                        <li class="nav-item dropdown" id="page-links">
+                            <a data-toggle="dropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
+                            
+                            <ul class="dropdown-menu sous">
+                                <li v-for="quest in questList">
+                                    <a class="dropdown-item"  href="#" :title="quest.fullText" :target-quest-id="quest.id" @click="goToPage($event.target)">
                                         {{ quest.text }}
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li id="bouton-retour">
-                            <a href="./Admin.html">
-                                Retour au Menu Admin
-                            </a>
+
+                        <li class="nav-item" id="page-links">
+                            <a class="nav-link" href="./Admin.html">Retour au Menu Admin</a>
                         </li>
+
                     </ul>
+
                 </nav>
+            </div>
+
+
+            <div class="row">
+        
                 <div class="col col-sm-1 arrow">
                     <a href="#" id="arrowLeft" @click="addShow()">
                         <img src="../images/arrowLeft.png" width="50px" height="70px" />
@@ -123,7 +139,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                 </div>
 
                 
-                <div id="pages" class="main container">
+                <div id="pages" class="main container col">
                     <div>
                         <h1>ALGOLOV</h1>
                     </div>
@@ -155,14 +171,15 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                                 <form id="form-id" class="col-lg-12">
                                     <fieldset class="form-group" v-for="quest in page.questionList" :id="'idQuest_' + quest.id">
                                         <div class="legend">{{ quest.question }}</div>
-                                        <div class="form-row">
-                                            <!-- Text Input -->
-                                            <input v-if="quest.type == 'text'" :type="quest.type" :id="'idInput_' + quest.id + '_1'"
-                                                :class="'form-control classInput_' + quest.id" :name="'form-control classInput_' + quest.id" :pattern="quest.format || ''"
-                                                required />
-                            
+                                        
+                                        <!-- Text Input -->
+                                        <input v-if="quest.type == 'text' || quest.type == 'email' || quest.type == 'tel'" :type="quest.type" :id="'idInput_' + quest.id + '_1'"
+                                            :class="'form-control form-controlOption classInput_' + quest.id" :name="'form-control classInput_' + quest.id"
+                                            :pattern="quest.format || ''" required />
+
+                                        <div class="form-row" v-if="quest.type == 'checkbox' || quest.type == 'radio'">
                                             <!-- Checkable Input -->
-                                            <div class="form-row custom-radio col-lg-6 col-sm-12 divQuest" v-if="quest.type == 'checkbox' || quest.type == 'radio'"
+                                            <div class="custom-radio col-lg-6 col-sm-12 divQuest" v-if="quest.type == 'checkbox' || quest.type == 'radio'"
                                                 v-for="choice in quest.choices" :id="'idDivInput_' + quest.id + '_' + choice.choiceId"
                                                 :class="page.type == 'questBegin' ? 'divQuest' : null">
                                             

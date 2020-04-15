@@ -10,6 +10,7 @@
     font-family: Verdana, sans-serif	;
 }
 
+/*
 nav{
     width: 100%;
     margin: 0 auto;
@@ -81,7 +82,7 @@ nav > ul li:hover .sous{
     width:100%;
     text-align: center;
 }
-
+*/
 
 
 .sous a:hover{
@@ -173,6 +174,10 @@ label .QCMLabel {
 
 .form-control{
     width: auto ;
+}
+
+.form-controlOption{
+    width: auto !important;
 }
 
 .legend {
@@ -531,5 +536,10 @@ fieldset {
 }
 
 .arrow {
-    margin-top: 30%;
+    margin-top: 20%;
+}
+
+.navMenu {
+    margin-top: 1vh;
+    margin-left: 2vh;
 }
