@@ -94,29 +94,11 @@ function calculatePlotBandBounds (highlights, bandColor = '#FCFFC5') {
     if (!highlights)
         return [];
 
-    highlights = highlights.sort();
-
-    const res = [];
-
-    highlights.forEach((h, i) => {
-        const lastIndex = res.length - 1;
-        if (i === 0) {
-            res.push({
-                color: bandColor,
-                from: h - 0.5
-            });
-        } else if (i === highlights.length - 1)
-            res[lastIndex].to = h + 0.5;
-        else if (h > highlights[i - 1]) {
-            res[lastIndex].to = highlights[i - 1] + 0.5;
-            res.push({
-                color: bandColor,
-                from: h - 0.5
-            });
-        }
-    });
-
-    return res;
+    return highlights.map(h => new Object({
+        color: bandColor,
+        from: h - 0.4,
+        to: h + 0.4
+    }));
 }
 
 function createGraphBar (series, labels, xName, yName, title, subTitle, decimals, reverse, highlights) {
