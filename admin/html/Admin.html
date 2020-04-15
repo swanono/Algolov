@@ -45,11 +45,11 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
     <!--volet-->
 
-    <div id="volet" class="bg-secondary">
+    <div id="volet" class="bg-light">
         <p>Récuperer un rapport</p>
         <div id="stats-div">
             <span><u><b>Quelques statistiques :</b></u></span>
-            <p>Âge moyen : {{ stats.ageMean || 0 }} ans</p>
+            <p>Âge moyen : {{ (stats.ageMean || 0).toFixed(2) }} ans</p>
             <table id="tab-stats">
                 <thead>
                     <tr>

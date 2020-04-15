@@ -5,8 +5,8 @@
 #volet {
     width: 250px;
     height: 1000px;
-	padding: 10px;
-    color: #fff;	
+    padding: 10px;
+    border-right: 2px solid grey;
     position: fixed;
     left: -265px;
     top: 0px;
@@ -14,9 +14,6 @@
 
     -webkit-transition: all .5s ease-in;
 	transition: all .5s ease-in;
-}
-#volet * {
-    color: black;
 }
 #volet a.ouvrir {
     padding: 10px 25px;
@@ -46,7 +43,6 @@
 #volet a.fermer {
     display: none;
     background-color: grey;
-    color:white;
     text-align: center;
 }
 
