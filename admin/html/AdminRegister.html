@@ -51,7 +51,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
             <div class="card-body">
                 <h1>Créer un nouveau profil Admin </h1>
                 <div class = "row">
-                    <form class = "mx-auto">
+                    <form class = "mx-auto" method="POST" action="/api/admin/register" onsubmit="event.preventDefault(); registerAdmin(event.target);">
                         <div class="form-group">
                         <label for="username">Identifiant</label>
                         <input type="text" class="form-control" id="username" name="username" aria-describedby="username" placeholder="Identifiant" required autofocus>
