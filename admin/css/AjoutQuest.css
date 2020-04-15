@@ -38,7 +38,7 @@ h1 {
 	box-shadow:1px 1px 3px grey;
 }
 .download-bar * {
-    padding: 2px 5px;
+    padding: 2px;
     float: left;
     vertical-align: center;
 }

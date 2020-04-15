@@ -10,7 +10,7 @@
     
     margin-right:3%;
     border: rgb(201, 199, 199) 1px;
-    border-bottom:none !important;
+    border-radius: 3%;
     border-style: outset;
     padding: 1em;
     /*important*/
@@ -19,19 +19,11 @@
 }
 
 #basboitefeatures{
-    
     border: rgb(201, 199, 199) 1px;
-    border-top:none !important;
+    border-bottom: none !important;
+    border-right: none !important;
+    border-left: none !important;
     border-style: outset;
-    padding:0em;
-    padding-bottom: 2em;
-    margin:0;
-    margin-left: 0em;
-    margin-right:2em;
-    vertical-align: middle;
-    
-    
-    
 }
 #alert-message {
     text-align: center;
@@ -76,11 +68,9 @@
 
 .menuBoutons .bouton{
     padding: 6px 10px !important;
-    width: auto !important;
     text-align: center !important;
     background-color:rgb(12, 85, 12);
     color: white;
-    margin-top: 10%;
 }
 
 input:hover{
@@ -97,12 +87,13 @@ input:hover{
 .download-bar {
     display: flex;
     align-items: center;
+    background-color: #F6F6F6;
+    border: solid #B0B0B0 3px;
 }
 .download-bar * {
-    padding: 2px 5px;
+    padding: 2px;
     float: left;
 }
-
 
 /*
 .arrow {
