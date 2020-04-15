@@ -55,26 +55,19 @@ input{
     
     margin-right:3%;
     border: rgb(201, 199, 199) 1px;
+    border-radius: 3%;
     border-style: outset;
     padding: 1em;
-    border-bottom:none !important;
     /*important*/
     overflow-y: scroll;
 }
 
 #basboitequestion{
-    float:left;
     border: rgb(201, 199, 199) 1px;
-    border-top:none !important;
+    border-bottom: none !important;
+    border-right: none !important;
+    border-left: none !important;
     border-style: outset;
-    padding:0em;
-    padding-bottom: 2em;
-    
-    margin:0;
-    margin-right:2em;
-
-    vertical-align: middle;
-    
 }
 
 

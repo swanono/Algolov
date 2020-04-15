@@ -5,9 +5,8 @@
     font-family: Arial, Helvetica, sans-serif;
 }*/
 
-*{
-    
-    font-family: Verdana, sans-serif	;
+* {
+    font-family: Roboto, Lato, Arial, Helvetica, sans-serif;
 }
 
 /*
@@ -96,10 +95,6 @@ nav > ul li:hover .sous{
     content: " ▼";
     font-size: 12px;
 }
-* {
-    font-family: Roboto, Lato, Arial, Helvetica, sans-serif;
-    
-}
 
 .blockContainer {
     border-radius: 6px;
@@ -150,7 +145,7 @@ label .QCMLabel {
 
 .btn {
     box-shadow: 3px 5px 8px #00000051;
-    border-radius: 50px;
+    border-radius: 50px !important; 
     font-weight: bold;
     margin-top: 1em;
 }
@@ -183,16 +178,6 @@ label .QCMLabel {
 .legend {
     font-size: 1.1em;
     font-weight: bold;
-}
-
-
-/*DESIGN CLASSEMENT*/
-
-.btn {
-    box-shadow: 3px 5px 8px #00000051;
-    border-radius: 50px !important; 
-    font-weight: bold;
-    margin-top: 1em;
 }
 
 

@@ -5,9 +5,8 @@
 #volet {
     width: 250px;
     height: 1000px;
-	padding: 10px;
-    background: lightgrey;
-    color: #fff;	
+    padding: 10px;
+    border-right: 2px solid grey;
     position: fixed;
     left: -265px;
     top: 0px;
@@ -15,9 +14,6 @@
 
     -webkit-transition: all .5s ease-in;
 	transition: all .5s ease-in;
-}
-#volet * {
-    color: black;
 }
 #volet a.ouvrir {
     padding: 10px 25px;
@@ -47,7 +43,6 @@
 #volet a.fermer {
     display: none;
     background-color: grey;
-    color:white;
     text-align: center;
 }
 
@@ -106,11 +101,6 @@
         margin:0px;
         padding:0px;
     }
-        
-    ul li{
-        margin-left:50px;
-    }
-
 
     .GestionCompte{
         display:flex;
@@ -317,3 +307,27 @@ input{
 
 }
 
+
+.file-form {
+    height: 50vh !important;
+    background: /* Shadow covers */
+    linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
+    radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+    background: /* Shadow covers */
+    linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
+    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+    background-repeat: no-repeat;
+    background-color: white;
+    background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+    /* Opera doesn't support this in the shorthand */
+    background-attachment: local, local, scroll, scroll;
+}
+
+.used-file .download-bar {
+    background-color: #207245;
+    color: white;
+}
+
+*:checked + .download-bar, .used-file .download-bar {
+    border: solid #63AE85 3px;
+}
