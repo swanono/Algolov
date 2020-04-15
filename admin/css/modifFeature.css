@@ -7,8 +7,10 @@
 
 
 #FeaturesList {
+    
     margin-right:3%;
     border: rgb(201, 199, 199) 1px;
+    border-bottom:none !important;
     border-style: outset;
     padding: 1em;
     /*important*/
@@ -19,6 +21,7 @@
 #basboitefeatures{
     
     border: rgb(201, 199, 199) 1px;
+    border-top:none !important;
     border-style: outset;
     padding:0em;
     padding-bottom: 2em;
@@ -60,18 +63,11 @@
 
 .bouton {
     padding: 6px 10px;
-	
-	background:#f5f5f5;
-	
-	border-radius: 2px;
-    border: 1px solid #ccc;
+	background-color: transparent;
+	border-radius: 50px;
     width: max-content;
-
     cursor: pointer;
-
-	font: 15px bold;
-    text-decoration: none;
-    color:#555;
+    text-decoration: none;    
 }
 
 .bouton:hover{
@@ -79,8 +75,12 @@
 }
 
 .menuBoutons .bouton{
+    padding: 6px 10px !important;
+    width: auto !important;
+    text-align: center !important;
     background-color:rgb(12, 85, 12);
     color: white;
+    margin-top: 10%;
 }
 
 input:hover{
@@ -103,10 +103,12 @@ input:hover{
     float: left;
 }
 
+
+/*
 .arrow {
     height: max-content;
     font: 30px bold;
-}
+}*/
 
 #Upload-Form {
     margin-top: 1em;

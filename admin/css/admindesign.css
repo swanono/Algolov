@@ -1,5 +1,81 @@
 /*Nouveau design*/
 
+
+/*sidebar*/
+#volet {
+    width: 250px;
+    height: 1000px;
+	padding: 10px;
+    background: lightgrey;
+    color: #fff;	
+    position: fixed;
+    left: -265px;
+    top: 0px;
+    z-index: 2;
+
+    -webkit-transition: all .5s ease-in;
+	transition: all .5s ease-in;
+}
+#volet * {
+    color: black;
+}
+#volet a.ouvrir {
+    padding: 10px 25px;
+	background: #555;
+	color: white !important;
+    text-decoration: none;
+    position: absolute;
+	right: -130px;
+    top: 150px;
+    -ms-transform: rotate(270deg);
+	-moz-transform: rotate(270deg);
+	-webkit-transform: rotate(270deg);
+	transform: rotate(270deg);
+
+	border-radius: 0 0 8px 8px;
+}
+
+#volet:target {
+	left: 0;
+}
+
+#volet_clos:target #volet {
+    left: -270px;
+}
+
+
+#volet a.fermer {
+    display: none;
+    background-color: grey;
+    color:white;
+    text-align: center;
+}
+
+#volet:target a.ouvrir {
+	display: none;
+}
+#volet:target a.fermer {
+	display: block;
+}
+
+#tab-stats {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1em;
+}
+#tab-stats * {
+    text-align: center;
+    border: black 1px solid;
+}
+#tab-stats thead {
+    font-size: large;
+    font-weight: bold;
+}
+
+
+/* fin sidebar*/
+
+
 @media screen and (min-width: 900px) { 
     /* Nous définirons ici le style de notre menu pour les grands écrans (>900px) */ 
 
@@ -22,7 +98,7 @@
 
     a{
         text-decoration: none;
-        color:black;
+        color:black !important;
     }
     ul{
         display:inline-flex; /* Aligne la liste horizontalement */
@@ -49,7 +125,7 @@
         text-align: center;
         position: relative;
 
-        background-color: lightskyblue;
+        /*background-color: lightskyblue;*/
         padding : 1%; 
        
         border-radius: 25px;
@@ -62,19 +138,22 @@
         padding:10px;
         border-bottom: none;
     }
-    nav a:hover{
-        color:black;
-        border-bottom: 2px solid lightskyblue;
+    nav button:hover{
+        color:white !important;
+        border-bottom: 2px solid rgb(25, 149, 226);
+        background-color:rgb(25, 149, 226);
+        
     }
     
     
+
     .sous{
         display:none;
         box-shadow:0px 1px 2px #CCC;
         background-color: white;
         position: absolute;
         width: 100%;
-        z-index: -1;
+        z-index: 1;
         margin-top: 4%;
         margin-right:5%;
     }
@@ -105,7 +184,10 @@
     /*FIN MENU*/
 
 
-
+input{
+    margin-right:3% !important;
+    vertical-align: auto;
+}
     
 
 }
@@ -154,7 +236,7 @@
         text-align: center;
         position: relative;
 
-        background-color: lightskyblue;
+        /*background-color: lightskyblue;*/
         padding : 2%;
         border-color: black;
         border-radius: 50px;

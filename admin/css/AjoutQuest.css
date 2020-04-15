@@ -1,0 +1,58 @@
+*{
+    margin:0px;
+    padding:0px;
+    font-family: Verdana, sans-serif	;
+}
+
+
+h1 {
+    height : 15%;
+    width: 100%;
+    text-align: center;
+    background-color: white;
+}
+
+
+
+
+
+.retour {
+    float: left;
+}
+
+    
+.download-bar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5em;
+}
+.download-bar {
+    display: flex;
+    align-items: center;
+    padding:6px 0 6px 0;
+	background:white;
+    color:#555;
+    margin-right: 20px;
+    border:1px solid #ccc;
+	box-shadow:1px 1px 3px grey;
+}
+.download-bar * {
+    padding: 2px 5px;
+    float: left;
+    vertical-align: center;
+}
+
+
+#Upload-Form {
+    margin-top: 1em;
+    padding: 1em;
+    border: 1px solid black;
+}
+#Upload-Form * {
+    display: block;
+    margin: 0.5em;
+}
+
+
+
