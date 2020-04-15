@@ -33,8 +33,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <title>AlgoLov - Prévisualisation </title>
 </head>
     <body onload="getConfig();">
-        <div class="row">
-            <div class="col-offset-1">
+        <div class="container-fluid">
+            <div class="row">
         
                 <nav>
                     <ul class="menu" id="menu">
@@ -109,13 +109,16 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         </li>
                     </ul>
                 </nav>
-            
-                <a href="#" id="arrowLeft" @click="addShow()">
-                    <img src="../images/arrowLeft.png" width="50px" height="70px" />
-                </a>
-                <a href="#" id="arrowRight" @click="addShow()">
-                    <img src="../images/arrowRight.png" width="50px" height="70px" />
-                </a>
+                <div class="col col-sm-1 arrow">
+                    <a href="#" id="arrowLeft" @click="addShow()">
+                        <img src="../images/arrowLeft.png" width="50px" height="70px" />
+                    </a>
+                </div>
+                <div class="col col-sm-1 order-12 arrow">
+                    <a href="#" id="arrowRight" @click="addShow()">
+                        <img src="../images/arrowRight.png" width="50px" height="70px" />
+                    </a>
+                </div>
 
                 
                 <div id="pages" class="main container">
@@ -123,120 +126,132 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         <h1>ALGOLOV</h1>
                     </div>
 
-                    <div class="page main container" v-for="page in pageList" v-show="page.isShown && page.isActive">
+                    <div class="page row blockContainer" v-for="page in pageList" v-show="page.isShown && page.isActive">
                         <!-- Unchangeable pages -->
-                        <div class="page-unchangeable" v-if="page.type == 'else'">
-                            <div>
-                                <h1>ALGOLOV</h1>
-                            </div>
-
-                            <div class="row blockContainer">
-                                <div class="col-lg-12">
-                                    <div class="row presdiv">
-                                        <div class="row prestext noselect">
-                                            <div class="centered-text col-lg-12" v-html="page.text">
-                                            </div>
+                        <div class="page-unchangeable col-lg-12" v-if="page.type == 'else'">
+                                <div class="row presdiv">
+                                    <div class="row prestext noselect">
+                                        <div class="centered-text col-lg-12" v-html="page.text">
                                         </div>
                                     </div>
-                                    <div class="col-lg-12">
-                                        <div class="col continueButton"><button id="continuebutton" class="btn btn-primary btn-lg" style="">Démarrer</button></div>
-                                    </div>
                                 </div>
-                            </div> 
+                                <div class="row">
+                                        <div class="col continueButton"><button id="continuebutton" class="btn btn-primary btn-lg">Démarrer</button></div>
+                                </div>
+                                
                             <!-- TODO : place this button inside <button class="bouton">Continuer</button>-->
                         </div>
 
                         <!-- Questions pages -->
-                        <div class="page-quest" v-if="page.type.includes('quest')">
-
-                            <div>
-                                <h1>ALGOLOV</h1>
+                        <div class="page-quest presdiv col-lg-12" v-if="page.type.includes('quest')">
+                        
+                            <div class="prestext noselect">
+                                <h2>Questions préliminaires/finaux</h2>
                             </div>
-
-                            <div class="row blockContainer">
-                                <div class="presdiv col-lg-12">
-                                    <div class="prestext noselect">
-                                        <h2>Questions préliminaires/finaux</h2>
-                                    </div>
-                                    
-                                    <div class="row form-group">
-                                        <form id="form-id" class="col-lg-12">
-                                            <fieldset class="form-group" v-for="quest in page.questionList" :id="'idQuest_' + quest.id">
-                                                <div class="legend">{{ quest.question }}</div>
+                        
+                            <div class="row form-group">
+                                <form id="form-id" class="col-lg-12">
+                                    <fieldset class="form-group" v-for="quest in page.questionList" :id="'idQuest_' + quest.id">
+                                        <div class="legend">{{ quest.question }}</div>
+                                        <div class="form-row">
+                                            <!-- Text Input -->
+                                            <input v-if="quest.type == 'text'" :type="quest.type" :id="'idInput_' + quest.id + '_1'"
+                                                :class="'form-control classInput_' + quest.id" :name="'form-control classInput_' + quest.id" :pattern="quest.format || ''"
+                                                required />
+                            
+                                            <!-- Checkable Input -->
+                                            <div class="form-row custom-radio col-lg-6 col-sm-12 divQuest" v-if="quest.type == 'checkbox' || quest.type == 'radio'"
+                                                v-for="choice in quest.choices" :id="'idDivInput_' + quest.id + '_' + choice.choiceId"
+                                                :class="page.type == 'questBegin' ? 'divQuest' : null">
+                                            
+                                            
+                                            
+                                                <input :type="quest.type" :id="'idInput_' + quest.id + '_' + choice.choiceId"
+                                                    :class="'custom-control-input classInput_' + quest.id" :value="'idInput_' + quest.id + '_' + choice.choiceId"
+                                                    :name="'custom-control-input classInput_' + quest.id" :required="quest.type == 'checkbox'"
+                                                    :descName="quest.descName" :descValue="quest.descValue" />
+                                            
+                                                <label class="custom-control-label QCMLabel"
+                                                    :for="'idInput_' + quest.id + '_' + choice.choiceId">{{ choice.text }}</label>
+                                            
+                                            
+                                            </div>
+                            
+                                            <!-- Field "Other" when needed -->
+                                            <div v-if="quest.other" class="divQuest">
+                                                <input type="text" placeholder="Autre" :id="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)"
+                                                    :class="'form-control classInput_' + quest.id" :name="'form-control classInput_' + quest.id" />
                                                 
-                                                <!-- Text Input -->
-                                                <input v-if="quest.type == 'text'" :type="quest.type" :id="'idInput_' + quest.id + '_1'"
-                                                    :class="'classInput_' + quest.id" :name="'classInput_' + quest.id"
-                                                    :pattern="quest.format || ''" required />
-                                                
-                                                <!-- Checkable Input -->
-                                                <div class="form-row" v-if="quest.type == 'checkbox' || quest.type == 'radio'"
-                                                    v-for="choice in quest.choices"
-                                                    :id="'idDivInput_' + quest.id + '_' + choice.choiceId"
-                                                    :class="page.type == 'questBegin' ? 'divQuest' : null">
-                                                    <div class="custom-radio col-lg-6 col-sm-12 divQuest">
-                                                        <input :type="quest.type" :id="'idInput_' + quest.id + '_' + choice.choiceId"
-                                                            :class="'custom-control-input classInput_' + quest.id" :value="'idInput_' + quest.id + '_' + choice.choiceId"
-                                                            :name="'custom-control-input classInput_' + quest.id" :required="quest.type == 'checkbox'"
-                                                            :descName="quest.descName" :descValue="quest.descValue" />
-                                                        
-                                                        <label class="custom-control-label QCMLabel" :for="'idInput_' + quest.id + '_' + choice.choiceId">{{ choice.text }}</label>
-                                                    </div>
-                                                    
-                                                </div>
-
-                                                <!-- Field "Other" when needed -->
-                                                <div v-if="quest.other" class="divQuest">
-                                                    <input type="text" :id="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)" :class="'classInput_' + quest.id" :name="'classInput_' + quest.id" />
-                                                    <label for="'idInput_' + quest.id + '_' + (quest.choices[quest.choices.length - 1] + 1)">Autre</label>
-                                                </div>
-                                            </fieldset>
-                                            <button type="submit" form="form-id">Continuer</button>
-                                        </form>
-                                    </div>  
-                                </div>  
-                            </div>  
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                   
+                                </form>
+                            </div>
+                            <div class="row">
+                                <div class="col continueButton">
+                                    <button id="continuebutton" class="btn btn-primary btn-lg" >Continuer</button>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Blocs pages -->
-                        <div v-if="page.type.includes('bloc')" :id="'bloc_' + page.bloc.blocId" class="bloc" :blocType="page.bloc.type">
-                            <table id="scale_tab" class="noselect">
-                                <!-- Header row -->
-                                <tr>
-                                    <td class="heading_txt" :colspan="page.bloc.likertSize">
-                                        {{ page.description.text }}
-                                        <br />
-                                        {{ page.bloc.question }}
-                                    </td>
-                                </tr>
-                                <!-- Likert text row -->
-                                <tr class="heading">
-                                    <td v-for="(headTxt, i) in page.bloc.legends" :colspan="getColspan(page.bloc.legends.length, i, page.bloc.likertSize)">
-                                        {{ headTxt }}
-                                    </td>
-                                </tr>
-                                <!-- Likert scale row -->
-                                <tr>
-                                    <td v-for="i in page.bloc.likertSize">
-                                        <div :id="'rankContainer_' + (i - page.bloc.likertSize/2)" class="nestable container rank">
-                                            <!-- Empty features container -->
+                        <div v-if="page.type.includes('bloc')" :id="'bloc_' + page.bloc.blocId" class="bloc presdiv col-lg-12" :blocType="page.bloc.type">
+                            
+                            <!-- Classement row -->
+                            <div class="row"> 
+                                <div class="col-lg-12">
+                                    <!-- Header row -->
+                                    <div class="row prestext">
+                                        <div class="col">
+                                            <h2>{{ page.description.text }}</h2>
+                                            <br />
+                                            <h3>{{ page.bloc.question }}</h3>
                                         </div>
-                                    </td>
-                                </tr>
-                                <!-- Initial container row -->
-                                <tr>
-                                    <td :colspan="page.bloc.likertSize">
-                                        <div id="initial_container" class="nestable container" :colspan="page.bloc.likertSize">
-                                            <div v-for="feat in page.featureList" id="'feature_' + feat.id" class="nested-item feature-card" location="initial_container"
-                                                v-if="feat.content == 'text'" v-show="feat.combin.find(c => c.descName == page.description.name)[page.descChoice]">
-                                                {{ feat.data }}
+                                    </div>
+
+                                    <!-- Likert text and container row -->
+                                    <div class="row align-items-start">
+                                        <div class="col-lg-12">
+
+                                            <!-- Likert legend row -->
+                                            <div class="row scaleRow_legend">
+                                                <div class="col" v-for="(headTxt, i) in page.bloc.legends" >
+                                                    {{ headTxt }}
+                                                </div>
                                             </div>
+
+                                            <!-- Likert container row -->
+                                            <div class="row scaleRow_container align-items-start" >
+                                                <div v-for="i in page.bloc.likertSize" :id="'rankContainer_' + (i - page.bloc.likertSize/2)"
+                                                    class="nestable container rank col h-50 justify-content-center">
+                                                    <!-- Empty features container -->
+                                                </div>
+                                            </div>
+
                                         </div>
-                                    </td>
-                                </tr>
-                            </table>
-                            <button id="stop-button">Arrêter le questionnaire</button>
-                            <button id="continuebutton">Continuer</button>
+                                    </div>
+
+                                    <!-- Initial container row -->
+                                    <div class="nestable container row justify-content-center" id="initial_container">
+                                        <div v-for="feat in page.featureList" id="'feature_' + feat.id" class="nested-item feature-card noselect"
+                                            location="initial_container" v-if="feat.content == 'text'"
+                                            v-show="feat.combin.find(c => c.descName == page.description.name)[page.descChoice]">
+                                            {{ feat.data }}
+                                        </div>
+                                    
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row rowButton">
+                                <div class="col">
+                                    <button id="stop-button" class="btn btn-danger btn-lg">Arrêter le questionnaire</button>
+                                </div>
+                                <div class="col continueButton">
+                                    <button id="continuebutton" class="btn btn-primary btn-lg">Continuer</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -244,7 +259,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   
     </body>
 </html>
