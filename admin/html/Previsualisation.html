@@ -36,12 +36,12 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 </head>
     <body onload="getConfig();">
         <div class="container-fluid">
-            <div class="row">
+            <div class="row navbar navbar-expand-lg navbar-light bg-light navbarOption">
 
-                <nav role="navigation" class="navMenu">
+                <nav role="navigation" class="">
                     <ul class="nav nav-pills menu" id="menu" >
-                        <li class="nav-item dropdown" id="questionnaire">
-                            <a data-toggle="dropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Questionnaires</a>
+                        <li class="nav-item dropdown " id="questionnaire">
+                            <a data-toggle="dropdown" class="nav-link dropdown-toggle navItemOption noselect" role="button" aria-haspopup="true" aria-expanded="false">Questionnaires</a>
                             
                             <ul class="dropdown-menu sous">
                                 <form>
@@ -73,7 +73,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         </li>
 
                         <li class="nav-item dropdown" id="combinatoire">
-                            <a data-toggle="dropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Combinatoire</a>
+                            <a data-toggle="dropdown" class="nav-link dropdown-toggle navItemOption noselect" role="button" aria-haspopup="true" aria-expanded="false">Combinatoire</a>
                             
                             <ul class="dropdown-menu sous">
                                 <form v-if="showCombin">
@@ -104,7 +104,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         </li>
 
                         <li class="nav-item dropdown" id="page-links">
-                            <a data-toggle="dropdown" class="nav-link dropdown-toggle" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
+                            <a data-toggle="dropdown" class="nav-link dropdown-toggle navItemOption noselect" role="button" aria-haspopup="true" aria-expanded="false">Pages</a>
                             
                             <ul class="dropdown-menu sous">
                                 <li v-for="quest in questList">
@@ -115,8 +115,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                             </ul>
                         </li>
 
-                        <li class="nav-item" id="page-links">
-                            <a class="nav-link" href="./Admin.html">Retour au Menu Admin</a>
+                        <li class="nav-item col order-12" id="page-links">
+                            <a class="nav-link navItemOption noselect linkOption" href="./Admin.html">Retour au Menu Admin</a>
                         </li>
 
                     </ul>

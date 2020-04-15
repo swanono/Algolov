@@ -540,6 +540,56 @@ fieldset {
 }
 
 .navMenu {
-    margin-top: 1vh;
-    margin-left: 2vh;
+    padding-top: 1vh;
+    padding-left: 2vh;
+    margin-bottom: 1.5vh;
+}
+
+.navbarOption {
+    box-shadow: 3px 5px 8px #00000011;
+    margin-bottom: 1.5vh;
+}
+
+.navItemOption {
+    
+
+    color: #212529 !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+}
+
+.navItemOption:hover {
+   
+    background-color: #007bff;
+    color: #fff !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    border-radius: .25rem;
+}
+
+.navItemOption[aria-expanded="true"] {
+   
+    background-color: #007bff;
+    color: #fff !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    border-radius: .25rem;
+    box-shadow: 3px 5px 8px #00000051;
+}
+
+.linkOption { 
+    background-color: #007bff;
+    color: #fff !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    border-radius: .25rem;
+}
+
+.linkOption:hover { 
+    background-color: #007bff;
+    color: #fff !important;
+    font-weight: bold !important;
+    text-decoration: none !important;
+    border-radius: .25rem;
+    box-shadow: 3px 5px 8px #00000051;
 }
