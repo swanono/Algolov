@@ -83,7 +83,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
     </div>
     <!--ouverture container-->
-    <div class="container">
+    <div class="container-fluid">
     <!--menu-->
         <div class="row" >
             <div class="col-12">
@@ -149,115 +149,122 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
         </div>
         
-        <div id ="modif">
+        <div id ="modif row">
 
     
             <!--MODIF QUESTIONS-->
 
-        
-            <div class="row">
+            <div class="col-11  modificationDiv" >
+                <div class="row">
 
-                <div id="QuestionList" class="col">
-        
-                    <h3 id="TitreQexist">Liste des questions existantes </h3>
-                    
-                    <div>
-                        <form id="formQuestionFiles" class="file-form overflow-auto" method="POST" action="/api/admin/selectQuestions" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">
-                            <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd + ' align-item-start'">
-                                <input class="col-1" :id="'question_file_' + doc.index" type="radio" name="select_question_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
-                                
-                                <a class="download-bar bouton mx-2 col-9 overflow-hidden" style="color: black;" :href="doc.path">
-                                    
-                                    <img class="mx-1" src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
-                                    <div>{{ doc.name }}</div>
-                                </a>
-                                
-                                <a class="delete-file btn btn-light rounded col" @click="sendDeleteDoc(doc.name, 'questions')">
-                                    <img src="../images/bin.png" alt="logo trash" width="20px" height="20px" />
-                                </a>
+                    <div id="QuestionList" class="col">
+                        <div class="titleRow row">
+                            <div class="col-12">
+                                <h2>Liste des questions existantes </h2>
                             </div>
-                        </form>
-                    </div>
-                    
-                    <div id="basboitequestion">
+                        </div>
 
-                        <ul class="row p-3">
-                            <li class="col-6">
-                                <button id="selectQuestionnaireDoc" class="btn btn-success long-btn" type="submit" form="formQuestionFiles">
-                                    <img src="../images/check-circle-outline.png" alt="logo newadmin" width="20px" height="20px" />
-                                    Utiliser Document coché
-                                </bouton>
+                        <div >
+                            <form id="formQuestionFiles" class="file-form " method="POST" action="/api/admin/selectQuestions" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">
+                                <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd + ' align-item-start'">
+                                    <input class="col-1" :id="'question_file_' + doc.index" type="radio" name="select_question_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
+                                    
+                                    <a class="download-bar  mx-2 col-9 overflow-hidden" style="color: black;" :href="doc.path">
+                                        
+                                        <img class="mx-1" src="../images/logo-excel.png" alt="logo excel" width="40px" height="40px" />
+                                        <div>{{ doc.name }}</div>
+                                    </a>
+                                    
+                                    <a class="delete-file rounded col" @click="sendDeleteDoc(doc.name, 'questions')">
+                                        <img src="../images/bin.png" alt="logo trash" width="20px" height="20px" />
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div id="basboitequestion" class="row bottomDocumentBloc">
 
-                            </li>
-                            
-                            <li class="col-6">
+                            <div class="col ">
                                 <form action="./ModifQuestion.html" method="GET">
-                                    <button id="modifierQuestionnaire" class="btn btn-success long-btn" type="submit">
-                                        <img src="../images/plus (2).png" alt="logo newadmin" width="20px" height="20px" />
+                                    <button id="modifierQuestionnaire" type="submit" class="btn btn-primary btn-labeled btnDocument">
+                                        <span class="btn-label">
+                                            <img src="../images/plus (2).png" alt="logo newadmin" width="23px" height="23px" />
+                                        </span>
                                         Ajouter Nouveau Document
                                     </button>
                                 </form>
-                            
-                            </li>
-
-                        </ul>
-
-                    </div>
-                    
-                </div>
-                    
-
-                <!-- FIN MODIF QUESTION-->
-        
-                <!--MODIF FEATURES-->
-                <div id="FeaturesList" class="col">
-                    <h3 id="TitreFexist"> Liste des documents contenant les variables pour la tâche de classement. <br />
-                        Chaque variable dans le fichier sera affichée dans une case à classifier. 
-                    </h3>
-                    <div>
-                        <form id="formFeatureFiles" class="file-form overflow-auto" method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">                      
-                            <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd + ' ' + doc.select + 'row align-item-start'">
-
-                                <input class="col-1" :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
-                                
-                                <a class="download-bar bouton mx-2 col-9 overflow-hidden" style="color: black;" :href="doc.path">
-                                    
-                                    <img class="mx-1" src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
-                                    <div>{{ doc.name }}</div>
-                                </a>
-                                <a class="delete-file btn btn-light rounded col" @click="sendDeleteDoc(doc.name, 'features')">
-                                    <img src="../images/bin.png" alt="logo trash" width="20px" height="20px" />
-                                </a>
                             </div>
-                        </form>
-                    </div>
-                    
-                    <div id="basboitefeatures">
-                        <ul class="row p-3">
-                            <li class="col-6">
-                                <button id="selectFeatureDoc" class="btn btn-success long-btn" type="submit" form="formFeatureFiles">
-                                    <img src="../images/check-circle-outline.png" alt="logo newadmin" width="20px" height="20px" />
+
+                            <div class="col align-self-end">
+                                <button id="selectQuestionnaireDoc" type="submit" class="btn btn-primary btn-labeled btnDocument" form="formQuestionFiles">
+                                    <span class="btn-label">
+                                        <img src="../images/check-circle-outline.png" alt="logo newadmin" width="25px" height="25px" />
+                                    </span>
                                     Utiliser Document coché
                                 </button>
-                            </li>
-                            <li class="col-6">
+                            </div>
+
+                        </div>
+                        
+                    </div>
+                        
+
+                    <!-- FIN MODIF QUESTION-->
+            
+                    <!--MODIF FEATURES-->
+                    <div id="FeaturesList" class="col">
+                        <div class="titleRow row">
+                            <div class="col-12">
+                                <h2> Liste des documents contenant les variables pour la tâche de classement. </h2>
+                                <h3>Chaque variable dans le fichier sera affichée dans une case à classifier. </h3>
+                            </div>
+                        </div>
+                        <div>
+                            <form id="formFeatureFiles" class="file-form " method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">                      
+                                <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd + ' ' + doc.select + 'row align-item-start'">
+
+                                    <input class="col-1" :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
+                                    
+                                    <a class="download-bar  mx-2 col-9 overflow-hidden" style="color: black;" :href="doc.path">
+                                        
+                                        <img class="mx-1" src="../images/logo-excel.png" alt="logo excel" width="40px" height="40px" />
+                                        <div>{{ doc.name }}</div>
+                                    </a>
+                                    <a class="delete-file rounded col" @click="sendDeleteDoc(doc.name, 'features')">
+                                        <img src="../images/bin.png" alt="logo trash" width="20px" height="20px" />
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div id="basboitefeatures" class="row bottomDocumentBloc">
+                            
+                            <div class="col ">
                                 <form action="./ModifFeature.html" method="GET">
-                                    <button id="modifierFeature" class="btn btn-success long-btn" type="submit">
-                                        <img src="../images/plus (2).png" alt="logo newadmin" width="20px" height="20px" />
+                                    <button id="modifierFeature" type="submit" class="btn btn-primary btn-labeled btnDocument">
+                                        <span class="btn-label">
+                                            <img src="../images/plus (2).png" alt="logo newadmin" width="23px" height="23px" />
+                                        </span>
                                         Ajouter Nouveau Document
                                     </button>
                                 </form>
-                                
-                            </li>
+                            </div>
 
-                        </ul>
+                            <div class="col align-self-end">
+                                <button id="selectFeatureDoc" type="submit" class="btn btn-primary btn-labeled btnDocument" form="formFeatureFiles">
+                                    <span class="btn-label">
+                                        <img src="../images/check-circle-outline.png" alt="logo newadmin" width="25px" height="25px" />
+                                    </span>
+                                    Utiliser Document coché
+                                </button>
+                            </div>
 
+                        </div>
                     </div>
+                    <!-- FIN MODIF FEATURES-->
+
                 </div>
-                <!-- FIN MODIF FEATURES-->
-
             </div>
-
         </div>
     
     </div>

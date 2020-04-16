@@ -1,5 +1,10 @@
 /*Nouveau design*/
 
+*{
+    font-family: Roboto, Lato, Arial, Helvetica, sans-serif !important;
+    
+}
+
 
 /*sidebar*/
 #volet {
@@ -74,10 +79,7 @@
 @media screen and (min-width: 900px) { 
     /* Nous définirons ici le style de notre menu pour les grands écrans (>900px) */ 
 
-    *{
-        color:black;
-        
-    }
+    
     /*MENU*/
     header{
         
@@ -309,7 +311,9 @@ input{
 
 
 .file-form {
-    height: 50vh !important;
+    overflow-y: auto !important;
+    overflow-x: hidden!important;
+    height: 45vh !important;
     background: /* Shadow covers */
     linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
     radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
@@ -330,4 +334,81 @@ input{
 
 *:checked + .download-bar, .used-file .download-bar {
     border: solid #63AE85 3px;
+}
+
+
+
+
+/* Vrac */
+
+.blockContainer {
+    border-radius: 6px;
+    border-style: solid;
+    border-color: #D0D0D0;
+    box-shadow: 3px 5px 8px #00000084;
+    padding: 2em;
+}
+
+.modificationDiv {
+    margin-left: 5vw;
+}
+
+.delete-file {
+    margin-left: 1.5vw;
+    height: 35px;
+    text-align: center;
+    padding-top: 5px;
+    background-color: unset !important;
+    border-color: unset !important;
+}
+
+.delete-file:hover {
+    background-color: #4C4C4C21 !important;
+    border-radius: 50px;
+
+    border-color: unset !important;
+}
+
+.bottomDocumentBloc {
+    justify-content: end;
+}
+
+.titleRow {
+    min-height: 10vh;
+    margin-bottom: 2vh;
+}
+
+.titleRow h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+
+    text-align: center;
+    justify-content: center;
+
+}
+
+.titleRow h3 {
+    margin-top: 1vh;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.bottomDocumentBloc {
+    padding-top: 3vh;
+    text-align: center;
+}
+
+.btnDocument {
+    background-color: #207245 !important;
+    border-color: transparent !important;
+    border-radius: 8px !important;
+    box-shadow: 3px 5px 6px #00000030;
+
+    font-size: 1vw !important;
+    font-weight: bold !important;
+}
+
+.btnDocument img {
+    margin-right: 0.5vw !important;
+    
 }

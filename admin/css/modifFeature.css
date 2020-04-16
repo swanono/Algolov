@@ -7,14 +7,15 @@
 
 
 #FeaturesList {
-    
+    margin-top: 1vh;
     margin-right:3%;
-    border: rgb(201, 199, 199) 1px;
-    border-radius: 3%;
-    border-style: outset;
-    padding: 1em;
-    /*important*/
-    overflow-y: scroll;
+    
+    border-width: 1px;
+    border-radius: 6px;
+    border-style: solid;
+    border-color: #D0D0D0;
+    box-shadow: 3px 5px 8px #00000020;
+    padding: 2em;
     
 }
 
@@ -85,11 +86,35 @@ input:hover{
     margin: 0.5em;
 }
 .download-bar {
+
+    height: 7vh;
+    margin-bottom: 0.5vh;
+
     display: flex;
     align-items: center;
+
     background-color: #F6F6F6;
-    border: solid #B0B0B0 3px;
+    border: solid #B0B0B0 0.3vh;
+    border-radius: 6px;
+
+    box-shadow: 4px 5px 5px #00000019;
+
+    text-decoration: none !important;
+
 }
+
+
+.download-bar:hover {
+    padding: 1.5vh;
+    box-shadow: 4px 5px 8px #00000030;
+    /*font-weight: bolder;*/
+}
+
+.used-file .download-bar {
+    color: white !important;
+    font-weight: bold;
+}
+
 .download-bar * {
     padding: 2px;
     float: left;

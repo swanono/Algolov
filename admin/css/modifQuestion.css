@@ -1,7 +1,4 @@
-*{
-    font-family: Verdana, sans-serif;
-    
-}
+
 
 #TitreQexist{
     
@@ -52,14 +49,15 @@ input{
 
 
 #QuestionList{
-    
+    margin-top: 1vh;
     margin-right:3%;
-    border: rgb(201, 199, 199) 1px;
-    border-radius: 3%;
-    border-style: outset;
-    padding: 1em;
-    /*important*/
-    overflow-y: scroll;
+    
+    border-width: 1px;
+    border-radius: 6px;
+    border-style: solid;
+    border-color: #D0D0D0;
+    box-shadow: 3px 5px 8px #00000020;
+    padding: 2em;
 }
 
 #basboitequestion{
