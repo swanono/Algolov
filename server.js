@@ -26,6 +26,9 @@ const api = require('./api.js');
 const auth = require('./auth.js');
 const bodyParser = require('body-parser');
 const login = require('connect-ensure-login');
+const bcrypt = require('bcrypt');
+
+const saltRounds = 11;
 
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 app.use(bodyParser.urlencoded({limit: '10mb', extended: true}));
@@ -95,10 +98,28 @@ function adminCheck (req, res, next) {
 
 
 function main () {
-    const server = app.listen(envPort, function () {
-        const port = server.address().port;
-        const addr = server.address().address === '::' ? 'localhost' : server.address().address;
-        console.log('Listening on http://%s:%s', addr, port);
+    let server;
+    const root = new daos.DAOAdmins(1, () => {
+        root.findRoot()
+            .then(res => {
+                if (!res)
+                    return bcrypt.hash('root', saltRounds);
+                throw 'No Need';
+            })
+            .then(psw => root.insert({
+                username: 'root',
+                password: psw,
+                email: 'ulysse.guyon@gmail.com'
+            }))
+            .catch(err => err)
+            .finally(() => root.closeConnexion())
+            .then(() => {
+                server = app.listen(envPort, function () {
+                    const port = server.address().port;
+                    const addr = server.address().address === '::' ? 'localhost' : server.address().address;
+                    console.log('Listening on http://%s:%s', addr, port);
+                });
+            });
     });
     return server;
 }
