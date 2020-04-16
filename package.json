@@ -13,7 +13,7 @@
     "@shopify/draggable": "^v1.0.0-beta.8",
     "bcrypt": "3.0.6",
     "body-parser": "^1.19.0",
-    "chart.js": "^2.9.3",
+    "canvas": "^2.6.1",
     "connect-ensure-login": "^0.1.1",
     "cookie-parser": "^1.4.4",
     "docx": "^5.0.0-rc7",
@@ -21,6 +21,9 @@
     "express": "^4.16.4",
     "express-session": "^1.16.1",
     "formidable": "^1.2.1",
+    "highcharts-export-server": "^2.0.24",
+    "image-size": "^0.8.3",
+    "jstat": "^1.9.2",
     "mathjax": "^2.7.7",
     "mathjax-node": "^2.1.1",
     "mathjax-node-svg2png": "^2.0.0",
@@ -30,16 +33,19 @@
     "xlsx": "^0.15.4"
   },
   "scripts": {
-    "start": "npm run deleteAdmin && npm run addAdmin && nodemon index.js",
+    "autoinstall": "export ACCEPT_HIGHCHARTS_LICENSE=YES || set ACCEPT_HIGHCHARTS_LICENSE=YES && npm install",
+    "servAutoinstall": "export ACCEPT_HIGHCHARTS_LICENSE=YES || set ACCEPT_HIGHCHARTS_LICENSE=YES && npm install",
+    "start": "nodemon index.js",
     "servInst": "npm install --production",
-    "servStart": "npm run deleteAdmin && npm run addAdmin && node index.js",
+    "servStart": "node index.js",
     "lintjs": "./node_modules/.bin/eslint ./",
     "lintcss": "./node_modules/.bin/stylelint **/*.css",
     "linthtml": "./node_modules/.bin/html-linter --config .htmllinterrc.json",
     "lint": "npm run lintjs & npm run lintcss & npm run linthtml",
-    "unitTest": "jest",
-    "addAdmin": "node rootAdminManager.js addRootAdmin",
-    "deleteAdmin": "node rootAdminManager.js deleteRootAdmin"
+    "unitTest": "jest"
+  },
+  "engines": {
+    "node": "12"
   },
   "nodemonConfig": {
     "ignore": [

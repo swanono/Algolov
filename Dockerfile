@@ -4,7 +4,7 @@ WORKDIR /usr/src/app
 
 COPY package*.json ./
 
-RUN npm run servInst
+RUN npm run servAutoinstall
 
 COPY . .
 
