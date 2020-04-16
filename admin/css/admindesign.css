@@ -429,3 +429,12 @@ input{
     background-color: #0074d9;
     color: white !important;
 }
+
+.btnMenuAdmin img {
+    margin-right: 1vw;
+}
+
+#titre {
+    margin-left: 6vw;
+    margin-top: 2vh;
+}
