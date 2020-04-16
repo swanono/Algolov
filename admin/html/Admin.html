@@ -23,21 +23,36 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AlgoLov - Admin</title>
 
-    <link rel="stylesheet" href="../css/admin.css"/>
+    <link rel="stylesheet" href="../css/admindesign.css"/>
     <link rel="stylesheet" href="../css/alertMessage.css"/>
+    <link rel="stylesheet" href="../css/modifQuestion.css"/>
+    <link rel="stylesheet" href="../css/modifFeature.css"/>
 
+    <link rel="stylesheet" href="../../public/bootstrap-4.4.1-dist/css/bootstrap.min.css">
+    
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script type="text/javascript" src="../js/alertMessage.js" ></script>
     <script type="text/javascript" src="../js/Admin.js" ></script>
+
+    <script src="../../public/bootstrap-4.4.1-dist/js/popper.min.js" defer ></script>
+    <script src="../../public/bootstrap-4.4.1-dist/js/jquery-3.4.1.slim.min.js" defer></script>
+    <script src="../../public/bootstrap-4.4.1-dist/js/bootstrap.min.js" defer></script>
     
 </head>
-<body onload="fillPage();">
-    <h1>Administration</h1>
-    <div id="volet">
-        <a href="/api/admin/report">Récuperer un rapport</a>
+<body class="mb-2" onload="fillPage();">
+    <!--titre-->
+    <div class="row">
+        <div class="col-lg-11 col-md-12 col-sm-12">
+            <h1 id=titre >Administration</h1>
+        </div>
+    </div>
+    <!--volet-->
+
+    <div id="volet" class="bg-light">
+        <a href="/api/admin/report" class="btn btn-outline-secondary">Récuperer un rapport</a>
         <div id="stats-div">
             <span><u><b>Quelques statistiques :</b></u></span>
-            <p>Âge moyen : {{ stats.ageMean || 0 }} ans</p>
+            <p>Âge moyen : {{ (stats.ageMean || 0).toFixed(2) }} ans</p>
             <table id="tab-stats">
                 <thead>
                     <tr>
@@ -59,111 +74,207 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         </div>
         
         <a href="#volet" class="ouvrir" aria-hidden="true">Données existantes</a>
-        <a href="#volet_clos" class="fermer" aria-hidden="false">Fermer</a>
+        <form action="#volet_clos" method="get">
+            <button type="submit" class="fermer btn btn-outline-dark btn-block rounded" aria-hidden="false">Fermer</button>
+        </form>
     </div>
+
+
+    <!--fin du volet-->
 
     <div id="alert-message">
 
     </div>
-    <nav>
-        <ul class = "GestionCompte" id = "GestionCompte">
-            <li>
-                <a href="../Notice-Administration-AlgoLov.pdf" target="_blank">
-                    Notice Admin
-                </a>
-            </li>
-            <li>
-                <a href="./UploadPDF.html">
-                    Uploader Nouveau PDF d'informations
-                </a>
-            </li>
-            <li id = "menuCompte">
-                <a>Menu compte</a>
-                <ul class = "sous">
-                    <li>
-                        <a  href="/api/admin/logout">
-                        Déconnexion
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./AdminRegister.html">
-                            Ajouter Accès Admin 
-                        </a>
-                    </li>
-                    <li>
-                        <a href="./AdminUpdate.html">
-                            Mot de passe 
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+    <!--ouverture container-->
+    <div class="container-fluid">
+    <!--menu-->
+        <div class="row" >
+            <div class="col-12">
+                <nav>
+                    <!--gestion de compte-->
+                    <ul class="GestionCompte row" id="GestionCompte">
+                        <li id=menu1 class="col">
+                            <a href="../Notice-Administration-AlgoLov.pdf" target="_blank">
+                                <button  id="not" class="bouton btnMenuAdmin" type="button">
+                                    <img src="../images/info.png" class="blackIcon" alt="logo notice" width="20px" height="20px" />
+                                    <img src="../images/info (2).png" class="whiteIcon" alt="logo notice" width="20px" height="20px" />
+                                    Notice Admin
+                                </button>
+                                
+                            </a>
+                        </li>
+                        <li class="col">
+                            <form action="./Previsualisation.html" method="GET">
+                                <button id="prev" class="bouton btnMenuAdmin" type="submit">
+                                    <img src="../images/eye.png" class="blackIcon" alt="logo prev" width="20px" height="20px" />
+                                    <img src="../images/eye (2).png" class="whiteIcon" alt="logo prev" width="20px" height="20px" />
+                                    Prévisualisation
 
-    </nav>
-    <div id ="modif">
+                                </button>
+                                
+                            </form>
+                        </li>
+                        <li id=menu2 class="col">
+                            <form action="./UploadPDF.html" method="GET">
+                                <button id="up" class="bouton btnMenuAdmin" type="submit">
+                                    <img src="../images/acrobat.png" class="blackIcon" id="upload" alt="logo notice" width="20px" height="20px" />
+                                    <img src="../images/acrobat (2).png" class="whiteIcon" id="upload" alt="logo notice" width="20px" height="20px" />
+                                    PDF d'informations
 
- 
-        <!--MODIF QUESTIONS-->
-        <div id="QuestionList">
+                                </button>
+                               
+                            </form>
+                        </li>
+                        
+                        <li id="menuCompte dropdown" class="col">
+                            <button class="bouton dropdown-toggle btnMenuAdmin" data-toggle="dropdown" type="button">
+                                <img src="../images/user.png"  class="blackIcon"  alt="logo user" width="20px" height="20px" />
+                                <img src="../images/user (2).png" class="whiteIcon" alt="logo user" width="20px" height="20px" />
+                                Menu compte
+                            </button>
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" href="/api/admin/logout">
+                                    <img src="../images/power (1).png" alt="logo deco" width="20px" height="20px" />
+                                    Déconnexion
+                                </a>
+                                <a class="dropdown-item" href="./AdminRegister.html">
+                                    <img src="../images/plus.png" alt="logo newadmin" width="20px" height="20px" />
+                                    Ajouter Accès Admin 
+                                </a>
+                                <a class="dropdown-item" href="./AdminUpdate.html">
+                                    <img src="../images/settings.png" alt="logo mdp" width="20px" height="20px" />
+                                    Mot de passe 
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                    <!--gestion de compte-->
+    
+                </nav>
+
+            </div>
+
+        </div>
         
-            <h3 id="TitreQexist">Liste des questions existantes </h3>
-            
-            <div>
-                <form id="formQuestionFiles" method="POST" action="/api/admin/selectQuestions" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">
-                    <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd">
-                        <a class="delete-file danger" @click="sendDeleteDoc(doc.name, 'questions')">
-                            <img src="../images/trash.png" alt="logo trash" width="30px" height="30px" />
-                        </a>
-                        <a class="download-bar bouton" :href="doc.path">
-                            <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
-                            <div>{{ doc.name }}</div>
-                        </a>
-                        <input :id="'question_file_' + doc.index" type="radio" name="select_question_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
-                    </div>
-                </form>
-            </div>
-            
-        </div>
+        <div id="modif row">
 
-        <!--MODIF FEATURES-->
-        <div id="FeaturesList">
-            <h3> Liste des documents contenant les variables pour la tâche de classement. <br />
-                Chaque variable dans le fichier sera affichée dans une case à classifier. 
-            </h3>
-            <div>
-                <form id="formFeatureFiles" method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">                      
-                    <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd">
-                        <a class="delete-file danger" @click="sendDeleteDoc(doc.name, 'features')">
-                            <img src="../images/trash.png" alt="logo trash" width="30px" height="30px" />
-                        </a>
-                        <a class="download-bar bouton" :href="doc.path">
-                            <img src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px" />
-                            <div>{{ doc.name }}</div>
-                        </a>
-                        <input :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
+    
+            <!--MODIF QUESTIONS-->
+
+            <div class="col-lg-11 col-md-12 col-sm-12  modificationDiv" >
+                <div class="row">
+
+                    <div id="QuestionList" class="col-lg col-md col-sm">
+                        <div class="titleRow row">
+                            <div class="col">
+                                <h2>Liste des questions existantes </h2>
+                            </div>
+                        </div>
+
+                        <div >
+                            <form id="formQuestionFiles" class="file-form " method="POST" action="/api/admin/selectQuestions" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">
+                                <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd + ' align-item-start'">
+                                    <input class="col-1" :id="'question_file_' + doc.index" type="radio" name="select_question_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
+                                    
+                                    <a class="download-bar  mx-2 col-9 overflow-hidden" style="color: black;" :href="doc.path">
+                                        
+                                        <img class="mx-1" src="../images/logo-excel.png" alt="logo excel" width="40px" height="40px" />
+                                        <div>{{ doc.name }}</div>
+                                    </a>
+                                    
+                                    <a class="delete-file rounded col" @click="sendDeleteDoc(doc.name, 'questions')">
+                                        <img src="../images/bin.png" alt="logo trash" width="20px" height="20px" />
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div id="basboitequestion" class="row bottomDocumentBloc">
+
+                            <div class="col ">
+                                <form action="./ModifQuestion.html" method="GET">
+                                    <button id="modifierQuestionnaire" type="submit" class="btn btn-primary btn-labeled btnDocument">
+                                        <span class="btn-label">
+                                            <img src="../images/plus (2).png" alt="logo newadmin" width="23px" height="23px" />
+                                        </span>
+                                        Ajouter Nouveau Document
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="col align-self-end">
+                                <button id="selectQuestionnaireDoc" type="submit" class="btn btn-primary btn-labeled btnDocument" form="formQuestionFiles">
+                                    <span class="btn-label">
+                                        <img src="../images/check-circle-outline.png" alt="logo newadmin" width="25px" height="25px" />
+                                    </span>
+                                    Utiliser Document coché
+                                </button>
+                            </div>
+
+                        </div>
+                        
                     </div>
-                </form>
+                        
+
+                    <!-- FIN MODIF QUESTION-->
+            
+                    <!--MODIF FEATURES-->
+                    <div id="FeaturesList" class="col-lg col-sm col-md">
+                        <div class="titleRow row">
+                            <div class="col ">
+                                <h2> Liste des documents contenant les variables pour la tâche de classement. </h2>
+                                <h3>Chaque variable dans le fichier sera affichée dans une case à classifier. </h3>
+                            </div>
+                        </div>
+                        <div>
+                            <form id="formFeatureFiles" class="file-form " method="POST" action="/api/admin/selectFeatures" @submit.prevent="sendSelectDoc($event.target); stopFadeOut();">                      
+                                <div v-for="doc in files" :class="'download-bar-container ' + doc.classAdd + ' ' + doc.select + 'row align-item-start'">
+
+                                    <input class="col-1" :id="'feature_file_' + doc.index" type="radio" name="select_feature_file" :value="doc.asString" :checked="doc.isUsed" v-model="select" required />
+                                    
+                                    <a class="download-bar  mx-2 col-9 overflow-hidden" style="color: black;" :href="doc.path">
+                                        
+                                        <img class="mx-1" src="../images/logo-excel.png" alt="logo excel" width="40px" height="40px" />
+                                        <div>{{ doc.name }}</div>
+                                    </a>
+                                    <a class="delete-file rounded col" @click="sendDeleteDoc(doc.name, 'features')">
+                                        <img src="../images/bin.png" alt="logo trash" width="20px" height="20px" />
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div id="basboitefeatures" class="row bottomDocumentBloc">
+                            
+                            <div class="col ">
+                                <form action="./ModifFeature.html" method="GET">
+                                    <button id="modifierFeature" type="submit" class="btn btn-primary btn-labeled btnDocument">
+                                        <span class="btn-label">
+                                            <img src="../images/plus (2).png" alt="logo newadmin" width="23px" height="23px" />
+                                        </span>
+                                        Ajouter Nouveau Document
+                                    </button>
+                                </form>
+                            </div>
+
+                            <div class="col align-self-end">
+                                <button id="selectFeatureDoc" type="submit" class="btn btn-primary btn-labeled btnDocument" form="formFeatureFiles">
+                                    <span class="btn-label">
+                                        <img src="../images/check-circle-outline.png" alt="logo newadmin" width="25px" height="25px" />
+                                    </span>
+                                    Utiliser Document coché
+                                </button>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- FIN MODIF FEATURES-->
+
+                </div>
             </div>
         </div>
-
+    
     </div>
-    <a id="modifierQuestionnaire" class="bouton" href="./ModifQuestion.html">
-        Ajouter Nouveau Document
-    </a>
-    <button id="selectQuestionnaireDoc" class="bouton" type="submit" form="formQuestionFiles">
-        Utiliser Document coché 
-    </button>
-    <button id="selectFeatureDoc" class="bouton" type="submit" form="formFeatureFiles">
-        Utiliser Document coché 
-    </button>
-
-    <a id="modifierFeature" class="bouton" href="./ModifFeature.html">
-        Ajouter Nouveau Document
-    </a>
-    
-    
-    <a id="buttonPrevisualisation" class="bouton buttonPrevisualisation" href="./Previsualisation.html">
-        Prévisualisation
-    </a>
+    <!--fermeture container-->
 </body>
 </html>

@@ -1,21 +1,24 @@
-*{
-    font-family: Verdana, sans-serif;
+
+
+#TitreQexist{
     
-}
-h1{
+    font-size: 1.1em;
     text-align: center;
 }
 
+
 li{display: inline-block;
 }
+
 
 label{
     display:block;
     float:left;
     width:150px;
 }
-   
 
+/*BOUTON*/
+/*
 .bouton {
     padding: 6px 10px;
 	
@@ -32,68 +35,62 @@ label{
     color:#555;
     
 }
+
+
+
+
 input{
     float: left;
-}
-#Qexist{
-    
-    width:30%;
-    height:500px;
-    margin-right:5%;
-    margin-left: 5%;
-    border: solid rgb(201, 199, 199);
-    padding:4%;
-    overflow-y: scroll;
-}
+}*/
+
+
+/*FIN BOUTON*/
+
 
 
 #QuestionList{
-    text-align: center;
-}
-
-#formulaire{
+    margin-top: 1vh;
+    margin-right:3%;
     
-    width: 30%;
-    height:500px;
-    margin-right:5%;
-    top:118px;
-    border: solid rgb(201, 199, 199);
-    padding:4%;
-    position: fixed;
+    border-width: 1px;
+    border-radius: 6px;
+    border-style: solid;
+    border-color: #D0D0D0;
+    box-shadow: 3px 5px 8px #00000020;
+    padding: 2em;
+}
+
+#basboitequestion{
+    border: rgb(201, 199, 199) 1px;
+    border-bottom: none !important;
+    border-right: none !important;
+    border-left: none !important;
 }
 
 
-form#ajoutQuest {
-    display: table;
+
+/*BOUTON*/
+
+.menuBoutons ul{
+    padding: 0;
+    margin:0;
+    list-style-type:none;
+}
+.menuBoutons li{
+    
+    float:left;
 }
 
-div#ajoutQuest{
-    display: table-row;
-}
-
-label.ajoutQuest, input.ajoutQuest {
-    display: table-cell;
-    margin-bottom: 10px;
-}
-
-label.ajoutQuest {
-    padding-right: 10px;
-}
-
-
-#ValidationOrdreQuestionnaire{
-    left:30%;
-    position:relative;
-}
-
-#ValidationAjoutQuestion{
-    left:60%;
-    position:relative;
-}
-#Validation{
-    margin: 4%;
-    left: 40%;
-    display: block;
-    position: relative;
+.menuBoutons ul  li  a {
+    display:block;
+    float:left;   
+    width:100px;
+    background-color:#6495ED;
+    color:black;
+    text-decoration:none;
+    text-align:center;
+    padding:5px;
+    border:2px solid;
 
 }
+

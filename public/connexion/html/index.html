@@ -23,9 +23,21 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <link rel="stylesheet" href="../css/connexion.css"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AlgoLov - Connexion</title>
+
+    <link rel="stylesheet" href="../css/alertMessage.css"/>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <script type="text/javascript" src="../js/alertMessage.js" ></script>
+    <script type="text/javascript" src="../js/AdminRegister.js" ></script>
+
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 </head>
     <body >
-        <form method="post" action="/api/user/login">
+        <!--
+            <form method="post" action="/api/user/login">
             <h1>Accès admin</h1>
             <div id="Name">
                 <label for="username">Identifiant</label>
@@ -38,5 +50,36 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
              
             <input type="submit" value="Se connecter">
         </form>
+
+        -->
+
+        <div class = "row">
+            <div class = "col">
+                <div class="card text-center mx-auto" style="width: 40%;">
+                    <div class="card-body">
+                        <h1> Connexion </h1>
+                        <div class = "row">
+                            <form class = "mx-auto" method="post" action="/api/user/login">
+                                <div class="form-group">
+                                <label for="username">Identifiant</label>
+                                <input type="text" class="form-control" id="username" name="username" aria-describedby="username" placeholder="Identifiant" required autofocus>
+                                
+                                </div>
+                
+                                <div class="form-group">
+                                <label for="password">Mot de passe</label>
+                                <input id="password" name="password" type="password" class="form-control" id="password" laceholder="Mot de passe" required >
+                                </div>
+                                
+                                <button type="submit" class="btn btn-primary">Se connecter</button>
+                            </form>
+            
+                        </div>
+                    </div>
+                </div>
+        
+            </div>
+        </div>
+        
     </body>
 </html>

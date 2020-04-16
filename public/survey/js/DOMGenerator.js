@@ -95,7 +95,7 @@ class DOMGenerator {
         //blockContainer.setAttribute('class','row blockContainer');
 
         const button_row = document.createElement('div');
-        button_row.setAttribute('class','row');
+        button_row.setAttribute('class','row rowButton');
 
         const button_col_left = document.createElement('div');
         button_col_left.setAttribute('class','col-lg-3');
@@ -238,6 +238,8 @@ class DOMGenerator {
 
         // TODO : arranger le style du container pour width et height
 
+
+
         parentNode.appendChild(container);
     }
 
@@ -288,7 +290,7 @@ class DOMGenerator {
         for (const feat of features) {
             const newCard = document.createElement('div');
             newCard.setAttribute('id', 'feature_' + feat.id);
-            newCard.setAttribute('class', 'nested-item feature-card ');
+            newCard.setAttribute('class', 'nested-item feature-card noselect');
             newCard.setAttribute('location', initCont.getAttribute('id'));
 
             DOMGenerator._applyScaleOnCard(newCard);
@@ -314,7 +316,10 @@ class DOMGenerator {
         button.addEventListener('click', () => functor());
 
         button_row.appendChild(button);
-        if (DOMGenerator.getMain().childNodes[1])
+
+        if (document.getElementsByClassName('row rowButton').length === 1) 
+            document.getElementsByClassName('row rowButton')[0].appendChild(button_row);
+        else if (DOMGenerator.getMain().childNodes[1])
             DOMGenerator.getMain().childNodes[1].appendChild(button_row);
         else
             DOMGenerator.getMain().firstChild.childNodes[1].appendChild(button_row);
@@ -822,7 +827,7 @@ class DOMGenerator {
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.newContainer;
 
-            const newScale =
+            /*const newScale =
                 newCont.getAttribute('class').includes(window.consts.RANK_CLASS)
                     ? window.originalScale.minScaleTransition
                     : 1;
@@ -831,7 +836,16 @@ class DOMGenerator {
                 newScale,
                 window.consts.SCALING_INTERVAL,
                 window.consts.SCALING_DURATION);
+            */
 
+            /*if (newCont.getAttribute('id') === 'initial_container' ) {
+                //mirror.setAttribute('class','nested-item feature-card');
+                dragged.setAttribute('class','nested-item feature-card');
+            } else { 
+                //mirror.setAttribute('class','nested-item feature-card col-lg-11 overflow-hidden');
+                dragged.setAttribute('class','nested-item feature-card col-lg-11 overflow-hidden');
+            }
+            */
             dragged.setAttribute('location', newCont.getAttribute('id'));
             DOMGenerator._checkAllsorted();
             TraceStorage.storeDragEvent('end',dragged.getAttribute('id'), newCont.getAttribute('id'));
@@ -843,16 +857,30 @@ class DOMGenerator {
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.dragEvent.data.sourceContainer;
             const mirror = event.data.dragEvent.data.source;
-
-            DOMGenerator._applyScaleOnCard(mirror, 1);
-
+            mirror.width = 'initial';
+            /*
+            if (newCont.getAttribute('id') === 'initial_container' ) {
+                mirror.setAttribute('class','nested-item feature-card');
+                dragged.setAttribute('class','nested-item feature-card');
+            } else { 
+                mirror.setAttribute('class','nested-item feature-card col-lg-11 overflow-hidden');
+                dragged.setAttribute('class','nested-item feature-card col-lg-11 overflow-hidden');
+            }
+            */
             dragged.setAttribute('location', newCont.getAttribute('id'));
             TraceStorage.storeDragEvent('start',dragged.getAttribute('id'), newCont.getAttribute('id'));
         });
         window.sortable.on('sortable:sort', (event) => {
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.dragEvent.data.overContainer;
-
+            /*if (newCont.getAttribute('id') === 'initial_container' ) {
+                //mirror.setAttribute('class','nested-item feature-card');
+                dragged.setAttribute('class','nested-item feature-card');
+            } else { 
+                //mirror.setAttribute('class','nested-item feature-card col-lg-11 overflow-hidden');
+                dragged.setAttribute('class','nested-item feature-card col-lg-11 overflow-hidden');
+            }
+            */
             dragged.setAttribute('location', newCont.getAttribute('id'));
             TraceStorage.storeDraggableEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
         });

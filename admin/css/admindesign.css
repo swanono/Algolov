@@ -1,0 +1,440 @@
+/*Nouveau design*/
+
+*{
+    font-family: Roboto, Lato, Arial, Helvetica, sans-serif !important;
+    
+}
+
+
+/*sidebar*/
+#volet {
+    width: 250px;
+    height: 1000px;
+    padding: 10px;
+    border-right: 2px solid grey;
+    position: fixed;
+    left: -265px;
+    top: 0px;
+    z-index: 2;
+
+    -webkit-transition: all .5s ease-in;
+	transition: all .5s ease-in;
+}
+#volet a.ouvrir {
+    padding: 10px 25px;
+	background: #555;
+	color: white !important;
+    text-decoration: none;
+    position: absolute;
+	right: -130px;
+    top: 150px;
+    -ms-transform: rotate(270deg);
+	-moz-transform: rotate(270deg);
+	-webkit-transform: rotate(270deg);
+	transform: rotate(270deg);
+
+	border-radius: 0 0 8px 8px;
+}
+
+#volet:target {
+	left: 0;
+}
+
+#volet_clos:target #volet {
+    left: -270px;
+}
+
+
+#volet a.fermer {
+    display: none;
+    background-color: grey;
+    text-align: center;
+}
+
+#volet:target a.ouvrir {
+	display: none;
+}
+#volet:target a.fermer {
+	display: block;
+}
+
+#tab-stats {
+    border-collapse: collapse;
+    width: 100%;
+    margin-bottom: 1em;
+}
+#tab-stats * {
+    text-align: center;
+    border: black 1px solid;
+}
+#tab-stats thead {
+    font-size: large;
+    font-weight: bold;
+}
+
+
+/* fin sidebar*/
+
+
+@media screen and (min-width: 900px) { 
+    /* Nous définirons ici le style de notre menu pour les grands écrans (>900px) */ 
+
+    
+    /*MENU*/
+    header{
+        
+        text-align:center;
+        
+        font-size:24pt;
+        width:100%;
+        position:absolute;
+        top:0;
+        left:0;
+        padding:10px 0px 10px 0px;
+    }
+
+    a{
+        text-decoration: none;
+        color:black !important;
+    }
+    ul{
+        display:inline-flex; /* Aligne la liste horizontalement */
+        list-style-type:none; /* Retire les puces devant les éléments de liste */
+        margin:0px;
+        padding:0px;
+    }
+
+    .GestionCompte{
+        display:flex;
+        justify-content: flex-end;
+       
+        
+    }
+
+    nav ul li{
+        float: left;
+        width:25%;
+        text-align: center;
+        position: relative;
+
+        /*background-color: lightskyblue;*/
+        padding : 1%; 
+       
+        border-radius: 25px;
+        
+    }
+
+    
+
+    .sous a{
+        padding:10px;
+        border-bottom: none;
+    }
+    nav button:hover{
+        color:white !important;
+        border-bottom: 2px solid rgb(25, 149, 226);
+        background-color:rgb(25, 149, 226);
+        
+    }
+    
+    
+
+    .sous{
+        display:none;
+        box-shadow:0px 1px 2px #CCC;
+        background-color: white;
+        position: absolute;
+        width: 100%;
+        z-index: 1;
+        margin-top: 4%;
+        margin-right:5%;
+    }
+    
+    nav > ul li:hover .sous{
+        display: block;
+    }
+        
+    .sous li{
+        float:none;
+        width:70%;
+        text-align: center;
+        border-radius: 0px;
+        background-color: white;
+        margin-top:4%;
+        
+    }
+    .sous a:hover{
+        border-bottom: none;
+        background-color: RGBa(200,200,200,0.1);
+    }
+
+    #menuCompte > a::after {
+        content: " ▼";
+        font-size: 12px;
+    }
+
+    /*FIN MENU*/
+
+
+input{
+    margin-right:3% !important;
+    vertical-align: auto;
+}
+    
+
+}
+@media screen and (max-width: 900px) { 
+    /* Ici, nous redéfinirons le css pour les plus petits écrans (<900px) */
+
+
+    /* MENU*/
+    header{
+        
+        text-align:center;
+        font-size:24pt;
+        width:100%;
+        position:absolute;
+        top:0;
+        left:0;
+        height:40px;
+        padding:10px 0px 10px 0px;
+    }
+
+    ul{
+        display:inline-flex; /* Aligne la liste horizontalement */
+        list-style-type:none; /* Retire les puces devant les éléments de liste */
+        margin:0px;
+        
+    }
+    header ul{
+        margin:10px auto;
+        
+        display:block;
+        visibility: hidden;
+        opacity: 0;
+        transition: visibility 0s, opacity 1s linear;
+    }
+
+       
+    header ul li{
+        
+        border-bottom:solid 2px #555;
+        
+    }
+
+    nav ul li{
+        float: left;
+        width:25%;
+        text-align: center;
+        position: relative;
+
+        /*background-color: lightskyblue;*/
+        padding : 2%;
+        border-color: black;
+        border-radius: 50px;
+    }
+
+    .sous li{
+        float:none;
+        width:70%;
+        text-align: center;
+        border-radius: 0px;
+        background-color: white;
+        margin-top:4%;
+        
+    }
+    header ul li:hover{
+        
+        color:white;
+        cursor:pointer;
+        
+    }
+        
+    header:hover ul{
+        visibility: visible;
+        opacity: 1;
+    }
+
+        
+        
+
+    .GestionCompte{
+        display:block;
+        
+        text-align: center;
+            
+    }
+    
+      
+    
+    .sous a{
+        padding:10px;
+        border-bottom: none;
+    }
+    nav a:hover{
+        color:black;
+        border-bottom: 2px solid lightskyblue;
+    }
+        
+        
+    .sous{
+        display:none;
+        box-shadow:0px 1px 2px #CCC;
+        background-color: white;
+        position: absolute;
+        width: 100%;
+        z-index: -1;
+        margin-top: 4%;
+        margin-right:5%;
+    }
+    
+    nav > ul li:hover .sous{
+        display: block;
+    }
+            
+        
+    .sous a:hover{
+        border-bottom: none;
+        background-color: RGBa(200,200,200,0.1);
+    }
+
+    #menuCompte > a::after {
+        content: " ▼";
+        font-size: 12px;
+    }
+    
+    /*fin menu*/
+
+        
+
+}
+
+
+.file-form {
+    overflow-y: auto !important;
+    overflow-x: hidden!important;
+    height: 45vh !important;
+    background: /* Shadow covers */
+    linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
+    radial-gradient(50% 0, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(50% 100%, farthest-side, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+    background: /* Shadow covers */
+    linear-gradient(white 30%, rgba(255, 255, 255, 0)), linear-gradient(rgba(255, 255, 255, 0), white 70%) 0 100%, /* Shadows */
+    radial-gradient(farthest-side at 50% 0, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)), radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .2), rgba(0, 0, 0, 0)) 0 100%;
+    background-repeat: no-repeat;
+    background-color: white;
+    background-size: 100% 40px, 100% 40px, 100% 14px, 100% 14px;
+    /* Opera doesn't support this in the shorthand */
+    background-attachment: local, local, scroll, scroll;
+}
+
+
+
+
+
+
+/* Vrac */
+
+.blockContainer {
+    border-radius: 6px;
+    border-style: solid;
+    border-color: #D0D0D0;
+    box-shadow: 3px 5px 8px #00000084;
+    padding: 2em;
+}
+
+.modificationDiv {
+    margin-left: 5vw;
+}
+
+.delete-file {
+    margin-left: 1.5vw;
+    height: 35px;
+    text-align: center;
+    padding-top: 5px;
+    background-color: unset !important;
+    border-color: unset !important;
+}
+
+.delete-file:hover {
+    background-color: #4C4C4C21 !important;
+    border-radius: 50px;
+
+    border-color: unset !important;
+}
+
+.bottomDocumentBloc {
+    padding-top: 3vh;
+    text-align: center;
+}
+
+.titleRow {
+    min-height: 10vh;
+    margin-bottom: 2vh;
+}
+
+.titleRow h2 {
+    font-size: 1.2em;
+    font-weight: bold;
+
+    text-align: center;
+    justify-content: center;
+
+}
+
+.titleRow h3 {
+    margin-top: 1vh;
+    font-size: 0.8em;
+    text-align: center;
+}
+
+.btnDocument {
+    background-color: #207245 !important;
+    border-color: transparent !important;
+    border-radius: 8px !important;
+    box-shadow: 3px 5px 6px #00000030;
+
+    font-size: 1vw !important;
+    font-weight: bold !important;
+    padding: .375rem .375rem !important;
+}
+
+.btnDocument img {
+    margin-right: 0.5vw !important;
+    
+}
+
+.btnMenuAdmin {
+    border: none !important;
+    border-radius: 8px !important;
+}
+
+
+.btnMenuAdmin .blackIcon {
+    display: initial !important;
+}
+
+.btnMenuAdmin .whiteIcon, .btnMenuAdmin:hover .blackIcon, .btnMenuAdmin[aria-expanded="true"] .blackIcon {
+    display: none !important;
+}
+
+.btnMenuAdmin:hover .whiteIcon, .btnMenuAdmin[aria-expanded="true"] .whiteIcon {
+    display: initial !important;
+}
+
+.btnMenuAdmin[aria-expanded="true"] {
+    background-color: #0074d9 !important;
+}
+
+.btnMenuAdmin:hover {
+    background-color: #0074d9;
+    color: white !important;
+}
+
+.btnMenuAdmin img {
+    margin-right: 1vw;
+}
+
+#titre {
+    margin-left: 6vw;
+    margin-top: 2vh;
+}
