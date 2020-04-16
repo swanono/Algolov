@@ -65,7 +65,6 @@ input{
     border-bottom: none !important;
     border-right: none !important;
     border-left: none !important;
-    border-style: outset;
 }
 
 
@@ -92,8 +91,6 @@ input{
     text-align:center;
     padding:5px;
     border:2px solid;
-    /*pour avoir un effet "outset" avec IE :*/
-    border-color:#DCDCDC #696969 #696969 #DCDCDC;
 
 }
 

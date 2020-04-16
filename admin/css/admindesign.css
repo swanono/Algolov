@@ -327,14 +327,7 @@ input{
     background-attachment: local, local, scroll, scroll;
 }
 
-.used-file .download-bar {
-    background-color: #207245;
-    color: white;
-}
 
-*:checked + .download-bar, .used-file .download-bar {
-    border: solid #63AE85 3px;
-}
 
 
 
@@ -406,9 +399,33 @@ input{
 
     font-size: 1vw !important;
     font-weight: bold !important;
+    padding: .375rem .375rem !important;
 }
 
 .btnDocument img {
     margin-right: 0.5vw !important;
     
+}
+
+.btnMenuAdmin {
+    border: none !important;
+    border-radius: 8px !important;
+}
+
+
+.btnMenuAdmin .whiteIcon, .btnMenuAdmin:hover .blackIcon, .btnMenuAdmin[aria-expanded="true"] .blackIcon {
+    display: none !important;
+}
+
+.btnMenuAdmin .blackIcon, .btnMenuAdmin:hover .whiteIcon, .btnMenuAdmin[aria-expanded="true"] .whiteIcon {
+    display: initial!important;
+}
+
+.btnMenuAdmin[aria-expanded="true"] {
+    background-color: #0074d9 !important;
+}
+
+.btnMenuAdmin:hover {
+    background-color: #0074d9;
+    color: white !important;
 }

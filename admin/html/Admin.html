@@ -92,8 +92,9 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                     <ul class="GestionCompte row" id="GestionCompte">
                         <li id=menu1 class="col">
                             <a href="../Notice-Administration-AlgoLov.pdf" target="_blank">
-                                <button  id="not" class="bouton" type="button">
-                                    <img src="../images/info.png" alt="logo notice" width="20px" height="20px" />
+                                <button  id="not" class="bouton btnMenuAdmin" type="button">
+                                    <img src="../images/info.png" class="blackIcon" alt="logo notice" width="20px" height="20px" />
+                                    <img src="../images/info (2).png" class="whiteIcon" alt="logo notice" width="20px" height="20px" />
                                     Notice Admin
                                 </button>
                                 
@@ -101,8 +102,9 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         </li>
                         <li class="col">
                             <form action="./Previsualisation.html" method="GET">
-                                <button id="prev" class="bouton" type="submit">
-                                    <img src="../images/eye.png" alt="logo prev" width="20px" height="20px" />
+                                <button id="prev" class="bouton btnMenuAdmin" type="submit">
+                                    <img src="../images/eye.png" class="blackIcon" alt="logo prev" width="20px" height="20px" />
+                                    <img src="../images/eye (2).png" class="whiteIcon" alt="logo prev" width="20px" height="20px" />
                                     Prévisualisation
 
                                 </button>
@@ -111,8 +113,9 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         </li>
                         <li id=menu2 class="col">
                             <form action="./UploadPDF.html" method="GET">
-                                <button id="up" class="bouton" type="submit">
-                                    <img src="../images/acrobat.png" id="upload" alt="logo notice" width="20px" height="20px" />
+                                <button id="up" class="bouton btnMenuAdmin" type="submit">
+                                    <img src="../images/acrobat.png" class="blackIcon" id="upload" alt="logo notice" width="20px" height="20px" />
+                                    <img src="../images/acrobat (2).png" class="whiteIcon" id="upload" alt="logo notice" width="20px" height="20px" />
                                     PDF d'informations
 
                                 </button>
@@ -121,8 +124,9 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                         </li>
                         
                         <li id="menuCompte dropdown" class="col">
-                            <button class="bouton dropdown-toggle" data-toggle="dropdown" type="button">
-                                <img src="../images/user.png" alt="logo user" width="20px" height="20px" />
+                            <button class="bouton dropdown-toggle btnMenuAdmin" data-toggle="dropdown" type="button">
+                                <img src="../images/user.png"  class="blackIcon"  alt="logo user" width="20px" height="20px" />
+                                <img src="../images/user (2).png" class="whiteIcon" alt="logo user" width="20px" height="20px" />
                                 Menu compte
                             </button>
                             <div class="dropdown-menu">
@@ -154,12 +158,12 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     
             <!--MODIF QUESTIONS-->
 
-            <div class="col-11  modificationDiv" >
+            <div class="col-lg-11 col-md-12 col-sm-12  modificationDiv" >
                 <div class="row">
 
-                    <div id="QuestionList" class="col">
+                    <div id="QuestionList" class="col-lg col-md col-sm">
                         <div class="titleRow row">
-                            <div class="col-12">
+                            <div class="col">
                                 <h2>Liste des questions existantes </h2>
                             </div>
                         </div>
@@ -212,9 +216,9 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                     <!-- FIN MODIF QUESTION-->
             
                     <!--MODIF FEATURES-->
-                    <div id="FeaturesList" class="col">
+                    <div id="FeaturesList" class="col-lg col-sm col-md">
                         <div class="titleRow row">
-                            <div class="col-12">
+                            <div class="col ">
                                 <h2> Liste des documents contenant les variables pour la tâche de classement. </h2>
                                 <h3>Chaque variable dans le fichier sera affichée dans une case à classifier. </h3>
                             </div>

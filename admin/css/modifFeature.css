@@ -24,7 +24,6 @@
     border-bottom: none !important;
     border-right: none !important;
     border-left: none !important;
-    border-style: outset;
 }
 #alert-message {
     text-align: center;
@@ -73,11 +72,11 @@
     background-color:rgb(12, 85, 12);
     color: white;
 }
-
+/*
 input:hover{
     box-shadow:0 0 4px grey;
     border-radius: 50%;
-}
+}*/
 
 .download-bar-container {
     display: flex;
@@ -108,16 +107,24 @@ input:hover{
     padding: 1.5vh;
     box-shadow: 4px 5px 8px #00000030;
     /*font-weight: bolder;*/
+    border: solid #63AE85
 }
 
 .used-file .download-bar {
     color: white !important;
     font-weight: bold;
+    background-color: #207245;
+    
 }
 
 .download-bar * {
     padding: 2px;
     float: left;
+}
+
+
+*:checked + .download-bar, .used-file .download-bar {
+    border: solid #63AE85 0.3vh;
 }
 
 /*
