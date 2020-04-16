@@ -9,7 +9,7 @@ stages:
   - unitTest
 
 variables:
-  PORT: 8081
+  PORT: 443
 
 eslint:
   stage: lint
@@ -44,6 +44,6 @@ htmllint:
 jest:
   stage: unitTest
   before_script:
-    - npm install
+    - npm run autoinstall
   script:
     - npm run unitTest
