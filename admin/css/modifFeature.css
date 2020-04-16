@@ -104,10 +104,10 @@ input:hover{
 
 
 .download-bar:hover {
-    padding: 1.5vh;
-    box-shadow: 4px 5px 8px #00000030;
+    
+    box-shadow: 3px 4px 8px #00000060;
     /*font-weight: bolder;*/
-    border: solid #63AE85
+    border: solid #63AE85 0.3vh;
 }
 
 .used-file .download-bar {
@@ -134,7 +134,7 @@ input:hover{
 }*/
 
 #Upload-Form {
-    margin-top: 1em;
+    margin-top: 0.5em;
     padding: 1em;
     border: 1px solid black;
 }
