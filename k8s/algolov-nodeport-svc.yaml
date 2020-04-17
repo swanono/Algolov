@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: algolov_node_port_service
+  namespace: algolov
+spec:
+  ports:
+    - name: http
+      # service port in cluster
+      port: 443
+      # port to contact inside container
+      targetPort: 443
+  selector:
+    app: algolov_nodejs
+  type: NodePort

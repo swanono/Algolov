@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: algolov_config
+  namespace: algolov
+data:
+  MONGO_INITDB_DATABASE: db_algolov
+  MONGO_INITDB_ROOT_USERNAME: admin_algolov
+  MONGO_INITDB_ROOT_PASSWORD: algolov_secret
+  MONGO_PORT: 27017

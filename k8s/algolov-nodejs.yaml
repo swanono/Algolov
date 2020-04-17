@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: algolov_nodejs
+  namespace: algolov
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+    app: algolov_nodejs
+  template:
+    spec:
+      containers:
+        - image: ulysseguyon/algolov-server:latest
+          imagePullPolicy: Always
+          name: algolov_nodejs
+          ports:
+            - containerPort: 443
+          env:
+            - name: MONGO_INITDB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov_config
+                  key: MONGO_INITDB_DATABASE
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov_config
+                  key: MONGO_INITDB_ROOT_USERNAME
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov_config
+                  key: MONGO_INITDB_ROOT_PASSWORD
+              volumeMounts:
+                - name: node-persistent-storage
+                  mountPath: /usr/src/app/admin/features_files
+                # add - name
+                #   and mountPath
+                # for each persistent dir
+          initContainers:
+            - name: init-mongo
+              image: busybox
+              command: ['sh', '-c', 'until nslookup algolov_mongo; do echo waiting for algolov_mongo; sleep 2; done;']
+      volumes:
+        - name: node-persistent-storage
+          persistentVolumeClaim:
+            claimName: algolov_nodejs_pv_claim
+        # same
