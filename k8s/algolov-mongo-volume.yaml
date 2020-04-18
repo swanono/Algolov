@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: algolov_mongo_volume
+  name: algolov-mongo-volume
   namespace: algolov
 spec:
   storageClassName: manual
@@ -10,5 +10,5 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/mnt/data"
+    path: "/home/ulysse/Documents/algolov/data"
     type: DirectoryOrCreate
