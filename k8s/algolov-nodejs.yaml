@@ -7,6 +7,8 @@ spec:
   selector:
     matchLabels:
       app: algolov-nodejs
+  strategy:
+    type: Recreate
   template:
     metadata:
       labels:
@@ -40,10 +42,10 @@ spec:
             # add - name
             #   and mountPath
             # for each persistent dir
-      initContainers:
-        - name: init-mongo
-          image: busybox
-          command: ['sh', '-c', 'until nslookup algolov-mongo; do echo waiting for algolov-mongo; sleep 2; done;']
+      # initContainers:
+      #   - name: init-mongo
+      #     image: busybox
+      #     command: ['sh', '-c', 'until nslookup algolov-mongo; do echo waiting for algolov-mongo; sleep 2; done;']
       volumes:
         - name: node-persistent-storage
           persistentVolumeClaim:
