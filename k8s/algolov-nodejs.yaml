@@ -43,7 +43,7 @@ spec:
       initContainers:
         - name: init-mongo
           image: busybox
-          command: ['sh', '-c', 'until nslookup algolov_mongo; do echo waiting for algolov_mongo; sleep 2; done;']
+          command: ['sh', '-c', 'until nslookup algolov-mongo; do echo waiting for algolov-mongo; sleep 2; done;']
       volumes:
         - name: node-persistent-storage
           persistentVolumeClaim:
