@@ -5,7 +5,6 @@ metadata:
   labels:
     storageKind: mongo-data
 spec:
-  storageClassName: manual
   capacity:
     storage: 3Gi
   accessModes:
