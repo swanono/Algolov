@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: algolov_nodejs
-  namespace: algolov
 spec:
   replicas: 1
   selector:
