@@ -1,35 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: algolov_nodejs
+  name: algolov-nodejs
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: algolov_nodejs
+      app: algolov-nodejs
   template:
     spec:
       containers:
         - image: ulysseguyon/algolov-server:latest
           imagePullPolicy: Always
-          name: algolov_nodejs
+          name: algolov-nodejs
           ports:
             - containerPort: 443
           env:
             - name: MONGO_INITDB_DATABASE
               valueFrom:
                 configMapKeyRef:
-                  name: algolov_config
+                  name: algolov-config
                   key: MONGO_INITDB_DATABASE
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
                 configMapKeyRef:
-                  name: algolov_config
+                  name: algolov-config
                   key: MONGO_INITDB_ROOT_USERNAME
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 configMapKeyRef:
-                  name: algolov_config
+                  name: algolov-config
                   key: MONGO_INITDB_ROOT_PASSWORD
           volumeMounts:
             - name: node-persistent-storage
@@ -44,5 +44,5 @@ spec:
       volumes:
         - name: node-persistent-storage
           persistentVolumeClaim:
-            claimName: algolov_nodejs_pv_claim
+            claimName: algolov-nodejs-pv-claim
         # same

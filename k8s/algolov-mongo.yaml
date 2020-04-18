@@ -1,11 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: algolov_mongo
+  name: algolov-mongo
 spec:
   selector:
     matchLabels:
-      app: algolov_mongo
+      app: algolov-mongo
   strategy:
     type: Recreate
   template:
@@ -13,24 +13,24 @@ spec:
       containers:
         # by default, the image is pulled from docker hub
         - image: mongo:4.2
-          name: algolov_mongo
+          name: algolov-mongo
           ports:
             - containerPort: 27017
           env:
             - name: MONGO_INITDB_DATABASE
               valueFrom:
                 configMapKeyRef:
-                  name: algolov_config
+                  name: algolov-config
                   key: MONGO_INITDB_DATABASE
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
                 configMapKeyRef:
-                  name: algolov_config
+                  name: algolov-config
                   key: MONGO_INITDB_ROOT_USERNAME
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 configMapKeyRef:
-                  name: algolov_config
+                  name: algolov-config
                   key: MONGO_INITDB_ROOT_PASSWORD
           volumeMounts:
             - name: mongo-persistent-storage
@@ -44,4 +44,4 @@ spec:
       volumes:
           - name: mongo-persistent-storage
             persistentVolumeClaim:
-              claimName: algolov_mongo_pv_claim
+              claimName: algolov-mongo-pv-claim

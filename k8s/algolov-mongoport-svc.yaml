@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: algolov_mongo_port_service
+  name: algolov-mongo-port-service
 spec:
   ports:
-    - name: mongo_tcp
+    - name: mongo-tcp
       # service port in cluster
       port: 27017
       # port to contact inside container
       targetPort: 27017
   selector:
-    app: algolov_mongo
+    app: algolov-mongo
   type: ClusterIP

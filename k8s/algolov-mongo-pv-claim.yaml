@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: algolov_mongo_pv_claim
+  name: algolov-mongo-pv-claim
 spec:
   storageClassName: manual
   accessModes:
