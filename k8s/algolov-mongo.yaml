@@ -6,7 +6,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-    app: algolov_mongo
+      app: algolov_mongo
   strategy:
     type: Recreate
   template:
@@ -21,18 +21,18 @@ spec:
             - name: MONGO_INITDB_DATABASE
               valueFrom:
                 configMapKeyRef:
-                name: algolov_config
-                key: MONGO_INITDB_DATABASE
+                  name: algolov_config
+                  key: MONGO_INITDB_DATABASE
             - name: MONGO_INITDB_ROOT_USERNAME
               valueFrom:
                 configMapKeyRef:
-                name: algolov_config
-                key: MONGO_INITDB_ROOT_USERNAME
+                  name: algolov_config
+                  key: MONGO_INITDB_ROOT_USERNAME
             - name: MONGO_INITDB_ROOT_PASSWORD
               valueFrom:
                 configMapKeyRef:
-                name: algolov_config
-                key: MONGO_INITDB_ROOT_PASSWORD
+                  name: algolov_config
+                  key: MONGO_INITDB_ROOT_PASSWORD
           volumeMounts:
             - name: mongo-persistent-storage
               mountPath: /data/db

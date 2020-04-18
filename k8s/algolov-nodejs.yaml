@@ -7,7 +7,7 @@ spec:
   replicas: 1
   selector:
     matchLabels:
-    app: algolov_nodejs
+      app: algolov_nodejs
   template:
     spec:
       containers:
@@ -32,12 +32,12 @@ spec:
                 configMapKeyRef:
                   name: algolov_config
                   key: MONGO_INITDB_ROOT_PASSWORD
-              volumeMounts:
-                - name: node-persistent-storage
-                  mountPath: /usr/src/app/admin/features_files
-                # add - name
-                #   and mountPath
-                # for each persistent dir
+          volumeMounts:
+            - name: node-persistent-storage
+              mountPath: /usr/src/app/admin/features_files
+            # add - name
+            #   and mountPath
+            # for each persistent dir
           initContainers:
             - name: init-mongo
               image: busybox
