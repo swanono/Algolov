@@ -1,6 +1,0 @@
-apiVersion: appcontroller.k8s/v1alpha1
-kind: Dependency
-metadata:
-  name: serv-db-dependency
-parent: pod/algolov-mongo
-child: pod/algolov-nodejs
