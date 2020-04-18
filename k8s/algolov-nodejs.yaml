@@ -8,6 +8,9 @@ spec:
     matchLabels:
       app: algolov-nodejs
   template:
+    metadata:
+      labels:
+        app: algolov-nodejs
     spec:
       containers:
         - image: ulysseguyon/algolov-server:latest

@@ -9,6 +9,9 @@ spec:
   strategy:
     type: Recreate
   template:
+    metadata:
+      labels:
+        app: algolov-mongo
     spec:
       containers:
         # by default, the image is pulled from docker hub
