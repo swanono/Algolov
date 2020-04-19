@@ -4,7 +4,7 @@ metadata:
   name: algolov-nodejs-pv-claim
 spec:
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 10Mi

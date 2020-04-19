@@ -10,5 +10,5 @@ spec:
   accessModes:
     - ReadWriteMany
   hostPath:
-    path: "/home/ulysse/Documents/algolov/admin/features_files"
-    type: DirectoryOrCreate
+    path: "/home/ulysse/Documents/algolov/admin/features_files/historic"
+    type: Directory

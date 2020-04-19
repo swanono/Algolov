@@ -43,7 +43,7 @@ spec:
                   key: MONGO_INITDB_ROOT_PASSWORD
           volumeMounts:
             - name: nodejs-persistent-storage
-              mountPath: /usr/src/app/admin/features_files
+              mountPath: /usr/src/app/admin/features_files/historic
             # add - name
             #   and mountPath
             # for each persistent dir
