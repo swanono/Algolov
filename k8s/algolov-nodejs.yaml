@@ -21,8 +21,6 @@ spec:
           ports:
             - containerPort: 443
           env:
-            - name: MONGO_SERVICE_HOST
-              value: $(MONGO_SERVICE_HOST)
             - name: MONGO_INITDB_HOST
               valueFrom:
                 configMapKeyRef:
@@ -44,17 +42,44 @@ spec:
                   name: algolov-config
                   key: MONGO_INITDB_ROOT_PASSWORD
           volumeMounts:
-            - name: node-persistent-storage
+            - name: nodejs-persistent-storage
               mountPath: /usr/src/app/admin/features_files
             # add - name
             #   and mountPath
             # for each persistent dir
+        - image: mongo:4.2
+          name: algolov-mongo
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov-config
+                  key: MONGO_INITDB_DATABASE
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov-config
+                  key: MONGO_INITDB_ROOT_USERNAME
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov-config
+                  key: MONGO_INITDB_ROOT_PASSWORD
+          volumeMounts:
+            - name: mongo-persistent-storage
+              mountPath: /data/db
       # initContainers:
       #   - name: init-mongo
       #     image: busybox
       #     command: ['sh', '-c', 'until nslookup algolov-mongo; do echo waiting for algolov-mongo; sleep 2; done;']
       volumes:
-        - name: node-persistent-storage
+        - name: nodejs-persistent-storage
           persistentVolumeClaim:
             claimName: algolov-nodejs-pv-claim
+        - name: mongo-persistent-storage
+          persistentVolumeClaim:
+            claimName: algolov-mongo-pv-claim
+      dnsPolicy: Default
         # same

@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: algolov-node-port-service
+  name: algolov-nodejs-port-service
 spec:
   ports:
     - name: http

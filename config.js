@@ -22,9 +22,6 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
-console.log('MONGO_SERVICE_HOST : ', process.env.MONGO_SERVICE_HOST);
-console.log('MONGO_SERVICE_PORT : ', process.env.MONGO_SERVICE_PORT);
-
 const _nodeEnv = process.env.NODE_ENV;
 const _directoryPrefix = (_nodeEnv === 'dev' ? '' : '');
 let _dbPort = process.env.DB_PORT; if (!_dbPort) _dbPort = 27017;

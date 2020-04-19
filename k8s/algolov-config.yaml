@@ -3,7 +3,7 @@ kind: ConfigMap
 metadata:
   name: algolov-config
 data:
-  MONGO_INITDB_HOST: algolov-mongo-port-service.default.svc.cluster.local # TODO : implement in other files
+  MONGO_INITDB_HOST: localhost # algolov-mongo-port-service.default.svc.cluster.local
   MONGO_INITDB_DATABASE: db_algolov
   MONGO_INITDB_ROOT_USERNAME: admin_algolov
   MONGO_INITDB_ROOT_PASSWORD: algolov_secret
