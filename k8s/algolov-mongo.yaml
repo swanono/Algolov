@@ -48,3 +48,4 @@ spec:
           - name: mongo-persistent-storage
             persistentVolumeClaim:
               claimName: algolov-mongo-pv-claim
+      dnsPolicy: Default

@@ -12,3 +12,4 @@ spec:
   selector:
     app: algolov-mongo
   type: ClusterIP
+  dnsPolicy: Default
