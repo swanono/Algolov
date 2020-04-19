@@ -21,6 +21,8 @@ spec:
           ports:
             - containerPort: 443
           env:
+            - name: MONGO_SERVICE_HOST
+              value: $(MONGO_SERVICE_HOST)
             - name: MONGO_INITDB_HOST
               valueFrom:
                 configMapKeyRef:
