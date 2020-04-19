@@ -21,6 +21,11 @@ spec:
           ports:
             - containerPort: 443
           env:
+            - name: MONGO_INITDB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov-config
+                  key: MONGO_INITDB_HOST
             - name: MONGO_INITDB_DATABASE
               valueFrom:
                 configMapKeyRef:
