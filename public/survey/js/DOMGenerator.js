@@ -884,7 +884,7 @@ class DOMGenerator {
                     
             });
 
-            TraceStorage.storeDraggableEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
+            TraceStorage.storeDraggableEvent(dragged.getAttribute('id'), newCont.getAttribute('id'), orderArray);
         });
     }
 }
