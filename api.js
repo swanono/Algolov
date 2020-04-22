@@ -108,7 +108,7 @@ module.exports = (passport) => {
             if (err)
                 res.status(400).json({ok: false, message: 'Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'});
             else {
-                fs.writeFileSync('./public/survey/study.pdf',
+                fs.writeFileSync('./public/survey/documents/study.pdf',
                     fs.readFileSync(files[Object.keys(files)[0]].path));
                 res.json({ ok: true, message: 'Le PDF a été modifié avec succès !' });
             }

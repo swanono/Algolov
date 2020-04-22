@@ -1,0 +1,159 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: algolov-nodejs-volume-fh
+  labels:
+    storageKind: server-fh
+spec:
+  capacity:
+    storage: 10Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: algolov-nodejs-sc-fh
+  local:
+    path: /home/ulysse/Documents/algolov/admin/features_files/historic
+  nodeAffinity:
+    # To change depending on the server
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - ubuntu
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: algolov-nodejs-volume-qh
+  labels:
+    storageKind: server-qh
+spec:
+  capacity:
+    storage: 10Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: algolov-nodejs-sc-qh
+  local:
+    path: /home/ulysse/Documents/algolov/admin/questions_files/historic
+  nodeAffinity:
+    # To change depending on the server
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - ubuntu
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: algolov-nodejs-volume-rep
+  labels:
+    storageKind: server-rep
+spec:
+  capacity:
+    storage: 20Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: algolov-nodejs-sc-rep
+  local:
+    path: /home/ulysse/Documents/algolov/admin/report_files
+  nodeAffinity:
+    # To change depending on the server
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - ubuntu
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: algolov-nodejs-volume-hist
+  labels:
+    storageKind: server-hist
+spec:
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: algolov-nodejs-sc-hist
+  local:
+    path: /home/ulysse/Documents/algolov/admin/historic.json
+  nodeAffinity:
+    # To change depending on the server
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - ubuntu
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: algolov-nodejs-volume-conf
+  labels:
+    storageKind: server-conf
+spec:
+  capacity:
+    storage: 1Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: algolov-nodejs-sc-conf
+  local:
+    path: /home/ulysse/Documents/algolov/public/survey/config.json
+  nodeAffinity:
+    # To change depending on the server
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - ubuntu
+
+---
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: algolov-nodejs-volume-pdf
+  labels:
+    storageKind: server-pdf
+spec:
+  capacity:
+    storage: 5Mi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: algolov-nodejs-sc-pdf
+  local:
+    path: /home/ulysse/Documents/algolov/public/survey/documents/survey.pdf
+  nodeAffinity:
+    # To change depending on the server
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - ubuntu

@@ -42,11 +42,18 @@ spec:
                   name: algolov-config
                   key: MONGO_INITDB_ROOT_PASSWORD
           volumeMounts:
-            - name: nodejs-persistent-storage
+            - name: nodejs-ps-fh
               mountPath: /usr/src/app/admin/features_files/historic
-            # add - name
-            #   and mountPath
-            # for each persistent dir
+            - name: nodejs-ps-qh
+              mountPath: /usr/src/app/admin/questions_files/historic
+            - name: nodejs-ps-rep
+              mountPath: /usr/src/app/admin/report_files
+            - name: nodejs-ps-hist
+              mountPath: /usr/src/app/admin/historic.json
+            - name: nodejs-ps-conf
+              mountPath: /usr/src/app/public/survey/config.json
+            - name: nodejs-ps-pdf
+              mountPath: /usr/src/app/public/survey/documents/survey.pdf
         - image: mongo:4.2
           name: algolov-mongo
           ports:
@@ -71,11 +78,25 @@ spec:
             - name: mongo-persistent-storage
               mountPath: /data/db
       volumes:
-        - name: nodejs-persistent-storage
+        - name: nodejs-ps-fh
           persistentVolumeClaim:
-            claimName: algolov-nodejs-pv-claim
+            claimName: algolov-nodejs-pvc-fh
+        - name: nodejs-ps-qh
+          persistentVolumeClaim:
+            claimName: algolov-nodejs-pvc-qh
+        - name: nodejs-ps-rep
+          persistentVolumeClaim:
+            claimName: algolov-nodejs-pvc-rep
+        - name: nodejs-ps-hist
+          persistentVolumeClaim:
+            claimName: algolov-nodejs-pvc-hist
+        - name: nodejs-ps-conf
+          persistentVolumeClaim:
+            claimName: algolov-nodejs-pvc-conf
+        - name: nodejs-ps-pdf
+          persistentVolumeClaim:
+            claimName: algolov-nodejs-pvc-pdf
         - name: mongo-persistent-storage
           persistentVolumeClaim:
             claimName: algolov-mongo-pv-claim
       dnsPolicy: Default
-        # same

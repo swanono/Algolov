@@ -1,4 +1,4 @@
-if [ $1 = "full" ]
+if [ $1 -eq "full" ]
 then
     minikube stop && \
     kubectl config use-context minikube && \

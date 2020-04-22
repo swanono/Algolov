@@ -5,7 +5,7 @@ metadata:
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: mongo-storage-class
+  storageClassName: algolov-mongo-storage-class
   resources:
     requests:
       storage: 3Gi
