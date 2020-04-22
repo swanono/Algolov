@@ -52,17 +52,17 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: algolov-nodejs-pvc-hist
+  name: algolov-nodejs-pvc-adata
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: algolov-nodejs-sc-hist
+  storageClassName: algolov-nodejs-sc-adata
   resources:
     requests:
       storage: 1Mi
   selector: 
     matchLabels:
-      storageKind: server-hist
+      storageKind: server-adata
 
 ---
 

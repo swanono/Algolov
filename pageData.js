@@ -30,7 +30,7 @@ class DataGetter {
 
         const featuresDir = fs.readdirSync(basePath);
 
-        const usedFile = JSON.parse(fs.readFileSync('./admin/historic.json'))[stringHistoric];
+        const usedFile = JSON.parse(fs.readFileSync('./admin/data/historic.json'))[stringHistoric];
 
         featuresDir.forEach(featuresFile => {
             const newDoc = {};

@@ -50,9 +50,9 @@ module.exports = (passport) => {
                 .then(indicList => doc.addIndics(indicList))
                 .then(() => doc.saveFile())
                 .then(pathToDoc => {
-                    const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
+                    const historic = JSON.parse(fs.readFileSync('./admin/data/historic.json'));
                     historic.lastReportFile = pathToDoc;
-                    fs.writeFileSync('./admin/historic.json', JSON.stringify(historic, null, 4));
+                    fs.writeFileSync('./admin/data/historic.json', JSON.stringify(historic, null, 4));
                 })
                 .catch(err => console.error(err))
                 .finally(() => daoUser.closeConnexion())
@@ -60,7 +60,7 @@ module.exports = (passport) => {
                     .forEach(file => !file.includes('gitkeep') ? fs.unlinkSync(`./tmp/${file}`) : null));
         });
 
-        const usePDF = JSON.parse(fs.readFileSync('./admin/historic.json')).usePDF;
+        const usePDF = JSON.parse(fs.readFileSync('./admin/data/historic.json')).usePDF;
 
         const params = usePDF ? '?pdf=1' : '';
 
@@ -69,7 +69,7 @@ module.exports = (passport) => {
     });
 
     app.get(config.pathGetReport, function (req, res) {
-        const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
+        const historic = JSON.parse(fs.readFileSync('./admin/data/historic.json'));
         res.sendFile(path.resolve(`./admin/report_files/${historic.lastReportFile}`));
     });
 
@@ -116,14 +116,14 @@ module.exports = (passport) => {
     });
 
     app.get(config.pathActivPDF, function (req, res) {
-        res.json(JSON.parse(fs.readFileSync('./admin/historic.json')).usePDF);
+        res.json(JSON.parse(fs.readFileSync('./admin/data/historic.json')).usePDF);
     });
     app.post(config.pathActivPDF, function (req, res) {
-        const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
+        const historic = JSON.parse(fs.readFileSync('./admin/data/historic.json'));
 
         historic.usePDF = req.body.activPDF === 'on';
 
-        fs.writeFileSync('./admin/historic.json', JSON.stringify(historic, null, 4));
+        fs.writeFileSync('./admin/data/historic.json', JSON.stringify(historic, null, 4));
 
         res.json({ ok: true, message: `Le PDF est ${historic.usePDF ? 'activé' : 'inactivé'}` });
     });
@@ -132,7 +132,7 @@ module.exports = (passport) => {
         const type = req.params.type;
         const fileName = req.params.fileName;
         const filePath = `./admin/${type}_files/historic/${fileName}`;
-        const hist = JSON.parse(fs.readFileSync('./admin/historic.json'));
+        const hist = JSON.parse(fs.readFileSync('./admin/data/historic.json'));
         const keyLast = type === 'features' ? 'lastFeatureFile' : 'lastQuestionFile';
         if (!fs.existsSync(filePath))
             res.status(400).json({ ok: false, message: 'Le fichier demandé n\'existe pas' });

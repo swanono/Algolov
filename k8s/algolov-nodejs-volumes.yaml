@@ -82,18 +82,18 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: algolov-nodejs-volume-hist
+  name: algolov-nodejs-volume-adata
   labels:
-    storageKind: server-hist
+    storageKind: server-adata
 spec:
   capacity:
     storage: 1Mi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: algolov-nodejs-sc-hist
+  storageClassName: algolov-nodejs-sc-adata
   local:
-    path: /home/ulysse/Documents/algolov/admin/historic.json
+    path: /home/ulysse/Documents/algolov/admin/data
   nodeAffinity:
     # To change depending on the server
     required:
