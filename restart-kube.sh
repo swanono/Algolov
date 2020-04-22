@@ -4,7 +4,7 @@ then
     kubectl config use-context minikube && \
     sudo minikube start --vm-driver=none --extra-config=kubeadm.ignore-preflight-errors=NumCPU --kubernetes-version=1.17.0
 else
-    kubectl delete -f k8s/ && \
+    kubectl delete -f k8s/
 fi
 git pull && \
 docker build -t algolov-server . && \

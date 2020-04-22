@@ -10,7 +10,7 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: local-storage
+  storageClassName: mongo-storage-class
   local:
     path: /home/ulysse/Documents/algolov/data
   nodeAffinity:
