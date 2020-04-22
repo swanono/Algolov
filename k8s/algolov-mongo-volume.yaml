@@ -8,7 +8,17 @@ spec:
   capacity:
     storage: 3Gi
   accessModes:
-    - ReadWriteMany
-  hostPath:
-    path: "/home/ulysse/Documents/algolov/data"
-    type: DirectoryOrCreate
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: local-storage
+  local:
+    path: /home/ulysse/Documents/algolov/data
+  nodeAffinity:
+    # To change depending on the server
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - ubuntu

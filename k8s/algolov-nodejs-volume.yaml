@@ -8,7 +8,7 @@ spec:
   capacity:
     storage: 10Mi
   accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
   hostPath:
     path: "/home/ulysse/Documents/algolov/admin/features_files/historic"
     type: Directory

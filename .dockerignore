@@ -2,3 +2,6 @@ node_modules
 .git
 .vscode
 mongo-data
+data
+k8s
+test

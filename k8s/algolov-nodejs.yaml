@@ -70,10 +70,6 @@ spec:
           volumeMounts:
             - name: mongo-persistent-storage
               mountPath: /data/db
-      # initContainers:
-      #   - name: init-mongo
-      #     image: busybox
-      #     command: ['sh', '-c', 'until nslookup algolov-mongo; do echo waiting for algolov-mongo; sleep 2; done;']
       volumes:
         - name: nodejs-persistent-storage
           persistentVolumeClaim:
