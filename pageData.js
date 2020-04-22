@@ -55,7 +55,7 @@ class DataGetter {
             const usersDAO = new daos.DAOUsers(sessionId, () => {
                 usersDAO.findAllByQuery(config.queryBasicStats)
                     .then(users => {
-                        const questConfig = JSON.parse(fs.readFileSync('./public/survey/config.json'));
+                        const questConfig = JSON.parse(fs.readFileSync('./public/survey/documents/config.json'));
 
                         stats.desc = [];
                         questConfig.surveyConfiguration.descNames.forEach((desc, i) => {

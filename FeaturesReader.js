@@ -252,7 +252,7 @@ class FeaturesReader extends ExcelReader {
 
 
     applyToConfig () {
-        const config = JSON.parse(fs.readFileSync('./public/survey/config.json'));
+        const config = JSON.parse(fs.readFileSync('./public/survey/documents/config.json'));
 
         config.surveyConfiguration.descNames = this.newConfig.descriptions;
         config.surveyConfiguration.blocThemes = this.newConfig.blocThemes;
@@ -273,7 +273,7 @@ class FeaturesReader extends ExcelReader {
             return quest;
         });
 
-        fs.writeFileSync('./public/survey/config.json', JSON.stringify(config, null, 4));
+        fs.writeFileSync('./public/survey/documents/config.json', JSON.stringify(config, null, 4));
     }
 
 }

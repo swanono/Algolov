@@ -69,31 +69,14 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: algolov-nodejs-pvc-conf
+  name: algolov-nodejs-pvc-docs
 spec:
   accessModes:
     - ReadWriteOnce
-  storageClassName: algolov-nodejs-sc-conf
-  resources:
-    requests:
-      storage: 1Mi
-  selector: 
-    matchLabels:
-      storageKind: server-conf
-
----
-
-apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: algolov-nodejs-pvc-pdf
-spec:
-  accessModes:
-    - ReadWriteOnce
-  storageClassName: algolov-nodejs-sc-pdf
+  storageClassName: algolov-nodejs-sc-docs
   resources:
     requests:
       storage: 5Mi
   selector: 
     matchLabels:
-      storageKind: server-pdf
+      storageKind: server-docs

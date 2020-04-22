@@ -109,45 +109,18 @@ spec:
 apiVersion: v1
 kind: PersistentVolume
 metadata:
-  name: algolov-nodejs-volume-conf
+  name: algolov-nodejs-volume-docs
   labels:
-    storageKind: server-conf
-spec:
-  capacity:
-    storage: 1Mi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: algolov-nodejs-sc-conf
-  local:
-    path: /home/ulysse/Documents/algolov/public/survey/config.json
-  nodeAffinity:
-    # To change depending on the server
-    required:
-      nodeSelectorTerms:
-      - matchExpressions:
-        - key: kubernetes.io/hostname
-          operator: In
-          values:
-          - ubuntu
-
----
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: algolov-nodejs-volume-pdf
-  labels:
-    storageKind: server-pdf
+    storageKind: server-docs
 spec:
   capacity:
     storage: 5Mi
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  storageClassName: algolov-nodejs-sc-pdf
+  storageClassName: algolov-nodejs-sc-docs
   local:
-    path: /home/ulysse/Documents/algolov/public/survey/documents/survey.pdf
+    path: /home/ulysse/Documents/algolov/public/survey/documents
   nodeAffinity:
     # To change depending on the server
     required:

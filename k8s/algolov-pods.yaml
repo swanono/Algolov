@@ -50,10 +50,8 @@ spec:
               mountPath: /usr/src/app/admin/report_files
             - name: nodejs-ps-hist
               mountPath: /usr/src/app/admin/historic.json
-            - name: nodejs-ps-conf
-              mountPath: /usr/src/app/public/survey/config.json
-            - name: nodejs-ps-pdf
-              mountPath: /usr/src/app/public/survey/documents/survey.pdf
+            - name: nodejs-ps-docs
+              mountPath: /usr/src/app/public/survey/documents
         - image: mongo:4.2
           name: algolov-mongo
           ports:
@@ -90,12 +88,9 @@ spec:
         - name: nodejs-ps-hist
           persistentVolumeClaim:
             claimName: algolov-nodejs-pvc-hist
-        - name: nodejs-ps-conf
+        - name: nodejs-ps-docs
           persistentVolumeClaim:
-            claimName: algolov-nodejs-pvc-conf
-        - name: nodejs-ps-pdf
-          persistentVolumeClaim:
-            claimName: algolov-nodejs-pvc-pdf
+            claimName: algolov-nodejs-pvc-docs
         - name: mongo-persistent-storage
           persistentVolumeClaim:
             claimName: algolov-mongo-pv-claim
