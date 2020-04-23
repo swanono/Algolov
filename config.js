@@ -24,13 +24,14 @@ dotenv.config();
 
 const _nodeEnv = process.env.NODE_ENV;
 const _directoryPrefix = (_nodeEnv === 'dev' ? '' : '');
-const _dbPort = process.env.DB_PORT;
+let _dbPort = process.env.DB_PORT; if (!_dbPort) _dbPort = 27017;
+const _dbName = process.env.MONGO_INITDB_DATABASE || 'db_algolov';
 
-const _mongoUser = (process.env.MONGO_INITDB_ROOT_USERNAME ? process.env.MONGO_INITDB_ROOT_USERNAME : '');
-const _mongoPassword = (process.env.MONGO_INITDB_ROOT_PASSWORD ? process.env.MONGO_INITDB_ROOT_PASSWORD : '');
-const _mongoURL = _nodeEnv === 'dev' ?
-    `mongodb://localhost:${_dbPort}/` :
-    `mongodb://${_mongoUser}:${_mongoPassword}@db:${_dbPort}/`;
+const _mongoHost = process.env.MONGO_INITDB_HOST || (_nodeEnv === 'dev' ? 'localhost' : 'db');
+const _mongoUser = process.env.MONGO_INITDB_ROOT_USERNAME || '';
+const _mongoPassword = process.env.MONGO_INITDB_ROOT_PASSWORD || '';
+const _mongoCred = (_mongoUser === '' || _mongoPassword === '') ? '' : `${_mongoUser}:${_mongoPassword}`;
+const _mongoURL = `mongodb://${_mongoCred}@${_mongoHost}:${_dbPort}/`;
 
 module.exports = {
     nodeEnv: _nodeEnv,
@@ -38,8 +39,8 @@ module.exports = {
     dbPort: _dbPort,
     directoryPrefix: _directoryPrefix,
     pathPostSurveyApi: '/survey',
-    dbUrl: _mongoURL,
-    dbName: 'db_algolov',
+    dbUrl: process.env.MONGODB_URI || _mongoURL,
+    dbName: _dbName,
     adminIdRegex: /[A-Za-z0-9-_]{3,}/,
     adminEmailRegex: /^[A-Za-z0-9._%+-]+@[a-z0-9-]+\\.[a-z]{2,}$/,
     adminPasswordRegex: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])(?=.{8,})$/,

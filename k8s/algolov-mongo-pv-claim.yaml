@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: algolov-mongo-pv-claim
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: algolov-mongo-storage-class
+  resources:
+    requests:
+      storage: 3Gi
+  selector: 
+    matchLabels:
+      storageKind: mongo-data
