@@ -31,18 +31,21 @@ const CredentialManager = require('./credentialsData');
 const ReportGen = require('./ReportGen');
 const { Indicator, getIndicList } = require('./Indicator_v1.js');
 
+function saveSurvey (body) {
+    let counter = 1;
+    let pathToJSON = path.resolve(`./data/result-${counter}.json`);
+    while (fs.existsSync(pathToJSON)) {
+        counter++;
+        pathToJSON = path.resolve(`./data/result-${counter}.json`);
+    }
+    fs.writeFileSync(pathToJSON, JSON.stringify(body));
+}
+
 module.exports = (passport) => {
     const app = express();
 
     app.post(config.pathPostSurveyApi, function (req, res) {
-        /*let counter = 1;
-        let pathToJSON = path.resolve(`./surveyRes/result-${counter}.json`);
-        while (fs.existsSync(pathToJSON)) {
-            counter++;
-            pathToJSON = path.resolve(`./surveyRes/result-${counter}.json`);
-        }
-        fs.writeFileSync(pathToJSON, JSON.stringify(req.body));*/
-
+        saveSurvey(req.body);
         const doc = new ReportGen();
         const daoUser = new daos.DAOUsers(req.sessionID, () => {
             daoUser.insert(req.body)
