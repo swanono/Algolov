@@ -6,6 +6,7 @@ then
 else
     kubectl delete -f k8s/
 fi
+git reset --hard && \
 git pull && \
 docker build -t algolov-server . && \
 docker tag algolov-server ulysseguyon/algolov-server:latest && \
