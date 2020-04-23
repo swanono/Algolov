@@ -1,37 +1,36 @@
 version: '3'
 
 services:
-    db:
-        image: mongo:4.2
-        container_name: 'algolov-database'
-        volumes:
-            - ./data:/data/db
-        restart: always
-        environment:
-            - MONGO_INITDB_DATABASE=db_algolov
-            - MONGO_INITDB_ROOT_USERNAME=admin_algolov
-            - MONGO_INITDB_ROOT_PASSWORD=algolov_secret
-        ports:
-            - '27017-27019:27017-27019'
-    
-    server:
-        image: algolov-server:latest
-        container_name: 'algolov-server'
-        volumes:
-            - ./admin/data/historic.json:/usr/src/app/admin/data/historic.json
-            - ./admin/features_files:/usr/src/app/admin/features_files
-            - ./admin/questions_files:/usr/src/app/admin/questions_files
-            - ./admin/report_files:/usr/src/app/admin/report_files
-            - ./public/survey/documents/config.json:/usr/src/app/public/survey/documents/config.json
-            - ./public/survey/study.pdf:/usr/src/app/public/survey/study.pdf
-        depends_on:
-            - db
-        restart: always
-        environment:
-            - MONGO_INITDB_HOST=localhost
-            - MONGO_INITDB_DATABASE=db_algolov
-            - MONGO_INITDB_ROOT_USERNAME=admin_algolov
-            - MONGO_INITDB_ROOT_PASSWORD=algolov_secret
-        ports:
-            - '443:443'
+  db:
+    image: mongo:4.2
+    container_name: 'algolov-database'
+    volumes:
+      - ./data:/data/db
+    restart: always
+    environment:
+      - MONGO_INITDB_DATABASE=db_algolov
+      - MONGO_INITDB_ROOT_USERNAME=admin_algolov
+      - MONGO_INITDB_ROOT_PASSWORD=algolov_secret
+    ports:
+      - '27017-27019:27017-27019'
+  
+  server:
+    image: algolov-server:latest
+    container_name: 'algolov-server'
+    volumes:
+      - ./admin/data:/usr/src/app/admin/data
+      - ./admin/features_files:/usr/src/app/admin/features_files
+      - ./admin/questions_files:/usr/src/app/admin/questions_files
+      - ./admin/report_files:/usr/src/app/admin/report_files
+      - ./public/survey/documents:/usr/src/app/public/survey/documents
+    depends_on:
+      - db
+    restart: always
+    environment:
+      - MONGO_INITDB_HOST=localhost
+      - MONGO_INITDB_DATABASE=db_algolov
+      - MONGO_INITDB_ROOT_USERNAME=admin_algolov
+      - MONGO_INITDB_ROOT_PASSWORD=algolov_secret
+    ports:
+      - '443:443'
         

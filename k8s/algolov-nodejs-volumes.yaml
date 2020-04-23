@@ -12,15 +12,16 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: algolov-nodejs-sc-fh
   local:
+    # TODO change to the right directory
     path: /home/ulysse/Documents/algolov/admin/features_files/historic
   nodeAffinity:
-    # To change depending on the server
     required:
       nodeSelectorTerms:
       - matchExpressions:
         - key: kubernetes.io/hostname
           operator: In
           values:
+          # TODO change to the right node name
           - ubuntu
 
 ---
@@ -39,15 +40,16 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: algolov-nodejs-sc-qh
   local:
+    # TODO change to the right directory
     path: /home/ulysse/Documents/algolov/admin/questions_files/historic
   nodeAffinity:
-    # To change depending on the server
     required:
       nodeSelectorTerms:
       - matchExpressions:
         - key: kubernetes.io/hostname
           operator: In
           values:
+          # TODO change to the right node name
           - ubuntu
 
 ---
@@ -66,15 +68,16 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: algolov-nodejs-sc-rep
   local:
+    # TODO change to the right directory
     path: /home/ulysse/Documents/algolov/admin/report_files
   nodeAffinity:
-    # To change depending on the server
     required:
       nodeSelectorTerms:
       - matchExpressions:
         - key: kubernetes.io/hostname
           operator: In
           values:
+          # TODO change to the right node name
           - ubuntu
 
 ---
@@ -93,15 +96,16 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: algolov-nodejs-sc-adata
   local:
+    # TODO change to the right directory
     path: /home/ulysse/Documents/algolov/admin/data
   nodeAffinity:
-    # To change depending on the server
     required:
       nodeSelectorTerms:
       - matchExpressions:
         - key: kubernetes.io/hostname
           operator: In
           values:
+          # TODO change to the right node name
           - ubuntu
 
 ---
@@ -120,13 +124,14 @@ spec:
   persistentVolumeReclaimPolicy: Retain
   storageClassName: algolov-nodejs-sc-docs
   local:
+    # TODO change to the right directory
     path: /home/ulysse/Documents/algolov/public/survey/documents
   nodeAffinity:
-    # To change depending on the server
     required:
       nodeSelectorTerms:
       - matchExpressions:
         - key: kubernetes.io/hostname
           operator: In
           values:
+          # TODO change to the right node name
           - ubuntu

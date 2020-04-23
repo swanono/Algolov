@@ -5,9 +5,7 @@ metadata:
 spec:
   ports:
     - name: http
-      # service port in cluster
       port: 443
-      # port to contact inside container
       targetPort: 443
   selector:
     app: algolov-nodejs
