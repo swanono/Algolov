@@ -3,7 +3,7 @@
         "descNames": [
             {
                 "name": "soi",
-                "presentation": "Premièrement, vous allez classer les caractéristiques qui vous définissent le plus.",
+                "presentation": "Premièrement, vous allez classer les caractéristiques qui vous définissent le plus.\r\nPour rappel, vous pouvez déplacer les cartes autant de fois que vous voulez.",
                 "text": "Concernant les caractéristiques qui vous décrivent,",
                 "combin": [
                     "Homme",
@@ -12,7 +12,7 @@
             },
             {
                 "name": "autre",
-                "presentation": "Maintenant, classez les caractéristiques d'une personne attractive pour vous.",
+                "presentation": "Maintenant, classez les caractéristiques d'une personne attractive pour vous.\r\nPour rappel, vous pouvez déplacer les cartes autant de fois que vous voulez.",
                 "text": "Concernant les caractéristiques qui décrivent les personnes que vous trouvez attirantes,",
                 "combin": [
                     "Homme",
@@ -37,7 +37,7 @@
                     "apprécié",
                     "très apprécié"
                 ],
-                "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?"
+                "question": "Quelles sont les caractéristiques corporelles auxquelles vous accordez de l'importance lors d'une rencontre ?"
             },
             {
                 "blocId": 2,
@@ -52,7 +52,7 @@
                     "apprécié",
                     "très apprécié"
                 ],
-                "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?"
+                "question": "Quelles sont les caractéristiques corporelles auxquelles vous accordez de l'importance lors d'une rencontre ?"
             },
             {
                 "blocId": 3,
@@ -67,7 +67,7 @@
                     "apprécié",
                     "très apprécié"
                 ],
-                "question": "Quelles sont les caractéristiques importantes pour vous ?"
+                "question": "Quelles sont les caractéristiques auxquelles vous accordez de l'importance lors d'une rencontre ?"
             },
             {
                 "blocId": 4,
@@ -82,7 +82,7 @@
                     "apprécié",
                     "très apprécié"
                 ],
-                "question": "Quelles sont les caractéristiques importantes pour vous ?"
+                "question": "Quelles sont les caractéristiques auxquelles vous accordez de l'importance lors d'une rencontre ?"
             }
         ]
     },
@@ -114,7 +114,7 @@
         {
             "id": 2,
             "content": "text",
-            "data": "Sous-vêtements",
+            "data": "Lunettes ou lentilles de contact",
             "type": "physique-1",
             "combin": [
                 {
@@ -636,7 +636,7 @@
         {
             "id": 31,
             "content": "text",
-            "data": "Genre (agender, androgyne, asexué, bigender, cisgender, cisgender...)",
+            "data": "Sous-vêtements",
             "type": "attitude",
             "combin": [
                 {
@@ -850,9 +850,9 @@
             ]
         }
     ],
-    "RGPDText": "Bienvenu.e à l’étude !<br/>Le but de cette étude est de connaître quelles caractéristiques sont importantes pour vous au moment de vous évaluer vous-même et une autre personne de votre attirance.<br/><br/><br/>Ce questionnaire effectue une récolte de<br/>(1) vos données personnelles : sexe, préférence du sexe recherché, votre expérience sur les applications de rencontres, et dans des relations affectives du passé<br/>(2) ainsi que des données sur la manière dont vous le remplissez : mouvements de la souris<br/>(3) des informations de contact si vous souhaitez les renseigner pour donner suite à l’étude<br/><br/>Ces données seront utilisées à des fins de recherche scientifique à l’École Polytechnique Fédérale de Lausanne en Suisse. L’étude est menée par la chercheuse doctorale Jessica Pidoux.<br/><br/>Vous pouvez à tout moment abandonner la réalisation du questionnaire, faire une demande concernant vos données ou plus de précisions sur l’étude, ainsi que solliciter la suppression de vos données après avoir complété le questionnaire.<br/>Pour toute demande envoyez un message à l'adresse mail 'jessica.pidoux@epfl.ch’",
+    "RGPDText": "Bienvenu.e à l’étude !<br/>Le but de cette étude est de connaître quelles caractéristiques sont importantes pour vous au moment de vous évaluer vous-même et une autre personne de votre attirance.<br/><br/><br/>Ce questionnaire effectue une récolte de<br/>(1) vos données personnelles : sexe, préférence du sexe recherché, votre expérience sur les applications de rencontres, et dans des relations affectives du passé<br/>(2) des données sur la manière dont vous le remplissez : mouvements de la souris, changements d'avis, ...<br/>(3) des informations de contact si vous souhaitez les renseigner pour donner suite à l’étude<br/><br/>Ces données seront utilisées à des fins de recherche scientifique à l’École Polytechnique Fédérale de Lausanne en Suisse. L’étude est menée par la chercheuse doctorale Jessica Pidoux.<br/><br/>Vous pouvez à tout moment abandonner la réalisation du questionnaire, faire une demande concernant vos données ou plus de précisions sur l’étude, ainsi que solliciter la suppression de vos données après avoir complété le questionnaire.<br/>Pour toute demande envoyez un message à l'adresse mail 'jessica.pidoux@epfl.ch’",
     "RGPDValidation": "Cochez la case si vous acceptez de participer à cette étude et de donner vos données à des fins de recherche spécifiés ci-dessus.",
-    "surveyExplain": "Le questionnaire est divisé en trois phases ou tâches que vous devez réaliser : <br/><br/>(1) répondre à deux questions de départ<br/>(2) réaliser un classement des informations qui vous seront présentées. Ici vous devrez déplacer des cases avec la souris vers une échelle d'importance. Ces cases contiennent des caractéristiques personnelles génériques que vous devez indiquer comme étant importantes ou non pour vous.<br/>(3) répondre à quelques questions finales. Maximum 7 questions seront posées.",
+    "surveyExplain": "Le questionnaire est divisé en trois phases ou tâches que vous devez réaliser : <br/><br/>(1) répondre à deux questions de départ<br/>(2) réaliser un classement des informations qui vous seront présentées. Ici vous devrez déplacer des cartes avec la souris vers une échelle d'importance. Ces cases contiennent des caractéristiques personnelles génériques que vous devez indiquer comme étant importantes ou non pour vous.<br/>(3) répondre à quelques questions finales. Maximum 7 questions seront posées.",
     "wrongStatementFormatMessage": "mauvais fichier config.json récupéré",
     "QCM": {
         "begin": {
@@ -861,7 +861,7 @@
             "list": [
                 {
                     "id": 1,
-                    "question": "quel est votre sexe ?",
+                    "question": "Quel est votre sexe ?",
                     "type": "radio",
                     "descName": "soi",
                     "choices": [
@@ -879,7 +879,7 @@
                 },
                 {
                     "id": 2,
-                    "question": "quel est le sexe par lequel vous êtes attiré.e ?",
+                    "question": "Quel est le sexe par lequel vous êtes attiré.e ?",
                     "type": "radio",
                     "descName": "autre",
                     "choices": [

@@ -6,5 +6,8 @@ coverage/
 data/*
 tmp/*
 
+historic/*
+
+!historic/*Base*
 !data/.gitkeep
 !tmp/.gitkeep
