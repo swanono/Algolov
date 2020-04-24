@@ -136,7 +136,7 @@ input:hover{
 #Upload-Form {
     margin-top: 0.5em;
     padding: 1em;
-    border: 1px solid black;
+   
 }
 #Upload-Form * {
     display: block;

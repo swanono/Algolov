@@ -47,12 +47,19 @@ h1 {
 #Upload-Form {
     margin-top: 1em;
     padding: 1em;
-    border: 1px solid black;
+    
 }
 #Upload-Form * {
     display: block;
     margin: 0.5em;
 }
 
-
+#activ-pdf {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#activ-pdf * {
+    margin: 0 0.5em;
+}
 

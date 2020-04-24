@@ -23,21 +23,25 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>AlgoLov - Admin</title>
 
-    <link rel="stylesheet" href="../css/admin.css"/>
+    <link rel="stylesheet" href="../css/AjoutQuest.css"/>
     <link rel="stylesheet" href="../css/alertMessage.css"/>
-
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    
     <script type="text/javascript" src="../js/alertMessage.js" ></script>
     <script type="text/javascript" src="../js/UploadPDF.js" ></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
 
 </head>
     <body onload="getActivState()">
         <h1>Administration - PDF</h1>
-        <a id="Admin" class="bouton retour" href="../html/Admin.html">
+        <a id="Admin" class="btn btn-secondary" href="../html/Admin.html">
             Retour
         </a>
         
         <div class="download-bar-container">
-            <a id="Template-PDF" class="download-bar bouton" href="../../public/survey/study.pdf" target="_blank">
+            <a id="Template-PDF" class="download-bar btn btn-light" href="../../public/survey/study.pdf" target="_blank">
                 <img src="../images/logo-pdf.png" alt="logo pdf" width="30px" height="30px"/>
                 <div>Voir le PDF actif</div>
             </a>
@@ -56,15 +60,22 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
             </div>
             <form method="POST" action="/api/admin/activatePDF" onsubmit="event.preventDefault(); activatePDF(event.target); stopFadeOut();">
                 <input type="checkbox" name="activPDF" id="activ-pdf-cb" />
-                <button class="bouton" type="submit">Enregistrer</button>
+                <button class="btn btn-primary" type="submit">Enregistrer</button>
             </form>
         </div>
 
-        <form id="Upload-Form" action="/api/admin/changePDF" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewPDF(); stopFadeOut();">
-            <p>Cliquez sur le bouton ci-dessous pour charger un nouveau pdf :</p>
-            <input id="new-pdf-input" type="file" name="Pdf-Upload" accept=".pdf" class="bouton">
-            <input type="submit" value="Envoyer" class="bouton">
-        </form>
-
+        <div class = "row">
+            <div class = "col">
+                <div class="card text-center mx-auto" style="width: 80%;">
+                    <div class="card-body">
+                        <form id="Upload-Form" action="/api/admin/changePDF" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewPDF(); stopFadeOut();">
+                            <p>Cliquez sur le bouton ci-dessous pour charger un nouveau pdf :</p>
+                            <input id="new-pdf-input" type="file" name="Pdf-Upload" accept=".pdf" class="btn btn-light">
+                            <input type="submit" value="Envoyer" class="btn btn-primary">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
