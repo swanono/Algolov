@@ -19,7 +19,7 @@ This module is used to handle client requests and redirect them to the right ana
 'use strict';
 
 const daos = require('./dao');
-const config = require('./config.js');
+const config = require('./config');
 const FeaturesReader = require('./FeaturesReader');
 const QuestionsReader = require('./QuestionsReader');
 const { DataGetter, FeatureDataGetter, QuestionDataGetter } = require('./pageData');
@@ -29,7 +29,8 @@ const path = require('path');
 const fs = require('fs');
 const CredentialManager = require('./credentialsData');
 const ReportGen = require('./ReportGen');
-const { Indicator, getIndicList } = require('./Indicator_v1.js');
+const { Indicator, getIndicList } = require('./Indicator_v1');
+const Mailer = require('./mailing');
 
 function saveSurvey (body) {
     let counter = 1;
@@ -46,6 +47,13 @@ module.exports = (passport) => {
 
     app.post(config.pathPostSurveyApi, function (req, res) {
         saveSurvey(req.body);
+
+        try {
+            Mailer.sendMailPDF(Mailer.findMail(req.body));
+        } catch (err) {
+            console.error(err);
+        }
+
         const doc = new ReportGen();
         const daoUser = new daos.DAOUsers(req.sessionID, () => {
             daoUser.insert(req.body)
@@ -66,7 +74,6 @@ module.exports = (passport) => {
         const usePDF = JSON.parse(fs.readFileSync('./admin/data/historic.json')).usePDF;
 
         const params = usePDF ? '?pdf=1' : '';
-
 
         res.redirect(config.pathGetThanksAbs + params);
     });
