@@ -37,7 +37,7 @@
                     "Très important",
                     "Extrèmement important"
                 ],
-                "question": "Quelles sont les caractéristiques corporelles auxquelles vous accordez de l'importance lors d'une rencontre ?"
+                "question": "Quelles sont les caractéristiques corporelles auxquelles vous accordez de l'importance lors d'un rendez-vous ?"
             },
             {
                 "blocId": 2,
@@ -52,7 +52,7 @@
                     "Très important",
                     "Extrèmement important"
                 ],
-                "question": "Quelles sont les caractéristiques corporelles auxquelles vous accordez de l'importance lors d'une rencontre ?"
+                "question": "Quelles sont les caractéristiques corporelles auxquelles vous accordez de l'importance lors d'un rendez-vous ?"
             }
         ]
     },
