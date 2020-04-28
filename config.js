@@ -69,9 +69,9 @@ module.exports = {
         question: { lastFile: 'lastQuestionFile', histPath: './admin/questions_files/historic/Questions_'}
     },
     blocLegends: {
-        3: ['pas apprécié du tout', 'indifférent', 'très apprécié'],
-        5: ['pas apprécié du tout', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'très apprécié'],
-        7: ['pas apprécié du tout', 'pas apprécié', 'assez peu apprécié', 'indifférent', 'un peu apprécié', 'apprécié', 'très apprécié']
+        3: ['Pas du tout important', 'Un peu important', 'Très important'],
+        5: ['Pas du tout important', 'Assez peu important', 'Un peu important', 'Assez important', 'Très important'],
+        7: ['Pas du tout important', 'Très peu important', 'Assez peu important', 'Un peu important', 'Assez important', 'Très important', 'Extrèmement important']
     },
     queryBasicStats: {
         terminated: null
