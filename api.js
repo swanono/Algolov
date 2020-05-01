@@ -48,12 +48,6 @@ module.exports = (passport) => {
     app.post(config.pathPostSurveyApi, function (req, res) {
         saveSurvey(req.body);
 
-        try {
-            Mailer.sendMailPDF(Mailer.findMail(req.body));
-        } catch (err) {
-            console.error(err);
-        }
-
         const doc = new ReportGen();
         const daoUser = new daos.DAOUsers(req.sessionID, () => {
             daoUser.insert(req.body)
@@ -72,6 +66,13 @@ module.exports = (passport) => {
         });
 
         const usePDF = JSON.parse(fs.readFileSync('./admin/data/historic.json')).usePDF;
+
+        try {
+            if (usePDF)
+                Mailer.sendMailPDF(Mailer.findMail(req.body));
+        } catch (err) {
+            console.error(err);
+        }
 
         const params = usePDF ? '?pdf=1' : '';
 
