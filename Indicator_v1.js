@@ -950,13 +950,9 @@ function getUserChanges () {
 
     figureGeneratorCount++;
     const thisFigureCount = figureGeneratorCount;
-    
-    const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/config.json')));
-
-    const fullCombinList = createCombinList(JSON.parse(JSON.stringify(surveyConfig.surveyConfiguration.descNames)));
 
     const query = { terminated: null };
-    const projection = { projection: { _id: 0, traces: 1, beginQuestions: 1 } };
+    const projection = { projection: { _id: 1, features: 1, traces: 1, beginQuestions: 1 } };
 
     return new Promise(function (resolve, reject) {
         const userDAO = new daos.DAOUsers(thisFigureCount, () => {
@@ -966,17 +962,15 @@ function getUserChanges () {
                     let figureNum = 0;
 
                     const userPerGraph = 10;
+                    let lastUId = 1;
 
                     let currentLabels = []; // string[10]
-                    let currentSeries = [{
-                        name: 'Nombre de changements moyens pour une feature',
-                        data: []
-                    }]; // { name: string; data: number[10] }[1]
+                    let currentSeries = [new SerieBar('Nombre de changements moyens pour une feature', [])]; // { name: string; data: number[10] }[1]
 
                     userList.forEach((user, uIndex) => {
+                        const currentUId = uIndex + 1;
                         const mapFeatures = user.features.map(feat => new Object({ id: feat.id, nbChanges: 0 }));
 
-                        let meanChanges = 0;
                         mapFeatures.forEach(feat => {
                             const data = getTraceData('drag', user.traces);
                             let sumChanges = 0;
@@ -990,25 +984,32 @@ function getUserChanges () {
                                 i += 2;
                             }
 
-                            meanChanges += sumChanges;
+                            feat.nbChanges += sumChanges;
                         });
-                        meanChanges /= mapFeatures.filter(feat => feat.nbChanges > 0).length;
+                        const meanChanges = mapFeatures.reduce((prev, curr) => prev + curr.nbChanges, 0) /
+                            mapFeatures.filter(feat => feat.nbChanges > 0).length;
 
-                        currentLabels.push(`${uIndex}`);
+                        currentLabels.push(`${currentUId}\n(${user._id})`);
                         currentSeries[0].data.push(meanChanges);
 
-                        if (uIndex % userPerGraph === userPerGraph - 1) {
+                        if (uIndex % userPerGraph === userPerGraph - 1 || uIndex === userList.length - 1) {
                             figureNum++;
                             const currentFigureNum = figureNum;
+                            const usedSeries = currentSeries;
+                            const usedLabels = currentLabels;
+                            currentLabels = [];
+                            currentSeries = [new SerieBar('Nombre de changements moyens pour une feature', [])];
                             promises.push(new Promise(function (resolve, reject) {
                                 createGraphBar(
-                                    currentSeries,
-                                    currentLabels,
+                                    usedSeries,
+                                    usedLabels,
                                     'Identifiants des individus',
                                     'Nombre moyen de changement pour par feature pour un individu',
                                     'Comparaison du nombre de changement de feature par individu',
-                                    `Individus ${uIndex - userPerGraph + 1} à ${uIndex}`,
+                                    `Individus ${lastUId + 1} à ${currentUId}`,
                                     true,
+                                    false,
+                                    undefined,
                                     false
                                 )
                                     .then(pathToPng => {
@@ -1021,8 +1022,9 @@ function getUserChanges () {
                                             */
                                         ]);
                                     })
-                                    .cathc(err => reject(err));
+                                    .catch(err => reject(err));
                             }));
+                            lastUId = currentUId;
                         }
                     });
 

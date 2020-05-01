@@ -101,7 +101,7 @@ function calculatePlotBandBounds (highlights, bandColor = '#FCFFC5') {
     }));
 }
 
-function createGraphBar (series, labels, xName, yName, title, subTitle, decimals, reverse, highlights) {
+function createGraphBar (series, labels, xName, yName, title, subTitle, decimals, reverse, highlights, showLegend = true) {
 
     if (series.reduce((prev, curr) => prev || (curr.data.length !== labels.length), false))
         return Promise.reject(new Error(`A serie of data doesn't have the same length as the labels (here : ${labels.length})`));
@@ -123,6 +123,9 @@ function createGraphBar (series, labels, xName, yName, title, subTitle, decimals
                     pointPadding: 0.2,
                     borderWidth: 0
                 }
+            },
+            legend: {
+                enabled: showLegend
             },
             series: series.map(serie => serie.toObj())
         }
