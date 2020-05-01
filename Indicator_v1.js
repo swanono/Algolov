@@ -942,6 +942,115 @@ function getRankingChanges () {
     });
 }
 
+/**
+ * Function for indicator #4 : Calculate the number of times each user changes the features
+ */
+function getUserChanges () {
+    const indic = new Indicator('Nombre de changement par individu pour chaque feature');
+
+    figureGeneratorCount++;
+    const thisFigureCount = figureGeneratorCount;
+    
+    const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/config.json')));
+
+    const fullCombinList = createCombinList(JSON.parse(JSON.stringify(surveyConfig.surveyConfiguration.descNames)));
+
+    const query = { terminated: null };
+    const projection = { projection: { _id: 0, traces: 1, beginQuestions: 1 } };
+
+    return new Promise(function (resolve, reject) {
+        const userDAO = new daos.DAOUsers(thisFigureCount, () => {
+            userDAO.findAllByQuery(query, projection)
+                .then(userList => {
+                    const promises = [];
+                    let figureNum = 0;
+
+                    const userPerGraph = 10;
+
+                    let currentLabels = []; // string[10]
+                    let currentSeries = [{
+                        name: 'Nombre de changements moyens pour une feature',
+                        data: []
+                    }]; // { name: string; data: number[10] }[1]
+
+                    userList.forEach((user, uIndex) => {
+                        const mapFeatures = user.features.map(feat => new Object({ id: feat.id, nbChanges: 0 }));
+
+                        let meanChanges = 0;
+                        mapFeatures.forEach(feat => {
+                            const data = getTraceData('drag', user.traces);
+                            let sumChanges = 0;
+                            let i = 0;
+
+                            while (i + 1 < data.length) {
+                                if (feat.id === parseInt(data[i].id.split('_')[1]) &&
+                                    feat.id === parseInt(data[i + 1].id.split('_')[1]) &&
+                                    data[i].ty === 'start' && data[i + 1].ty === 'end')
+                                    sumChanges++;
+                                i += 2;
+                            }
+
+                            meanChanges += sumChanges;
+                        });
+                        meanChanges /= mapFeatures.filter(feat => feat.nbChanges > 0).length;
+
+                        currentLabels.push(`${uIndex}`);
+                        currentSeries[0].data.push(meanChanges);
+
+                        if (uIndex % userPerGraph === userPerGraph - 1) {
+                            figureNum++;
+                            const currentFigureNum = figureNum;
+                            promises.push(new Promise(function (resolve, reject) {
+                                createGraphBar(
+                                    currentSeries,
+                                    currentLabels,
+                                    'Identifiants des individus',
+                                    'Nombre moyen de changement pour par feature pour un individu',
+                                    'Comparaison du nombre de changement de feature par individu',
+                                    `Individus ${uIndex - userPerGraph + 1} à ${uIndex}`,
+                                    true,
+                                    false
+                                )
+                                    .then(pathToPng => {
+                                        resolve([
+                                            pathToPng, // string for png path
+                                            `Figure ${thisFigureCount}-${currentFigureNum}`, // string for chart legend
+                                            false // boolean telling if the graphs should be in annex
+                                            /*,
+                                            Add description ?
+                                            */
+                                        ]);
+                                    })
+                                    .cathc(err => reject(err));
+                            }));
+                        }
+                    });
+
+                    return Promise.all(promises);
+                })
+                .then(resList => {
+                    indic.addPara({
+                        text: `Les graphiques suivants permettent de trouver les individus qui répondent trop lentement/rapidement afin de possiblement les supprimer si ils n'ont pas répondu de manière sérieuse au questionnaire par exemple.`,
+                        style: 'IndicText'
+                    });
+                    resList.forEach(res => {
+                        const splittedPath = res[0].split('/');
+                        indic.addImage(splittedPath[splittedPath.length - 1], res[2]);
+                        indic.addPara({
+                            text: res[1],
+                            style: 'Legend'
+                        }, res[2]);
+                    });
+
+                    return indic;
+                })
+                .then(indic => resolve(indic))
+                .catch(err => reject(err))
+                .finally(() => userDAO.closeConnexion());
+        });
+    });
+}
+
 /******************************/
 /* END OF INDICATOR FUNCTIONS */
 /******************************/
@@ -963,6 +1072,10 @@ function getIndicList () {
             })
             .then(indicChange => {
                 indicList.push(indicChange);
+                return getUserChanges();
+            })
+            .then(indicChangeUser => {
+                indicList.push(indicChangeUser);
             })
             .then(() => resolve(indicList))
             .catch(err => reject(err));
