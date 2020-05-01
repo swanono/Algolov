@@ -31,18 +31,21 @@ const CredentialManager = require('./credentialsData');
 const ReportGen = require('./ReportGen');
 const { Indicator, getIndicList } = require('./Indicator_v1.js');
 
+function saveSurvey (body) {
+    let counter = 1;
+    let pathToJSON = path.resolve(`./data/result-${counter}.json`);
+    while (fs.existsSync(pathToJSON)) {
+        counter++;
+        pathToJSON = path.resolve(`./data/result-${counter}.json`);
+    }
+    fs.writeFileSync(pathToJSON, JSON.stringify(body));
+}
+
 module.exports = (passport) => {
     const app = express();
 
     app.post(config.pathPostSurveyApi, function (req, res) {
-        /*let counter = 1;
-        let pathToJSON = path.resolve(`./surveyRes/result-${counter}.json`);
-        while (fs.existsSync(pathToJSON)) {
-            counter++;
-            pathToJSON = path.resolve(`./surveyRes/result-${counter}.json`);
-        }
-        fs.writeFileSync(pathToJSON, JSON.stringify(req.body));*/
-
+        saveSurvey(req.body);
         const doc = new ReportGen();
         const daoUser = new daos.DAOUsers(req.sessionID, () => {
             daoUser.insert(req.body)
@@ -50,9 +53,9 @@ module.exports = (passport) => {
                 .then(indicList => doc.addIndics(indicList))
                 .then(() => doc.saveFile())
                 .then(pathToDoc => {
-                    const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
+                    const historic = JSON.parse(fs.readFileSync('./admin/data/historic.json'));
                     historic.lastReportFile = pathToDoc;
-                    fs.writeFileSync('./admin/historic.json', JSON.stringify(historic, null, 4));
+                    fs.writeFileSync('./admin/data/historic.json', JSON.stringify(historic, null, 4));
                 })
                 .catch(err => console.error(err))
                 .finally(() => daoUser.closeConnexion())
@@ -60,7 +63,7 @@ module.exports = (passport) => {
                     .forEach(file => !file.includes('gitkeep') ? fs.unlinkSync(`./tmp/${file}`) : null));
         });
 
-        const usePDF = JSON.parse(fs.readFileSync('./admin/historic.json')).usePDF;
+        const usePDF = JSON.parse(fs.readFileSync('./admin/data/historic.json')).usePDF;
 
         const params = usePDF ? '?pdf=1' : '';
 
@@ -69,7 +72,7 @@ module.exports = (passport) => {
     });
 
     app.get(config.pathGetReport, function (req, res) {
-        const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
+        const historic = JSON.parse(fs.readFileSync('./admin/data/historic.json'));
         res.sendFile(path.resolve(`./admin/report_files/${historic.lastReportFile}`));
     });
 
@@ -108,7 +111,7 @@ module.exports = (passport) => {
             if (err)
                 res.status(400).json({ok: false, message: 'Le formulaire d\'envoi du fichier a été rempli de manière incorrecte.'});
             else {
-                fs.writeFileSync('./public/survey/study.pdf',
+                fs.writeFileSync('./public/survey/documents/study.pdf',
                     fs.readFileSync(files[Object.keys(files)[0]].path));
                 res.json({ ok: true, message: 'Le PDF a été modifié avec succès !' });
             }
@@ -116,14 +119,14 @@ module.exports = (passport) => {
     });
 
     app.get(config.pathActivPDF, function (req, res) {
-        res.json(JSON.parse(fs.readFileSync('./admin/historic.json')).usePDF);
+        res.json(JSON.parse(fs.readFileSync('./admin/data/historic.json')).usePDF);
     });
     app.post(config.pathActivPDF, function (req, res) {
-        const historic = JSON.parse(fs.readFileSync('./admin/historic.json'));
+        const historic = JSON.parse(fs.readFileSync('./admin/data/historic.json'));
 
         historic.usePDF = req.body.activPDF === 'on';
 
-        fs.writeFileSync('./admin/historic.json', JSON.stringify(historic, null, 4));
+        fs.writeFileSync('./admin/data/historic.json', JSON.stringify(historic, null, 4));
 
         res.json({ ok: true, message: `Le PDF est ${historic.usePDF ? 'activé' : 'inactivé'}` });
     });
@@ -132,7 +135,7 @@ module.exports = (passport) => {
         const type = req.params.type;
         const fileName = req.params.fileName;
         const filePath = `./admin/${type}_files/historic/${fileName}`;
-        const hist = JSON.parse(fs.readFileSync('./admin/historic.json'));
+        const hist = JSON.parse(fs.readFileSync('./admin/data/historic.json'));
         const keyLast = type === 'features' ? 'lastFeatureFile' : 'lastQuestionFile';
         if (!fs.existsSync(filePath))
             res.status(400).json({ ok: false, message: 'Le fichier demandé n\'existe pas' });

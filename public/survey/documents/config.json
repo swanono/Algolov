@@ -1,0 +1,735 @@
+{
+    "surveyConfiguration": {
+        "descNames": [
+            {
+                "name": "soi",
+                "presentation": "Premièrement, vous allez classer les caractéristiques qui vous définissent le plus.\r\nPour rappel, vous pouvez déplacer les cartes autant de fois que vous voulez.",
+                "text": "Concernant les caractéristiques qui vous décrivent,",
+                "combin": [
+                    "Homme",
+                    "Femme"
+                ]
+            },
+            {
+                "name": "autre",
+                "presentation": "Maintenant, classez les caractéristiques d'une personne attractive pour vous.\r\nPour rappel, vous pouvez déplacer les cartes autant de fois que vous voulez.",
+                "text": "Concernant les caractéristiques qui décrivent les personnes que vous trouvez attirantes,",
+                "combin": [
+                    "Homme",
+                    "Femme"
+                ]
+            }
+        ],
+        "nbStatesBeforeBloc": 3,
+        "nbBlocPerDesc": 2,
+        "nbFeaturePerBloc": 10,
+        "blocThemes": [
+            {
+                "blocId": 1,
+                "type": "physique-1",
+                "likertSize": 7,
+                "legends": [
+                    "Pas du tout important",
+                    "Très peu important",
+                    "Assez peu important",
+                    "Un peu important",
+                    "Assez important",
+                    "Très important",
+                    "Extrèmement important"
+                ],
+                "question": "Quelles sont les caractéristiques corporelles auxquelles vous accordez de l'importance lors d'un rendez-vous ?"
+            },
+            {
+                "blocId": 2,
+                "type": "physique-2",
+                "likertSize": 7,
+                "legends": [
+                    "Pas du tout important",
+                    "Très peu important",
+                    "Assez peu important",
+                    "Un peu important",
+                    "Assez important",
+                    "Très important",
+                    "Extrèmement important"
+                ],
+                "question": "Quelles sont les caractéristiques corporelles auxquelles vous accordez de l'importance lors d'un rendez-vous ?"
+            }
+        ]
+    },
+    "textButton": {
+        "confirm": "Valider",
+        "stopSurvey": "Arrêter le questionnaire",
+        "continue": "Continuer",
+        "startSurvey": "Démarrer"
+    },
+    "features": [
+        {
+            "id": 1,
+            "content": "text",
+            "data": "Signes particuliers (grains de beauté, taches de rousseur, bronzage, tatouages, piercings...)",
+            "type": "physique-1",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "content": "text",
+            "data": "Lunettes ou lentilles de contact",
+            "type": "physique-1",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "content": "text",
+            "data": "Couleur des yeux",
+            "type": "physique-1",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "content": "text",
+            "data": "Longueur des cheveux",
+            "type": "physique-1",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "content": "text",
+            "data": "Couleur de cheveux",
+            "type": "physique-1",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 6,
+            "content": "text",
+            "data": "Style de cheveux",
+            "type": "physique-1",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 7,
+            "content": "text",
+            "data": "Silhouette (mince, sportif.ve, ronde, costaud, body builder…)",
+            "type": "physique-1",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 8,
+            "content": "text",
+            "data": "Origines",
+            "type": "physique-1",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 9,
+            "content": "text",
+            "data": "Taille",
+            "type": "physique-1",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 10,
+            "content": "text",
+            "data": "Poids",
+            "type": "physique-1",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 11,
+            "content": "text",
+            "data": "Pilosité (rasé.e, imberbe, juste ce qu'il faut, ours...)",
+            "type": "physique-2",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 12,
+            "content": "text",
+            "data": "Perception de l'aspect physique (très agréable à regarder, agréable à regarder, dans la moyenne…)",
+            "type": "physique-2",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 13,
+            "content": "text",
+            "data": "Taille du pénis",
+            "type": "physique-2",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": false
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": false
+                }
+            ]
+        },
+        {
+            "id": 14,
+            "content": "text",
+            "data": "Circoncision",
+            "type": "physique-2",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": false
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": false
+                }
+            ]
+        },
+        {
+            "id": 15,
+            "content": "text",
+            "data": "Taille de la poitrine",
+            "type": "physique-2",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Femme": true,
+                    "Homme": false
+                },
+                {
+                    "descName": "autre",
+                    "Femme": true,
+                    "Homme": false
+                }
+            ]
+        },
+        {
+            "id": 16,
+            "content": "text",
+            "data": "Taille de bonnet (A, B, C, D, DD…)",
+            "type": "physique-2",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Femme": true,
+                    "Homme": false
+                },
+                {
+                    "descName": "autre",
+                    "Femme": true,
+                    "Homme": false
+                }
+            ]
+        },
+        {
+            "id": 17,
+            "content": "text",
+            "data": "Parties du corps considérées des zones érogènes",
+            "type": "physique-2",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 18,
+            "content": "text",
+            "data": "Importance de la taille (hauteur)",
+            "type": "physique-2",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 19,
+            "content": "text",
+            "data": "Sexe",
+            "type": "physique-2",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 20,
+            "content": "text",
+            "data": "Age",
+            "type": "physique-2",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 21,
+            "content": "text",
+            "data": "Style d'habillement du jour",
+            "type": "physique-2",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        },
+        {
+            "id": 22,
+            "content": "text",
+            "data": "Style d'habillement du soir",
+            "type": "physique-2",
+            "combin": [
+                {
+                    "descName": "soi",
+                    "Homme": true,
+                    "Femme": true
+                },
+                {
+                    "descName": "autre",
+                    "Homme": true,
+                    "Femme": true
+                }
+            ]
+        }
+    ],
+    "RGPDText": "Bienvenu.e à l’étude !<br/>Le but de cette étude est de connaître quelles caractéristiques sont importantes pour vous au moment de vous évaluer vous-même et une autre personne de votre attirance.<br/><br/><br/>Ce questionnaire effectue une récolte de<br/>(1) vos données personnelles : sexe, préférence du sexe recherché, votre expérience sur les applications de rencontres, et dans des relations affectives du passé<br/>(2) des données sur la manière dont vous le remplissez : mouvements de la souris, changements d'avis, ...<br/>(3) des informations de contact si vous souhaitez les renseigner pour donner suite à l’étude<br/><br/>Ces données seront utilisées à des fins de recherche scientifique à l’École Polytechnique Fédérale de Lausanne en Suisse. L’étude est menée par la chercheuse doctorale Jessica Pidoux.<br/><br/>Vous pouvez à tout moment abandonner la réalisation du questionnaire, faire une demande concernant vos données ou plus de précisions sur l’étude, ainsi que solliciter la suppression de vos données après avoir complété le questionnaire.<br/>Pour toute demande envoyez un message à l'adresse mail 'jessica.pidoux@epfl.ch’",
+    "RGPDValidation": "Cochez la case si vous acceptez de participer à cette étude et de donner vos données à des fins de recherche spécifiés ci-dessus.",
+    "surveyExplain": "Le questionnaire est divisé en trois phases ou tâches que vous devez réaliser : <br/><br/>(1) répondre à deux questions de départ<br/>(2) réaliser un classement des informations qui vous seront présentées. Ici vous devrez déplacer des cartes avec la souris vers une échelle d'importance. Ces cases contiennent des caractéristiques personnelles génériques que vous devez indiquer comme étant importantes ou non pour vous.<br/>(3) répondre à quelques questions finales. Maximum 7 questions seront posées.",
+    "wrongStatementFormatMessage": "mauvais fichier config.json récupéré",
+    "QCM": {
+        "begin": {
+            "fragmented": false,
+            "isDescriptionLinked": true,
+            "list": [
+                {
+                    "id": 1,
+                    "question": "Quel est votre sexe ?",
+                    "type": "radio",
+                    "descName": "soi",
+                    "choices": [
+                        {
+                            "choiceId": 1,
+                            "text": "Homme",
+                            "descValue": "Homme"
+                        },
+                        {
+                            "choiceId": 2,
+                            "text": "Femme",
+                            "descValue": "Femme"
+                        }
+                    ]
+                },
+                {
+                    "id": 2,
+                    "question": "Quel est le sexe par lequel vous êtes attiré.e ?",
+                    "type": "radio",
+                    "descName": "autre",
+                    "choices": [
+                        {
+                            "choiceId": 1,
+                            "text": "Homme",
+                            "descValue": "Homme"
+                        },
+                        {
+                            "choiceId": 2,
+                            "text": "Femme",
+                            "descValue": "Femme"
+                        }
+                    ]
+                }
+            ]
+        },
+        "end": {
+            "fragmented": true,
+            "isDescriptionLinked": false,
+            "list": [
+                {
+                    "id": 3,
+                    "question": "Avez-vous utilisé une application de rencontres dans le passé ou utilisez-vous actuellement une application de rencontres ?",
+                    "type": "radio",
+                    "choices": [
+                        {
+                            "choiceId": 1,
+                            "text": "Oui, j'en ai utilisé par le passé mais je n'en utilise plus"
+                        },
+                        {
+                            "choiceId": 2,
+                            "text": "Oui, j'utilise actuellement des applications de rencontres"
+                        },
+                        {
+                            "choiceId": 3,
+                            "text": "Non, je n'ai jamais utilisé d'applications de rencontres"
+                        }
+                    ],
+                    "relatedQuestion": [
+                        {
+                            "triggerChoices": [
+                                3
+                            ],
+                            "questionIds": [
+                                4,
+                                5,
+                                6
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 4,
+                    "question": "Quelles applications de rencontres avez-vous déjà utilisé ou utilisez-vous actuellement ?",
+                    "type": "checkbox",
+                    "other": true,
+                    "choices": [
+                        {
+                            "choiceId": 1,
+                            "text": "Adopteunmec"
+                        },
+                        {
+                            "choiceId": 2,
+                            "text": "Meetic"
+                        },
+                        {
+                            "choiceId": 3,
+                            "text": "Meetic affinity (affiny)"
+                        },
+                        {
+                            "choiceId": 4,
+                            "text": "Planetromeo"
+                        },
+                        {
+                            "choiceId": 5,
+                            "text": "Badoo"
+                        },
+                        {
+                            "choiceId": 6,
+                            "text": "Bumble"
+                        },
+                        {
+                            "choiceId": 7,
+                            "text": "Happn"
+                        },
+                        {
+                            "choiceId": 8,
+                            "text": "Hinge"
+                        },
+                        {
+                            "choiceId": 9,
+                            "text": "Once"
+                        },
+                        {
+                            "choiceId": 10,
+                            "text": "Tinder"
+                        },
+                        {
+                            "choiceId": 11,
+                            "text": "PURE"
+                        },
+                        {
+                            "choiceId": 12,
+                            "text": "Grindr"
+                        },
+                        {
+                            "choiceId": 13,
+                            "text": "Her"
+                        },
+                        {
+                            "choiceId": 14,
+                            "text": "Passions - Meet over 50"
+                        },
+                        {
+                            "choiceId": 15,
+                            "text": "AdultFriendFinder AFF"
+                        },
+                        {
+                            "choiceId": 16,
+                            "text": "Tomorrow"
+                        },
+                        {
+                            "choiceId": 17,
+                            "text": "Lovoo"
+                        },
+                        {
+                            "choiceId": 18,
+                            "text": "Parship"
+                        },
+                        {
+                            "choiceId": 19,
+                            "text": "Casuallounge"
+                        },
+                        {
+                            "choiceId": 20,
+                            "text": "Scruff"
+                        },
+                        {
+                            "choiceId": 21,
+                            "text": "Unitedmen"
+                        }
+                    ]
+                },
+                {
+                    "id": 5,
+                    "question": "Quand était votre première inscription à un application de rencontres ? (format MM/AAAA)",
+                    "type": "text",
+                    "format": "^(((0[1-9])|(1[0-9]))\\/((19[89][0-9])|(20[0-9]{2})))$"
+                },
+                {
+                    "id": 6,
+                    "question": "Avec quelle frequence utilisiez ou utilisez-vous des applications de rencontres ?",
+                    "type": "radio",
+                    "choices": [
+                        {
+                            "choiceId": 1,
+                            "text": "Plusieurs fois par jour"
+                        },
+                        {
+                            "choiceId": 2,
+                            "text": "Une fois par jour"
+                        },
+                        {
+                            "choiceId": 3,
+                            "text": "Deux ou trois fois par semaine"
+                        },
+                        {
+                            "choiceId": 4,
+                            "text": "Une fois par semaine"
+                        },
+                        {
+                            "choiceId": 5,
+                            "text": "Rarement"
+                        }
+                    ]
+                },
+                {
+                    "id": 7,
+                    "question": "Avez-vous eu dans le passé ou avez-vous actuellement une relation à long terme (petit.e ami.e, conjoint.e) ou à court terme (rencontre sexuelle) ?",
+                    "type": "radio",
+                    "choices": [
+                        {
+                            "choiceId": 1,
+                            "text": "Oui, j'ai eu des expériences dans le passé et je suis actuellement dans une relation"
+                        },
+                        {
+                            "choiceId": 2,
+                            "text": "Je suis actuellement dans ma première relation"
+                        },
+                        {
+                            "choiceId": 3,
+                            "text": "Non, je n'ai aucune experience dans les relations (amoureuse ou sexuelle)"
+                        }
+                    ]
+                },
+                {
+                    "id": 8,
+                    "question": "Pourrions-nous vous contacter plus tard pour participer à un entretien d'environ 45min afin d'approfondir l'étude quantitative à laquelle vous participez actuellement ?",
+                    "type": "radio",
+                    "choices": [
+                        {
+                            "choiceId": 1,
+                            "text": "Oui"
+                        },
+                        {
+                            "choiceId": 2,
+                            "text": "Non"
+                        }
+                    ],
+                    "relatedQuestion": [
+                        {
+                            "triggerChoices": [
+                                2
+                            ],
+                            "questionIds": [
+                                9,
+                                10
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 9,
+                    "question": "Quelle est votre adresse mail ?",
+                    "type": "email"
+                },
+                {
+                    "id": 10,
+                    "question": "Quel est votre numéro de téléphone ? (Format internationnal, commençant par +33 pour la France ou +41 pour la Suisse, sans espace)",
+                    "type": "tel",
+                    "format": "^((\\+\\d{1,3}(-| )?\\(?\\d\\)?(-| )?\\d{1,5})|(\\(?\\d{2,6}\\)?))(-| )?(\\d{3,4})(-| )?(\\d{4})(( x| ext)\\d{1,5}){0,1}$"
+                },
+                {
+                    "id": 11,
+                    "question": "Quel est votre age ?",
+                    "type": "text",
+                    "format": "^([0-9]{2,3})$"
+                }
+            ]
+        }
+    }
+}

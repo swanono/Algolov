@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: algolov-mongo-volume
+  labels:
+    storageKind: mongo-data
+spec:
+  capacity:
+    storage: 3Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: algolov-mongo-storage-class
+  local:
+    # TODO change to the right directory
+    path: /home/ulysse/Documents/algolov/data
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          # TODO change to the right node name
+          - ubuntu

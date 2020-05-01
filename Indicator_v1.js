@@ -416,7 +416,7 @@ function getFinalRankings () {
     figureGeneratorCount++;
     const thisFigureCount = figureGeneratorCount;
 
-    const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/config.json')));
+    const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/documents/config.json')));
 
     const fullCombinList = createCombinList(JSON.parse(JSON.stringify(surveyConfig.surveyConfiguration.descNames)));
 
@@ -595,7 +595,7 @@ function getRankingTimePerFeature () {
     figureGeneratorCount++;
     const thisFigureCount = figureGeneratorCount;
     
-    const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/config.json')));
+    const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/documents/config.json')));
 
     const fullCombinList = createCombinList(JSON.parse(JSON.stringify(surveyConfig.surveyConfiguration.descNames)));
 
@@ -773,7 +773,7 @@ function getRankingChanges () {
     figureGeneratorCount++;
     const thisFigureCount = figureGeneratorCount;
     
-    const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/config.json')));
+    const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/documents/config.json')));
 
     const fullCombinList = createCombinList(JSON.parse(JSON.stringify(surveyConfig.surveyConfiguration.descNames)));
 
