@@ -904,7 +904,7 @@
                 {
                     "id": 3,
                     "question": "Avez-vous utilisé une application de rencontres dans le passé ou utilisez-vous actuellement une application de rencontres ?",
-                    "type": "radio",
+                    "type": "longradio",
                     "choices": [
                         {
                             "choiceId": 1,
@@ -1060,7 +1060,7 @@
                 {
                     "id": 7,
                     "question": "Avez-vous eu dans le passé ou avez-vous actuellement une relation à long terme (petit.e ami.e, conjoint.e) ou à court terme (rencontre sexuelle) ?",
-                    "type": "radio",
+                    "type": "longradio",
                     "choices": [
                         {
                             "choiceId": 1,

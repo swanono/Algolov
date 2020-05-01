@@ -477,6 +477,8 @@ class DOMGenerator {
             fieldset.appendChild(DOMGenerator._createTextInput(questionData));
             break;
         case 'radio':
+        case 'longradio':
+        case 'longcheckbox':
         case 'checkbox':
             DOMGenerator._createCheckableInputs(questionData).forEach((tag) => fieldset.appendChild(tag));
             break;
@@ -511,13 +513,19 @@ class DOMGenerator {
         const htmlTags = [];
 
         const divRow = document.createElement('div');
-        divRow.className ='form-row';
+        if (question.type !== 'longradio' && question.type !== 'longcheckbox')
+            divRow.className ='form-row';
 
         question.choices.forEach((choice) => {
             
 
             const input = document.createElement('input');
-            input.setAttribute('type', question.type);
+            if (question.type !== 'longradio' && question.type !== 'longcheckbox')
+                input.setAttribute('type', question.type);
+            else if (question.type === 'longradio')
+                input.setAttribute('type', 'radio');
+            else if (question.type === 'loncheckbox')
+                input.setAttribute('type', 'checkbox');
             input.setAttribute('id', window.consts.INPUT_ID + question.id + '_' + choice.choiceId);
             input.setAttribute('class', 'custom-control-input ' + window.consts.INPUT_CLASS + question.id);
             input.setAttribute('value', input.getAttribute('id'));
@@ -529,7 +537,7 @@ class DOMGenerator {
             const containerDiv = document.createElement('div');
             containerDiv.setAttribute('id', window.consts.INPUT_DIV_ID + question.id + '_' + choice.choiceId);
 
-            if(question.type !== 'checkbox') {
+            if(question.type.toLowerCase() !== 'checkbox' && question.type.toLowerCase() !== 'longcheckbox') {
                 input.setAttribute('required', 'true');
                 containerDiv.setAttribute('class','custom-radio col-lg-6 col-sm-12');
             }

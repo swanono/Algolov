@@ -68,7 +68,7 @@ class QuestionsReader extends ExcelReader {
             if (type[0].toLowerCase() === 'date') {
                 question.type = 'text';
                 question.format = '^(((0[1-9])|(1[0-9]))\\/((19[89][0-9])|(20[0-9]{2})))$';
-            } else if (['email','number','checkbox','radio','text'].includes(type[0]))
+            } else if (['email','number','checkbox','radio','text','longcheckbox','longradio'].includes(type[0].toLowerCase()))
                 question.type = type[0].toLowerCase();
             else if (type[0] === 'age') {
                 question.type = 'text';
@@ -105,7 +105,7 @@ class QuestionsReader extends ExcelReader {
             }
 
 
-            if (question.type == 'checkbox' || question.type == 'radio') {
+            if (question.type == 'checkbox' || question.type == 'longcheckbox' || question.type == 'radio' || question.type == 'longradio') {
                 question.choices = [];
                 for (let col = 3; col <= range.e.c; col++) {
                     // TODO: Voir si il faut pas adapter ??? 
