@@ -196,6 +196,7 @@ label .QCMLabel {
         
 }
 
+.draggable-mirror { z-index: 99; }
 
 .scaleRow_container {
     align-items: flex-start !important;

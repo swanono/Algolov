@@ -824,20 +824,12 @@ class DOMGenerator {
         window.sortable = new Draggable.Sortable(document.querySelectorAll('.nestable'), {
             draggable: '.nested-item'
         });
+
         window.sortable.on('sortable:stop', (event) => {
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.newContainer;
 
-            /*const newScale =
-                newCont.getAttribute('class').includes(window.consts.RANK_CLASS)
-                    ? window.originalScale.minScaleTransition
-                    : 1;
-            DOMGenerator._scalingAnimation(dragged, 
-                1,
-                newScale,
-                window.consts.SCALING_INTERVAL,
-                window.consts.SCALING_DURATION);
-            */
+            
 
             /*if (newCont.getAttribute('id') === 'initial_container' ) {
                 //mirror.setAttribute('class','nested-item feature-card');
@@ -852,6 +844,10 @@ class DOMGenerator {
             TraceStorage.storeDragEvent('end',dragged.getAttribute('id'), newCont.getAttribute('id'));
             TraceStorage.storeDropEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
         });
+        
+        window.sortable.on("mirror:attached", function (event) {
+            event.mirror.style.position = "fixed";
+        });
 
         window.sortable.on('sortable:start', (event) => {
             
@@ -859,6 +855,8 @@ class DOMGenerator {
             const newCont = event.data.dragEvent.data.sourceContainer;
             const mirror = event.data.dragEvent.data.source;
             mirror.width = 'initial';
+
+
             /*
             if (newCont.getAttribute('id') === 'initial_container' ) {
                 mirror.setAttribute('class','nested-item feature-card');
