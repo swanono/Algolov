@@ -1,7 +1,3 @@
-# variables d'environnement
-# variables:
-#   NOM: VALUE
-
 image: node
 
 stages:
@@ -14,30 +10,21 @@ variables:
 eslint:
   stage: lint
   before_script:
-    - npm install eslint --save-dev
-    - npm install eslint-config-standard --save-dev
-    - npm install eslint-config-recommended --save-dev
-    - npm install eslint-plugin-import --save-dev
-    - npm install eslint-plugin-node --save-dev
-    - npm install eslint-plugin-promise --save-dev
-    - npm install eslint-plugin-standard --save-dev
-    - npm install babel-eslint --save-dev
-    - npm install @babel/plugin-proposal-class-properties --save-dev
+    - npm run autoinstall
   script:
     - npm run lintjs
 
 csslint:
   stage: lint
   before_script:
-    - npm install stylelint --save-dev
-    - npm install stylelint-config-recommended --save-dev
+    - npm run autoinstall
   script:
     - npm run lintcss
 
 htmllint:
   stage: lint
   before_script:
-    - npm install html-linter --save-dev
+    - npm run autoinstall
   script:
     - npm run linthtml
 

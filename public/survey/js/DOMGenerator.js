@@ -871,19 +871,21 @@ class DOMGenerator {
             dragged.setAttribute('location', newCont.getAttribute('id'));
             TraceStorage.storeDragEvent('start',dragged.getAttribute('id'), newCont.getAttribute('id'));
         });
-        window.sortable.on('sortable:sort', (event) => {
+        window.sortable.on('sortable:sorted', (event) => {
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.dragEvent.data.overContainer;
-            /*if (newCont.getAttribute('id') === 'initial_container' ) {
-                //mirror.setAttribute('class','nested-item feature-card');
-                dragged.setAttribute('class','nested-item feature-card');
-            } else { 
-                //mirror.setAttribute('class','nested-item feature-card col-lg-11 overflow-hidden');
-                dragged.setAttribute('class','nested-item feature-card col-lg-11 overflow-hidden');
-            }
-            */
+
             dragged.setAttribute('location', newCont.getAttribute('id'));
-            TraceStorage.storeDraggableEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
+
+            const orderArray = [];
+            newCont.childNodes.forEach( (div) => { 
+
+                if (div.id != '' && div.style.display != 'none')
+                    orderArray.push(div.id);
+                    
+            });
+
+            TraceStorage.storeDraggableEvent(dragged.getAttribute('id'), newCont.getAttribute('id'), orderArray);
         });
     }
 }

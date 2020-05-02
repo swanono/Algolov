@@ -1,0 +1,42 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: algolov-nodejs-sc-fh
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+
+---
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: algolov-nodejs-sc-qh
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+
+---
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: algolov-nodejs-sc-rep
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+
+---
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: algolov-nodejs-sc-adata
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer
+
+---
+
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: algolov-nodejs-sc-docs
+provisioner: kubernetes.io/no-provisioner
+volumeBindingMode: WaitForFirstConsumer

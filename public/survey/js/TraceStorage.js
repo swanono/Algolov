@@ -162,8 +162,6 @@ class TraceStorage {
 
         json += ' }';
 
-        console.log(json);
-
         return json;
     }
 
@@ -282,11 +280,12 @@ class TraceStorage {
         TraceStorage.storeItem('errors', object);
     }
 
-    static storeDraggableEvent (id,cardid)
+    static storeDraggableEvent (cardId, newContId, order)
     {
         let object={};
-        object.id=id;
-        object.c=cardid;
+        object.id = cardId;
+        object.c = newContId;
+        object.o = order;
         TraceStorage.storeItem('draggablecontainer', object);
     }
     

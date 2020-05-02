@@ -1,0 +1,97 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: algolov-nodejs
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: algolov-nodejs
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: algolov-nodejs
+    spec:
+      containers:
+        - image: ulysseguyon/algolov-server:latest
+          imagePullPolicy: Always
+          name: algolov-nodejs
+          ports:
+            - containerPort: 443
+          env:
+            - name: MONGO_INITDB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov-config
+                  key: MONGO_INITDB_HOST
+            - name: MONGO_INITDB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov-config
+                  key: MONGO_INITDB_DATABASE
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov-config
+                  key: MONGO_INITDB_ROOT_USERNAME
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov-config
+                  key: MONGO_INITDB_ROOT_PASSWORD
+          volumeMounts:
+            - name: nodejs-ps-fh
+              mountPath: /usr/src/app/admin/features_files/historic
+            - name: nodejs-ps-qh
+              mountPath: /usr/src/app/admin/questions_files/historic
+            - name: nodejs-ps-rep
+              mountPath: /usr/src/app/admin/report_files
+            - name: nodejs-ps-adata
+              mountPath: /usr/src/app/admin/data
+            - name: nodejs-ps-docs
+              mountPath: /usr/src/app/public/survey/documents
+        - image: mongo:4.2
+          name: algolov-mongo
+          ports:
+            - containerPort: 27017
+          env:
+            - name: MONGO_INITDB_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov-config
+                  key: MONGO_INITDB_DATABASE
+            - name: MONGO_INITDB_ROOT_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov-config
+                  key: MONGO_INITDB_ROOT_USERNAME
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: algolov-config
+                  key: MONGO_INITDB_ROOT_PASSWORD
+          volumeMounts:
+            - name: mongo-persistent-storage
+              mountPath: /data/db
+      volumes:
+        - name: nodejs-ps-fh
+          persistentVolumeClaim:
+            claimName: algolov-nodejs-pvc-fh
+        - name: nodejs-ps-qh
+          persistentVolumeClaim:
+            claimName: algolov-nodejs-pvc-qh
+        - name: nodejs-ps-rep
+          persistentVolumeClaim:
+            claimName: algolov-nodejs-pvc-rep
+        - name: nodejs-ps-adata
+          persistentVolumeClaim:
+            claimName: algolov-nodejs-pvc-adata
+        - name: nodejs-ps-docs
+          persistentVolumeClaim:
+            claimName: algolov-nodejs-pvc-docs
+        - name: mongo-persistent-storage
+          persistentVolumeClaim:
+            claimName: algolov-mongo-pv-claim
+      dnsPolicy: Default
