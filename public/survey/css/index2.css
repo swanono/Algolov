@@ -179,12 +179,6 @@ label .QCMLabel {
         
 }
 
-.scaleRow_legend {
-    text-align: center;
-    font-weight: bold;
-    line-height: normal;
-    margin-bottom: 0.2em;
-}
 
 .scaleRow_container {
     align-items: flex-start !important;
@@ -247,4 +241,77 @@ label .QCMLabel {
     font: 15px bold;
     text-decoration: none;
     color: #555;
+}
+
+
+
+/* Likert Scale */
+
+
+/*.scaleRow_legend {
+    text-align: center;
+    font-weight: bold;
+    line-height: normal;
+    margin-bottom: 0.2em;
+}*/
+
+.scaleRow_legend {
+    height: 1vh;
+    margin-bottom: 1.5vh;
+
+}
+
+
+/* Likertsize = 7 */
+
+#rank_7_6 { 
+    background-color: #63ce63;
+    border-radius: 0 12px 12px 0;
+}
+
+#rank_7_5 { background-color: #9cd96f;}
+
+#rank_7_4 { background-color: #a9e089;}
+
+#rank_7_3 { background-color: #f8cf41;}
+
+#rank_7_2 { background-color: #f2864e;}
+
+#rank_7_1 { background-color: #f66125;}
+
+#rank_7_0 { 
+    background-color: #f7565a;
+    border-radius: 12px 0 0 12px;
+}
+
+/* Likertsize = 5 */
+
+#rank_5_4 { 
+    background-color: #63ce63;
+    border-radius: 0 12px 12px 0;
+}
+
+#rank_5_3 { background-color: #9cd96f;}
+
+#rank_5_2 { background-color: #f8cf41;}
+
+#rank_5_1 { background-color: #f2864e;}
+
+#rank_5_0 { 
+    background-color: #f7565a;
+    border-radius: 12px 0 0 12px;
+}
+
+/* Likertsize = 3 */
+
+#rank_3_2 { 
+    background-color: #63ce63;
+    border-radius: 12px 0 0 12px;
+}
+
+#rank_3_1 { background-color: #f8cf41;}
+
+#rank_3_0 { 
+    background-color: #f7565a;
+    border-radius: 12px 0 0 12px;
 }
