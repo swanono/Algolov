@@ -127,10 +127,10 @@ label .QCMLabel {
     
 }
 
-.nested-item, .draggable-mirror {
+.nested-item/*, .draggable-mirror*/ {
     border: 1px solid #D0D0D0;
-    height: max-content;
-    width: max-content;
+    width: calc(100% / 4 - 4 * 0.5em);
+    height: 15vh;
     max-height: initial;
     padding: 0.5em;
     font-size: 0.8em;
@@ -149,16 +149,16 @@ label .QCMLabel {
     font-size: 1.5vh !important;
     width: 90% !important;
 }
-
+/*
 .rank .draggable-mirror {
     max-width: max-content !important;
     min-width: fit-content !important;
-}
+}*/
 
-#initial_container .nested-item.draggable-source--is-dragging, #initial_container .draggable-mirror {
+#initial_container .nested-item.draggable-source--is-dragging /*, #initial_container .draggable-mirror*/ {
     border: 1px solid #D0D0D0;
-    height: max-content;
-    width: min-content;
+    width: calc(100% / 4 - 4 * 0.5em);
+    height: 15vh;
     max-height: initial;
     padding: 0.5em;
     font-size: 0.8em;

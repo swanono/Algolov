@@ -261,9 +261,9 @@ class DOMGenerator {
     }
 
     static _applyScaleOnCard (card, scale = 1) {
-        card.style.width = Math.floor(window.originalScale.originalWidth * scale) + 'px';
-        card.style.height = Math.floor(window.originalScale.originalHeight * scale) + 'px';
-        card.style.fontSize = window.originalScale.fontSize * (scale + 1)/2 + 'em';
+        //card.style.width = Math.floor(window.originalScale.originalWidth * scale) + 'px';
+        //card.style.height = Math.floor(window.originalScale.originalHeight * scale) + 'px';
+        //card.style.fontSize = window.originalScale.fontSize * (scale + 1)/2 + 'em';
         card.setAttribute(window.consts.CURRENT_CARD_SCALE, scale);
     }
     static _scalingAnimation (element, start, end, interval, duration) {
@@ -846,15 +846,27 @@ class DOMGenerator {
         });
         
         window.sortable.on("mirror:attached", function (event) {
-            event.mirror.style.position = "fixed";
+            event.mirror.style.position = 'fixed';
+
+            const baseWidth = /*Math.max(document.getElementById('initial_container').clientWidth,*/ window.innerWidth /*|| 0);*/
+            const baseHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+            const fontsize = parseFloat(window.getComputedStyle(document.getElementById('initial_container'), null).getPropertyValue('font-size'));          
+
+            event.mirror.style.width = (16 * baseWidth / 100).toString() + 'px';
+            event.mirror.style.height = (15 * baseHeight / 100).toString() + 'px';
+
         });
 
         window.sortable.on('sortable:start', (event) => {
             
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.dragEvent.data.sourceContainer;
+
             const mirror = event.data.dragEvent.data.source;
-            mirror.width = 'initial';
+            
+            
+
+
 
 
             /*
