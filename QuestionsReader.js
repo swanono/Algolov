@@ -233,7 +233,7 @@ class QuestionsReader extends ExcelReader {
 
         // Check que les question de related question exist (et que les choix existe?)
 
-        // TODO: adapter le check au question Begin et end
+        // TODO: adapter le check au question Begin et end ou annuler le QCM Begin
         /*
         this.newConfig.questions.forEach((quest, i) => {
             if (!(isString(quest.question)))
@@ -275,7 +275,9 @@ class QuestionsReader extends ExcelReader {
         oldConfig.RGPDValidation = this.newConfig.RGPDValidation;
         oldConfig.surveyExplain = this.newConfig.surveyExplain.replace(/(?:\r\n|\r|\n)/g, '<br/>');
 
-        oldConfig.QCM.end.list = this.newConfig.questions;
+        // TODO: mettre en place les option de fragmentation ou annuler le QCM Begin
+        oldConfig.QCM.begin.list = this.newConfig.questBegin;
+        oldConfig.QCM.end.list = this.newConfig.questEnd;
 
         fs.writeFileSync('./public/survey/documents/config.json', JSON.stringify(oldConfig, null, 4));
     }
