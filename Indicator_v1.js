@@ -25,7 +25,7 @@ const imgSize = require('image-size');
 const jstat = require('jstat');
 
 const daos = require('./dao');
-const { SerieBar, createGraphBar, createGraphBox } = require('./GraphGen');
+const { SerieBar, createGraphBar, createGraphBox, createGraphScatter } = require('./GraphGen');
 
 const DOC_WIDTH_MAX = 600;
 
@@ -884,7 +884,7 @@ function getRankingChanges () {
                                             `Comparaison des changements de rangs par feature`,
                                             `Combinatoire : ${combinString} | Description : ${desc.name}`,
                                             globalMean,
-                                            `Moyenne globale des temps de classement : ${globalMean}`,
+                                            `Moyenne globale des temps de classement : ${globalMean.toFixed(2)}`,
                                             highlights
                                         )
                                             .then(pathToPng => {
@@ -989,7 +989,7 @@ function getUserChanges () {
                         const meanChanges = mapFeatures.reduce((prev, curr) => prev + curr.nbChanges, 0) /
                             mapFeatures.filter(feat => feat.nbChanges > 0).length;
 
-                        currentLabels.push(`${currentUId}\n(${user._id})`);
+                        currentLabels.push(`${currentUId}<br/>(${user._id})`);
                         currentSeries[0].data.push(meanChanges);
 
                         if (uIndex % userPerGraph === userPerGraph - 1 || uIndex === userList.length - 1) {
@@ -1053,6 +1053,123 @@ function getUserChanges () {
     });
 }
 
+/**
+ * Function for indicator #5 : Calculate the correspondance between age and ranking preferences
+ */
+function getRepartitionAgeRanking () {
+    const indic = new Indicator('Nombre de changement par individu pour chaque feature');
+
+    figureGeneratorCount++;
+    const thisFigureCount = figureGeneratorCount;
+    
+    const surveyConfig = JSON.parse(fs.readFileSync(path.resolve('./public/survey/documents/config.json')));
+
+    const fullCombinList = createCombinList(JSON.parse(JSON.stringify(surveyConfig.surveyConfiguration.descNames)));
+
+    const query = { terminated: null };
+    const projection = { projection: { _id: 0, traces: 1, beginQuestions: 1, endQuestions: 1, rankingResult: 1 } };
+
+    return new Promise(function (resolve, reject) {
+        const userDAO = new daos.DAOUsers(thisFigureCount, () => {
+            userDAO.findAllByQuery(query, projection)
+                .then(userList => {
+                    const promises = [];
+                    let figureNum = 0;
+
+                    fullCombinList.forEach((combinFocus) => {
+                        
+                        let combinString = '';
+                        for (const [key, value] of Object.entries(combinFocus))
+                            combinString += `${key} = ${value} / `;
+                        combinString = combinString.substring(0, combinString.length - 3);
+
+                        surveyConfig.surveyConfiguration.descNames.forEach((desc, iDesc) => {
+                            surveyConfig.surveyConfiguration.blocThemes.forEach((bloc, iBloc) => {
+                                figureNum++;
+                                const currentFigureNum = figureNum;
+
+                                let showInAnnex = true;
+
+                                const currentFeatures = surveyConfig
+                                    .features
+                                    .filter(feature => feature.type === bloc.type && feature.combin.find(c => c.descName === desc.name)[combinFocus[desc.name]])
+                                    .map(feature => new Object({ id: feature.id, text : feature.data }));
+
+                                const series = currentFeatures.map(f => new SerieBar(f.id, []));
+
+                                userList.forEach(user => {
+                                    for (const [key, value] of Object.entries(combinFocus)) {
+                                        if (!user.beginQuestions.find(q => q.descName === key && q.choice === value))
+                                            return;
+                                    }
+
+                                    const userAge = parseInt(user.endQuestions.find(q => q.questionText.includes('age')).choiceText);
+                                    
+                                    for (const [rank, classedF] of Object.entries(user.rankingResult[iDesc * iBloc].ranks)) {
+                                        classedF.forEach(feature => {
+                                            const sIndex = series.findIndex(s => s.name === feature.id);
+                                            if (sIndex > -1)
+                                                series[sIndex].data.push([userAge, parseInt(rank)]);
+                                        });
+                                    }
+                                });
+
+                                if (series.reduce((prev, curr) => prev || curr.data.length !== 0, false))
+                                    showInAnnex = false;
+
+                                promises.push(
+                                    new Promise(function (resolve, reject) {
+                                        const usedSeries = series.map(s => new SerieBar(currentFeatures.find(f => f.id === s.name).text.substring(0, 20), s.data));
+
+                                        createGraphScatter(
+                                            usedSeries,
+                                            `Répartition des classements finaux de chaque feature en fonction de l'age des individus`,
+                                            `Combinatoire : ${combinString} | Description : ${desc.name}`,
+                                            `Age des répondants`,
+                                            `Classements finaux des features`
+                                        )
+                                            .then(pathToPng => {
+                                                resolve([
+                                                    pathToPng, // string for png path
+                                                    `Figure ${thisFigureCount}-${currentFigureNum}`, // string for chart legend
+                                                    showInAnnex // boolean telling if the graphs should be in annex
+                                                    /*,
+                                                    Add description ?
+                                                    */
+                                                ]);
+                                            })
+                                            .catch(err => reject(err));
+                                    })
+                                );
+                            });
+                        });
+                    });
+
+                    return Promise.all(promises);
+                })
+                .then(resList => {
+                    indic.addPara({
+                        text: `Les graphiques suivants permettent de voir la répartition de classement des features de chaque bloc en fonction de l'age des individus. Si un nuage de points d'une certaine couleur semble se détacher des autres, alors il se peut qu'il y ai une corrélation entre age et classement sur cette feature.`,
+                        style: 'IndicText'
+                    });
+                    resList.forEach(res => {
+                        const splittedPath = res[0].split('/');
+                        indic.addImage(splittedPath[splittedPath.length - 1], res[2]);
+                        indic.addPara({
+                            text: res[1],
+                            style: 'Legend'
+                        }, res[2]);
+                    });
+
+                    return indic;
+                })
+                .then(indic => resolve(indic))
+                .catch(err => reject(err))
+                .finally(() => userDAO.closeConnexion());
+        });
+    });
+}
+
 /******************************/
 /* END OF INDICATOR FUNCTIONS */
 /******************************/
@@ -1068,19 +1185,44 @@ function getIndicList () {
                 indicList.push(indicRank);
                 return getRankingTimePerFeature();
             })
+            .catch(err => {
+                console.error(err);
+                return getRankingTimePerFeature();
+            })
             .then(indicTimeClass => {
                 indicList.push(indicTimeClass);
+                return getRankingChanges();
+            })
+            .catch(err => {
+                console.error(err);
                 return getRankingChanges();
             })
             .then(indicChange => {
                 indicList.push(indicChange);
                 return getUserChanges();
             })
+            .catch(err => {
+                console.error(err);
+                return getUserChanges();
+            })
             .then(indicChangeUser => {
                 indicList.push(indicChangeUser);
+                return getRepartitionAgeRanking();
             })
-            .then(() => resolve(indicList))
-            .catch(err => reject(err));
+            .catch(err => {
+                console.error(err);
+                return getRepartitionAgeRanking();
+            })
+            .then(indicRankByAge => {
+                indicList.push(indicRankByAge);
+            })
+            .catch(err => console.error(err))
+            .then(() => {
+                if (indicList.length > 0)
+                    resolve(indicList);
+                else
+                    reject(new Error('No indicator dould be calculated'));
+            });
     });
 }
 
