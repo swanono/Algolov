@@ -239,34 +239,35 @@ class QuestionsReader extends ExcelReader {
 
 
         // Check que les question de related question exist (et que les choix existe?)
+        
+        this.newConfig.questBegin;
+        ['questBegin', 'questEnd'].forEach((questObject) => {
+            this.newConfig[questObject].forEach((quest, i) => {
+                if (!(isString(quest.question)))
+                    this.xlsErrors.push('La description n°' + i + ' n\'a pas été défini');
+                else if (quest.relatedQuestion) {
 
-        // TODO: adapter le check au question Begin et end ou annuler le QCM Begin
-        /*
-        this.newConfig.questions.forEach((quest, i) => {
-            if (!(isString(quest.question)))
-                this.xlsErrors.push('La description n°' + i + ' n\'a pas été défini');
-            else if (quest.relatedQuestion) {
-
-                quest.relatedQuestion.forEach(relQuests => {
-                    
-                    const relQuest = this.newConfig.questions.find( question => relQuests.questionIds.includes(question.id));
-                    
-                    
-                    if (!relQuest) 
-                        this.xlsErrors.push('La question n°' + relQuests.questionIds + ' n\'a pas été défini');
-                    else if (relQuests.questionIds < quest.id) 
-                        this.xlsErrors.push('La question ' + relQuests.questionIds + ' dépend d\'une réponse à une des questions suivantes (la question ' + quest.id );
+                    quest.relatedQuestion.forEach(relQuests => {
+                        
+                        const relQuest = this.newConfig[questObject].find( question => relQuests.questionIds.includes(question.id));
+                        
+                        
+                        if (!relQuest) 
+                            this.xlsErrors.push('La question n°' + relQuests.questionIds + ' n\'a pas été défini');
+                        else if (relQuests.questionIds < quest.id) 
+                            this.xlsErrors.push('La question ' + relQuests.questionIds + ' dépend d\'une réponse à une des questions suivantes (la question ' + quest.id );
 
 
-                    relQuests.triggerChoices.forEach((trChoice,p) => {
-                        if (!quest.choices.find( choice => choice.choiceId === trChoice))
-                            this.xlsErrors.push('Le choix n°' + p + ' n\'a pas été défini');
+                        relQuests.triggerChoices.forEach((trChoice,p) => {
+                            if (!quest.choices.find( choice => choice.choiceId === trChoice))
+                                this.xlsErrors.push('Le choix n°' + p + ' n\'a pas été défini');
+                        });
+
+                        
                     });
-
-                    
-                });
-            }
-        });*/
+                }
+            });
+        });
 
 
         return this.xlsErrors;
