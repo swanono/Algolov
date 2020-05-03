@@ -35,6 +35,7 @@ class QuestionsReader extends ExcelReader {
         this.questEndSheet = this.workbook.Sheets[config.excelSheetNames.questEndSheet];
         this.textSheet = this.workbook.Sheets[config.excelSheetNames.textSheet];
         this.introSheet = this.workbook.Sheets[config.excelSheetNames.introSheet];
+        this.settingSheet = this.workbook.Sheets[config.excelSheetNames.settingSheet];
         this._init();
     }
 
@@ -137,7 +138,13 @@ class QuestionsReader extends ExcelReader {
         this.importQuestionsDatas('questBeginSheet', false);
         this.importQuestionsDatas('questEndSheet', true);
 
-        let range = XLSX.utils.decode_range(this.textSheet['!ref']);
+        let range = XLSX.utils.decode_range(this.settingSheet['!ref']);
+
+        this.newConfig.QuestSetting = { questBegin : {}, questEnd : {}};
+        this.newConfig.QuestSetting.questBegin.isFragemented =  this.settingSheet[XLSX.utils.encode_cell({ r: 1, c: 1 })].v.toLowerCase().trim() === 'oui' ? true : false;
+        this.newConfig.QuestSetting.questEnd.isFragemented   =  this.settingSheet[XLSX.utils.encode_cell({ r: 2, c: 1 })].v.toLowerCase().trim() === 'oui' ? true : false;
+
+        range = XLSX.utils.decode_range(this.textSheet['!ref']);
 
 
         this.newConfig.textButton = {};
@@ -275,9 +282,11 @@ class QuestionsReader extends ExcelReader {
         oldConfig.RGPDValidation = this.newConfig.RGPDValidation;
         oldConfig.surveyExplain = this.newConfig.surveyExplain.replace(/(?:\r\n|\r|\n)/g, '<br/>');
 
-        // TODO: mettre en place les option de fragmentation ou annuler le QCM Begin
         oldConfig.QCM.begin.list = this.newConfig.questBegin;
         oldConfig.QCM.end.list = this.newConfig.questEnd;
+        console.log(this.newConfig.QuestSetting.questBegin.isFragemented);
+        oldConfig.QCM.begin.fragmented = this.newConfig.QuestSetting.questBegin.isFragemented;
+        oldConfig.QCM.end.fragmented = this.newConfig.QuestSetting.questEnd.isFragemented;
 
         fs.writeFileSync('./public/survey/documents/config.json', JSON.stringify(oldConfig, null, 4));
     }

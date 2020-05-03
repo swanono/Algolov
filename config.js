@@ -63,7 +63,7 @@ module.exports = {
     excelSheetNames: { 
         descript: 'Descriptions', types: 'Types', features: 'Features',
         textSheet: 'Textes', questBeginSheet: 'Questions Debut', questEndSheet: 'Questions Fin', 
-        introSheet: 'Introduction'
+        introSheet: 'Introduction', settingSheet: 'Parametres'
     },
     typeDetail: { 
         feature: { lastFile: 'lastFeatureFile', histPath: './admin/features_files/historic/Features_'},
