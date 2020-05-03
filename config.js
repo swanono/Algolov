@@ -62,7 +62,8 @@ module.exports = {
     pathLogOut : '/admin/logout',
     excelSheetNames: { 
         descript: 'Descriptions', types: 'Types', features: 'Features',
-        textSheet: 'Textes', questSheet: 'Questions', introSheet: 'Introduction'
+        textSheet: 'Textes', questBeginSheet: 'Questions Debut', questEndSheet: 'Questions Fin', 
+        introSheet: 'Introduction', settingSheet: 'Parametres'
     },
     typeDetail: { 
         feature: { lastFile: 'lastFeatureFile', histPath: './admin/features_files/historic/Features_'},
