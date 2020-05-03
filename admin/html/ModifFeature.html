@@ -25,11 +25,12 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
 
     <link rel="stylesheet" href="../css/AjoutQuest.css"/>
     <link rel="stylesheet" href="../css/alertMessage.css"/>
-    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-   
+    <link rel="stylesheet" href="../../public/bootstrap-4.4.1-dist/css/bootstrap.min.css">
+    
+    <script src="../../public/bootstrap-4.4.1-dist/js/popper.min.js" defer ></script>
+    <script src="../../public/bootstrap-4.4.1-dist/js/jquery-3.4.1.slim.min.js" defer></script>
+    <script src="../../public/bootstrap-4.4.1-dist/js/bootstrap.min.js" defer></script>
+       
     <script type="text/javascript" src="../js/alertMessage.js" ></script>
     <script type="text/javascript" src="../js/ModifExcel.js" ></script>
 
@@ -41,7 +42,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         </a>
         
         <div class="download-bar-container">
-            <a id="Template-Excel" class="download-bar bouton" href="../features_files/template/Template_Features.xlsx">
+            <a id="Template-Excel" class="download-bar btn btn-light" href="../features_files/template/Template_Features.xlsx">
                 <img class="mx-1" src="../images/logo-excel.png" alt="logo excel" width="30px" height="30px"/>
                 <div>Télécharger le fichier Excel type pour le changement de features</div>
             </a>
@@ -50,12 +51,20 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         <div id="alert-message">
 
         </div>
+        <div class = "row">
+            <div class = "col">
+                <div class="card text-center mx-auto" style="width: 80%;">
+                    <div class="card-body">
+                        <form id="Upload-Form" action="/api/admin/changeFeatures" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewExcel(event.target); stopFadeOut();">
+                            <p>Cliquez sur le bouton ci-dessous pour charger un nouveau set de features :</p>
+                            <input id="new-excel-input" type="file" name="Excel-Upload" accept=".xlsx , .xls" class="bouton">
+                            <input type="submit" value="Envoyer" class="btn btn-primary">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <form id="Upload-Form" action="/api/admin/changeFeatures" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewExcel(event.target); stopFadeOut();">
-            <p>Cliquez sur le bouton ci-dessous pour charger un nouveau set de features :</p>
-            <input id="new-excel-input" type="file" name="Excel-Upload" accept=".xlsx , .xls" class="bouton">
-            <input type="submit" value="Envoyer" class="btn btn-primary">
-        </form>
 
     </body class="mx-1">
 </html>

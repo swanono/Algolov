@@ -27,6 +27,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <link rel="stylesheet" href="../css/alertMessage.css"/>
     <link rel="stylesheet" href="../css/modifQuestion.css"/>
     <link rel="stylesheet" href="../css/modifFeature.css"/>
+    <link rel="stylesheet" href="../css/AjoutQuest.css"/>
 
     <link rel="stylesheet" href="../../public/bootstrap-4.4.1-dist/css/bootstrap.min.css">
     
@@ -49,25 +50,28 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     <!--volet-->
 
     <div id="volet" class="bg-light">
-        <a href="/api/admin/report" class="btn btn-outline-secondary">Récuperer un rapport</a>
+        <a href="/api/admin/report" class="btn btn-outline-secondary btnDownload">
+            <img src="../images/downloadBlack.png" class="blackIcon" alt="logo download" width="20px" height="20px" />
+            <img src="../images/download.png" class="whiteIcon" alt="logo download" width="20px" height="20px" />
+            Récuperer un rapport
+        </a>
         <div id="stats-div">
             <span><u><b>Quelques statistiques :</b></u></span>
             <p>Âge moyen : {{ (stats.ageMean || 0).toFixed(2) }} ans</p>
             <table id="tab-stats">
                 <thead>
                     <tr>
-                        <td :colspan="statsColspan">Nombre total de personnes par sexe </td>
+                        <td colspan="2">Nombre total de personnes par sexe </td>
                     </tr>
                 </thead>
                 <tbody v-for="descr in stats.desc">
                     <tr>
-                        <td :colspan="statsColspan">{{ descr.name }}</td>
+                        <td> {{ descr.name }} </td>
+                        <td> Nombre </td>
                     </tr>
-                    <tr>
-                        <td v-for="comb in descr.combin">{{ comb.name }}</td>
-                    </tr>
-                    <tr>
-                        <td v-for="comb in descr.combin">{{ comb.value }}</td>
+                    <tr v-for="comb in descr.combin" >
+                        <td >{{ comb.name }}</td>
+                        <td >{{ comb.value }}</td>
                     </tr>
                 </tbody>
             </table>
@@ -178,7 +182,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                                     
                                     <a class="download-bar  mx-2 col-9 overflow-hidden" style="color: black;" :href="doc.path">
                                         
-                                        <img class="mx-1" src="../images/logo-excel.png" alt="logo excel" width="40px" height="40px" />
+                                        <img class="mx-1" src="../images/logo-excel.png" alt="logo excel" width="25px" height="25px" />
                                         <div>{{ doc.name }}</div>
                                     </a>
                                     
@@ -234,7 +238,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
                                     
                                     <a class="download-bar  mx-2 col-9 overflow-hidden" style="color: black;" :href="doc.path">
                                         
-                                        <img class="mx-1" src="../images/logo-excel.png" alt="logo excel" width="40px" height="40px" />
+                                        <img class="mx-1" src="../images/logo-excel.png" alt="logo excel" width="25px" height="25px" />
                                         <div>{{ doc.name }}</div>
                                     </a>
                                     <a class="delete-file rounded col" @click="sendDeleteDoc(doc.name, 'features')">

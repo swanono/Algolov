@@ -46,7 +46,8 @@ class DAO {
             useUnifiedTopology: true
         }, (err, db) => {
             if (err) {
-                console.error(`Connexion essayée à ${url + dbName}, collection ${collectionName}`);
+                console.error('essai url : ', url);
+                console.error('essai dbName : ', dbName);
                 console.error('Une erreur est survenue lors de la création de la base de données : ' + err);
                 return;
             }

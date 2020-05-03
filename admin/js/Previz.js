@@ -23,7 +23,7 @@ This module is used for the interactivity of the previsualisation page
 const combinSepar = ' - ';
 
 async function getConfig () {
-    const fetchedConfig = await fetch('../../public/survey/config.json', { method: 'GET' });
+    const fetchedConfig = await fetch('../../public/survey/documents/config.json', { method: 'GET' });
 
     if (fetchedConfig.ok) {
         const config = await fetchedConfig.json();

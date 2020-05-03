@@ -83,11 +83,11 @@ class ExcelReader {
     }
 
     makeCurentUsedFile () {
-        const hist = JSON.parse(fs.readFileSync('./admin/historic.json'));
+        const hist = JSON.parse(fs.readFileSync('./admin/data/historic.json'));
 
         hist[config.typeDetail[this.type].lastFile] = this.name;
 
-        fs.writeFileSync('./admin/historic.json', JSON.stringify(hist, null, 4));
+        fs.writeFileSync('./admin/data/historic.json', JSON.stringify(hist, null, 4));
     }
 
 }

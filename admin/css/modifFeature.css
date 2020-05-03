@@ -1,3 +1,21 @@
+/*
+-------------------------------------------------------------------------------------------------
+<Une ligne décrivant le nom du programme et ce qu’il fait>
+Copyright © 2019 Ulysse GUYON Sacha WANONO Eléa THUILIER
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program. If not, see < https://www.gnu.org/licenses/ >.
+-------------------------------------------------------------------------------------------------
+*/
+
+
 
 #TitreFexist{
     font-size: 1em;
@@ -25,27 +43,7 @@
     border-right: none !important;
     border-left: none !important;
 }
-#alert-message {
-    text-align: center;
-    margin: 1em;
-    border-radius: 15%;
-    font: bold;
-}
-.stop-fade-out {
-    visibility: visible;
-    opacity: 1;
-}
-.fade-out-message {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 5s, opacity 5s ease-in;
-}
-.success {
-    color: green;
-}
-.error {
-    color: red;
-}
+
 
 .retour {
     position: absolute;
@@ -72,11 +70,8 @@
     background-color:rgb(12, 85, 12);
     color: white;
 }
-/*
-input:hover{
-    box-shadow:0 0 4px grey;
-    border-radius: 50%;
-}*/
+
+/*doublon*/
 
 .download-bar-container {
     display: flex;
@@ -84,6 +79,8 @@ input:hover{
     align-items: center;
     margin: 0.5em;
 }
+/*doublon*/
+
 .download-bar {
 
     height: 7vh;
@@ -96,18 +93,19 @@ input:hover{
     border: solid #B0B0B0 0.3vh;
     border-radius: 6px;
 
-    box-shadow: 4px 5px 5px #00000019;
+    box-shadow: 4px 5px 5px #00000029;
 
     text-decoration: none !important;
 
 }
 
-
 .download-bar:hover {
-    padding: 1.5vh;
-    box-shadow: 4px 5px 8px #00000030;
-    /*font-weight: bolder;*/
-    border: solid #63AE85
+    
+    box-shadow: 3px 4px 8px #00000060;
+    
+    border: solid #63AE85 0.3vh;
+    background-color: #1c643c !important;
+    color: white;
 }
 
 .used-file .download-bar {
@@ -116,6 +114,7 @@ input:hover{
     background-color: #207245;
     
 }
+/*doublon*/
 
 .download-bar * {
     padding: 2px;
@@ -127,20 +126,6 @@ input:hover{
     border: solid #63AE85 0.3vh;
 }
 
-/*
-.arrow {
-    height: max-content;
-    font: 30px bold;
-}*/
 
-#Upload-Form {
-    margin-top: 1em;
-    padding: 1em;
-    border: 1px solid black;
-}
-#Upload-Form * {
-    display: block;
-    margin: 0.5em;
-}
 
 

@@ -3,7 +3,7 @@
         "descNames": [
             {
                 "name": "soi",
-                "presentation": "Premièrement, vous allez classer les caractéristiques qui vous définissent le plus.",
+                "presentation": "Premièrement, vous allez classer les caractéristiques qui vous définissent le plus.\r\nPour rappel, vous pouvez déplacer les cartes autant de fois que vous voulez.",
                 "text": "Concernant les caractéristiques qui vous décrivent,",
                 "combin": [
                     "Homme",
@@ -12,7 +12,7 @@
             },
             {
                 "name": "autre",
-                "presentation": "Maintenant, classez les caractéristiques d'une personne attractive pour vous.",
+                "presentation": "Maintenant, classez les caractéristiques d'une personne attractive pour vous.\r\nPour rappel, vous pouvez déplacer les cartes autant de fois que vous voulez.",
                 "text": "Concernant les caractéristiques qui décrivent les personnes que vous trouvez attirantes,",
                 "combin": [
                     "Homme",
@@ -21,7 +21,7 @@
             }
         ],
         "nbStatesBeforeBloc": 3,
-        "nbBlocPerDesc": 4,
+        "nbBlocPerDesc": 2,
         "nbFeaturePerBloc": 10,
         "blocThemes": [
             {
@@ -29,60 +29,30 @@
                 "type": "physique-1",
                 "likertSize": 7,
                 "legends": [
-                    "pas apprécié du tout",
-                    "pas apprécié",
-                    "assez peu apprécié",
-                    "indifférent",
-                    "un peu apprécié",
-                    "apprécié",
-                    "très apprécié"
+                    "Pas du tout important",
+                    "Très peu important",
+                    "Assez peu important",
+                    "Un peu important",
+                    "Assez important",
+                    "Très important",
+                    "Extrèmement important"
                 ],
-                "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?"
+                "question": "Quelles sont les caractéristiques corporelles auxquelles vous accordez de l'importance lors d'un rendez-vous ?"
             },
             {
                 "blocId": 2,
                 "type": "physique-2",
                 "likertSize": 7,
                 "legends": [
-                    "pas apprécié du tout",
-                    "pas apprécié",
-                    "assez peu apprécié",
-                    "indifférent",
-                    "un peu apprécié",
-                    "apprécié",
-                    "très apprécié"
+                    "Pas du tout important",
+                    "Très peu important",
+                    "Assez peu important",
+                    "Un peu important",
+                    "Assez important",
+                    "Très important",
+                    "Extrèmement important"
                 ],
-                "question": "Quelles sont les caractéristiques corporelles importantes pour vous ?"
-            },
-            {
-                "blocId": 3,
-                "type": "attitude",
-                "likertSize": 7,
-                "legends": [
-                    "pas apprécié du tout",
-                    "pas apprécié",
-                    "assez peu apprécié",
-                    "indifférent",
-                    "un peu apprécié",
-                    "apprécié",
-                    "très apprécié"
-                ],
-                "question": "Quelles sont les caractéristiques importantes pour vous ?"
-            },
-            {
-                "blocId": 4,
-                "type": "autres",
-                "likertSize": 7,
-                "legends": [
-                    "pas apprécié du tout",
-                    "pas apprécié",
-                    "assez peu apprécié",
-                    "indifférent",
-                    "un peu apprécié",
-                    "apprécié",
-                    "très apprécié"
-                ],
-                "question": "Quelles sont les caractéristiques importantes pour vous ?"
+                "question": "Quelles sont les caractéristiques corporelles auxquelles vous accordez de l'importance lors d'un rendez-vous ?"
             }
         ]
     },
@@ -114,7 +84,7 @@
         {
             "id": 2,
             "content": "text",
-            "data": "Sous-vêtements",
+            "data": "Lunettes ou lentilles de contact",
             "type": "physique-1",
             "combin": [
                 {
@@ -488,380 +458,20 @@
                     "Femme": true
                 }
             ]
-        },
-        {
-            "id": 23,
-            "content": "text",
-            "data": "Style de vêtement en lien avec la personnalité (bab, cutester, BCBG, bohème, chic, classique, décontracté, electro, excentrique, fluo)",
-            "type": "attitude",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 24,
-            "content": "text",
-            "data": "Consommation d'alcool et fréquence",
-            "type": "attitude",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 25,
-            "content": "text",
-            "data": "Consommation du tabac et fréquence",
-            "type": "attitude",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 26,
-            "content": "text",
-            "data": "Régime alimentaire, habitudes, plats préférés, importance accordée aux repas",
-            "type": "attitude",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 27,
-            "content": "text",
-            "data": "S'exposer en photos",
-            "type": "attitude",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 28,
-            "content": "text",
-            "data": "S'exposer en vidéos",
-            "type": "attitude",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 29,
-            "content": "text",
-            "data": "Orientation sexuelle (hétéro, homo, bi, trans)",
-            "type": "attitude",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 30,
-            "content": "text",
-            "data": "Fétichisme avec des vêtements (cuir, équipement de sports, skateur.se, caoutchouc, sous-vêtements, peaux et punks, bottes, lycra, uniforme, robe de soirée, raver, bas et bas, jeans, lingerie, travailleur)",
-            "type": "attitude",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 31,
-            "content": "text",
-            "data": "Genre (agender, androgyne, asexué, bigender, cisgender, cisgender...)",
-            "type": "attitude",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 32,
-            "content": "text",
-            "data": "Genre (agender, androgyne, asexué, bigender, cisgender, cisgender...)",
-            "type": "attitude",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 33,
-            "content": "text",
-            "data": "Talents culinaires",
-            "type": "autres",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 34,
-            "content": "text",
-            "data": "Statut VIH",
-            "type": "autres",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 35,
-            "content": "text",
-            "data": "Lunettes ou lentilles de contact",
-            "type": "autres",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 36,
-            "content": "text",
-            "data": "Maladies sexuellement transmissibles (Verrues génitales, Herpès type I, Herpès type II…)",
-            "type": "autres",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 37,
-            "content": "text",
-            "data": "S'exposer en Webcam",
-            "type": "autres",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 38,
-            "content": "text",
-            "data": "Mode et marques",
-            "type": "autres",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 39,
-            "content": "text",
-            "data": "Sports préférés, sports pratiqués, fréquence de la pratique",
-            "type": "autres",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 40,
-            "content": "text",
-            "data": "Satisfaction de l'apparence physique",
-            "type": "autres",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 41,
-            "content": "text",
-            "data": "L'âge dans la tête",
-            "type": "autres",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
-        },
-        {
-            "id": 42,
-            "content": "text",
-            "data": "Dates de rappels de pistage",
-            "type": "autres",
-            "combin": [
-                {
-                    "descName": "soi",
-                    "Homme": true,
-                    "Femme": true
-                },
-                {
-                    "descName": "autre",
-                    "Homme": true,
-                    "Femme": true
-                }
-            ]
         }
     ],
-    "RGPDText": "Bienvenu.e à l’étude !<br/>Le but de cette étude est de connaître quelles caractéristiques sont importantes pour vous au moment de vous évaluer vous-même et une autre personne de votre attirance.<br/><br/><br/>Ce questionnaire effectue une récolte de<br/>(1) vos données personnelles : sexe, préférence du sexe recherché, votre expérience sur les applications de rencontres, et dans des relations affectives du passé<br/>(2) ainsi que des données sur la manière dont vous le remplissez : mouvements de la souris<br/>(3) des informations de contact si vous souhaitez les renseigner pour donner suite à l’étude<br/><br/>Ces données seront utilisées à des fins de recherche scientifique à l’École Polytechnique Fédérale de Lausanne en Suisse. L’étude est menée par la chercheuse doctorale Jessica Pidoux.<br/><br/>Vous pouvez à tout moment abandonner la réalisation du questionnaire, faire une demande concernant vos données ou plus de précisions sur l’étude, ainsi que solliciter la suppression de vos données après avoir complété le questionnaire.<br/>Pour toute demande envoyez un message à l'adresse mail 'jessica.pidoux@epfl.ch’",
+    "RGPDText": "Bienvenu.e à l’étude !<br/><br/>Le but de cette étude est de connaître quelles caractéristiques sont importantes pour vous au moment de vous évaluer vous-même et une autre personne de votre attirance.<br/><br/><br/><br/><br/>Ce questionnaire effectue une récolte de<br/><br/>(1) vos données personnelles : sexe, préférence du sexe recherché, votre expérience sur les applications de rencontres, et dans des relations affectives du passé<br/><br/>(2) des données sur la manière dont vous le remplissez : mouvements de la souris, changements d'avis, ...<br/><br/>(3) des informations de contact si vous souhaitez les renseigner pour donner suite à l’étude<br/><br/><br/><br/>Ces données seront utilisées à des fins de recherche scientifique à l’École Polytechnique Fédérale de Lausanne en Suisse. L’étude est menée par la chercheuse doctorale Jessica Pidoux.<br/><br/><br/><br/>Vous pouvez à tout moment abandonner la réalisation du questionnaire, faire une demande concernant vos données ou plus de précisions sur l’étude, ainsi que solliciter la suppression de vos données après avoir complété le questionnaire.<br/><br/>Pour toute demande envoyez un message à l'adresse mail 'jessica.pidoux@epfl.ch’",
     "RGPDValidation": "Cochez la case si vous acceptez de participer à cette étude et de donner vos données à des fins de recherche spécifiés ci-dessus.",
-    "surveyExplain": "Le questionnaire est divisé en trois phases ou tâches que vous devez réaliser : <br/><br/>(1) répondre à deux questions de départ<br/>(2) réaliser un classement des informations qui vous seront présentées. Ici vous devrez déplacer des cases avec la souris vers une échelle d'importance. Ces cases contiennent des caractéristiques personnelles génériques que vous devez indiquer comme étant importantes ou non pour vous.<br/>(3) répondre à quelques questions finales. Maximum 7 questions seront posées.",
+    "surveyExplain": "Le questionnaire est divisé en trois phases ou tâches que vous devez réaliser : <br/><br/><br/><br/>(1) répondre à deux questions de départ<br/><br/>(2) réaliser un classement des informations qui vous seront présentées. Ici vous devrez déplacer des cartes avec la souris vers une échelle d'importance. Ces cases contiennent des caractéristiques personnelles génériques que vous devez indiquer comme étant importantes ou non pour vous.<br/><br/>(3) répondre à quelques questions finales. Maximum 7 questions seront posées.",
     "wrongStatementFormatMessage": "mauvais fichier config.json récupéré",
     "QCM": {
         "begin": {
-            "fragmented": false,
+            "fragmented": true,
             "isDescriptionLinked": true,
             "list": [
                 {
                     "id": 1,
-                    "question": "quel est votre sexe ?",
+                    "question": "Quel est votre sexe ?",
                     "type": "radio",
                     "descName": "soi",
                     "choices": [
@@ -879,7 +489,7 @@
                 },
                 {
                     "id": 2,
-                    "question": "quel est le sexe par lequel vous êtes attiré.e ?",
+                    "question": "Quel est le sexe par lequel vous êtes attiré.e ?",
                     "type": "radio",
                     "descName": "autre",
                     "choices": [
@@ -894,17 +504,11 @@
                             "descValue": "Femme"
                         }
                     ]
-                }
-            ]
-        },
-        "end": {
-            "fragmented": true,
-            "isDescriptionLinked": false,
-            "list": [
+                },
                 {
                     "id": 3,
                     "question": "Avez-vous utilisé une application de rencontres dans le passé ou utilisez-vous actuellement une application de rencontres ?",
-                    "type": "radio",
+                    "type": "longradio",
                     "choices": [
                         {
                             "choiceId": 1,
@@ -926,8 +530,7 @@
                             ],
                             "questionIds": [
                                 4,
-                                5,
-                                6
+                                5
                             ]
                         }
                     ]
@@ -1029,9 +632,144 @@
                     "question": "Quand était votre première inscription à un application de rencontres ? (format MM/AAAA)",
                     "type": "text",
                     "format": "^(((0[1-9])|(1[0-9]))\\/((19[89][0-9])|(20[0-9]{2})))$"
-                },
+                }
+            ]
+        },
+        "end": {
+            "fragmented": true,
+            "isDescriptionLinked": false,
+            "list": [
                 {
                     "id": 6,
+                    "question": "Avez-vous utilisé une application de rencontres dans le passé ou utilisez-vous actuellement une application de rencontres ?",
+                    "type": "longradio",
+                    "choices": [
+                        {
+                            "choiceId": 1,
+                            "text": "Oui, j'en ai utilisé par le passé mais je n'en utilise plus"
+                        },
+                        {
+                            "choiceId": 2,
+                            "text": "Oui, j'utilise actuellement des applications de rencontres"
+                        },
+                        {
+                            "choiceId": 3,
+                            "text": "Non, je n'ai jamais utilisé d'applications de rencontres"
+                        }
+                    ],
+                    "relatedQuestion": [
+                        {
+                            "triggerChoices": [
+                                3
+                            ],
+                            "questionIds": [
+                                7,
+                                8,
+                                9
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "id": 7,
+                    "question": "Quelles applications de rencontres avez-vous déjà utilisé ou utilisez-vous actuellement ?",
+                    "type": "checkbox",
+                    "other": true,
+                    "choices": [
+                        {
+                            "choiceId": 1,
+                            "text": "Adopteunmec"
+                        },
+                        {
+                            "choiceId": 2,
+                            "text": "Meetic"
+                        },
+                        {
+                            "choiceId": 3,
+                            "text": "Meetic affinity (affiny)"
+                        },
+                        {
+                            "choiceId": 4,
+                            "text": "Planetromeo"
+                        },
+                        {
+                            "choiceId": 5,
+                            "text": "Badoo"
+                        },
+                        {
+                            "choiceId": 6,
+                            "text": "Bumble"
+                        },
+                        {
+                            "choiceId": 7,
+                            "text": "Happn"
+                        },
+                        {
+                            "choiceId": 8,
+                            "text": "Hinge"
+                        },
+                        {
+                            "choiceId": 9,
+                            "text": "Once"
+                        },
+                        {
+                            "choiceId": 10,
+                            "text": "Tinder"
+                        },
+                        {
+                            "choiceId": 11,
+                            "text": "PURE"
+                        },
+                        {
+                            "choiceId": 12,
+                            "text": "Grindr"
+                        },
+                        {
+                            "choiceId": 13,
+                            "text": "Her"
+                        },
+                        {
+                            "choiceId": 14,
+                            "text": "Passions - Meet over 50"
+                        },
+                        {
+                            "choiceId": 15,
+                            "text": "AdultFriendFinder AFF"
+                        },
+                        {
+                            "choiceId": 16,
+                            "text": "Tomorrow"
+                        },
+                        {
+                            "choiceId": 17,
+                            "text": "Lovoo"
+                        },
+                        {
+                            "choiceId": 18,
+                            "text": "Parship"
+                        },
+                        {
+                            "choiceId": 19,
+                            "text": "Casuallounge"
+                        },
+                        {
+                            "choiceId": 20,
+                            "text": "Scruff"
+                        },
+                        {
+                            "choiceId": 21,
+                            "text": "Unitedmen"
+                        }
+                    ]
+                },
+                {
+                    "id": 8,
+                    "question": "Quand était votre première inscription à un application de rencontres ? (format MM/AAAA)",
+                    "type": "text",
+                    "format": "^(((0[1-9])|(1[0-9]))\\/((19[89][0-9])|(20[0-9]{2})))$"
+                },
+                {
+                    "id": 9,
                     "question": "Avec quelle frequence utilisiez ou utilisez-vous des applications de rencontres ?",
                     "type": "radio",
                     "choices": [
@@ -1058,9 +796,9 @@
                     ]
                 },
                 {
-                    "id": 7,
+                    "id": 10,
                     "question": "Avez-vous eu dans le passé ou avez-vous actuellement une relation à long terme (petit.e ami.e, conjoint.e) ou à court terme (rencontre sexuelle) ?",
-                    "type": "radio",
+                    "type": "longradio",
                     "choices": [
                         {
                             "choiceId": 1,
@@ -1077,7 +815,7 @@
                     ]
                 },
                 {
-                    "id": 8,
+                    "id": 11,
                     "question": "Pourrions-nous vous contacter plus tard pour participer à un entretien d'environ 45min afin d'approfondir l'étude quantitative à laquelle vous participez actuellement ?",
                     "type": "radio",
                     "choices": [
@@ -1096,25 +834,25 @@
                                 2
                             ],
                             "questionIds": [
-                                9,
-                                10
+                                12,
+                                13
                             ]
                         }
                     ]
                 },
                 {
-                    "id": 9,
+                    "id": 12,
                     "question": "Quelle est votre adresse mail ?",
                     "type": "email"
                 },
                 {
-                    "id": 10,
+                    "id": 13,
                     "question": "Quel est votre numéro de téléphone ? (Format internationnal, commençant par +33 pour la France ou +41 pour la Suisse, sans espace)",
                     "type": "tel",
                     "format": "^((\\+\\d{1,3}(-| )?\\(?\\d\\)?(-| )?\\d{1,5})|(\\(?\\d{2,6}\\)?))(-| )?(\\d{3,4})(-| )?(\\d{4})(( x| ext)\\d{1,5}){0,1}$"
                 },
                 {
-                    "id": 11,
+                    "id": 14,
                     "question": "Quel est votre age ?",
                     "type": "text",
                     "format": "^([0-9]{2,3})$"

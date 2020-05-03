@@ -74,8 +74,12 @@ class TraceStorage {
 
         const responses = [];
 
-        if (descQuest) {
-            for (const pair of formData.entries()) {
+        for (const pair of formData.entries()) {
+            const objRes = {};
+
+            // Check if it's an description question or not and save the data
+            if (pair[1].includes(window.consts.INPUT_ID) && document.getElementById(pair[1]).getAttribute('descName')) {
+                // description question can't be a text input
                 const input = document.getElementById(pair[1]);
                 const questionId = input.getAttribute('id').split('_')[1];
                 const choiceId = input.getAttribute('id').split('_')[2];
@@ -87,12 +91,7 @@ class TraceStorage {
                     idChoice: choiceId,
                     questionText: document.getElementById(window.consts.QUESTION_ID + questionId).firstElementChild.textContent
                 });
-            }
-
-            TraceStorage.appendToStorage('combinatoire', JSON.stringify(responses));
-        } else {
-            for (const pair of formData.entries()) {
-                const objRes = {};
+            } else {
                 if (!pair[1].includes(window.consts.INPUT_ID)) {
                     // The pair corresponds to a text input
                     objRes.idQuestion = pair[0].split('_')[1];
@@ -109,13 +108,29 @@ class TraceStorage {
                 }
                 if (objRes.choiceText)
                     responses.push(objRes);
+
             }
 
+        }
+
+        if (descQuest) {
+            // descQuest true if it's begin question
+            const oldResponses = JSON.parse(sessionStorage.getItem('combinatoire'));
+            if (oldResponses)
+                responses.push(...oldResponses);
+            TraceStorage.replaceInStorage('combinatoire', JSON.stringify(responses));
+            
+        } else {
             const oldResponses = JSON.parse(sessionStorage.getItem('finalQuestions'));
             if (oldResponses)
                 responses.push(...oldResponses);
             TraceStorage.replaceInStorage('finalQuestions', JSON.stringify(responses));
         }
+
+
+
+
+
 
         functor();
     }
@@ -161,8 +176,6 @@ class TraceStorage {
         json += '"terminated": ' + sessionStorage.getItem('terminated');
 
         json += ' }';
-
-        console.log(json);
 
         return json;
     }
@@ -282,11 +295,12 @@ class TraceStorage {
         TraceStorage.storeItem('errors', object);
     }
 
-    static storeDraggableEvent (id,cardid)
+    static storeDraggableEvent (cardId, newContId, order)
     {
         let object={};
-        object.id=id;
-        object.c=cardid;
+        object.id = cardId;
+        object.c = newContId;
+        object.o = order;
         TraceStorage.storeItem('draggablecontainer', object);
     }
     
