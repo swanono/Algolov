@@ -43,27 +43,7 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     border-right: none !important;
     border-left: none !important;
 }
-#alert-message {
-    text-align: center;
-    margin: 1em;
-    border-radius: 15%;
-    font: bold;
-}
-.stop-fade-out {
-    visibility: visible;
-    opacity: 1;
-}
-.fade-out-message {
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 5s, opacity 5s ease-in;
-}
-.success {
-    color: green;
-}
-.error {
-    color: red;
-}
+
 
 .retour {
     position: absolute;
@@ -90,11 +70,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     background-color:rgb(12, 85, 12);
     color: white;
 }
-/*
-input:hover{
-    box-shadow:0 0 4px grey;
-    border-radius: 50%;
-}*/
+
+/*doublon*/
 
 .download-bar-container {
     display: flex;
@@ -102,6 +79,8 @@ input:hover{
     align-items: center;
     margin: 0.5em;
 }
+/*doublon*/
+
 .download-bar {
 
     height: 7vh;
@@ -120,11 +99,10 @@ input:hover{
 
 }
 
-
 .download-bar:hover {
     
-    box-shadow: 4px 5px 8px #00000039;
-    /*font-weight: bolder;*/
+    box-shadow: 3px 4px 8px #00000060;
+    
     border: solid #63AE85 0.3vh;
     background-color: #1c643c !important;
     color: white;
@@ -136,6 +114,7 @@ input:hover{
     background-color: #207245;
     
 }
+/*doublon*/
 
 .download-bar * {
     padding: 2px;
@@ -148,14 +127,5 @@ input:hover{
 }
 
 
-#Upload-Form {
-    margin-top: 0.5em;
-    padding: 1em;
-   
-}
-#Upload-Form * {
-    display: block;
-    margin: 0.5em;
-}
 
 

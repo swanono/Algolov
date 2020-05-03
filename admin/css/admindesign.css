@@ -131,15 +131,10 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         width:25%;
         text-align: center;
         position: relative;
-
-        /*background-color: lightskyblue;*/
         padding : 1%; 
-       
         border-radius: 25px;
         
     }
-
-    
 
     .sous a{
         padding:10px;
@@ -153,7 +148,6 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     }
     
     
-
     .sous{
         display:none;
         box-shadow:0px 1px 2px #CCC;
@@ -243,7 +237,7 @@ input{
         text-align: center;
         position: relative;
 
-        /*background-color: lightskyblue;*/
+        
         padding : 2%;
         border-color: black;
         border-radius: 50px;
@@ -343,12 +337,6 @@ input{
 }
 
 
-
-
-
-
-/* Vrac */
-
 .blockContainer {
     border-radius: 6px;
     border-style: solid;
@@ -361,6 +349,7 @@ input{
     margin-left: 5vw;
 }
 
+/*bouton suppression de bouton dans la liste*/
 .delete-file {
     margin-left: 1.5vw;
     height: 35px;
@@ -377,6 +366,12 @@ input{
     border-color: unset !important;
 }
 
+.bottomDocumentBloc {
+    padding-top: 3vh;
+    text-align: center;
+    /*padding-top: 2vh;*/
+    
+}
 
 .titleRow {
     min-height: 10vh;
@@ -398,11 +393,7 @@ input{
     text-align: center;
 }
 
-.bottomDocumentBloc {
-    padding-top: 2vh;
-    text-align: center;
-}
-
+/*bouton bas de page - document*/
 .btnDocument {
     background-color: #207245 !important;
     border-color: transparent !important;
@@ -420,6 +411,7 @@ input{
     color: white;
 }
 
+/*bouton bas de page - document - logo*/
 .btnDocument img {
     margin-right: 0.5vw !important;
     
