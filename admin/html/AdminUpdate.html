@@ -53,8 +53,8 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
         <div class="card text-center mx-auto" style="width: 40%;">
             <div class="card-body">
                 <h1>Modifier le mot de passe</h1>
-                <div class = "row">
-                    <form class = "mx-auto" method="POST" action="/api/admin/update">
+                <div class="row">
+                    <form class="mx-auto" method="POST" action="/api/admin/update" onsubmit="event.preventDefault(); changeAdminPwd(event.target);">
                         <div class="form-group">
                         <label for="exPassword">Ancien mot de passe</label>
                         <input type="password" class="form-control" id="exPassword" name="exPassword" aria-describedby="exPassword" placeholder="Ancien mot de passe" required autofocus>
