@@ -416,6 +416,12 @@ input{
     font-size: 1vw !important;
     font-weight: bold !important;
     padding: .375rem .375rem !important;
+    color: white;
+}
+
+.btnDocument:hover {
+    background-color: #1c643c !important;
+    color: white;
 }
 
 .btnDocument img {
@@ -456,4 +462,20 @@ input{
 
 #titre {
     margin-left: 6vw;
+}
+
+
+.btnDownload .whiteIcon, .btnDownload:hover .blackIcon{
+    display: none !important;
+    width: 0px !important;
+}
+
+.btnDownload:hover .whiteIcon, .btnDownload .BlackIcon {
+    display: initial !important;
+    width: 20px !important;
+}
+
+.btnDownload:hover {
+    color: white !important;
+    font-weight: bold;
 }

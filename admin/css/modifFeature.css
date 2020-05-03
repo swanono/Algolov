@@ -114,7 +114,7 @@ input:hover{
     border: solid #B0B0B0 0.3vh;
     border-radius: 6px;
 
-    box-shadow: 4px 5px 5px #00000019;
+    box-shadow: 4px 5px 5px #00000029;
 
     text-decoration: none !important;
 
@@ -123,9 +123,11 @@ input:hover{
 
 .download-bar:hover {
     
-    box-shadow: 3px 4px 8px #00000060;
+    box-shadow: 4px 5px 8px #00000039;
     /*font-weight: bolder;*/
     border: solid #63AE85 0.3vh;
+    background-color: #1c643c !important;
+    color: white;
 }
 
 .used-file .download-bar {
