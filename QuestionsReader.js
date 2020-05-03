@@ -161,7 +161,6 @@ class QuestionsReader extends ExcelReader {
 
         oldConfig.QCM.begin.list = this.newConfig.questBegin;
         oldConfig.QCM.end.list = this.newConfig.questEnd;
-        console.log(this.newConfig.QuestSetting.questBegin.isFragemented);
         oldConfig.QCM.begin.fragmented = this.newConfig.QuestSetting.questBegin.isFragemented;
         oldConfig.QCM.end.fragmented = this.newConfig.QuestSetting.questEnd.isFragemented;
 
