@@ -63,8 +63,7 @@ function createGraph (chartOptions, title = 'graph image', reverse = false) {
             if (err) {
                 console.log('ERROR : ', err);
                 console.log('-----------');
-                console.log('combin :', chartOptions.options.subtitle.text);
-                console.log('type :', chartOptions.options.xAxis.title.text);
+                console.log('options :', chartOptions.options);
             }
 
             if (err) { reject(err); return; }
@@ -101,7 +100,7 @@ function calculatePlotBandBounds (highlights, bandColor = '#FCFFC5') {
     }));
 }
 
-function createGraphBar (series, labels, xName, yName, title, subTitle, decimals, reverse, highlights) {
+function createGraphBar (series, labels, xName, yName, title, subTitle, decimals, reverse, highlights, showLegend = true) {
 
     if (series.reduce((prev, curr) => prev || (curr.data.length !== labels.length), false))
         return Promise.reject(new Error(`A serie of data doesn't have the same length as the labels (here : ${labels.length})`));
@@ -123,6 +122,9 @@ function createGraphBar (series, labels, xName, yName, title, subTitle, decimals
                     pointPadding: 0.2,
                     borderWidth: 0
                 }
+            },
+            legend: {
+                enabled: showLegend
             },
             series: series.map(serie => serie.toObj())
         }
@@ -188,8 +190,56 @@ function createGraphBox (boxes, scattered, labels, xName, yName, title, subTitle
     return createGraph(chartOptions, `graph box ${title}`);
 }
 
+function createGraphScatter (series, title, subtitle, xTitle, yTitle) {
+    if (series.reduce((prev, curr) => prev || curr.data.reduce((prevD, currD) => prevD || currD.length < 2, false), false))
+        return Promise.reject(new Error('Data series badly initialized'));
+
+    const chartOptions = {
+        type: 'png',
+        options: {
+            chart: {
+                type: 'scatter'
+            },
+            title: {
+                text: title
+            },
+            subtitle: {
+                text: subtitle
+            },
+            xAxis: {
+                title: {
+                    // enabled: !!xTitle,
+                    text: xTitle
+                }//,
+                // startOnTick: true,
+                // endOnTick: true,
+                // showLastLabel: true
+            },
+            yAxis: {
+                title: {
+                    text: yTitle
+                }
+            },
+            plotOptions: {
+                scatter: {
+                    marker: {
+                        radius: 3
+                    }
+                },
+                series: {
+                    opacity: 0.5
+                }
+            },
+            series: series
+        }
+    };
+
+    return createGraph(chartOptions, `graph scatter ${title}`);
+}
+
 module.exports = {
     SerieBar,
     createGraphBar,
-    createGraphBox
+    createGraphBox,
+    createGraphScatter
 };

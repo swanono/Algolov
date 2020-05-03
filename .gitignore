@@ -3,3 +3,11 @@ node_modules/
 QTrace/
 mongo-data/
 coverage/
+data/*
+tmp/*
+
+historic/*
+
+!historic/*Base*
+!data/.gitkeep
+!tmp/.gitkeep

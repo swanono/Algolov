@@ -187,7 +187,7 @@ class DOMGenerator {
         // insertion of the scale indications in the following row
         legends.forEach((scaleText, i) => {
             const newCell = document.createElement('div');
-            newCell.setAttribute('class','col');
+            newCell.setAttribute('class','col rankLegend');
             newCell.appendChild(document.createTextNode(scaleText));
             scaleRow_legend.appendChild(newCell);
             //newCell.setAttribute('colspan', DOMGenerator._getColSpan(legends.length, i, likertSize)); inutile?
@@ -260,9 +260,9 @@ class DOMGenerator {
     }
 
     static _applyScaleOnCard (card, scale = 1) {
-        card.style.width = Math.floor(window.originalScale.originalWidth * scale) + 'px';
-        card.style.height = Math.floor(window.originalScale.originalHeight * scale) + 'px';
-        card.style.fontSize = window.originalScale.fontSize * (scale + 1)/2 + 'em';
+        //card.style.width = Math.floor(window.originalScale.originalWidth * scale) + 'px';
+        //card.style.height = Math.floor(window.originalScale.originalHeight * scale) + 'px';
+        //card.style.fontSize = window.originalScale.fontSize * (scale + 1)/2 + 'em';
         card.setAttribute(window.consts.CURRENT_CARD_SCALE, scale);
     }
     static _scalingAnimation (element, start, end, interval, duration) {
@@ -823,20 +823,12 @@ class DOMGenerator {
         window.sortable = new Draggable.Sortable(document.querySelectorAll('.nestable'), {
             draggable: '.nested-item'
         });
+
         window.sortable.on('sortable:stop', (event) => {
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.newContainer;
 
-            /*const newScale =
-                newCont.getAttribute('class').includes(window.consts.RANK_CLASS)
-                    ? window.originalScale.minScaleTransition
-                    : 1;
-            DOMGenerator._scalingAnimation(dragged, 
-                1,
-                newScale,
-                window.consts.SCALING_INTERVAL,
-                window.consts.SCALING_DURATION);
-            */
+            
 
             /*if (newCont.getAttribute('id') === 'initial_container' ) {
                 //mirror.setAttribute('class','nested-item feature-card');
@@ -851,13 +843,31 @@ class DOMGenerator {
             TraceStorage.storeDragEvent('end',dragged.getAttribute('id'), newCont.getAttribute('id'));
             TraceStorage.storeDropEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
         });
+        
+        window.sortable.on("mirror:attached", function (event) {
+            event.mirror.style.position = 'fixed';
+
+            const baseWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+            const baseHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+            const fontsize = parseFloat(window.getComputedStyle(document.getElementById('initial_container'), null).getPropertyValue('font-size'));          
+
+            event.mirror.style.width  = (16 * baseWidth  / 100).toString() + 'px';
+            event.mirror.style.height = (15 * baseHeight / 100).toString() + 'px';
+
+        });
 
         window.sortable.on('sortable:start', (event) => {
             
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.dragEvent.data.sourceContainer;
+
             const mirror = event.data.dragEvent.data.source;
-            mirror.width = 'initial';
+            
+            
+
+
+
+
             /*
             if (newCont.getAttribute('id') === 'initial_container' ) {
                 mirror.setAttribute('class','nested-item feature-card');
@@ -870,19 +880,21 @@ class DOMGenerator {
             dragged.setAttribute('location', newCont.getAttribute('id'));
             TraceStorage.storeDragEvent('start',dragged.getAttribute('id'), newCont.getAttribute('id'));
         });
-        window.sortable.on('sortable:sort', (event) => {
+        window.sortable.on('sortable:sorted', (event) => {
             const dragged = event.data.dragEvent.data.originalSource;
             const newCont = event.data.dragEvent.data.overContainer;
-            /*if (newCont.getAttribute('id') === 'initial_container' ) {
-                //mirror.setAttribute('class','nested-item feature-card');
-                dragged.setAttribute('class','nested-item feature-card');
-            } else { 
-                //mirror.setAttribute('class','nested-item feature-card col-lg-11 overflow-hidden');
-                dragged.setAttribute('class','nested-item feature-card col-lg-11 overflow-hidden');
-            }
-            */
+
             dragged.setAttribute('location', newCont.getAttribute('id'));
-            TraceStorage.storeDraggableEvent(dragged.getAttribute('id'), newCont.getAttribute('id'));
+
+            const orderArray = [];
+            newCont.childNodes.forEach( (div) => { 
+
+                if (div.id != '' && div.style.display != 'none')
+                    orderArray.push(div.id);
+                    
+            });
+
+            TraceStorage.storeDraggableEvent(dragged.getAttribute('id'), newCont.getAttribute('id'), orderArray);
         });
     }
 }

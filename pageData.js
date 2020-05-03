@@ -30,7 +30,7 @@ class DataGetter {
 
         const featuresDir = fs.readdirSync(basePath);
 
-        const usedFile = JSON.parse(fs.readFileSync('./admin/historic.json'))[stringHistoric];
+        const usedFile = JSON.parse(fs.readFileSync('./admin/data/historic.json'))[stringHistoric];
 
         featuresDir.forEach(featuresFile => {
             const newDoc = {};
@@ -55,7 +55,7 @@ class DataGetter {
             const usersDAO = new daos.DAOUsers(sessionId, () => {
                 usersDAO.findAllByQuery(config.queryBasicStats)
                     .then(users => {
-                        const questConfig = JSON.parse(fs.readFileSync('./public/survey/config.json'));
+                        const questConfig = JSON.parse(fs.readFileSync('./public/survey/documents/config.json'));
 
                         stats.desc = [];
                         questConfig.surveyConfiguration.descNames.forEach((desc, i) => {

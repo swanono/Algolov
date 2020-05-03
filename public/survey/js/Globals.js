@@ -68,7 +68,7 @@ function start () {
     // Start the questionnaire, to use at the first
 
     // Get the config.json file
-    fetch('../config.json', { method: 'GET' })
+    fetch('../documents/config.json', { method: 'GET' })
         .then(res => res.json())
         .then(function (data) {
             window.config = data;

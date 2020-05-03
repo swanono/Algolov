@@ -39,7 +39,7 @@ class QuestionsReader extends ExcelReader {
 
     _init () {
         
-        const oldConfig = JSON.parse(fs.readFileSync('./public/survey/config.json'));
+        const oldConfig = JSON.parse(fs.readFileSync('./public/survey/documents/config.json'));
 
         // Retrieving description datas
         let range = XLSX.utils.decode_range(this.questSheet['!ref']);
@@ -261,7 +261,7 @@ class QuestionsReader extends ExcelReader {
 
 
     applyToConfig () {
-        const oldConfig = JSON.parse(fs.readFileSync('./public/survey/config.json'));
+        const oldConfig = JSON.parse(fs.readFileSync('./public/survey/documents/config.json'));
 
         oldConfig.textButton = this.newConfig.textButton;
 
@@ -271,7 +271,7 @@ class QuestionsReader extends ExcelReader {
 
         oldConfig.QCM.end.list = this.newConfig.questions;
 
-        fs.writeFileSync('./public/survey/config.json', JSON.stringify(oldConfig, null, 4));
+        fs.writeFileSync('./public/survey/documents/config.json', JSON.stringify(oldConfig, null, 4));
     }
 
 }

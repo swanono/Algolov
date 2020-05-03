@@ -35,3 +35,21 @@ async function registerAdmin (formTag) {
     // eslint-disable-next-line no-undef
     setAlertMessage(res.message, res.ok);
 }
+
+async function changeAdminPwd (formTag) {
+    const formData = new FormData(formTag);
+    const body = {};
+    for (const pair of formData)
+        body[pair[0]] = pair[1];
+    
+    const fetchRes = await fetch('/api/admin/update', {
+        method: 'POST',
+        body: JSON.stringify(body),
+        headers: new Headers({ 'Content-type': 'application/json' })
+    });
+
+    const res = await fetchRes.json();
+
+    // eslint-disable-next-line no-undef
+    setAlertMessage(res.message, res.ok);
+}
