@@ -39,7 +39,7 @@ module.exports = {
     dbPort: _dbPort,
     directoryPrefix: _directoryPrefix,
     pathPostSurveyApi: '/survey',
-    dbUrl: process.env.MONGODB_URI || _mongoURL,
+    dbUrl: /* process.env.MONGODB_URI || */ _mongoURL,
     dbName: _dbName,
     adminIdRegex: /[A-Za-z0-9-_]{3,}/,
     adminEmailRegex: /^[A-Za-z0-9._%+-]+@[a-z0-9-]+\\.[a-z]{2,}$/,
