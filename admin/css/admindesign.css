@@ -377,10 +377,6 @@ input{
     border-color: unset !important;
 }
 
-.bottomDocumentBloc {
-    padding-top: 3vh;
-    text-align: center;
-}
 
 .titleRow {
     min-height: 10vh;
@@ -464,11 +460,13 @@ input{
     margin-left: 6vw;
 }
 
-
-.btnDownload .whiteIcon, .btnDownload:hover .blackIcon{
+/* stylelint-disable */
+.btnDownload .whiteIcon, .btnDownload:hover .blackIcon {
+    
     display: none !important;
     width: 0px !important;
 }
+/* stylelint-enable */
 
 .btnDownload:hover .whiteIcon, .btnDownload .BlackIcon {
     display: initial !important;

@@ -188,8 +188,7 @@ class DOMGenerator {
         legends.forEach((scaleText, i) => {
             const newCell = document.createElement('div');
             newCell.setAttribute('class','col rankLegend');
-            newCell.setAttribute('id','rank_' + likertSize.toString() + '_' + i.toString());
-            //newCell.appendChild(document.createTextNode(scaleText));
+            newCell.appendChild(document.createTextNode(scaleText));
             scaleRow_legend.appendChild(newCell);
             //newCell.setAttribute('colspan', DOMGenerator._getColSpan(legends.length, i, likertSize)); inutile?
 

@@ -50,12 +50,13 @@ along with this program. If not, see < https://www.gnu.org/licenses/ >.
     </div>
 
     <div id="alert-message">
-     </div>
-     <div class = "row">
-        <div class = "col">
+    </div>
+    <div class="row">
+        <div class="col">
             <div class="card text-center mx-auto" style="width: 80%;">
                 <div class="card-body">
-                    <form id="Upload-Form" action="/api/admin/changeQuestions" method="POST" enctype="multipart/form-data" onsubmit="event.preventDefault(); sendNewExcel(event.target); stopFadeOut();">
+                    <form id="Upload-Form" action="/api/admin/changeQuestions" method="POST" enctype="multipart/form-data"
+                        onsubmit="event.preventDefault(); sendNewExcel(event.target); stopFadeOut();">
                         <p>Cliquez sur le bouton ci-dessous pour charger un nouveau set de question :</p>
                         <input id="new-excel-input" type="file" name="Excel-Upload" accept=".xlsx , .xls" class="bouton">
                         <input type="submit" value="Envoyer" class="btn btn-primary">
