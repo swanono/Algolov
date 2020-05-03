@@ -127,9 +127,9 @@ label .QCMLabel {
     
 }
 
-.nested-item/*, .draggable-mirror*/ {
+.nested-item {
     border: 1px solid #D0D0D0;
-    width: calc(100% / 4 - 4 * 0.5em);
+    width: 16vw;
     height: 15vh;
     max-height: initial;
     padding: 0.5em;
@@ -144,16 +144,11 @@ label .QCMLabel {
 }
 
 .rank .nested-item, .rank .nested-item.draggable-source--is-dragging  {
-    min-height: 10vh !important;
-    max-height: 10vh !important;
+    
     font-size: 1.5vh !important;
-    width: 90% !important;
+    width: 90%;
 }
-/*
-.rank .draggable-mirror {
-    max-width: max-content !important;
-    min-width: fit-content !important;
-}*/
+
 
 #initial_container .nested-item.draggable-source--is-dragging /*, #initial_container .draggable-mirror*/ {
     border: 1px solid #D0D0D0;
@@ -207,8 +202,6 @@ label .QCMLabel {
 
 .scaleRow_container .nested-item {
     height: 5em;
-    width: 3em;
-
 }
 
 
@@ -226,10 +219,6 @@ label .QCMLabel {
     vertical-align: middle;
     line-height: normal;
 }
-
-
-
-
 
 .download-bar-container {
     display: flex;

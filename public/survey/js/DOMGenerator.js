@@ -848,11 +848,11 @@ class DOMGenerator {
         window.sortable.on("mirror:attached", function (event) {
             event.mirror.style.position = 'fixed';
 
-            const baseWidth = /*Math.max(document.getElementById('initial_container').clientWidth,*/ window.innerWidth /*|| 0);*/
+            const baseWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
             const baseHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
             const fontsize = parseFloat(window.getComputedStyle(document.getElementById('initial_container'), null).getPropertyValue('font-size'));          
 
-            event.mirror.style.width = (16 * baseWidth / 100).toString() + 'px';
+            event.mirror.style.width  = (16 * baseWidth  / 100).toString() + 'px';
             event.mirror.style.height = (15 * baseHeight / 100).toString() + 'px';
 
         });
