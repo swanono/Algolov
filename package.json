@@ -11,7 +11,7 @@
     "@hapi/joi": "^17.0.2",
     "@material/button": "^5.1.0",
     "@shopify/draggable": "^v1.0.0-beta.8",
-    "bcrypt": "3.0.6",
+    "bcrypt": "5.0.0",
     "body-parser": "^1.19.0",
     "canvas": "^2.6.1",
     "connect-ensure-login": "^0.1.1",
