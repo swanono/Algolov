@@ -30,7 +30,7 @@
     "mongodb": "^3.3.4",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
-    "xlsx": "^0.15.4"
+    "xlsx": "^0.17.0"
   },
   "scripts": {
     "autoinstall": "export ACCEPT_HIGHCHARTS_LICENSE=YES || set ACCEPT_HIGHCHARTS_LICENSE=YES && npm install",
